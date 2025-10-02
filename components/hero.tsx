@@ -11,37 +11,37 @@ export function Hero() {
             <span>Trusted by 10,000+ students</span>
           </div>
 
-          <h1 className="mb-4 sm:mb-6 text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-foreground text-balance">
-            Master SSAT Math with Confidence
+          <h1 className="mb-4 sm:mb-6 text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-foreground text-balance animate-pulse">
+            🎯⚡ Master SSAT Math with ELECTRIC Energy! ⚡🎯
           </h1>
 
           <p className="mb-8 sm:mb-10 text-base sm:text-lg lg:text-xl text-muted-foreground text-pretty leading-relaxed max-w-2xl mx-auto px-4 sm:px-0">
-            Comprehensive math training materials, practice problems, and proven test-taking tactics to help you excel
-            in the SSAT Quantitative section.
+            🚀💥 SUPER FUN math practice, AMAZING tricks, and EPIC strategies to help you DOMINATE the SSAT! 
+            Turn math into your ULTIMATE SUPERPOWER! 💪⚡🔥
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-            <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base">
-              Start Learning Free
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+            <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-lg">
+              🎮⚡ START THE ADVENTURE! ⚡🎮
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 animate-bounce" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base bg-transparent">
-              View Sample Materials
+            <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base bg-transparent border-2 hover:bg-accent/10 transition-all duration-300 transform hover:scale-105">
+              👀✨ EXPLORE THE MAGIC! ✨👀
             </Button>
           </div>
 
           <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground px-4">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-accent" />
-              <span>No credit card required</span>
+            <div className="flex items-center gap-2 animate-pulse">
+              <div className="h-2 w-2 rounded-full bg-accent animate-ping" />
+              <span>🆓⚡ TOTALLY FREE! ⚡🆓</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-accent" />
-              <span>Updated for 2025</span>
+            <div className="flex items-center gap-2 animate-pulse">
+              <div className="h-2 w-2 rounded-full bg-accent animate-ping" />
+              <span>✨🔥 FRESH FOR 2025! 🔥✨</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-accent" />
-              <span>Expert-created content</span>
+            <div className="flex items-center gap-2 animate-pulse">
+              <div className="h-2 w-2 rounded-full bg-accent animate-ping" />
+              <span>🎓⚡ GENIUS-LEVEL CONTENT! ⚡🎓</span>
             </div>
           </div>
         </div>

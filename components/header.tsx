@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { BookOpen, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   return (
@@ -40,6 +41,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle />
           <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
             Sign In
           </Button>
@@ -81,6 +83,9 @@ export function Header() {
                   Contact
                 </Link>
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t">
+                  <div className="flex justify-center">
+                    <ThemeToggle />
+                  </div>
                   <Button variant="outline" className="w-full bg-transparent">
                     Sign In
                   </Button>

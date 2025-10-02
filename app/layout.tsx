@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
+import { ThemeProvider } from "next-themes"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -18,10 +19,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )
