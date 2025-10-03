@@ -139,6 +139,90 @@
       "difficulty": "challenge",
       "problem_latex": "\\frac{5}{6} - \\frac{1}{4}",
       "answer_latex": "\\frac{10}{12} - \\frac{3}{12} = \\frac{7}{12}"
+    },
+    {
+      "id": "vh9",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{7}{11} + \\frac{5}{13}",
+      "answer_latex": "\\frac{91}{143} + \\frac{55}{143} = \\frac{146}{143} = 1 \\, \\tfrac{3}{143}"
+    },
+    {
+      "id": "vh10",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{23}{29} - \\frac{17}{31}",
+      "answer_latex": "\\frac{713}{899} - \\frac{493}{899} = \\frac{220}{899}"
+    },
+    {
+      "id": "vh11",
+      "difficulty": "extreme",
+      "problem_latex": "2 \\, \\tfrac{5}{17} + 1 \\, \\tfrac{11}{19} - \\frac{13}{323}",
+      "answer_latex": "\\frac{39}{17} + \\frac{30}{19} - \\frac{13}{323} = \\frac{741}{323} + \\frac{510}{323} - \\frac{13}{323} = \\frac{1238}{323} = 3 \\, \\tfrac{269}{323}"
+    },
+    {
+      "id": "vh12",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{13}{17} + \\frac{17}{23} + \\frac{19}{29}",
+      "answer_latex": "\\frac{13\\cdot 23\\cdot 29 + 17\\cdot 17\\cdot 29 + 19\\cdot 17\\cdot 23}{17\\cdot 23\\cdot 29} = \\frac{24481}{11339} = 2 \\, \\tfrac{1803}{11339}"
+    },
+    {
+      "id": "vh13",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{5}{11} + \\frac{7}{13} - \\frac{3}{17}",
+      "answer_latex": "\\frac{1105 + 1309 - 429}{2431} = \\frac{1985}{2431}"
+    },
+    {
+      "id": "vh14",
+      "difficulty": "extreme",
+      "problem_latex": "\\left(\\frac{7}{13} + \\frac{5}{11}\\right) - \\left(\\frac{2}{17} + \\frac{3}{19}\\right)",
+      "answer_latex": "\\frac{142}{143} - \\frac{89}{323} = \\frac{33139}{46189}"
+    },
+    {
+      "id": "vh15",
+      "difficulty": "extreme",
+      "problem_latex": "4 \\, \\tfrac{31}{97} - 2 \\, \\tfrac{58}{97} + 1 \\, \\tfrac{17}{97}",
+      "answer_latex": "4-2+1 + \\frac{31-58+17}{97} = 3 - \\frac{10}{97} = 2 \\, \\tfrac{87}{97}"
+    },
+    {
+      "id": "vh16",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{50}{101} + \\frac{75}{103}",
+      "answer_latex": "\\frac{50\\cdot 103 + 75\\cdot 101}{101\\cdot 103} = \\frac{12725}{10403} = 1 \\, \\tfrac{2322}{10403}"
+    },
+    {
+      "id": "vh17",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{1}{11} - \\frac{1}{13} + \\frac{1}{17} - \\frac{1}{19}",
+      "answer_latex": "\\frac{4199 - 3553 + 2717 - 2431}{11\\cdot 13\\cdot 17\\cdot 19} = \\frac{932}{46189}"
+    },
+    {
+      "id": "vh18",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{5}{17} + \\frac{7}{19} - \\frac{12}{323} + \\frac{121}{323}",
+      "answer_latex": "\\frac{5\\cdot 19 + 7\\cdot 17}{323} - \\frac{12}{323} + \\frac{121}{323} = \\frac{214 - 12 + 121}{323} = \\frac{323}{323} = 1"
+    },
+    {
+      "id": "vh19",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{3}{97} + \\frac{5}{89} - \\frac{5}{73}",
+      "answer_latex": "\\frac{3\\cdot(89\\cdot 73) + 5\\cdot(97\\cdot 73) - 5\\cdot(97\\cdot 89)}{97\\cdot 89\\cdot 73} = \\frac{11731}{630209}"
+    },
+    {
+      "id": "vh20",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{83}{97} + \\frac{89}{101} - \\frac{47}{103}",
+      "answer_latex": "\\frac{83\\cdot 101\\cdot 103 + 89\\cdot 97\\cdot 103 - 47\\cdot 97\\cdot 101}{97\\cdot 101\\cdot 103} = \\frac{1292189}{1009091} = 1 \\, \\tfrac{283098}{1009091}"
+    },
+    {
+      "id": "vh21",
+      "difficulty": "extreme",
+      "problem_latex": "\\frac{2}{13} + \\frac{3}{17} + \\frac{5}{19} - \\frac{1}{5}",
+      "answer_latex": "\\frac{3230 + 3705 + 5525 - 4199}{13\\cdot 17\\cdot 19 \\cdot 5} = \\frac{8261}{20995}"
+    },
+    {
+      "id": "vh22",
+      "difficulty": "extreme",
+      "problem_latex": "\\left(\\frac{22}{55} + \\frac{39}{91}\\right) - \\left(\\frac{1}{5} + \\frac{1}{7}\\right)",
+      "answer_latex": "\\left(\\frac{2}{5} + \\frac{3}{7}\\right) - \\left(\\frac{1}{5} + \\frac{1}{7}\\right) = \\frac{1}{5} + \\frac{2}{7} = \\frac{17}{35}"
     }
   ],
   "vocabulary": [

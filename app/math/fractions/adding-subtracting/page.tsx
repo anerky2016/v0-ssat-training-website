@@ -28,6 +28,7 @@ export default function AddingSubtractingFractionsPage() {
     easy: fractionsData.practice.filter(p => p.difficulty === "easy"),
     medium: fractionsData.practice.filter(p => p.difficulty === "medium"),
     challenge: fractionsData.practice.filter(p => p.difficulty === "challenge"),
+    extreme: fractionsData.practice.filter(p => p.difficulty === "extreme"),
   }
 
   if (!mounted) {
