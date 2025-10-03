@@ -1,0 +1,97 @@
+{
+  "title": "Multiplying and Dividing Fractions",
+  "audience": "Ages 9–12",
+  "goal": "Help kids multiply and divide fractions confidently, including simplifying answers.",
+  "summary": "For multiplication, multiply tops together and bottoms together, then simplify. For division, use Keep–Change–Flip: keep the first fraction, change ÷ to ×, flip the second fraction, then multiply and simplify.",
+  "sections": [
+    {
+      "id": "multiply",
+      "heading": "How to Multiply Fractions",
+      "kid_friendly_explanation": "Think of stacking pieces. Multiply the top numbers (numerators) and multiply the bottom numbers (denominators). Then shrink (simplify) if you can.",
+      "key_formulas_latex": [
+        "\\frac{a}{b} \\times \\frac{c}{d} = \\frac{ac}{bd}",
+        "\\text{Simplify by dividing top and bottom by the same number.}"
+      ],
+      "example": {
+        "story": "You eat 2/5 of a chocolate bar today and 3/4 of that amount is caramel. How much of the whole bar is caramel today?",
+        "work_latex": "\\frac{2}{5} \\times \\frac{3}{4} = \\frac{6}{20} = \\frac{3}{10}",
+        "explanation": "Multiply tops (2×3) and bottoms (5×4). Then reduce 6/20 to 3/10."
+      },
+      "tips": [
+        "You can cross-cancel before multiplying to keep numbers small.",
+        "Whole numbers are fractions too: 3 = 3/1."
+      ]
+    },
+    {
+      "id": "divide",
+      "heading": "How to Divide Fractions",
+      "kid_friendly_explanation": "Use Keep–Change–Flip. Keep the first fraction, change division to multiplication, flip the second fraction, then multiply and simplify.",
+      "key_formulas_latex": [
+        "\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}",
+        "\\text{(Keep–Change–Flip)}"
+      ],
+      "example": {
+        "story": "Half a pizza is shared equally among three friends. What fraction of the whole pizza does each friend get?",
+        "work_latex": "\\frac{1}{2} \\div \\frac{3}{1} = \\frac{1}{2} \\times \\frac{1}{3} = \\frac{1}{6}",
+        "explanation": "Keep 1/2, change ÷ to ×, flip 3 to 1/3, then multiply."
+      },
+      "tips": [
+        "Always flip only the fraction you are dividing by.",
+        "Mixed numbers? Turn them into improper fractions first."
+      ]
+    }
+  ],
+  "worked_examples": [
+    {
+      "id": "ex_multiply_basic",
+      "title": "Multiplying",
+      "problem_latex": "\\frac{2}{5} \\times \\frac{3}{4}",
+      "solution_steps": [
+        "Multiply numerators and denominators.",
+        "\\frac{2\\times 3}{5\\times 4} = \\frac{6}{20}",
+        "Simplify: divide by 2.",
+        "\\frac{6}{20} = \\frac{3}{10}"
+      ],
+      "answer_latex": "\\frac{3}{10}"
+    },
+    {
+      "id": "ex_divide_basic",
+      "title": "Dividing (Keep–Change–Flip)",
+      "problem_latex": "\\frac{1}{2} \\div \\frac{3}{5}",
+      "solution_steps": [
+        "Keep the first fraction, change to ×, flip the second.",
+        "\\frac{1}{2} \\times \\frac{5}{3} = \\frac{5}{6}"
+      ],
+      "answer_latex": "\\frac{5}{6}"
+    }
+  ],
+  "vocabulary": [
+    { "term": "Numerator", "kid_friendly_definition": "The top number; how many pieces you have." },
+    { "term": "Denominator", "kid_friendly_definition": "The bottom number; how many equal pieces make a whole." },
+    { "term": "Simplify (Reduce)", "kid_friendly_definition": "Make a fraction smaller but equal by dividing top and bottom by the same number." },
+    { "term": "Keep–Change–Flip", "kid_friendly_definition": "Trick for dividing fractions: keep the first, change ÷ to ×, flip the second." }
+  ],
+  "practice": [
+    { "id": "mde1", "difficulty": "easy", "type": "multiply", "problem_latex": "\\frac{2}{5} \\times \\frac{3}{4}", "answer_latex": "\\frac{3}{10}" },
+    { "id": "mde2", "difficulty": "easy", "type": "divide", "problem_latex": "\\frac{1}{2} \\div \\frac{3}{5}", "answer_latex": "\\frac{5}{6}" },
+    { "id": "mde3", "difficulty": "easy", "type": "multiply", "problem_latex": "\\frac{3}{7} \\times 2", "answer_latex": "\\frac{6}{7}" },
+    { "id": "mde4", "difficulty": "easy", "type": "divide", "problem_latex": "1 \\div \\frac{4}{9}", "answer_latex": "\\frac{9}{4} = 2 \\tfrac{1}{4}" },
+
+    { "id": "mdm1", "difficulty": "medium", "type": "multiply", "problem_latex": "\\frac{4}{9} \\times \\frac{21}{8}", "answer_latex": "\\frac{7}{6} = 1 \\tfrac{1}{6}" },
+    { "id": "mdm2", "difficulty": "medium", "type": "divide", "problem_latex": "\\frac{5}{6} \\div \\frac{10}{9}", "answer_latex": "\\frac{3}{4}" },
+    { "id": "mdm3", "difficulty": "medium", "type": "multiply", "problem_latex": "\\frac{7}{12} \\times \\frac{3}{14}", "answer_latex": "\\frac{1}{8}" },
+    { "id": "mdm4", "difficulty": "medium", "type": "divide", "problem_latex": "\\frac{8}{15} \\div \\frac{2}{5}", "answer_latex": "\\frac{4}{3} = 1 \\tfrac{1}{3}" },
+
+    { "id": "mdc1", "difficulty": "challenge", "type": "multiply", "problem_latex": "1 \\tfrac{1}{2} \\times \\frac{3}{5}", "answer_latex": "\\frac{9}{10}" },
+    { "id": "mdc2", "difficulty": "challenge", "type": "divide", "problem_latex": "2 \\tfrac{2}{3} \\div \\frac{4}{9}", "answer_latex": "6" },
+    { "id": "mdc3", "difficulty": "challenge", "type": "multi-step", "problem_latex": "\\frac{5}{8} \\times \\frac{12}{15} \\div \\frac{3}{10}", "answer_latex": "\\frac{5}{3} = 1 \\tfrac{2}{3}" },
+    { "id": "mdc4", "difficulty": "challenge", "type": "multi-step", "problem_latex": "\\frac{9}{14} \\div \\frac{3}{7} \\times \\frac{5}{6}", "answer_latex": "\\frac{5}{4} = 1 \\tfrac{1}{4}" },
+
+    { "id": "mxe1", "difficulty": "extreme", "type": "multi-step", "problem_latex": "\\frac{11}{13} \\times \\frac{39}{22} \\div \\frac{5}{26}", "answer_latex": "\\frac{39}{5} = 7 \\tfrac{4}{5}" },
+    { "id": "mxe2", "difficulty": "extreme", "type": "multi-step", "problem_latex": "3 \\tfrac{7}{11} \\div \\frac{13}{17} \\times \\frac{19}{22}", "answer_latex": "\\frac{6460}{1573} \\; (\\text{about } 4.11) " },
+    { "id": "mxe3", "difficulty": "extreme", "type": "multiply", "problem_latex": "\\frac{97}{101} \\times \\frac{103}{107}", "answer_latex": "\\frac{9991}{10807}" },
+    { "id": "mxe4", "difficulty": "extreme", "type": "multi-step", "problem_latex": "\\frac{5}{12} \\div \\frac{7}{18} \\div \\frac{11}{14}", "answer_latex": "\\frac{15}{11} = 1 \\tfrac{4}{11}" },
+    { "id": "mxe5", "difficulty": "extreme", "type": "multi-step", "problem_latex": "2 \\tfrac{5}{17} \\times 1 \\tfrac{13}{19} \\div \\frac{23}{29}", "answer_latex": "\\frac{36192}{7429} \\; (\\text{about } 4.87)" },
+    { "id": "mxe6", "difficulty": "extreme", "type": "multi-step", "problem_latex": "\\frac{13}{41} \\times \\frac{82}{65} \\div \\frac{6}{5}", "answer_latex": "\\frac{1}{3}" }
+  ]
+}

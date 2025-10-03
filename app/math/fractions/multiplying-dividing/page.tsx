@@ -7,11 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, BookOpen, Lightbulb, Target, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import fractionsData from "@/data/fractions-adding-subtracting.json"
+import fractionsData from "@/data/fractions-multiplying-dividing.json"
 import 'katex/dist/katex.min.css'
 import { InlineMath, BlockMath } from 'react-katex'
 
-export default function AddingSubtractingFractionsPage() {
+export default function MultiplyingDividingFractionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
   const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
   const [mounted, setMounted] = useState(false)
@@ -60,34 +60,6 @@ export default function AddingSubtractingFractionsPage() {
           </div>
         </section>
 
-        {/* Quick Rules */}
-        <section className="py-12 sm:py-16 lg:py-20">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="mx-auto max-w-4xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
-                  <Lightbulb className="h-6 w-6 text-chart-5" />
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Quick Rules</h2>
-              </div>
-              <Card className="border-chart-5/20">
-                <CardContent className="pt-6">
-                  <ol className="space-y-3">
-                    {fractionsData.quick_rules.map((rule, index) => (
-                      <li key={index} className="flex items-start gap-4">
-                        <div className="h-8 w-8 rounded-lg bg-chart-5/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-chart-5 font-bold text-sm">{index + 1}</span>
-                        </div>
-                        <p className="text-muted-foreground pt-1">{rule}</p>
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* Main Sections */}
         {fractionsData.sections.map((section, index) => (
           <section key={section.id} className={`py-12 sm:py-16 lg:py-20 ${index % 2 === 1 ? 'bg-muted/30' : ''}`}>
@@ -116,49 +88,14 @@ export default function AddingSubtractingFractionsPage() {
                   </Card>
                 )}
 
-                {/* Key Formula (singular) */}
-                {section.key_formula_latex && (
-                  <Card className="mb-6 border-primary/20">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Key Formula</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                        <BlockMath math={section.key_formula_latex} />
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* How To Steps */}
-                {section.how_to && (
-                  <Card className="mb-6">
-                    <CardHeader>
-                      <CardTitle className="text-lg">How To</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ol className="space-y-2 list-decimal list-inside">
-                        {section.how_to.map((step, idx) => (
-                          <li key={idx} className="text-sm text-muted-foreground">{step}</li>
-                        ))}
-                      </ol>
-                    </CardContent>
-                  </Card>
-                )}
-
                 {/* Example */}
                 {section.example && (
-                  <Card className="border-chart-1/20">
+                  <Card className="mb-6 border-chart-1/20">
                     <CardHeader>
                       <CardTitle className="text-lg">Example</CardTitle>
                       <CardDescription>{section.example.story}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {section.example.lcd_reason && (
-                        <p className="text-sm text-muted-foreground mb-3">
-                          <strong>LCD:</strong> {section.example.lcd_reason}
-                        </p>
-                      )}
                       {section.example.work_latex && (
                         <div className="bg-muted/50 rounded-lg p-4 mb-3 overflow-x-auto">
                           <BlockMath math={section.example.work_latex} />
@@ -167,6 +104,28 @@ export default function AddingSubtractingFractionsPage() {
                       <p className="text-sm text-muted-foreground italic">
                         {section.example.explanation}
                       </p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Tips */}
+                {section.tips && section.tips.length > 0 && (
+                  <Card className="border-chart-5/20">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Lightbulb className="h-5 w-5 text-chart-5" />
+                        Pro Tips
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {section.tips.map((tip, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-5 flex-shrink-0" />
+                            <span className="text-sm text-muted-foreground">{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </CardContent>
                   </Card>
                 )}

@@ -38,7 +38,7 @@ export default function FractionsPage() {
                 {[
                   { title: "Simplifying Fractions", href: "/math/fractions/simplifying" },
                   { title: "Adding/Subtracting Fractions", href: "/math/fractions/adding-subtracting" },
-                  { title: "Multiplying/Dividing Fractions", href: null },
+                  { title: "Multiplying/Dividing Fractions", href: "/math/fractions/multiplying-dividing" },
                   { title: "Adding/Subtracting Mixed Numbers", href: null },
                   { title: "Multiplying/Dividing Mixed Numbers", href: null }
                 ].map((topic, index) => (
