@@ -1,0 +1,93 @@
+{
+  "title": "Multiplying Mixed Numbers",
+  "audience": "Ages 9–12",
+  "goal": "Teach kids how to multiply mixed numbers by converting them to improper fractions first, then multiplying and simplifying.",
+  "summary": "Mixed numbers are numbers with a whole part and a fraction part, like \\(2\\dfrac{1}{4}\\). To multiply them, turn each mixed number into an improper fraction (top number bigger than bottom). Multiply the fractions, then simplify and, if needed, change back to a mixed number.",
+  "sections": [
+    {
+      "id": "steps",
+      "heading": "Step-by-step guide",
+      "kid_friendly_explanation": "To multiply mixed numbers, it's easier to turn them into improper fractions first. Then just multiply top by top and bottom by bottom.",
+      "steps": [
+        "Convert each mixed number into an improper fraction.",
+        "Multiply the numerators (top numbers).",
+        "Multiply the denominators (bottom numbers).",
+        "Simplify the answer if possible.",
+        "If the answer is an improper fraction, change it back into a mixed number."
+      ],
+      "key_formulas_latex": [
+        "\\text{Convert: } a\\,\\dfrac{c}{b} = \\dfrac{ab+c}{b}",
+        "\\text{Multiply: } \\dfrac{m}{n} \\times \\dfrac{p}{q} = \\dfrac{mp}{nq}"
+      ]
+    },
+    {
+      "id": "examples",
+      "heading": "Worked Examples",
+      "examples": [
+        {
+          "title": "Example 1",
+          "problem_latex": "2\\,\\dfrac{1}{4} \\times 3\\,\\dfrac{1}{2}",
+          "solution_steps": [
+            "Convert: \\(2\\,\\dfrac{1}{4}=\\dfrac{9}{4}\\), \\(3\\,\\dfrac{1}{2}=\\dfrac{7}{2}\\).",
+            "Multiply: \\(\\dfrac{9}{4}\\times\\dfrac{7}{2}=\\dfrac{63}{8}\\).",
+            "Simplify: \\(\\dfrac{63}{8}=7\\,\\dfrac{7}{8}\\)."
+          ],
+          "answer_latex": "7\\,\\dfrac{7}{8}"
+        },
+        {
+          "title": "Example 2",
+          "problem_latex": "5\\,\\dfrac{2}{3} \\times 3\\,\\dfrac{3}{4}",
+          "solution_steps": [
+            "Convert: \\(5\\,\\dfrac{2}{3}=\\dfrac{17}{3}\\), \\(3\\,\\dfrac{3}{4}=\\dfrac{15}{4}\\).",
+            "Multiply: \\(\\dfrac{17}{3}\\times\\dfrac{15}{4}=\\dfrac{255}{12}=\\dfrac{85}{4}\\).",
+            "Simplify: \\(\\dfrac{85}{4}=21\\,\\dfrac{1}{4}\\)."
+          ],
+          "answer_latex": "21\\,\\dfrac{1}{4}"
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    { "term": "Mixed Number", "kid_friendly_definition": "A number with a whole number and a fraction, like \\(3\\dfrac{1}{2}\\)." },
+    { "term": "Improper Fraction", "kid_friendly_definition": "A fraction where the top is bigger than the bottom, like \\(\\dfrac{9}{4}\\)." },
+    { "term": "Simplify", "kid_friendly_definition": "Make a fraction smaller but equal, like changing \\(\\dfrac{12}{16}\\) into \\(\\dfrac{3}{4}\\)." }
+  ],
+  "practice": [
+    {
+      "group": "easy",
+      "items": [
+        { "id": "mmn_e1", "problem_latex": "1\\,\\dfrac{1}{2} \\times 2\\,\\dfrac{1}{2}", "answer_latex": "3\\,\\dfrac{3}{4}" },
+        { "id": "mmn_e2", "problem_latex": "2\\,\\dfrac{1}{3} \\times 1\\,\\dfrac{1}{2}", "answer_latex": "3\\,\\dfrac{1}{2}" },
+        { "id": "mmn_e3", "problem_latex": "3\\,\\dfrac{1}{4} \\times 2", "answer_latex": "6\\,\\dfrac{1}{2}" },
+        { "id": "mmn_e4", "problem_latex": "1\\,\\dfrac{3}{5} \\times 3", "answer_latex": "4\\,\\dfrac{4}{5}" }
+      ]
+    },
+    {
+      "group": "medium",
+      "items": [
+        { "id": "mmn_m1", "problem_latex": "4\\,\\dfrac{1}{2} \\times 2\\,\\dfrac{2}{3}", "answer_latex": "12" },
+        { "id": "mmn_m2", "problem_latex": "5\\,\\dfrac{1}{4} \\times 1\\,\\dfrac{3}{5}", "answer_latex": "8\\,\\dfrac{3}{20}" },
+        { "id": "mmn_m3", "problem_latex": "2\\,\\dfrac{2}{7} \\times 3\\,\\dfrac{1}{3}", "answer_latex": "7\\,\\dfrac{5}{21}" },
+        { "id": "mmn_m4", "problem_latex": "6\\,\\dfrac{1}{6} \\times 2\\,\\dfrac{1}{2}", "answer_latex": "15\\,\\dfrac{1}{6}" }
+      ]
+    },
+    {
+      "group": "challenge",
+      "items": [
+        { "id": "mmn_c1", "problem_latex": "7\\,\\dfrac{1}{3} \\times 4\\,\\dfrac{2}{5}", "answer_latex": "32\\,\\dfrac{2}{15}" },
+        { "id": "mmn_c2", "problem_latex": "8\\,\\dfrac{5}{6} \\times 3\\,\\dfrac{3}{7}", "answer_latex": "33\\,\\dfrac{5}{14}" },
+        { "id": "mmn_c3", "problem_latex": "10\\,\\dfrac{1}{2} \\times 2\\,\\dfrac{3}{8}", "answer_latex": "25" },
+        { "id": "mmn_c4", "problem_latex": "9\\,\\dfrac{2}{9} \\times 4\\,\\dfrac{5}{6}", "answer_latex": "43\\,\\dfrac{5}{27}" }
+      ]
+    },
+    {
+      "group": "extreme",
+      "items": [
+        { "id": "mmn_x1", "problem_latex": "12\\,\\dfrac{7}{11} \\times 5\\,\\dfrac{3}{8}", "answer_latex": "68\\,\\dfrac{21}{88}" },
+        { "id": "mmn_x2", "problem_latex": "15\\,\\dfrac{5}{12} \\times 7\\,\\dfrac{2}{9}", "answer_latex": "112\\,\\dfrac{5}{108}" },
+        { "id": "mmn_x3", "problem_latex": "20\\,\\dfrac{3}{5} \\times 3\\,\\dfrac{7}{10}", "answer_latex": "75\\,\\dfrac{9}{50}" },
+        { "id": "mmn_x4", "problem_latex": "18\\,\\dfrac{1}{8} \\times 12\\,\\dfrac{2}{3}", "answer_latex": "229\\,\\dfrac{1}{24}" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "title": "Dividing Mixed Numbers",
+  "audience": "Ages 9–12",
+  "goal": "Teach kids how to divide mixed numbers step by step by converting to improper fractions, using the Keep–Change–Flip rule, and simplifying.",
+  "summary": "Mixed numbers are numbers with a whole part and a fraction part, like \\(3\\dfrac{1}{2}\\). To divide mixed numbers, first convert them into improper fractions. Then apply the Keep–Change–Flip method: keep the first fraction, change division to multiplication, flip the second fraction. Multiply and simplify, and finally change back into a mixed number if needed.",
+  "sections": [
+    {
+      "id": "steps",
+      "heading": "Step-by-step guide",
+      "kid_friendly_explanation": "Dividing mixed numbers is like dividing pizzas into slices! First, turn the mixed numbers into improper fractions. Then use the Keep–Change–Flip trick: Keep the first fraction, change the sign to multiplication, and flip the second fraction upside down. Multiply and simplify your answer.",
+      "steps": [
+        "Convert each mixed number into an improper fraction.",
+        "Apply Keep–Change–Flip (KCF): Keep the first fraction, change division to multiplication, flip the second fraction.",
+        "Multiply the fractions (top × top, bottom × bottom).",
+        "Simplify the fraction if possible.",
+        "Convert back into a mixed number if needed."
+      ],
+      "key_formulas_latex": [
+        "\\text{Convert: } a\\,\\dfrac{c}{b} = \\dfrac{ab+c}{b}",
+        "\\text{KCF: } \\dfrac{m}{n} \\div \\dfrac{p}{q} = \\dfrac{m}{n} \\times \\dfrac{q}{p} = \\dfrac{mq}{np}"
+      ]
+    },
+    {
+      "id": "examples",
+      "heading": "Worked Examples",
+      "examples": [
+        {
+          "title": "Example 1",
+          "problem_latex": "2\\,\\dfrac{1}{2} \\div 1\\,\\dfrac{1}{4}",
+          "solution_steps": [
+            "Convert: \\(2\\,\\dfrac{1}{2}=\\dfrac{5}{2}\\), \\(1\\,\\dfrac{1}{4}=\\dfrac{5}{4}\\).",
+            "Apply KCF: \\(\\dfrac{5}{2} \\div \\dfrac{5}{4}=\\dfrac{5}{2} \\times \\dfrac{4}{5}\\).",
+            "Multiply: \\(\\dfrac{5\\times 4}{2\\times 5}=\\dfrac{20}{10}=2\\)."
+          ],
+          "answer_latex": "2"
+        },
+        {
+          "title": "Example 2",
+          "problem_latex": "3\\,\\dfrac{2}{3} \\div 2\\,\\dfrac{1}{2}",
+          "solution_steps": [
+            "Convert: \\(3\\,\\dfrac{2}{3}=\\dfrac{11}{3}\\), \\(2\\,\\dfrac{1}{2}=\\dfrac{5}{2}\\).",
+            "Apply KCF: \\(\\dfrac{11}{3} \\div \\dfrac{5}{2}=\\dfrac{11}{3} \\times \\dfrac{2}{5}\\).",
+            "Multiply: \\(\\dfrac{22}{15}\\).",
+            "Convert to mixed: \\(1\\,\\dfrac{7}{15}\\)."
+          ],
+          "answer_latex": "1\\,\\dfrac{7}{15}"
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    { "term": "Keep–Change–Flip (KCF)", "kid_friendly_definition": "A shortcut for dividing fractions: Keep the first, Change division to multiplication, Flip the second." },
+    { "term": "Improper Fraction", "kid_friendly_definition": "A fraction where the numerator is bigger than the denominator, like \\(\\dfrac{11}{3}\\)." },
+    { "term": "Simplify", "kid_friendly_definition": "Make the fraction smaller but equal, like \\(\\dfrac{22}{15}\\) becoming \\(1\\,\\dfrac{7}{15}\\)." }
+  ],
+  "practice": [
+    {
+      "group": "easy",
+      "items": [
+        { "id": "dmn_e1", "problem_latex": "1\\,\\dfrac{1}{2} \\div 2", "answer_latex": "\\dfrac{3}{4}" },
+        { "id": "dmn_e2", "problem_latex": "2\\,\\dfrac{1}{4} \\div 1\\,\\dfrac{1}{2}", "answer_latex": "1\\,\\dfrac{1}{2}" },
+        { "id": "dmn_e3", "problem_latex": "3\\,\\dfrac{1}{3} \\div 1\\,\\dfrac{2}{3}", "answer_latex": "2" },
+        { "id": "dmn_e4", "problem_latex": "2\\,\\dfrac{2}{5} \\div 1", "answer_latex": "2\\,\\dfrac{2}{5}" }
+      ]
+    },
+    {
+      "group": "medium",
+      "items": [
+        { "id": "dmn_m1", "problem_latex": "4\\,\\dfrac{1}{2} \\div 2\\,\\dfrac{1}{4}", "answer_latex": "2" },
+        { "id": "dmn_m2", "problem_latex": "5\\,\\dfrac{1}{3} \\div 1\\,\\dfrac{2}{3}", "answer_latex": "3\\,\\dfrac{1}{5}" },
+        { "id": "dmn_m3", "problem_latex": "6\\,\\dfrac{1}{4} \\div 3\\,\\dfrac{1}{2}", "answer_latex": "1\\,\\dfrac{25}{28}" },
+        { "id": "dmn_m4", "problem_latex": "7\\,\\dfrac{3}{5} \\div 2", "answer_latex": "3\\,\\dfrac{4}{5}" }
+      ]
+    },
+    {
+      "group": "challenge",
+      "items": [
+        { "id": "dmn_c1", "problem_latex": "9\\,\\dfrac{1}{2} \\div 3\\,\\dfrac{3}{4}", "answer_latex": "2\\,\\dfrac{1}{2}" },
+        { "id": "dmn_c2", "problem_latex": "10\\,\\dfrac{2}{3} \\div 2\\,\\dfrac{5}{6}", "answer_latex": "3\\,\\dfrac{3}{5}" },
+        { "id": "dmn_c3", "problem_latex": "12\\,\\dfrac{1}{4} \\div 5\\,\\dfrac{1}{2}", "answer_latex": "2\\,\\dfrac{2}{11}" },
+        { "id": "dmn_c4", "problem_latex": "8\\,\\dfrac{3}{8} \\div 2\\,\\dfrac{2}{3}", "answer_latex": "3\\,\\dfrac{3}{16}" }
+      ]
+    },
+    {
+      "group": "extreme",
+      "items": [
+        { "id": "dmn_x1", "problem_latex": "15\\,\\dfrac{7}{11} \\div 6\\,\\dfrac{5}{8}", "answer_latex": "2\\,\\dfrac{191}{242}" },
+        { "id": "dmn_x2", "problem_latex": "20\\,\\dfrac{3}{5} \\div 3\\,\\dfrac{7}{9}", "answer_latex": "5\\,\\dfrac{55}{70}" },
+        { "id": "dmn_x3", "problem_latex": "25\\,\\dfrac{2}{7} \\div 4\\,\\dfrac{3}{8}", "answer_latex": "5\\,\\dfrac{154}{175}" },
+        { "id": "dmn_x4", "problem_latex": "30\\,\\dfrac{5}{6} \\div 5\\,\\dfrac{5}{12}", "answer_latex": "5\\,\\dfrac{11}{22}" }
+      ]
+    }
+  ]
+}
