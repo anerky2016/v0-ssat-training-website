@@ -3,10 +3,36 @@ import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookText, Target, FileCheck, Lightbulb } from "lucide-react"
 import Link from "next/link"
+import { StructuredData, generateCourseStructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
+import { generateMetadata as genMeta, seoKeywords } from "@/lib/seo"
+import type { Metadata } from "next"
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'
+
+export const metadata: Metadata = genMeta({
+  title: 'SSAT Verbal Training - Synonyms & Analogies Practice',
+  description: 'Master SSAT verbal reasoning with practice exercises for synonyms and analogies, full-length timed tests, and proven test-taking strategies.',
+  path: '/verbal',
+  keywords: [...seoKeywords.general, ...seoKeywords.verbal],
+})
+
+const courseData = generateCourseStructuredData({
+  name: 'SSAT Verbal Training',
+  description: 'Master synonyms, analogies, and vocabulary to excel in the SSAT Verbal section.',
+  url: `${baseUrl}/verbal`,
+  skillLevel: 'Middle School',
+})
+
+const breadcrumbData = generateBreadcrumbStructuredData([
+  { name: 'Home', url: '/' },
+  { name: 'Verbal', url: '/verbal' },
+])
 
 export default function VerbalPage() {
   return (
     <div className="min-h-screen">
+      <StructuredData data={courseData} />
+      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         {/* Hero Section */}

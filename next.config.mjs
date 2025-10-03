@@ -9,6 +9,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Optimize for Core Web Vitals
+  compress: true,
+  poweredByHeader: false,
+  // Enable modern optimizations
+  reactStrictMode: true,
+  swcMinify: true,
+  // Optimize fonts
+  optimizeFonts: true,
 }
 
 export default nextConfig
