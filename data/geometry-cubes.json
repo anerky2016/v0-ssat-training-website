@@ -1,0 +1,91 @@
+{
+  "title": "Cubes",
+  "audience": "Ages 9–12",
+  "goal": "Help kids understand a cube and learn to find its volume and surface area, with consistent cube drawings.",
+  "summary": "A cube is a 3-D box with all edges the same length. The space inside is the volume, and the total area of its 6 square faces is the surface area.",
+  "sections": [
+    {
+      "id": "what-is-a-cube",
+      "heading": "What is a cube?",
+      "kid_friendly_explanation": "Think of a dice. Every edge is the same length, so every face is a perfect square. A cube has 6 faces, 12 edges, and 8 corners.",
+      "key_formulas_latex": [
+        "V = s^{3} \\quad (\\text{volume})",
+        "SA = 6s^{2} \\quad (\\text{surface area})"
+      ],
+      "units_tip": "Use cubic units for volume (cm^3, m^3) and square units for surface area (cm^2, m^2).",
+      "example": {
+        "story": "Find the volume and surface area when the cube's side is 4 cm.",
+        "work_latex": [
+          "V = s^{3} = 4^{3} = 64\\,\\text{cm}^{3}",
+          "SA = 6s^{2} = 6\\cdot 4^{2} = 96\\,\\text{cm}^{2}"
+        ],
+        "answer_latex": "V=64\\,\\text{cm}^{3},\\; SA=96\\,\\text{cm}^{2}",
+        "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='80' y='45' font-size='14' fill='black'>4 cm</text></svg>"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "group": "easy",
+      "items": [
+        {
+          "id": "cube_e1",
+          "problem_latex": "s = 3\\,\\text{cm}.\\; \\text{Find } V \\text{ and } SA.",
+          "answer_latex": "V=27\\,\\text{cm}^{3},\\; SA=54\\,\\text{cm}^{2}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='80' y='45' font-size='14' fill='black'>3 cm</text></svg>"
+        },
+        {
+          "id": "cube_e2",
+          "problem_latex": "s = 5\\,\\text{m}.\\; \\text{Find } V.",
+          "answer_latex": "V=125\\,\\text{m}^{3}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='80' y='45' font-size='14' fill='black'>5 m</text></svg>"
+        },
+        {
+          "id": "cube_e3",
+          "problem_latex": "s = 2\\,\\text{in}.\\; \\text{Find } SA.",
+          "answer_latex": "SA=24\\,\\text{in}^{2}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='80' y='45' font-size='14' fill='black'>2 in</text></svg>"
+        }
+      ]
+    },
+    {
+      "group": "medium",
+      "items": [
+        {
+          "id": "cube_m1",
+          "problem_latex": "s = 7\\,\\text{cm}.\\; \\text{Find } V \\text{ and } SA.",
+          "answer_latex": "V=343\\,\\text{cm}^{3},\\; SA=294\\,\\text{cm}^{2}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='80' y='45' font-size='14' fill='black'>7 cm</text></svg>"
+        },
+        {
+          "id": "cube_m2",
+          "problem_latex": "SA = 150\\,\\text{cm}^{2}.\\; \\text{Find } s \\text{ and } V.",
+          "answer_latex": "s=5\\,\\text{cm},\\; V=125\\,\\text{cm}^{3}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='55' y='190' font-size='14' fill='black'>SA=150 cm²</text></svg>"
+        }
+      ]
+    },
+    {
+      "group": "challenge",
+      "items": [
+        {
+          "id": "cube_c1",
+          "problem_latex": "A big cube has side 12\\,\\text{cm}. Small cubes of side 3\\,\\text{cm} fill it exactly. How many small cubes?",
+          "answer_latex": "\\left(\\dfrac{12}{3}\\right)^{3} = 64",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='55' y='190' font-size='14' fill='black'>12 cm (divided in 3 cm)</text></svg>"
+        }
+      ]
+    },
+    {
+      "group": "extreme",
+      "items": [
+        {
+          "id": "cube_x1",
+          "problem_latex": "A cube has \\ V = 3.375\\,\\text{m}^{3}.\\; \\text{Find } s \\text{ and } SA.",
+          "answer_latex": "s=\\sqrt[3]{3.375}=1.5\\,\\text{m},\\; SA=13.5\\,\\text{m}^{2}",
+          "svg": "<svg width='220' height='220' viewBox='0 0 220 220'><polygon points='100,100 150,75 150,125 100,150' style='fill:#5f98e7; stroke:black; stroke-width:1;' /><polygon points='50,75 100,50 150,75 100,100' style='fill:#8ab8f6; stroke:black; stroke-width:1;' /><polygon points='50,75 100,100 100,150 50,125' style='fill:#2e64b8; stroke:black; stroke-width:1;' /><text x='55' y='190' font-size='14' fill='black'>V=3.375 m³</text></svg>"
+        }
+      ]
+    }
+  ]
+}

@@ -36,32 +36,54 @@ export default function GeometryPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  "Pythagorean Theorem",
-                  "Triangles",
-                  "Polygons",
-                  "Circles",
-                  "Trapezoids",
-                  "Cubes",
-                  "Rectangular Prisms",
-                  "Cylinder"
+                  { title: "Pythagorean Theorem", href: null },
+                  { title: "Triangles", href: null },
+                  { title: "Polygons", href: null },
+                  { title: "Circles", href: null },
+                  { title: "Trapezoids", href: null },
+                  { title: "Cubes", href: "/math/geometry/cubes" },
+                  { title: "Rectangular Prisms", href: null },
+                  { title: "Cylinder", href: null }
                 ].map((topic, index) => (
-                  <Card key={topic} className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-chart-10/10 flex items-center justify-center">
-                          <span className="text-chart-10 font-bold text-sm">{index + 1}</span>
+                  topic.href ? (
+                    <Link key={topic.title} href={topic.href}>
+                      <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-chart-10/10 flex items-center justify-center">
+                              <span className="text-chart-10 font-bold text-sm">{index + 1}</span>
+                            </div>
+                            <CardTitle className="text-lg text-card-foreground">
+                              {topic.title}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-sm text-muted-foreground">
+                            Interactive lessons and practice problems
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={topic.title} className="border-border bg-card opacity-60">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-lg bg-chart-10/10 flex items-center justify-center">
+                            <span className="text-chart-10 font-bold text-sm">{index + 1}</span>
+                          </div>
+                          <CardTitle className="text-lg text-card-foreground">
+                            {topic.title}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-lg text-card-foreground">
-                          {topic}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground">
-                        Practice problems and step-by-step solutions
-                      </p>
-                    </CardContent>
-                  </Card>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm text-muted-foreground">
+                          Coming soon
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )
                 ))}
               </div>
             </div>
