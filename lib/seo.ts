@@ -9,6 +9,9 @@ interface SEOParams {
   noIndex?: boolean
   author?: string
   publishDate?: string
+  fbAppId?: string
+  articleSection?: string
+  articleTag?: string[]
 }
 
 export function generateMetadata(params: SEOParams): Metadata {
@@ -52,16 +55,33 @@ export function generateMetadata(params: SEOParams): Metadata {
             'max-snippet': -1,
           },
         },
-    // Bing heavily weights Open Graph tags
+    // Open Graph tags - critical for Facebook sharing
     openGraph: {
       title: params.title,
       description: params.description,
       url,
       siteName: 'SSAT Prep',
-      type: 'website',
+      type: params.articleSection ? 'article' : 'website',
       locale: 'en_US',
-      ...(params.ogImage && { images: [{ url: params.ogImage }] }),
+      // Facebook recommends 1200x630 or 1.91:1 ratio
+      ...(params.ogImage && {
+        images: [{
+          url: params.ogImage,
+          width: 1200,
+          height: 630,
+          alt: params.title,
+        }]
+      }),
       ...(params.publishDate && { publishedTime: params.publishDate }),
+      // Facebook-specific article metadata
+      ...(params.articleSection && {
+        article: {
+          publishedTime: params.publishDate,
+          section: params.articleSection,
+          tags: params.articleTag,
+          authors: [params.author || 'SSAT Prep'],
+        }
+      }),
     },
     // Bing indexes Twitter cards
     twitter: {
@@ -73,12 +93,19 @@ export function generateMetadata(params: SEOParams): Metadata {
     alternates: {
       canonical: url,
     },
-    // Bing-specific: verification tag placeholder
+    // Search engine & social media verification tags
     verification: {
       other: {
         'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION || '',
       },
     },
+    // Facebook-specific metadata
+    ...(params.fbAppId && {
+      other: {
+        ...((params as any).other || {}),
+        'fb:app_id': params.fbAppId,
+      }
+    }),
   }
 }
 

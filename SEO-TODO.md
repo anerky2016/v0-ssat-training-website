@@ -27,6 +27,14 @@
   - [x] Added Bing verification tag placeholder (msvalidate.01)
   - [x] Created BingSiteAuth.xml file for Webmaster Tools verification
   - [x] Optimized Course schema with educational credentials
+- [x] **Facebook SEO Optimizations:**
+  - [x] Enhanced Open Graph metadata with Facebook-recommended image dimensions (1200x630)
+  - [x] Added Open Graph image alt text for accessibility
+  - [x] Implemented article-type Open Graph for educational content
+  - [x] Added Facebook article metadata (section, tags, authors)
+  - [x] Added fb:app_id placeholder for Facebook App integration
+  - [x] Optimized Open Graph type switching (website vs article)
+  - [x] Added comprehensive Facebook sharing metadata
 
 ## Configuration Required
 - [ ] Add `NEXT_PUBLIC_BASE_URL` environment variable to `.env` file with production URL
@@ -37,6 +45,10 @@
   - Example: `NEXT_PUBLIC_BING_VERIFICATION=ABC123DEF456`
 - [ ] Update `public/BingSiteAuth.xml` with actual Bing authentication code
   - Replace PLACEHOLDER_BING_AUTH_CODE with code from Bing Webmaster Tools
+- [ ] Add Facebook App ID (optional but recommended for Facebook Insights)
+  - Create a Facebook App at developers.facebook.com
+  - Pass fbAppId parameter in generateMetadata calls
+  - Enables Facebook Analytics and Insights for shared links
 
 ## Content Optimization
 - [x] Add unique meta descriptions to main pages (home, math, verbal)
@@ -47,11 +59,16 @@
 - [ ] Add alt text to all images
 
 ## Social Media Assets
-- [ ] Create and add Open Graph image (1200x630px recommended)
-- [ ] Create and add Twitter card image
+- [ ] Create and add Open Graph image for Facebook sharing (1200x630px - Facebook's recommended size)
+  - Must be at least 600x314px for link sharing
+  - Use high-quality images with minimal text overlay
+  - Place in /public folder and reference in metadata
+- [ ] Create and add Twitter card image (1200x675px or 2:1 ratio)
 - [ ] Update manifest icons with actual logo/favicon files
   - [ ] Generate favicon.ico
   - [ ] Generate multiple sizes: 16x16, 32x32, 192x192, 512x512
+- [ ] Test Facebook sharing with Facebook Sharing Debugger
+- [ ] Test how links appear in Facebook feed previews
 
 ## Performance & Technical SEO
 - [x] Enable compression in production
@@ -93,6 +110,25 @@
 - [ ] Set up Bing URL Inspection tool for key pages
 - [ ] Check mobile-friendliness in Bing Mobile Friendliness Test Tool
 
+## Facebook-Specific Setup & Monitoring
+- [ ] Set up Facebook Domain Verification
+  - [ ] Add meta tag or HTML file verification
+  - [ ] Verify domain in Facebook Business Manager
+- [ ] Create Facebook App (optional but recommended)
+  - [ ] Get App ID from developers.facebook.com
+  - [ ] Add App ID to metadata for Facebook Insights
+- [ ] Test Open Graph tags with Facebook Sharing Debugger
+  - [ ] Visit https://developers.facebook.com/tools/debug/
+  - [ ] Test all main pages and fix any warnings
+  - [ ] Scrape pages after updates to refresh cache
+- [ ] Monitor Facebook Insights (requires App ID)
+  - [ ] Track link shares and engagement
+  - [ ] Monitor referral traffic from Facebook
+- [ ] Optimize for Facebook News Feed
+  - [ ] Ensure images load quickly
+  - [ ] Test on mobile (majority of Facebook users)
+  - [ ] Monitor click-through rates from Facebook
+
 ## Content Strategy
 - [ ] Create cornerstone content for main topics
 - [ ] Add internal linking between related lessons
@@ -130,6 +166,16 @@
 - [ ] Check site loading speed in Bing Site Scan
 - [ ] Review Bing's SEO analyzer recommendations
 
+## Facebook Sharing Optimization Checklist
+- [ ] Test with [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+- [ ] Verify Open Graph image displays correctly (1200x630px minimum)
+- [ ] Check that title, description, and image appear properly in preview
+- [ ] Test sharing on both desktop and mobile Facebook
+- [ ] Scrape URL to refresh Facebook's cache after metadata changes
+- [ ] Verify no Open Graph warnings or errors
+- [ ] Test how shared links appear in Facebook feed
+- [ ] Check that shared links work on Facebook Messenger
+
 ## Advanced Google SEO Features
 - [ ] Add FAQ schema to relevant pages (use generateFAQStructuredData)
 - [ ] Add LearningResource schema to lesson pages (use generateLearningResourceStructuredData)
@@ -147,6 +193,15 @@
 - **Locale Specificity**: Using 'en-US' instead of 'en' (Bing preference)
 - **BingBot Directives**: Specific bingbot configuration in robots meta tags
 
+## Facebook Sharing Best Practices Implemented
+- **Optimal Image Dimensions**: Open Graph images set to 1200x630px (Facebook's recommended 1.91:1 ratio)
+- **Image Alt Text**: All OG images include alt text for accessibility and better context
+- **Article Metadata**: Support for article type with section, tags, and author information
+- **Dynamic Type Switching**: Automatically switches between 'website' and 'article' OG types
+- **Facebook App Integration**: Support for fb:app_id for Facebook Insights and Analytics
+- **Rich Preview Optimization**: Comprehensive title, description, and image metadata for engaging feed previews
+- **Mobile-First**: All metadata optimized for Facebook's mobile-dominant user base
+
 ## Notes
 - Sitemap auto-includes all current pages and is available at /sitemap.xml
 - Robots.txt allows all pages except /api/ and /private/, available at /robots.txt
@@ -158,3 +213,7 @@
 - Course schema markup helps both Google and Bing understand educational content
 - BingSiteAuth.xml created in public folder for Bing verification
 - Bing verification meta tag placeholder ready in metadata (needs env variable)
+- Facebook Open Graph tags optimized for rich link previews in News Feed
+- Support for both website and article Open Graph types
+- Facebook App ID integration ready (optional parameter in generateMetadata)
+- All social sharing metadata follows platform best practices
