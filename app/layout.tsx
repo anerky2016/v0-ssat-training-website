@@ -9,9 +9,44 @@ import "./globals.css"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
-  title: "SSAT Prep - Middle Level Training Materials",
-  description: "Comprehensive SSAT training materials and practice tests for middle school students",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
+  title: {
+    default: "SSAT Prep - Middle Level Training Materials",
+    template: "%s | SSAT Prep"
+  },
+  description: "Comprehensive SSAT training materials and practice tests for middle school students. Master math, verbal reasoning, and test-taking strategies.",
+  keywords: ["SSAT", "SSAT prep", "middle level", "test preparation", "math practice", "verbal reasoning", "practice tests", "middle school"],
+  authors: [{ name: "SSAT Prep" }],
+  creator: "SSAT Prep",
+  publisher: "SSAT Prep",
   generator: "v0.app",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "SSAT Prep",
+    title: "SSAT Prep - Middle Level Training Materials",
+    description: "Comprehensive SSAT training materials and practice tests for middle school students",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SSAT Prep - Middle Level Training Materials",
+    description: "Comprehensive SSAT training materials and practice tests for middle school students",
+  },
+  alternates: {
+    canonical: "/",
+  },
 }
 
 export default function RootLayout({
