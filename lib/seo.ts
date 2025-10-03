@@ -7,6 +7,8 @@ interface SEOParams {
   keywords?: string[]
   ogImage?: string
   noIndex?: boolean
+  author?: string
+  publishDate?: string
 }
 
 export function generateMetadata(params: SEOParams): Metadata {
@@ -17,6 +19,14 @@ export function generateMetadata(params: SEOParams): Metadata {
     title: params.title,
     description: params.description,
     keywords: params.keywords,
+    // Bing prefers explicit author information
+    authors: params.author ? [{ name: params.author }] : [{ name: 'SSAT Prep' }],
+    // Bing uses publish date for ranking freshness
+    ...(params.publishDate && {
+      other: {
+        'article:published_time': params.publishDate,
+      }
+    }),
     robots: params.noIndex
       ? {
           index: false,
@@ -25,6 +35,7 @@ export function generateMetadata(params: SEOParams): Metadata {
       : {
           index: true,
           follow: true,
+          // Google-specific
           googleBot: {
             index: true,
             follow: true,
@@ -32,7 +43,16 @@ export function generateMetadata(params: SEOParams): Metadata {
             'max-image-preview': 'large',
             'max-snippet': -1,
           },
+          // Bing-specific (BingBot)
+          'bingbot': {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+          },
         },
+    // Bing heavily weights Open Graph tags
     openGraph: {
       title: params.title,
       description: params.description,
@@ -41,7 +61,9 @@ export function generateMetadata(params: SEOParams): Metadata {
       type: 'website',
       locale: 'en_US',
       ...(params.ogImage && { images: [{ url: params.ogImage }] }),
+      ...(params.publishDate && { publishedTime: params.publishDate }),
     },
+    // Bing indexes Twitter cards
     twitter: {
       card: 'summary_large_image',
       title: params.title,
@@ -50,6 +72,12 @@ export function generateMetadata(params: SEOParams): Metadata {
     },
     alternates: {
       canonical: url,
+    },
+    // Bing-specific: verification tag placeholder
+    verification: {
+      other: {
+        'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION || '',
+      },
     },
   }
 }

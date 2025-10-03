@@ -14,7 +14,7 @@ export function StructuredData({ data }: StructuredDataProps) {
   )
 }
 
-// Website structured data
+// Website structured data - Bing favors detailed organization info
 export const websiteStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOrganization',
@@ -26,9 +26,20 @@ export const websiteStructuredData = {
     '@type': 'EducationalAudience',
     educationalRole: 'student',
   },
+  // Bing appreciates contact and social information
+  sameAs: [
+    // Add social media profiles here when available
+  ],
+  knowsAbout: [
+    'SSAT Test Preparation',
+    'Middle School Education',
+    'Mathematics Education',
+    'Verbal Reasoning',
+    'Standardized Test Prep',
+  ],
 }
 
-// Course structured data generator
+// Course structured data generator - Enhanced for Bing
 export function generateCourseStructuredData(params: {
   name: string
   description: string
@@ -48,12 +59,19 @@ export function generateCourseStructuredData(params: {
       url: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001',
     },
     educationalLevel: params.skillLevel || 'Middle School',
-    inLanguage: 'en',
+    inLanguage: 'en-US', // Bing prefers specific locale format
     coursePrerequisites: 'None',
+    // Bing values free educational content
+    isAccessibleForFree: true,
     hasCourseInstance: {
       '@type': 'CourseInstance',
       courseMode: 'online',
       courseWorkload: 'PT0H',
+    },
+    // Bing appreciates educational credentials
+    about: {
+      '@type': 'Thing',
+      name: 'SSAT Test Preparation',
     },
   }
 }
