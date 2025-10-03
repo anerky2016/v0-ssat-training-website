@@ -1,0 +1,77 @@
+{
+  "title": "Subtract Mixed Numbers",
+  "audience": "Ages 9–12",
+  "goal": "Teach kids how to subtract mixed numbers step by step, including borrowing (regrouping) and simplifying.",
+  "summary": "A mixed number has a whole part and a fraction part, like \\(3\\dfrac{2}{5}\\). To subtract mixed numbers, subtract the whole numbers and the fractions separately. If the denominators are different, rewrite the fractions with the Least Common Denominator (LCD). If the top fraction is too small, borrow 1 from the whole number and turn it into extra fraction pieces. Simplify the answer in the end.",
+  "sections": [
+    {
+      "id": "steps",
+      "heading": "Step-by-step guide",
+      "kid_friendly_explanation": "Subtracting mixed numbers is like taking away both whole apples and slices of apples. If you don't have enough slices to subtract, borrow one whole apple and turn it into slices.",
+      "steps": [
+        "Subtract the whole numbers.",
+        "Subtract the fractions. If denominators are different, find the LCD and rewrite them.",
+        "If the first fraction is smaller than the second, borrow 1 from the whole number and add it as slices.",
+        "Combine the whole and fraction results.",
+        "Simplify the final fraction if possible."
+      ],
+      "key_formulas_latex": [
+        "a\\,\\dfrac{m}{n} - b\\,\\dfrac{p}{q} = (a-b) + \\Big(\\dfrac{m}{n} - \\dfrac{p}{q}\\Big)",
+        "\\dfrac{m}{n} - \\dfrac{p}{q} = \\dfrac{mq - pn}{nq}",
+        "\\text{Borrowing: } a\\,\\dfrac{m}{n} = (a-1)\\,\\dfrac{m+n}{n}"
+      ]
+    },
+    {
+      "id": "examples",
+      "heading": "Worked Examples",
+      "examples": [
+        {
+          "title": "Example 1",
+          "problem_latex": "2\\,\\dfrac{3}{5} - 1\\,\\dfrac{1}{3}",
+          "solution_steps": [
+            "Subtract whole numbers: \\(2-1=1\\).",
+            "Fractions: \\(\\dfrac{3}{5}-\\dfrac{1}{3}=\\dfrac{9}{15}-\\dfrac{5}{15}=\\dfrac{4}{15}\\).",
+            "Combine: \\(1+\\dfrac{4}{15}=1\\,\\dfrac{4}{15}\\)."
+          ],
+          "answer_latex": "1\\,\\dfrac{4}{15}"
+        },
+        {
+          "title": "Example 2",
+          "problem_latex": "5\\,\\dfrac{5}{8} - 2\\,\\dfrac{1}{4}",
+          "solution_steps": [
+            "Subtract whole numbers: \\(5-2=3\\).",
+            "Fractions: \\(\\dfrac{5}{8}-\\dfrac{1}{4}=\\dfrac{5}{8}-\\dfrac{2}{8}=\\dfrac{3}{8}\\).",
+            "Combine: \\(3+\\dfrac{3}{8}=3\\,\\dfrac{3}{8}\\)."
+          ],
+          "answer_latex": "3\\,\\dfrac{3}{8}"
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    { "term": "Mixed Number", "kid_friendly_definition": "A number with a whole part and a fraction part, like \\(4\\dfrac{1}{3}\\)." },
+    { "term": "Borrowing (Regrouping)", "kid_friendly_definition": "Taking 1 whole and turning it into slices (fractions) so you can subtract." },
+    { "term": "Least Common Denominator (LCD)", "kid_friendly_definition": "The smallest denominator that two fractions can share." }
+  ],
+  "practice": [
+    { "id": "smn_e1", "difficulty": "easy", "problem_latex": "3\\,\\dfrac{1}{4} - 1\\,\\dfrac{1}{2}", "answer_latex": "1\\,\\dfrac{3}{4}" },
+    { "id": "smn_e2", "difficulty": "easy", "problem_latex": "4\\,\\dfrac{2}{3} - 2\\,\\dfrac{1}{3}", "answer_latex": "2\\,\\dfrac{1}{3}" },
+    { "id": "smn_e3", "difficulty": "easy", "problem_latex": "6\\,\\dfrac{7}{10} - 4\\,\\dfrac{3}{10}", "answer_latex": "2\\,\\dfrac{2}{5}" },
+    { "id": "smn_e4", "difficulty": "easy", "problem_latex": "5\\,\\dfrac{5}{8} - 2\\,\\dfrac{1}{4}", "answer_latex": "3\\,\\dfrac{3}{8}" },
+
+    { "id": "smn_m1", "difficulty": "medium", "problem_latex": "7\\,\\dfrac{3}{8} - 2\\,\\dfrac{5}{12}", "answer_latex": "4\\,\\dfrac{23}{24}" },
+    { "id": "smn_m2", "difficulty": "medium", "problem_latex": "8\\,\\dfrac{1}{6} - 3\\,\\dfrac{7}{9}", "answer_latex": "4\\,\\dfrac{7}{18}" },
+    { "id": "smn_m3", "difficulty": "medium", "problem_latex": "9\\,\\dfrac{4}{5} - 5\\,\\dfrac{7}{10}", "answer_latex": "4\\,\\dfrac{1}{10}" },
+    { "id": "smn_m4", "difficulty": "medium", "problem_latex": "6\\,\\dfrac{1}{3} - 2\\,\\dfrac{3}{4}", "answer_latex": "3\\,\\dfrac{7}{12}" },
+
+    { "id": "smn_c1", "difficulty": "challenge", "problem_latex": "12\\,\\dfrac{5}{6} - 7\\,\\dfrac{11}{12}", "answer_latex": "4\\,\\dfrac{11}{12}" },
+    { "id": "smn_c2", "difficulty": "challenge", "problem_latex": "10\\,\\dfrac{7}{15} - 3\\,\\dfrac{4}{5}", "answer_latex": "6\\,\\dfrac{2}{3}" },
+    { "id": "smn_c3", "difficulty": "challenge", "problem_latex": "14\\,\\dfrac{3}{8} - 6\\,\\dfrac{5}{16}", "answer_latex": "8\\,\\dfrac{1}{16}" },
+    { "id": "smn_c4", "difficulty": "challenge", "problem_latex": "11\\,\\dfrac{2}{9} - 8\\,\\dfrac{7}{18}", "answer_latex": "2\\,\\dfrac{5}{6}" },
+
+    { "id": "smn_x1", "difficulty": "extreme", "problem_latex": "20\\,\\dfrac{7}{11} - 9\\,\\dfrac{5}{13}", "answer_latex": "11\\,\\dfrac{36}{143}" },
+    { "id": "smn_x2", "difficulty": "extreme", "problem_latex": "15\\,\\dfrac{3}{7} - 6\\,\\dfrac{11}{17} - 2\\,\\dfrac{5}{19}", "answer_latex": "6\\,\\dfrac{1172}{2261}" },
+    { "id": "smn_x3", "difficulty": "extreme", "problem_latex": "18\\,\\dfrac{5}{12} - 7\\,\\dfrac{13}{20} - 3\\,\\dfrac{7}{15}", "answer_latex": "7\\,\\dfrac{3}{10}" },
+    { "id": "smn_x4", "difficulty": "extreme", "problem_latex": "13\\,\\dfrac{17}{29} - 5\\,\\dfrac{11}{23}", "answer_latex": "8\\,\\dfrac{72}{667}" }
+  ]
+}

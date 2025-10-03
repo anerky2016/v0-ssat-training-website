@@ -40,6 +40,7 @@ export default function FractionsPage() {
                   { title: "Adding/Subtracting Fractions", href: "/math/fractions/adding-subtracting" },
                   { title: "Multiplying/Dividing Fractions", href: "/math/fractions/multiplying-dividing" },
                   { title: "Adding Mixed Numbers", href: "/math/fractions/mixed-numbers-add-sub" },
+                  { title: "Subtract Mixed Numbers", href: "/math/fractions/mixed-numbers-subtract" },
                   { title: "Multiplying/Dividing Mixed Numbers", href: null }
                 ].map((topic, index) => (
                   topic.href ? (
