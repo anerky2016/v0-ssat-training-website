@@ -9,10 +9,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Configure development server to use port 3001
-  devServer: {
-    port: 3001,
-  },
 }
 
 export default nextConfig
