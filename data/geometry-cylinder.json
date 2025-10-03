@@ -1,0 +1,113 @@
+{
+  "topic": "Cylinder",
+  "audience": "Kids (ages 9–13)",
+  "summary": "A cylinder is like a soup can: two matching circles with straight sides. We can find how much it holds (volume) and the outside area.",
+  "concepts": [
+    {
+      "title": "What is a cylinder?",
+      "kid_friendly": "Think of a can. The top and bottom are circles. The wall is a smooth rectangle wrapped around.",
+      "key_terms": [
+        { "term": "radius (r)", "kid_friendly": "Half the width of the circle on top." },
+        { "term": "height (h)", "kid_friendly": "How tall the cylinder is." },
+        { "term": "π (pi)", "kid_friendly": "About 3.14, used for circles." }
+      ]
+    },
+    {
+      "title": "Formulas",
+      "latex": {
+        "volume": "V = \\pi r^2 h",
+        "surface_area": "S = 2\\pi r^2 + 2\\pi r h"
+      },
+      "kid_friendly": "Volume stacks the top circle through the whole height. Surface area = top + bottom + the wrap-around side."
+    }
+  ],
+  "worked_example": {
+    "given": { "radius_cm": 2, "height_cm": 8, "pi_used": "π≈3.14" },
+    "steps": [
+      {
+        "label": "Volume",
+        "latex": [
+          "V = \\pi r^2 h = \\pi (2)^2 (8) = 32\\pi",
+          "V \\approx 32\\times 3.14 = 100.48\\text{ cm}^3"
+        ]
+      },
+      {
+        "label": "Surface Area",
+        "latex": [
+          "S = 2\\pi r^2 + 2\\pi r h = 2\\pi (2)^2 + 2\\pi(2)(8) = 40\\pi",
+          "S \\approx 40\\times 3.14 = 125.6\\text{ cm}^2"
+        ]
+      }
+    ],
+    "answers": {
+      "volume_symbolic": "32π cm^3",
+      "volume_numeric": "100.48 cm^3",
+      "surface_area_symbolic": "40π cm^2",
+      "surface_area_numeric": "125.6 cm^2"
+    },
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='300' height='300'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='62' y='110'>8 cm</text><text class='text' x='142' y='175'>2 cm</text></svg>"
+  },
+  "exercises": {
+    "instructions": "Use V = πr²h and S = 2πr² + 2πrh. Unless stated, use π ≈ 3.14. Give symbolic (with π) and numeric answers.",
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "A cylinder has r = 3 cm and h = 5 cm. Find the volume.",
+        "answer": { "symbolic": "45π cm^3", "numeric": "141.3 cm^3" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='68' y='110'>5 cm</text><text class='text' x='142' y='175'>3 cm</text></svg>"
+      },
+      {
+        "id": "E2",
+        "prompt": "A cylinder has r = 2 cm and h = 4 cm. Find the surface area.",
+        "answer": { "symbolic": "24π cm^2", "numeric": "75.36 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='72' y='110'>4 cm</text><text class='text' x='142' y='175'>2 cm</text></svg>"
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find the surface area for r = 3 cm, h = 7 cm.",
+        "answer": { "symbolic": "60π cm^2", "numeric": "188.4 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='68' y='110'>7 cm</text><text class='text' x='142' y='175'>3 cm</text></svg>"
+      },
+      {
+        "id": "M2",
+        "prompt": "A cylinder has r = h = 4 cm. Find the volume and surface area.",
+        "answer": { "V": "64π cm^3 (200.96 cm^3)", "S": "64π cm^2 (200.96 cm^2)" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='70' y='110'>4 cm</text><text class='text' x='142' y='175'>4 cm</text></svg>"
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Two cylinders have the same height h = 8 cm. Cylinder A: r = 2 cm. Cylinder B: r = 4 cm. How many times larger is B's volume?",
+        "answer": "4× (because V ∝ r²).",
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='62' y='110'>8 cm</text><text class='text' x='142' y='175'>2 cm</text></svg>"
+      },
+      {
+        "id": "C2",
+        "prompt": "A label wraps perfectly around a can and is 18 cm wide (around) and 12 cm tall. Find r and h, then compute the volume.",
+        "answer": {
+          "reasoning": "Circumference = 2πr = 18 ⇒ r = 9/π ≈ 2.86 cm; h = 12 cm",
+          "volume_symbolic": "V = π(9/π)^2(12) = (972/π) cm^3",
+          "volume_numeric": "≈ 309.4 cm^3"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='66' y='110'>12 cm</text><text class='text' x='138' y='175'>2.86 cm</text></svg>"
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "A closed cylinder uses S = 200π cm² of material. If r = 5 cm, find h.",
+        "answer": "h = 15 cm",
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='66' y='110'>15 cm</text><text class='text' x='142' y='175'>5 cm</text></svg>"
+      },
+      {
+        "id": "X2",
+        "prompt": "Which shape (same surface area) gives the largest volume? Hint: it happens when h and r follow a simple ratio.",
+        "answer": "The maximum volume for fixed surface area occurs when h = 2r.",
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' width='280' height='280'><defs><marker id='arrow-right' markerWidth='6' markerHeight='6' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='black'/></marker><marker id='arrow-left' markerWidth='6' markerHeight='6' refX='0' refY='3' orient='auto'><path d='M6,0 L0,3 L6,6 Z' fill='black'/></marker><marker id='arrow-up' markerWidth='6' markerHeight='6' refX='3' refY='0' orient='auto'><path d='M0,6 L3,0 L6,6 Z' fill='black'/></marker><marker id='arrow-down' markerWidth='6' markerHeight='6' refX='3' refY='6' orient='auto'><path d='M0,0 L3,6 L6,0 Z' fill='black'/></marker></defs><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.dash{stroke-dasharray:4 4}.text{font:16px \"Times New Roman\",serif;font-weight:bold}</style><ellipse class='outline' cx='110' cy='50' rx='70' ry='20'/><line class='outline' x1='40' y1='50' x2='40' y2='160'/><line class='outline' x1='180' y1='50' x2='180' y2='160'/><path class='outline' d='M40,160 a70,20 0 0 0 140,0'/><path class='outline dash' d='M40,160 a70,20 0 0 1 140,0'/><line x1='110' y1='50' x2='110' y2='160' stroke='#000' stroke-width='2' marker-start='url(#arrow-up)' marker-end='url(#arrow-down)'/><line x1='110' y1='160' x2='180' y2='160' stroke='black' stroke-width='2' marker-start='url(#arrow-left)' marker-end='url(#arrow-right)'/><text class='text' x='66' y='110'>8 cm</text><text class='text' x='142' y='175'>4 cm</text></svg>"
+      }
+    ]
+  }
+}

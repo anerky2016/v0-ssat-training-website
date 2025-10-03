@@ -43,7 +43,7 @@ export default function GeometryPage() {
                   { title: "Trapezoids", href: null },
                   { title: "Cubes", href: "/math/geometry/cubes" },
                   { title: "Rectangular Prisms", href: null },
-                  { title: "Cylinder", href: null }
+                  { title: "Cylinder", href: "/math/geometry/cylinder" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>
