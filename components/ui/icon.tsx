@@ -179,4 +179,3 @@ export const Check = (props: Omit<IconProps, 'name'>) => <Icon name="check" {...
 export const XCircle = (props: Omit<IconProps, 'name'>) => <Icon name="x-circle" {...props} />
 export const AlertCircle = (props: Omit<IconProps, 'name'>) => <Icon name="alert-circle" {...props} />
 export const Info = (props: Omit<IconProps, 'name'>) => <Icon name="info" {...props} />
-export const Puzzle = (props: Omit<IconProps, 'name'>) => <Icon name="puzzle" {...props} />
