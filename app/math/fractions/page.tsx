@@ -37,7 +37,7 @@ export default function FractionsPage() {
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   { title: "Simplifying Fractions", href: "/math/fractions/simplifying" },
-                  { title: "Adding/Subtracting Fractions", href: null },
+                  { title: "Adding/Subtracting Fractions", href: "/math/fractions/adding-subtracting" },
                   { title: "Multiplying/Dividing Fractions", href: null },
                   { title: "Adding/Subtracting Mixed Numbers", href: null },
                   { title: "Multiplying/Dividing Mixed Numbers", href: null }
