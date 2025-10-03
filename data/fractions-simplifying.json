@@ -1,0 +1,240 @@
+{
+  "topic": "Simplifying Fractions",
+  "audience": "11–13 year olds (SSAT Middle math)",
+  "version": "1.0",
+  "learning_goals": [
+    "Explain what it means to simplify a fraction",
+    "Use common factors (or GCF) to reduce fractions to simplest form",
+    "Check that numerator and denominator are relatively prime",
+    "Handle proper, improper, and mixed-number fractions"
+  ],
+  "vocabulary": {
+    "numerator": "Top number of a fraction (how many parts).",
+    "denominator": "Bottom number (total equal parts).",
+    "factor": "A number that divides another number evenly.",
+    "common_factor": "A number that divides both numerator and denominator.",
+    "GCF": "Greatest Common Factor—the largest common factor.",
+    "simplest_form": "A fraction whose numerator and denominator share no common factor > 1."
+  },
+  "kid_friendly_explainer": {
+    "what": "Simplifying a fraction means shrinking the numbers without changing the amount. 2/4 and 1/2 are the same size slice!",
+    "why": [
+      "Smaller numbers are easier to compare and compute with.",
+      "Tests (like SSAT) expect answers in simplest form.",
+      "It's like cleaning your desk—same stuff, less mess."
+    ]
+  },
+  "how_to_steps": [
+    "Look at the numerator and denominator.",
+    "Find a number that divides both (try 2, 3, 5… or find the GCF).",
+    "Divide the top and bottom by that number.",
+    "Repeat until no common factor remains (or divide once by the GCF).",
+    "Optional check: Use a prime-factor tree to confirm there's nothing left to cancel."
+  ],
+  "tips": [
+    "If both numbers are even, divide by 2 first.",
+    "If digits sum to a multiple of 3, divide by 3.",
+    "Numbers ending in 0 or 5 are divisible by 5.",
+    "Use the GCF for a one-step simplify."
+  ],
+  "fun_examples": [
+    {
+      "context": "Pizza",
+      "given": "4/8",
+      "explain": "Both numbers divide by 4 → 1/2 (half a pizza).",
+      "work": ["4 ÷ 4 = 1", "8 ÷ 4 = 2", "Result = 1/2"]
+    },
+    {
+      "context": "Soccer team shoes",
+      "given": "10/15",
+      "explain": "Divide by 5 → 2/3.",
+      "work": ["10 ÷ 5 = 2", "15 ÷ 5 = 3", "Result = 2/3"]
+    },
+    {
+      "context": "Notebook pages",
+      "given": "12/20",
+      "explain": "GCF is 4 → 3/5.",
+      "work": ["12 ÷ 4 = 3", "20 ÷ 4 = 5", "Result = 3/5"]
+    }
+  ],
+  "common_misconceptions": [
+    "Only divide one part (top or bottom). You must divide BOTH.",
+    "Subtracting numbers instead of dividing to simplify.",
+    "Thinking 3/9 = 3/6 because both contain a 3 (you need common factors, not digit matching)."
+  ],
+  "practice": {
+    "instructions": "Write each answer in simplest form. If improper, you may keep it as a simplified improper fraction or convert to a mixed number.",
+    "sets": [
+      {
+        "difficulty": "easy",
+        "skills_focus": "Divide by 2, 3, 5; obvious GCF; proper fractions",
+        "items": [
+          {
+            "id": "E1",
+            "prompt": "6/12",
+            "answer": "1/2",
+            "steps": ["Both even → ÷2 → 3/6", "Still even → ÷3? Better: GCF=6", "6/12 ÷6 = 1/2"],
+            "hint": "Both numbers divide by 6."
+          },
+          {
+            "id": "E2",
+            "prompt": "9/12",
+            "answer": "3/4",
+            "steps": ["GCF=3", "9/12 ÷3 = 3/4"],
+            "hint": "Digits of 9 and 12 sum to multiples of 3."
+          },
+          {
+            "id": "E3",
+            "prompt": "10/25",
+            "answer": "2/5",
+            "steps": ["GCF=5", "10/25 ÷5 = 2/5"],
+            "hint": "Both end in 0 or 5."
+          },
+          {
+            "id": "E4",
+            "prompt": "8/20",
+            "answer": "2/5",
+            "steps": ["GCF=4", "8/20 ÷4 = 2/5"]
+          },
+          {
+            "id": "E5",
+            "prompt": "14/21",
+            "answer": "2/3",
+            "steps": ["GCF=7", "14/21 ÷7 = 2/3"]
+          },
+          {
+            "id": "E6",
+            "prompt": "15/20",
+            "answer": "3/4",
+            "steps": ["GCF=5", "15/20 ÷5 = 3/4"]
+          }
+        ]
+      },
+      {
+        "difficulty": "medium",
+        "skills_focus": "Find GCF with primes; mix of proper & improper fractions",
+        "items": [
+          {
+            "id": "M1",
+            "prompt": "18/24",
+            "answer": "3/4",
+            "steps": ["GCF=6", "18/24 ÷6 = 3/4"]
+          },
+          {
+            "id": "M2",
+            "prompt": "21/28",
+            "answer": "3/4",
+            "steps": ["GCF=7", "21/28 ÷7 = 3/4"]
+          },
+          {
+            "id": "M3",
+            "prompt": "24/36",
+            "answer": "2/3",
+            "steps": ["GCF=12", "24/36 ÷12 = 2/3"]
+          },
+          {
+            "id": "M4",
+            "prompt": "27/45",
+            "answer": "3/5",
+            "steps": ["GCF=9", "27/45 ÷9 = 3/5"]
+          },
+          {
+            "id": "M5",
+            "prompt": "32/40",
+            "answer": "4/5",
+            "steps": ["GCF=8", "32/40 ÷8 = 4/5"]
+          },
+          {
+            "id": "M6",
+            "prompt": "35/50",
+            "answer": "7/10",
+            "steps": ["GCF=5", "35/50 ÷5 = 7/10"]
+          }
+        ]
+      },
+      {
+        "difficulty": "hard",
+        "skills_focus": "Larger numbers; prime-factor method; improper fractions",
+        "items": [
+          {
+            "id": "H1",
+            "prompt": "42/56",
+            "answer": "3/4",
+            "steps": ["GCF=14", "42/56 ÷14 = 3/4"]
+          },
+          {
+            "id": "H2",
+            "prompt": "48/60",
+            "answer": "4/5",
+            "steps": ["GCF=12", "48/60 ÷12 = 4/5"]
+          },
+          {
+            "id": "H3",
+            "prompt": "63/84",
+            "answer": "3/4",
+            "steps": ["GCF=21", "63/84 ÷21 = 3/4"]
+          },
+          {
+            "id": "H4",
+            "prompt": "72/90",
+            "answer": "4/5",
+            "steps": ["GCF=18", "72/90 ÷18 = 4/5"]
+          },
+          {
+            "id": "H5",
+            "prompt": "96/128",
+            "answer": "3/4",
+            "steps": ["GCF=32", "96/128 ÷32 = 3/4"]
+          },
+          {
+            "id": "H6",
+            "prompt": "75/120",
+            "answer": "5/8",
+            "steps": ["GCF=15", "75/120 ÷15 = 5/8"]
+          }
+        ]
+      },
+      {
+        "difficulty": "challenge",
+        "skills_focus": "Mixed numbers & multi-step reasoning",
+        "items": [
+          {
+            "id": "C1",
+            "prompt": "Convert and simplify 22/8",
+            "answer": { "improper_simplified": "11/4", "mixed_number": "2 3/4" },
+            "steps": ["GCF(22,8)=2 → 11/4", "11/4 = 2 remainder 3 → 2 3/4"]
+          },
+          {
+            "id": "C2",
+            "prompt": "Simplify 84/126",
+            "answer": "2/3",
+            "steps": ["GCF=42", "84/126 ÷42 = 2/3"]
+          },
+          {
+            "id": "C3",
+            "prompt": "Simplify 105/147",
+            "answer": "5/7",
+            "steps": ["GCF=21", "105/147 ÷21 = 5/7"]
+          },
+          {
+            "id": "C4",
+            "prompt": "Simplify 144/216",
+            "answer": "2/3",
+            "steps": ["GCF=72", "144/216 ÷72 = 2/3"]
+          }
+        ]
+      }
+    ]
+  },
+  "assessment_rubric": [
+    "Identifies a correct common factor or GCF",
+    "Divides numerator and denominator correctly",
+    "Repeats reduction until relatively prime",
+    "Writes answer as a proper/improper fraction or mixed number as required"
+  ],
+  "extensions": [
+    "Create your own real-life fraction (pizza, time used, pages read) and simplify it.",
+    "Explain why dividing both top and bottom by the SAME nonzero number keeps the value unchanged."
+  ],
+  "answer_format_note": "For code consumption: each item has a single simplest fraction answer unless a mixed-number variant is provided under 'answer.mixed_number'."
+}

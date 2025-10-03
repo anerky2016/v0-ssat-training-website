@@ -18,10 +18,10 @@ export default function FractionsPage() {
                 <Calculator className="h-8 w-8" />
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4 text-balance">
-                🧮 Chapter 1: Fractions & Mixed Numbers
+                Chapter 1: Fractions & Mixed Numbers
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground text-pretty leading-relaxed">
-                Master fraction operations, mixed numbers, and become a fraction wizard! 🧙‍♂️✨
+                Master fraction operations, mixed numbers, and become a fraction wizard!
               </p>
             </div>
           </div>
@@ -32,33 +32,55 @@ export default function FractionsPage() {
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
               <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-foreground">
-                🎯 What You'll Master
+                What You'll Master
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  "Simplifying Fractions",
-                  "Adding/Subtracting Fractions", 
-                  "Multiplying/Dividing Fractions",
-                  "Adding/Subtracting Mixed Numbers",
-                  "Multiplying/Dividing Mixed Numbers"
+                  { title: "Simplifying Fractions", href: "/math/fractions/simplifying" },
+                  { title: "Adding/Subtracting Fractions", href: null },
+                  { title: "Multiplying/Dividing Fractions", href: null },
+                  { title: "Adding/Subtracting Mixed Numbers", href: null },
+                  { title: "Multiplying/Dividing Mixed Numbers", href: null }
                 ].map((topic, index) => (
-                  <Card key={topic} className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-chart-1/10 flex items-center justify-center">
-                          <span className="text-chart-1 font-bold text-sm">{index + 1}</span>
+                  topic.href ? (
+                    <Link key={topic.title} href={topic.href}>
+                      <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-chart-1/10 flex items-center justify-center">
+                              <span className="text-chart-1 font-bold text-sm">{index + 1}</span>
+                            </div>
+                            <CardTitle className="text-lg text-card-foreground">
+                              {topic.title}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-sm text-muted-foreground">
+                            Interactive lessons and practice problems
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={topic.title} className="border-border bg-card opacity-60">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-lg bg-chart-1/10 flex items-center justify-center">
+                            <span className="text-chart-1 font-bold text-sm">{index + 1}</span>
+                          </div>
+                          <CardTitle className="text-lg text-card-foreground">
+                            {topic.title}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-lg text-card-foreground">
-                          {topic}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground">
-                        Practice problems and step-by-step solutions
-                      </p>
-                    </CardContent>
-                  </Card>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm text-muted-foreground">
+                          Coming soon
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )
                 ))}
               </div>
             </div>
@@ -75,7 +97,7 @@ export default function FractionsPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-1/10 text-chart-1">
                       <BookOpen className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">🎯 Practice Exercises</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Practice Exercises</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Fun fraction problems with instant feedback
                     </CardDescription>
@@ -105,7 +127,7 @@ export default function FractionsPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-2/10 text-chart-2">
                       <Target className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">⚡ Fraction Tactics</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Fraction Tactics</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Super strategies for fraction mastery
                     </CardDescription>
@@ -135,7 +157,7 @@ export default function FractionsPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-3/10 text-chart-3">
                       <Zap className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">🚀 Practice Tests</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Practice Tests</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Test your fraction skills
                     </CardDescription>

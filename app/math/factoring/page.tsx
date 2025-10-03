@@ -32,7 +32,7 @@ export default function FactoringPage() {
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
               <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-foreground">
-                🎯 What You'll Master
+                What You'll Master
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
@@ -73,7 +73,7 @@ export default function FactoringPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-3/10 text-chart-3">
                       <BookOpen className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">🎯 Practice Exercises</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Practice Exercises</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Fun factoring problems with instant feedback
                     </CardDescription>
@@ -103,7 +103,7 @@ export default function FactoringPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-2/10 text-chart-2">
                       <Target className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">⚡ Factoring Tactics</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Factoring Tactics</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Super strategies for factoring mastery
                     </CardDescription>
@@ -133,7 +133,7 @@ export default function FactoringPage() {
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-3/10 text-chart-3">
                       <Zap className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">🚀 Practice Tests</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Practice Tests</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       Test your factoring skills
                     </CardDescription>

@@ -3,23 +3,18 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { AcademicCap, BookOpen as BookOpenIcon } from "@/components/ui/icon"
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg sm:text-xl">
-          <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+          <AcademicCap size="lg" className="text-primary" />
           <span className="text-foreground">SSAT Prep</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link
-            href="#materials"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Materials
-          </Link>
           <Link
             href="#sections"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -58,12 +53,6 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  href="#materials"
-                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                >
-                  Materials
-                </Link>
                 <Link
                   href="#sections"
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"

@@ -100,16 +100,16 @@ export function TestSections() {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground mb-3 sm:mb-4 text-balance">
-            🎯 Master All 11 Math Chapters
+            Master All 11 Math Chapters
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground text-pretty leading-relaxed px-4 sm:px-0">
-            Complete coverage of all SSAT math topics with dedicated exercises, tactics, and tests! 🚀
+            Complete coverage of all SSAT math topics with dedicated exercises, tactics, and tests!
           </p>
         </div>
 
         <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {mathTopics.map((topic) => (
-            <Card key={topic.title} className="border-border bg-card">
+            <Card key={topic.title} className="border-border bg-card flex flex-col">
               <CardHeader className="pb-4">
                 <div
                   className={`mb-3 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl ${topic.color}`}
@@ -119,8 +119,8 @@ export function TestSections() {
                 <CardTitle className="text-lg sm:text-xl text-card-foreground">{topic.title}</CardTitle>
                 <CardDescription className="text-sm text-muted-foreground">{topic.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 mb-4">
+              <CardContent className="flex-1 flex flex-col">
+                <ul className="space-y-2 mb-4 flex-1">
                   {topic.topics.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
                       <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
