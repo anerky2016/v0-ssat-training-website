@@ -1,0 +1,76 @@
+{
+  "title": "Adding Mixed Numbers",
+  "audience": "Ages 9–12",
+  "goal": "Teach kids how to add mixed numbers, step by step, including finding a common denominator and simplifying.",
+  "summary": "A mixed number has a whole number part and a fraction part, like \\(2\\dfrac{1}{4}\\). To add mixed numbers, add the whole numbers first, then add the fractions. If the denominators are different, find the Least Common Denominator (LCD) so the fractions match. Combine everything and simplify your answer.",
+  "sections": [
+    {
+      "id": "steps",
+      "heading": "Step-by-step guide",
+      "kid_friendly_explanation": "Adding mixed numbers is like adding whole apples and apple slices separately: add the big pieces, then the small pieces.",
+      "steps": [
+        "Add the whole numbers of the mixed numbers.",
+        "Add the fraction parts.",
+        "If denominators are different, rewrite using the Least Common Denominator (LCD).",
+        "If the fraction result is improper (like \\(\\dfrac{9}{6}\\)), turn it into a mixed number and combine with the whole part.",
+        "Simplify the final fraction if possible."
+      ],
+      "key_formulas_latex": [
+        "a\\,\\dfrac{m}{n} + b\\,\\dfrac{p}{q} = (a+b) + \\Big(\\dfrac{m}{n} + \\dfrac{p}{q}\\Big)",
+        "\\dfrac{m}{n} + \\dfrac{p}{q} = \\dfrac{mq+pn}{nq}"
+      ]
+    },
+    {
+      "id": "examples",
+      "heading": "Worked Examples",
+      "examples": [
+        {
+          "title": "Example 1",
+          "problem_latex": "1\\,\\dfrac{1}{2} + 2\\,\\dfrac{2}{3}",
+          "solution_steps": [
+            "Whole numbers: \\(1+2=3\\).",
+            "Fractions: \\(\\dfrac{1}{2}+\\dfrac{2}{3}=\\dfrac{3}{6}+\\dfrac{4}{6}=\\dfrac{7}{6}=1\\,\\dfrac{1}{6}\\).",
+            "Combine: \\(3+1\\,\\dfrac{1}{6}=4\\,\\dfrac{1}{6}\\)."
+          ],
+          "answer_latex": "4\\,\\dfrac{1}{6}"
+        },
+        {
+          "title": "Example 2",
+          "problem_latex": "2\\,\\dfrac{1}{4} + 1\\,\\dfrac{2}{5}",
+          "solution_steps": [
+            "Whole numbers: \\(2+1=3\\).",
+            "Fractions: \\(\\dfrac{1}{4}+\\dfrac{2}{5}=\\dfrac{5}{20}+\\dfrac{8}{20}=\\dfrac{13}{20}\\).",
+            "Combine: \\(3+\\dfrac{13}{20}=3\\,\\dfrac{13}{20}\\)."
+          ],
+          "answer_latex": "3\\,\\dfrac{13}{20}"
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    { "term": "Mixed Number", "kid_friendly_definition": "A number with a whole number and a fraction, like \\(3\\dfrac{1}{2}\\)." },
+    { "term": "Least Common Denominator (LCD)", "kid_friendly_definition": "The smallest denominator two fractions can share." },
+    { "term": "Simplify", "kid_friendly_definition": "Make a fraction smaller but equal by dividing the top and bottom by the same number." }
+  ],
+  "practice": [
+    { "id": "amn_e1", "difficulty": "easy", "problem_latex": "1\\,\\dfrac{1}{2} + 2\\,\\dfrac{2}{3}", "answer_latex": "4\\,\\dfrac{1}{6}" },
+    { "id": "amn_e2", "difficulty": "easy", "problem_latex": "2\\,\\dfrac{1}{4} + 1\\,\\dfrac{2}{5}", "answer_latex": "3\\,\\dfrac{13}{20}" },
+    { "id": "amn_e3", "difficulty": "easy", "problem_latex": "3\\,\\dfrac{3}{10} + 1\\,\\dfrac{1}{10}", "answer_latex": "4\\,\\dfrac{2}{5}" },
+    { "id": "amn_e4", "difficulty": "easy", "problem_latex": "4\\,\\dfrac{1}{8} + 2\\,\\dfrac{3}{8}", "answer_latex": "6\\,\\dfrac{1}{2}" },
+
+    { "id": "amn_m1", "difficulty": "medium", "problem_latex": "5\\,\\dfrac{3}{10} + 2\\,\\dfrac{7}{15}", "answer_latex": "7\\,\\dfrac{23}{30}" },
+    { "id": "amn_m2", "difficulty": "medium", "problem_latex": "6\\,\\dfrac{5}{12} + 3\\,\\dfrac{1}{8}", "answer_latex": "9\\,\\dfrac{17}{24}" },
+    { "id": "amn_m3", "difficulty": "medium", "problem_latex": "2\\,\\dfrac{2}{3} + 1\\,\\dfrac{5}{6}", "answer_latex": "4\\,\\dfrac{1}{2}" },
+    { "id": "amn_m4", "difficulty": "medium", "problem_latex": "7\\,\\dfrac{1}{4} + 2\\,\\dfrac{5}{6}", "answer_latex": "10\\,\\dfrac{1}{12}" },
+
+    { "id": "amn_c1", "difficulty": "challenge", "problem_latex": "8\\,\\dfrac{7}{12} + 5\\,\\dfrac{11}{18}", "answer_latex": "14\\,\\dfrac{7}{36}" },
+    { "id": "amn_c2", "difficulty": "challenge", "problem_latex": "9\\,\\dfrac{5}{8} + 4\\,\\dfrac{7}{12}", "answer_latex": "14\\,\\dfrac{13}{24}" },
+    { "id": "amn_c3", "difficulty": "challenge", "problem_latex": "3\\,\\dfrac{4}{9} + 2\\,\\dfrac{7}{10} + 1\\,\\dfrac{1}{6}", "answer_latex": "7\\,\\dfrac{37}{45}" },
+    { "id": "amn_c4", "difficulty": "challenge", "problem_latex": "10\\,\\dfrac{3}{5} + 6\\,\\dfrac{7}{8} + 2\\,\\dfrac{1}{10}", "answer_latex": "19\\,\\dfrac{33}{40}" },
+
+    { "id": "amn_x1", "difficulty": "extreme", "problem_latex": "12\\,\\dfrac{5}{11} + 7\\,\\dfrac{13}{17} + 3\\,\\dfrac{8}{19}", "answer_latex": "23\\,\\dfrac{2682}{3553}" },
+    { "id": "amn_x2", "difficulty": "extreme", "problem_latex": "4\\,\\dfrac{7}{13} + 5\\,\\dfrac{11}{23} + 2\\,\\dfrac{3}{29}", "answer_latex": "11\\,\\dfrac{1042}{8671}" },
+    { "id": "amn_x3", "difficulty": "extreme", "problem_latex": "15\\,\\dfrac{2}{7} + 8\\,\\dfrac{5}{9} + 3\\,\\dfrac{11}{14}", "answer_latex": "27\\,\\dfrac{197}{126}" },
+    { "id": "amn_x4", "difficulty": "extreme", "problem_latex": "9\\,\\dfrac{1}{10} + 7\\,\\dfrac{3}{13} + 4\\,\\dfrac{5}{17} + 2\\,\\dfrac{11}{19}", "answer_latex": "22\\,\\dfrac{32341}{41990}" }
+  ]
+}

@@ -8,8 +8,7 @@ import { ArrowLeft, BookOpen, Lightbulb, Target, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import fractionsData from "@/data/fractions-multiplying-dividing.json"
-import 'katex/dist/katex.min.css'
-import { InlineMath, BlockMath } from 'react-katex'
+import { MathJaxContext, MathJax } from 'better-react-mathjax'
 
 export default function MultiplyingDividingFractionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -36,8 +35,9 @@ export default function MultiplyingDividingFractionsPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <MathJaxContext>
+      <div className="min-h-screen">
+        <Header />
       <main>
         {/* Hero Section */}
         <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-1/5 to-background">
@@ -53,9 +53,9 @@ export default function MultiplyingDividingFractionsPage() {
               <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {fractionsData.audience}
               </p>
-              <p className="text-base text-muted-foreground">
-                {fractionsData.summary}
-              </p>
+              <div className="text-base text-muted-foreground">
+                <MathJax>{fractionsData.summary}</MathJax>
+              </div>
             </div>
           </div>
         </section>
@@ -81,7 +81,7 @@ export default function MultiplyingDividingFractionsPage() {
                     <CardContent className="space-y-4">
                       {section.key_formulas_latex.map((formula, idx) => (
                         <div key={idx} className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                          <BlockMath math={formula} />
+                          <MathJax>{"$$" + formula + "$$"}</MathJax>
                         </div>
                       ))}
                     </CardContent>
@@ -98,7 +98,7 @@ export default function MultiplyingDividingFractionsPage() {
                     <CardContent>
                       {section.example.work_latex && (
                         <div className="bg-muted/50 rounded-lg p-4 mb-3 overflow-x-auto">
-                          <BlockMath math={section.example.work_latex} />
+                          <MathJax>{"$$" + section.example.work_latex + "$$"}</MathJax>
                         </div>
                       )}
                       <p className="text-sm text-muted-foreground italic">
@@ -150,7 +150,7 @@ export default function MultiplyingDividingFractionsPage() {
                     <CardHeader>
                       <CardTitle className="text-lg">{example.title}</CardTitle>
                       <div className="bg-muted/50 rounded-lg p-4 mt-2 overflow-x-auto">
-                        <BlockMath math={example.problem_latex} />
+                        <MathJax>{"$$" + example.problem_latex + "$$"}</MathJax>
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -158,19 +158,15 @@ export default function MultiplyingDividingFractionsPage() {
                         {example.solution_steps.map((step, idx) => (
                           <div key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                             <span className="flex-shrink-0">{idx + 1}.</span>
-                            {step.includes('\\') ? (
-                              <div className="overflow-x-auto">
-                                <InlineMath math={step} />
-                              </div>
-                            ) : (
-                              <span>{step}</span>
-                            )}
+                            <div className="overflow-x-auto flex-1">
+                              <MathJax>{step}</MathJax>
+                            </div>
                           </div>
                         ))}
                       </div>
                       <div className="bg-primary/10 rounded-lg p-4 overflow-x-auto">
                         <p className="text-sm font-semibold mb-2">Answer:</p>
-                        <BlockMath math={example.answer_latex} />
+                        <MathJax>{"$$" + example.answer_latex + "$$"}</MathJax>
                       </div>
                     </CardContent>
                   </Card>
@@ -247,14 +243,14 @@ export default function MultiplyingDividingFractionsPage() {
                         </Button>
                       </div>
                       <div className="bg-muted/50 rounded-lg p-4 mt-2 overflow-x-auto">
-                        <BlockMath math={item.problem_latex} />
+                        <MathJax>{"$$" + item.problem_latex + "$$"}</MathJax>
                       </div>
                     </CardHeader>
                     {showAnswers[item.id] && (
                       <CardContent>
                         <div className="bg-chart-1/10 rounded-lg p-4 overflow-x-auto">
                           <p className="text-sm font-semibold mb-2">Answer:</p>
-                          <BlockMath math={item.answer_latex} />
+                          <MathJax>{"$$" + item.answer_latex + "$$"}</MathJax>
                         </div>
                       </CardContent>
                     )}
@@ -280,6 +276,7 @@ export default function MultiplyingDividingFractionsPage() {
         </section>
       </main>
       <Footer />
-    </div>
+      </div>
+    </MathJaxContext>
   )
 }
