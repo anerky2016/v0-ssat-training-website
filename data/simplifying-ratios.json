@@ -1,0 +1,210 @@
+{
+  "topic": "Simplifying Ratios",
+  "audience": "Kids (ages 9–13)",
+  "summary": "A ratio compares two amounts. We can write ratios as a fraction a/b, with a colon a:b, or with the word "to" (a to b). To simplify a ratio, divide both parts by the same number (their greatest common factor) so the comparison is in smallest terms.",
+  "concepts": [
+    {
+      "title": "Ways to write a ratio",
+      "kid_friendly": "3 red to 6 blue can be written 3 to 6, 3:6, or 3/6."
+    },
+    {
+      "title": "Simplifying (reduce to lowest terms)",
+      "kid_friendly": "Divide both sides by the same number until you can't anymore.",
+      "latex_example": "\\text{Simplify } 12:18 \\Rightarrow \\dfrac{12}{18} = \\dfrac{12\\div 6}{18\\div 6} = \\dfrac{2}{3} \\Rightarrow 2:3"
+    },
+    {
+      "title": "Equivalent ratios (scaling)",
+      "kid_friendly": "Multiply or divide both parts by the same number to get an equivalent ratio.",
+      "latex_example": "2:3 = (2\\times 4):(3\\times 4) = 8:12"
+    },
+    {
+      "title": "Using GCF",
+      "kid_friendly": "The fastest way to simplify a:b is divide by the greatest common factor (GCF) of a and b."
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1 — Simplify 14:21",
+      "steps": [
+        "Find GCF(14,21)=7.",
+        "Divide both parts by 7."
+      ],
+      "latex": "14:21 = (14\\div 7):(21\\div 7) = 2:3"
+    },
+    {
+      "title": "Example 2 — Are 6:10 and 3:5 equivalent?",
+      "steps": [
+        "Simplify 6:10 by dividing by 2.",
+        "It becomes 3:5, which matches."
+      ],
+      "latex": "6:10 = (6\\div 2):(10\\div 2) = 3:5 \\Rightarrow \\text{Yes, equivalent.}"
+    },
+    {
+      "title": "Example 3 — Fill in a missing value",
+      "steps": [
+        "2:5 = ?:20",
+        "The second part ×4 → 5×4=20, so first part ×4 → 2×4=8."
+      ],
+      "latex": "2:5 = 8:20"
+    }
+  ],
+  "teaching_tips": [
+    "Let students physically group objects (e.g., 12 red and 18 blue beads) and make groups by the GCF.",
+    "Remind: order matters! 2:3 is not the same as 3:2.",
+    "Unit language helps: 3 cups water : 2 cups juice = 3:2."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Simplify 6:9",
+        "answer": "2:3",
+        "explain": "Divide both by 3."
+      },
+      {
+        "id": "E2",
+        "prompt": "Simplify 12:4",
+        "answer": "3:1",
+        "explain": "Divide by 4."
+      },
+      {
+        "id": "E3",
+        "prompt": "Are 4:6 and 2:3 equivalent?",
+        "answer": "Yes",
+        "explain": "4:6 ÷2 → 2:3."
+      },
+      {
+        "id": "E4",
+        "prompt": "Fill in ?:16 so that it equals 3:4",
+        "answer": "12:16",
+        "explain": "4→16 ×4, so 3×4=12."
+      },
+      {
+        "id": "E5",
+        "prompt": "Write 10 to 5 as a simplified ratio with a colon.",
+        "answer": "2:1",
+        "explain": "Divide by 5."
+      },
+      {
+        "id": "E6",
+        "prompt": "There are 8 cats and 12 dogs. What is the simplified ratio of cats to dogs?",
+        "answer": "2:3",
+        "explain": "8:12 ÷4 → 2:3."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Simplify 36:24",
+        "answer": "3:2",
+        "explain": "Divide by GCF 12."
+      },
+      {
+        "id": "M2",
+        "prompt": "Which ratio is equivalent to 5:8? (A) 10:15 (B) 15:24 (C) 20:32",
+        "answer": "C (20:32)",
+        "explain": "5:8 ×4 → 20:32."
+      },
+      {
+        "id": "M3",
+        "prompt": "Fill in 7:? = 21:?, keeping equivalence; second blank is 42.",
+        "answer": "7:14 = 21:42",
+        "explain": "×3 on both parts: 7×3=21 and 14×3=42."
+      },
+      {
+        "id": "M4",
+        "prompt": "A recipe uses sugar:flour = 3:5. If you have 20 cups of flour, how much sugar is needed to keep the ratio?",
+        "answer": "12 cups",
+        "explain": "5→20 ×4, so 3×4=12."
+      },
+      {
+        "id": "M5",
+        "prompt": "Simplify 45:60",
+        "answer": "3:4",
+        "explain": "Divide by 15."
+      },
+      {
+        "id": "M6",
+        "prompt": "The ratio of wins to losses is 18:12. Simplify and state wins to losses.",
+        "answer": "3:2",
+        "explain": "Divide by 6."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Simplify 84:126",
+        "answer": "2:3",
+        "explain": "Divide by GCF 42."
+      },
+      {
+        "id": "C2",
+        "prompt": "Which two are equivalent? 9:15, 6:11, 12:20, 18:35",
+        "answer": "9:15 and 12:20",
+        "explain": "Both simplify to 3:5."
+      },
+      {
+        "id": "C3",
+        "prompt": "In a paint mix, blue:red = 7:9. If you use 28 cups of blue, how many cups of red?",
+        "answer": "36 cups",
+        "explain": "7→28 ×4, so 9×4=36."
+      },
+      {
+        "id": "C4",
+        "prompt": "Fill the blank to make an equivalent ratio: 14:__ = 35:25",
+        "answer": "10",
+        "explain": "35:25 simplifies to 7:5; 14:? must be 14:10."
+      },
+      {
+        "id": "C5",
+        "prompt": "Simplify the ratio 3.6 : 1.2 (no decimals in your final answer).",
+        "answer": "3:1",
+        "explain": "Divide both by 1.2 → 3:1."
+      },
+      {
+        "id": "C6",
+        "prompt": "A class has boys:girls = 12:16. If 6 more girls join, what is the new simplified ratio boys:girls?",
+        "answer": "6:11",
+        "explain": "New ratio 12:22 → divide by 2 → 6:11."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Simplify 150:210 using GCF.",
+        "answer": "5:7",
+        "explain": "GCF(150,210)=30 → 150:210 ÷30 = 5:7."
+      },
+      {
+        "id": "X2",
+        "prompt": "Three-part ratio A:B:C = 6:9:15. Simplify fully.",
+        "answer": "2:3:5",
+        "explain": "Divide all by 3."
+      },
+      {
+        "id": "X3",
+        "prompt": "Missing value: 18:__ = 27:36",
+        "answer": "24",
+        "explain": "27→18 ×(2/3), so 36×(2/3)=24."
+      },
+      {
+        "id": "X4",
+        "prompt": "A smoothie uses strawberries:bananas:milk = 4:3:5. If you used 32 oz of milk, how many oz of strawberries and bananas to keep the ratio?",
+        "answer": "Strawberries 25.6 oz, Bananas 19.2 oz",
+        "explain": "Scale factor = 32/5 = 6.4; 4×6.4=25.6, 3×6.4=19.2."
+      },
+      {
+        "id": "X5",
+        "prompt": "Prove equivalence: show 48:64, 12:16, and 3:4 are all the same ratio by scaling.",
+        "answer": "48:64 ÷16 = 3:4 and 12:16 ÷4 = 3:4",
+        "explain": "Each reduces to 3:4."
+      },
+      {
+        "id": "X6",
+        "prompt": "A map scale is 1 cm : 40 km. What ratio is 2.5 cm to km, simplified?",
+        "answer": "1:40 (equivalently 2.5:100)",
+        "explain": "Multiply both by 2.5 → 2.5:100, which simplifies to 1:40."
+      }
+    ]
+  }
+}
