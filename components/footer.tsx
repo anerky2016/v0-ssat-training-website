@@ -20,14 +20,14 @@ export function Footer() {
             <h3 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Practice Tests
-                </Link>
+                <span className="text-muted-foreground/60">
+                  Practice Tests <span className="text-xs">(Coming Soon)</span>
+                </span>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Study Guides
-                </Link>
+                <span className="text-muted-foreground/60">
+                  Study Guides <span className="text-xs">(Coming Soon)</span>
+                </span>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -62,17 +62,17 @@ export function Footer() {
             <h3 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
                   Terms of Service
                 </Link>
               </li>
