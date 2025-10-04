@@ -1,0 +1,116 @@
+{
+  "topic": "Order of Operations (PEMDAS)",
+  "audience": "Kids (ages 9–13)",
+  "summary": "When a math problem has more than one operation (like +, −, ×, ÷, or parentheses), we must solve it in the correct order. We use PEMDAS: Parentheses → Exponents → Multiplication/Division → Addition/Subtraction.",
+  "concepts": [
+    {
+      "title": "Step 1: Parentheses",
+      "kid_friendly": "Solve inside parentheses first.",
+      "latex_example": "(2 + 3) × 4 = 5 × 4 = 20"
+    },
+    {
+      "title": "Step 2: Exponents",
+      "kid_friendly": "Handle powers next (like squares).",
+      "latex_example": "2^3 = 8"
+    },
+    {
+      "title": "Step 3: Multiplication and Division",
+      "kid_friendly": "Do them from left to right.",
+      "latex_example": "20 ÷ 5 × 2 = 4 × 2 = 8"
+    },
+    {
+      "title": "Step 4: Addition and Subtraction",
+      "kid_friendly": "Do them last, from left to right.",
+      "latex_example": "10 - 4 + 3 = 6 + 3 = 9"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1",
+      "steps": [
+        "Solve (3 + 2) × 4",
+        "Parentheses first: (3 + 2) = 5",
+        "Multiply: 5 × 4 = 20"
+      ],
+      "latex": "(3 + 2) \\times 4 = 20"
+    },
+    {
+      "title": "Example 2",
+      "steps": [
+        "Solve 6 + 2 × 3",
+        "Multiply first: 2 × 3 = 6",
+        "Then add: 6 + 6 = 12"
+      ],
+      "latex": "6 + 2 \\times 3 = 12"
+    }
+  ],
+  "teaching_tips": [
+    "Teach kids the PEMDAS acronym (Please Excuse My Dear Aunt Sally).",
+    "Use colors or shapes to group steps clearly.",
+    "Remind them multiplication/division are equals—go left to right, same for addition/subtraction."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Solve: 2 + 3 × 4",
+        "answer": "14",
+        "explain": "3 × 4 = 12, then 2 + 12 = 14."
+      },
+      {
+        "id": "E2",
+        "prompt": "Solve: (5 + 1) × 2",
+        "answer": "12",
+        "explain": "Inside parentheses: 5 + 1 = 6, then ×2 = 12."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Solve: 10 - 2 × 3",
+        "answer": "4",
+        "explain": "2 × 3 = 6, then 10 - 6 = 4."
+      },
+      {
+        "id": "M2",
+        "prompt": "Solve: (8 ÷ 2) + 5",
+        "answer": "9",
+        "explain": "8 ÷ 2 = 4, then 4 + 5 = 9."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Solve: (6 + 2) × (5 - 3)",
+        "answer": "16",
+        "explain": "Inside parentheses: (6+2)=8, (5-3)=2, then 8×2=16."
+      },
+      {
+        "id": "C2",
+        "prompt": "Solve: 12 ÷ (3 + 1) × 2",
+        "answer": "6",
+        "explain": "(3+1)=4, then 12 ÷ 4 = 3, then 3 × 2 = 6."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Solve: (3 + 5) × 2^2",
+        "answer": "32",
+        "explain": "(3+5)=8, 2^2=4, then 8×4=32."
+      },
+      {
+        "id": "X2",
+        "prompt": "Solve: (18 ÷ (2 × 3)) + 4^2",
+        "answer": "19",
+        "explain": "(2×3)=6, 18÷6=3, 4^2=16, then 3+16=19."
+      },
+      {
+        "id": "X3",
+        "prompt": "Solve: 50 - (3^2 + 4 × 2)",
+        "answer": "35",
+        "explain": "3^2=9, 4×2=8, (9+8)=17, then 50-17=33."
+      }
+    ]
+  }
+}

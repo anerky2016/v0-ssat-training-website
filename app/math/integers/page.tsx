@@ -39,7 +39,7 @@ export default function IntegersPage() {
                   { title: "Adding/Subtracting Integers", href: "/math/adding-subtracting-integers" },
                   { title: "Multiplying/Dividing Integers", href: "/math/multiplying-dividing-integers" },
                   { title: "Ordering Integers & Numbers", href: "/math/ordering-integers-numbers" },
-                  { title: "Order of Operations", href: "" },
+                  { title: "Order of Operations", href: "/math/order-of-operations" },
                   { title: "Integers & Absolute Value", href: "" }
                 ].map((topic, index) => (
                   topic.href ? (
