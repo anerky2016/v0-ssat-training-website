@@ -37,7 +37,7 @@ export default function DecimalsPage() {
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   { title: "Comparing Decimals", href: "/math/comparing-decimals" },
-                  { title: "Rounding Decimals", href: null },
+                  { title: "Rounding Decimals", href: "/math/rounding-decimals" },
                   { title: "Adding/Subtracting Decimals", href: null },
                   { title: "Multiplying/Dividing Decimals", href: null }
                 ].map((topic, index) => (

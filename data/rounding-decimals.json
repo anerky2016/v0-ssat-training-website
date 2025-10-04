@@ -1,0 +1,170 @@
+{
+  "topic": "Rounding Decimals",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Rounding makes numbers friendlier to use. We keep the number close, but easier to read and compute with.",
+  "concepts": [
+    {
+      "title": "Place Value Refresher",
+      "kid_friendly": "Digits to the left of the decimal are ones, tens, hundreds… To the right are tenths, hundredths, thousandths…",
+      "latex": {
+        "example": "12.4567 = 1\\times10 + 2\\times1 + 4\\times10^{-1} + 5\\times10^{-2} + 6\\times10^{-3} + 7\\times10^{-4}",
+        "names": "\\text{ones} = 10^0,\\; \\text{tenths} = 10^{-1},\\; \\text{hundredths} = 10^{-2},\\; \\text{thousandths} = 10^{-3}"
+      }
+    },
+    {
+      "title": "Rounding Rule (Five or More, Raise the Score!)",
+      "kid_friendly": "1) Find the place you're rounding to. 2) Look ONE digit to the right. 3) If it's 5,6,7,8,9 → add 1 to your place. If it's 0,1,2,3,4 → keep it the same. 4) Drop all digits to the right.",
+      "latex": {
+        "rule": "\\text{If next digit} \\ge 5 \\Rightarrow \\text{round up; else round down.}"
+      },
+      "notes": [
+        "If the place you round goes from 9 to 10, carry to the left (e.g., 2.995 to hundredths → 3.00).",
+        "Trailing zeros may be written to show the place you rounded to (e.g., 3.4 rounded to hundredths is 3.40)."
+      ]
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Round 12.4567 to the hundredths",
+      "steps": [
+        "Hundredths is the second digit after the decimal (the 5).",
+        "Look to the right (thousandths = 6). 6 ≥ 5 → round up.",
+        "Increase 5 to 6 and drop the rest."
+      ],
+      "latex": ["12.4567 \\approx 12.46\\; (\\text{to hundredths})"]
+    },
+    {
+      "title": "Round 3.241 to the tenths",
+      "steps": [
+        "Tenths is the 2.",
+        "Next digit is 4 (< 5) → keep the tenths.",
+        "Drop the rest."
+      ],
+      "latex": ["3.241 \\approx 3.2\\; (\\text{to tenths})"]
+    },
+    {
+      "title": "Carrying Example: round 2.995 to hundredths",
+      "steps": [
+        "Hundredths is the 9.",
+        "Next digit is 5 → round up.",
+        "9 rounds up to 10 → write 0 and carry 1 to tenths: 2.995 → 3.00."
+      ],
+      "latex": ["2.995 \\approx 3.00\\; (\\text{to hundredths})"]
+    }
+  ],
+  "teaching_tips": [
+    "Have students underline the target place and circle the next digit.",
+    "Use the chant: "Five or more, raise the score; four or less, let it rest."",
+    "Keep place-value meaning by writing trailing zeros when appropriate (3.20 shows tenths rounded to hundredths)."
+  ],
+  "exercises": {
+    "instructions": "Round each number to the requested place. Show one sentence of reasoning (which next digit you used).",
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Round 8.73 to the tenths.",
+        "answer": "8.7",
+        "explain": "Next digit is 3 (<5), so the tenths stays 7."
+      },
+      {
+        "id": "E2",
+        "prompt": "Round 5.246 to the hundredths.",
+        "answer": "5.25",
+        "explain": "Next digit is 6 (≥5), so 24 hundredths → 25 hundredths."
+      },
+      {
+        "id": "E3",
+        "prompt": "Round 0.803 to the tenths.",
+        "answer": "0.8",
+        "explain": "Next digit is 0 (<5), keep 8 tenths."
+      },
+      {
+        "id": "E4",
+        "prompt": "Round 14.19 to the ones.",
+        "answer": "14",
+        "explain": "Tenths digit 1 (<5), so ones stay 14."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Round 12.349 to the hundredths.",
+        "answer": "12.35",
+        "explain": "Next digit is 9 (≥5), so 34 hundredths → 35 hundredths."
+      },
+      {
+        "id": "M2",
+        "prompt": "Round 0.995 to the tenths.",
+        "answer": "1.0",
+        "explain": "Tenths is 9; next digit 9 (≥5) so 9 tenths rounds to 10 tenths → carry to 1.0."
+      },
+      {
+        "id": "M3",
+        "prompt": "Round 7.4049 to the thousandths.",
+        "answer": "7.405",
+        "explain": "Next digit is 9 (≥5), so 404 thousandths → 405 thousandths."
+      },
+      {
+        "id": "M4",
+        "prompt": "Round 3.145 to the hundredths.",
+        "answer": "3.15",
+        "explain": "Next digit is 5 (≥5), so 14 hundredths → 15 hundredths."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Round 29.995 to the hundredths AND to the tenths.",
+        "answer": { "hundredths": "30.00", "tenths": "30.0" },
+        "explain": "Both require carrying over (99 → 100)."
+      },
+      {
+        "id": "C2",
+        "prompt": "A number rounds to 4.6 to the tenths and to 4.60 to the hundredths. Give one possible original number.",
+        "answer": ["4.595 to 4.604..."],
+        "explain": "To tenths: values from 4.55 to 4.649 round to 4.6; to hundredths: must land at 4.60 → original could be 4.595–4.6049…"
+      },
+      {
+        "id": "C3",
+        "prompt": "Round 0.0499 to the hundredths and explain why adding a zero changes nothing.",
+        "answer": "0.05",
+        "explain": "Next digit is 9 → round up to 0.05. 0.050 = 0.05 (trailing zero)."
+      },
+      {
+        "id": "C4",
+        "prompt": "Round 199.999 to the ones.",
+        "answer": "200",
+        "explain": "Tenths 9 (≥5) → ones go from 199 to 200 (carry across the 9s)."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "A measurement is 15.249… (the 9s continue forever). Round to the hundredths.",
+        "answer": "15.25",
+        "explain": "Infinite 9s mean the next digit is effectively ≥5; round up."
+      },
+      {
+        "id": "X2",
+        "prompt": "Round −2.65 to the tenths (be careful with negatives!).",
+        "answer": "−2.7",
+        "explain": "Next digit is 5 → round the tenths away from 0 (more negative)."
+      },
+      {
+        "id": "X3",
+        "prompt": "Find a number that rounds to 0.3 to the tenths but rounds to 0.29 to the hundredths.",
+        "answer": "Any number in [0.295, 0.2954…], e.g., 0.295",
+        "explain": "To tenths: 0.295 → 0.3; to hundredths: 0.295 → 0.30? Wait—hundredths uses next digit 5 → rounds up. So choose 0.2945…0.2949 to get 0.29. One valid: 0.2946."
+      },
+      {
+        "id": "X4",
+        "prompt": "A box of length 3.456 m is printed as 3.46 m after rounding. What place was it rounded to, and what interval of true lengths would round to 3.46 m?",
+        "answer": {
+          "place": "hundredths",
+          "interval": "[3.455, 3.465)"
+        },
+        "explain": "Hundredths: numbers from 3.4550… up to (but not including) 3.465 round to 3.46."
+      }
+    ]
+  }
+}
