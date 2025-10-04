@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,12 +23,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const emailAddress = type === 'sales' ? 'sales@midssat.com' : 'support@midssat.com'
+    const recipientEmail = type === 'sales' ? 'sales@midssat.com' : 'support@midssat.com'
 
-    // Check if Resend API key is configured
-    if (!process.env.RESEND_API_KEY) {
-      console.log('RESEND_API_KEY not configured. Logging message instead:', {
-        to: emailAddress,
+    // Check if SMTP credentials are configured
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.log('SMTP not configured. Logging message instead:', {
+        to: recipientEmail,
         from: email,
         name,
         subject,
@@ -48,10 +46,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Send email using Resend
-    const { data, error } = await resend.emails.send({
-      from: 'SSAT Prep Contact Form <onboarding@resend.dev>', // Use your verified domain
-      to: [emailAddress],
+    // Create transporter for PurelyMail SMTP
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST, // smtp.purelymail.com
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    })
+
+    // Send email
+    const info = await transporter.sendMail({
+      from: `"SSAT Prep Contact Form" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: recipientEmail,
       replyTo: email,
       subject: `Contact Form: ${subject}`,
       html: `
@@ -78,15 +87,7 @@ export async function POST(request: NextRequest) {
       `,
     })
 
-    if (error) {
-      console.error('Resend API error:', error)
-      return NextResponse.json(
-        { error: 'Failed to send message. Please try again later.' },
-        { status: 500 }
-      )
-    }
-
-    console.log('Email sent successfully:', data)
+    console.log('Email sent successfully:', info.messageId)
 
     return NextResponse.json(
       {
