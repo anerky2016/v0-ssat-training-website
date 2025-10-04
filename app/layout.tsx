@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-provider"
 import { GoogleAnalytics } from "@/components/google-analytics"
+import { BookmarkProvider } from "@/components/bookmark-provider"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -102,8 +103,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-            <Analytics />
+            <BookmarkProvider>
+              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+              <Analytics />
+            </BookmarkProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

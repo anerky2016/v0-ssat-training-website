@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SignInDialog } from "@/components/sign-in-dialog"
+import { ResumeButton } from "@/components/resume-button"
 import { useState } from "react"
 
 export function Header() {
@@ -52,6 +53,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <ResumeButton />
           <ThemeToggle />
 
           {status === "loading" ? (

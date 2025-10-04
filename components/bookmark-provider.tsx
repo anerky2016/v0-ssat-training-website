@@ -1,0 +1,57 @@
+"use client"
+
+import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import { saveBookmark } from '@/lib/bookmark'
+
+// Pages that should be bookmarked (practice/lesson pages)
+const BOOKMARKABLE_PATHS = [
+  '/math/fractions',
+  '/math/decimals',
+  '/math/integers',
+  '/math/percentage',
+  '/math/ratios',
+  '/math/geometry',
+  '/math/statistics',
+  '/math/equations',
+  '/math/expressions',
+  '/math/exponents',
+  '/math/factoring',
+  '/math/simplifying-ratios',
+  '/math/proportional-ratios',
+  '/math/create-proportion',
+  '/math/similarity-ratios',
+]
+
+// Generate page title from path
+function getPageTitle(path: string): string {
+  const segments = path.split('/').filter(Boolean)
+
+  if (segments.length === 0) return 'Home'
+
+  const lastSegment = segments[segments.length - 1]
+
+  // Convert kebab-case to Title Case
+  return lastSegment
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+export function BookmarkProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+
+  useEffect(() => {
+    // Check if current path should be bookmarked
+    const shouldBookmark = BOOKMARKABLE_PATHS.some(path =>
+      pathname.startsWith(path)
+    )
+
+    if (shouldBookmark) {
+      const title = getPageTitle(pathname)
+      saveBookmark(pathname, title)
+    }
+  }, [pathname])
+
+  return <>{children}</>
+}
