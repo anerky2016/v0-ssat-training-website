@@ -33,22 +33,37 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const emailAddress = formData.type === 'sales' ? 'sales@midssat.com' : 'support@midssat.com'
-    const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-    window.location.href = mailtoLink
+      const data = await response.json()
 
-    setTimeout(() => {
-      setIsSubmitting(false)
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message')
+      }
+
       setSubmitStatus('success')
       setFormData({ name: '', email: '', subject: '', message: '', type: 'support' })
 
       setTimeout(() => {
         setSubmitStatus('idle')
       }, 5000)
-    }, 500)
+    } catch (error) {
+      console.error('Error sending message:', error)
+      setSubmitStatus('error')
+
+      setTimeout(() => {
+        setSubmitStatus('idle')
+      }, 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -171,7 +186,15 @@ export default function ContactPage() {
                         {submitStatus === 'success' && (
                           <div className="rounded-md bg-green-50 dark:bg-green-900/20 p-4">
                             <p className="text-sm text-green-800 dark:text-green-200">
-                              Your email client should open now. If it doesn't, please email us directly at{' '}
+                              ✓ Message sent successfully! We'll get back to you within 24-48 hours.
+                            </p>
+                          </div>
+                        )}
+
+                        {submitStatus === 'error' && (
+                          <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
+                            <p className="text-sm text-red-800 dark:text-red-200">
+                              Failed to send message. Please try again or email us directly at{' '}
                               {formData.type === 'sales' ? 'sales@midssat.com' : 'support@midssat.com'}
                             </p>
                           </div>
