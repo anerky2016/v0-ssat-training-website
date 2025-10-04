@@ -1,0 +1,155 @@
+{
+  "topic": "Comparing Decimals",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Decimals are fractions written in a special way. To compare decimals, line up the place values and compare digits from left to right.",
+  "concepts": [
+    {
+      "title": "What is a decimal?",
+      "kid_friendly": "A decimal is another way to write a fraction. For example, one half is 0.5.",
+      "latex": {
+        "example_fraction_to_decimal": "\\dfrac{1}{2} = 0.5",
+        "place_value": "\\text{Tenths} = 10^{-1},\\; \\text{Hundredths} = 10^{-2},\\; \\text{Thousandths} = 10^{-3}"
+      }
+    },
+    {
+      "title": "How to compare decimals",
+      "steps": [
+        "Line up the numbers by the decimal point.",
+        "Compare from left to right: ones, tenths, hundredths, thousandths, …",
+        "At the first place where digits differ, the bigger digit makes the bigger number.",
+        "You can add zeros to the end of a decimal without changing its value (0.5 = 0.50)."
+      ],
+      "symbols": ["< (less than)", "> (greater than)", "= (equal to)", "≤ (less than or equal to)", "≥ (greater than or equal to)"]
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Compare 0.47 and 0.5",
+      "reasoning": "Tenths: 0.47 has 4 tenths, 0.5 has 5 tenths → 4 < 5, so 0.47 < 0.5.",
+      "answer": "0.47 < 0.5"
+    },
+    {
+      "title": "Compare 3.06 and 3.060",
+      "reasoning": "Add a trailing zero if it helps: 3.060 = 3.060. Digits match in ones (3), tenths (0), hundredths (6), thousandths (0) → equal.",
+      "answer": "3.06 = 3.060"
+    },
+    {
+      "title": "Compare 1.29 and 1.203",
+      "reasoning": "Ones equal (1). Tenths: 2 vs 2. Hundredths: 9 vs 0 → 9 > 0, so 1.29 > 1.203.",
+      "answer": "1.29 > 1.203"
+    }
+  ],
+  "teaching_tips": [
+    "Use a place-value chart to align digits.",
+    "Normalize by adding trailing zeros so both numbers have the same number of decimal places.",
+    "Beware of the 'length trick': more digits after the decimal does NOT always mean a bigger number."
+  ],
+  "exercises": {
+    "instructions": "Compare each pair. Answer with <, >, or =. Show one sentence of reasoning (which place decided it).",
+    "easy": [
+      {
+        "id": "E1",
+        "pair": ["0.3", "0.7"],
+        "answer": "0.3 < 0.7",
+        "explain": "Tenths: 3 < 7."
+      },
+      {
+        "id": "E2",
+        "pair": ["2.5", "2.50"],
+        "answer": "2.5 = 2.50",
+        "explain": "Trailing zero doesn't change value."
+      },
+      {
+        "id": "E3",
+        "pair": ["4.09", "4.1"],
+        "answer": "4.09 < 4.1",
+        "explain": "Tenths equal (1 vs 1). Hundredths: 9 < (implicit 0? careful) Actually compare as 4.09 vs 4.10 → 09 < 10."
+      },
+      {
+        "id": "E4",
+        "pair": ["0.45", "0.405"],
+        "answer": "0.45 > 0.405",
+        "explain": "Compare 0.450 vs 0.405 → hundredths: 5 > 0."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "pair": ["6.008", "6.08"],
+        "answer": "6.008 < 6.08",
+        "explain": "Tenths equal (0 vs 0). Hundredths: 0 < 8."
+      },
+      {
+        "id": "M2",
+        "pair": ["3.230", "3.23"],
+        "answer": "3.230 = 3.23",
+        "explain": "Add/remove trailing zeros freely."
+      },
+      {
+        "id": "M3",
+        "pair": ["12.099", "12.1"],
+        "answer": "12.099 < 12.1",
+        "explain": "Compare 12.099 vs 12.100 → thousandths 9 < 0 after carrying tenths/hundredths."
+      },
+      {
+        "id": "M4",
+        "pair": ["0.502", "0.5"],
+        "answer": "0.502 > 0.5",
+        "explain": "Compare 0.502 vs 0.500 → thousandths: 2 > 0."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Put in order from least to greatest: 5.02, 5.2, 5.020, 5.12",
+        "answer": ["5.02", "5.020", "5.12", "5.2"],
+        "explain": "Normalize to 3 decimal places: 5.020, 5.200, 5.020, 5.120 → compare."
+      },
+      {
+        "id": "C2",
+        "prompt": "A and B are decimals. A = 4.0□, B = 3.99□ (□ is the thousandths digit). For which digits (0–9) is A > B?",
+        "answer": "For all digits 0–9. Reason: A ≥ 4.000 and B ≤ 3.999, so A > B always.",
+        "explain": "Any 4.0x exceeds any 3.99x."
+      },
+      {
+        "id": "C3",
+        "prompt": "True or False? If two decimals have the same number of digits after the decimal point, the one with the bigger last digit is larger.",
+        "answer": "False",
+        "explain": "Counterexample: 2.34 vs 2.40 → last digits 4 < 0 but 2.40 > 2.34 (tenths place decides)."
+      },
+      {
+        "id": "C4",
+        "pair": ["7.0005", "7.00049"],
+        "answer": "7.0005 > 7.00049",
+        "explain": "Compare to five decimal places: 7.00050 vs 7.00049 → 50 > 49."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Fill the blank digit to make a true statement: 4.3□7 > 4.29□",
+        "answers_that_work": ["All digits 0–9 (left side is already larger at hundredths: 3 > 9 is false—wait!) Correction: Compare tenths then hundredths: 4.3□7 vs 4.29□ → tenths: 3 > 2, so any □ works."],
+        "answer": "Any digit 0–9 (because tenths 3 > 2).",
+        "explain": "Once a higher place is larger, lower places don't matter."
+      },
+      {
+        "id": "X2",
+        "prompt": "Two decimals differ only in the thousandths place: 8.540a and 8.540b. If 8.540a < 8.540b, what can you say about a and b?",
+        "answer": "a < b",
+        "explain": "First difference is in the thousandths; the larger digit there makes the larger number."
+      },
+      {
+        "id": "X3",
+        "prompt": "Create a decimal between 5.307 and 5.308.",
+        "possible_answers": ["5.3071", "5.3075", "5.30799"],
+        "explain": "Add another digit at thousandths or beyond to land between."
+      },
+      {
+        "id": "X4",
+        "prompt": "You have three numbers: A=0.400, B=0.40, C=0.4. Put them in order and state if any are equal.",
+        "answer": ["A = B = C (all equal)", "Order: A = B = C"],
+        "explain": "Trailing zeros do not change value."
+      }
+    ]
+  }
+}
