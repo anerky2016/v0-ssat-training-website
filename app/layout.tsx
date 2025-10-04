@@ -8,6 +8,7 @@ import { AuthProvider } from "@/components/auth-provider"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { BookmarkProvider } from "@/components/bookmark-provider"
 import { FeedbackButton } from "@/components/feedback-button"
+import { StructuredData } from "@/components/structured-data"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -63,6 +64,13 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    // Add your Bing Webmaster verification code here
+    // Get it from: https://www.bing.com/webmasters
+    other: {
+      'msvalidate.01': 'YOUR_BING_VERIFICATION_CODE', // Replace with actual code from Bing Webmaster Tools
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -96,6 +104,7 @@ export default function RootLayout({
         )}
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <StructuredData />
         <GoogleAnalytics />
         <AuthProvider>
           <ThemeProvider
