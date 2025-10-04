@@ -4,11 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, BookOpen, FileCheck, Lightbulb, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { StructuredData, generateCourseStructuredData, generateBreadcrumbStructuredData, generateMathTopicCollectionStructuredData } from "@/components/structured-data"
 import { generateMetadata as genMeta, seoKeywords } from "@/lib/seo"
 import type { Metadata } from "next"
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.midssat.com'
 
 export const metadata: Metadata = genMeta({
   title: 'SSAT Math Training - Quantitative Section Practice',
@@ -17,26 +14,9 @@ export const metadata: Metadata = genMeta({
   keywords: [...seoKeywords.general, ...seoKeywords.math],
 })
 
-const courseData = generateCourseStructuredData({
-  name: 'SSAT Math Training',
-  description: 'Master the Quantitative section with comprehensive exercises, practice tests, and proven tactics.',
-  url: `${baseUrl}/math`,
-  skillLevel: 'Middle School',
-})
-
-const mathCollectionData = generateMathTopicCollectionStructuredData()
-
-const breadcrumbData = generateBreadcrumbStructuredData([
-  { name: 'Home', url: '/' },
-  { name: 'Math', url: '/math' },
-])
-
 export default function MathPage() {
   return (
     <div className="min-h-screen">
-      <StructuredData data={courseData} />
-      <StructuredData data={mathCollectionData} />
-      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-background to-muted/30">

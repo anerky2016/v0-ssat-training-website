@@ -5,18 +5,11 @@ import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail, MessageSquare, ShoppingCart, ArrowLeft, Send } from "lucide-react"
 import Link from "next/link"
-import { StructuredData, generateContactPageStructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-
-const contactData = generateContactPageStructuredData()
-const breadcrumbData = generateBreadcrumbStructuredData([
-  { name: 'Home', url: '/' },
-  { name: 'Contact', url: '/contact' },
-])
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -75,8 +68,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen">
-      <StructuredData data={contactData} />
-      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         {/* Hero Section */}

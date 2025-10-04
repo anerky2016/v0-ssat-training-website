@@ -2,17 +2,10 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { StructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
-
-const breadcrumbData = generateBreadcrumbStructuredData([
-  { name: 'Home', url: '/' },
-  { name: 'Privacy Policy', url: '/privacy' },
-])
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen">
-      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         {/* Hero Section */}

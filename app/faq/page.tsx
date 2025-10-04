@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import { StructuredData, generateFAQStructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
 
 const faqs = [
   {
@@ -59,12 +58,6 @@ const faqs = [
   }
 ]
 
-const faqStructuredData = generateFAQStructuredData(faqs)
-const breadcrumbData = generateBreadcrumbStructuredData([
-  { name: 'Home', url: '/' },
-  { name: 'FAQ', url: '/faq' },
-])
-
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
@@ -74,8 +67,6 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen">
-      <StructuredData data={faqStructuredData} />
-      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         {/* Hero Section */}

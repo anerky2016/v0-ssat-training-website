@@ -2,17 +2,10 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowLeft, Target, Users, BookOpen, Award } from "lucide-react"
 import Link from "next/link"
-import { StructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
-
-const breadcrumbData = generateBreadcrumbStructuredData([
-  { name: 'Home', url: '/' },
-  { name: 'About Us', url: '/about' },
-])
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <StructuredData data={breadcrumbData} />
       <Header />
       <main>
         {/* Hero Section */}
