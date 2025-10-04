@@ -30,14 +30,14 @@ export function Footer() {
                 </span>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Video Lessons
-                </Link>
+                <span className="text-muted-foreground/60">
+                  Video Lessons <span className="text-xs">(Coming Soon)</span>
+                </span>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Flashcards
-                </Link>
+                <span className="text-muted-foreground/60">
+                  Flashcards <span className="text-xs">(Coming Soon)</span>
+                </span>
               </li>
             </ul>
           </div>
