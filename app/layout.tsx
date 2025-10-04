@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-provider"
+import { GoogleAnalytics } from "@/components/google-analytics"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -20,8 +21,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://www.midssat.com'),
   title: {
-    default: "SSAT Math Prep - Middle Level Math Training",
-    template: "%s | SSAT Math Prep"
+    default: "SSAT Prep for Middle School | midssat.com",
+    template: "%s | midssat.com"
   },
   description: "Master SSAT middle level math with comprehensive training materials and practice problems. Interactive lessons covering fractions, ratios, geometry, decimals, integers, and more.",
   keywords: [
@@ -93,6 +94,7 @@ export default function RootLayout({
         )}
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <GoogleAnalytics />
         <AuthProvider>
           <ThemeProvider
             attribute="class"
