@@ -1,8 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { rateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 3 feedback submissions per 5 minutes per IP
+    const identifier = getClientIdentifier(request)
+    const rateLimitResult = rateLimit(identifier, {
+      maxRequests: 3,
+      windowMs: 5 * 60 * 1000, // 5 minutes
+    })
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.resetTime)
+      return NextResponse.json(
+        {
+          error: 'Too many feedback submissions. Please try again later.',
+          retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+            'X-RateLimit-Reset': resetDate.toISOString(),
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          },
+        }
+      )
+    }
+
     const { name, email, feedback } = await request.json()
 
     // Validate required field

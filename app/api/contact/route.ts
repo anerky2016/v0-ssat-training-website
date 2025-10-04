@@ -1,8 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { rateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: 5 contact submissions per 10 minutes per IP
+    const identifier = getClientIdentifier(request)
+    const rateLimitResult = rateLimit(identifier, {
+      maxRequests: 5,
+      windowMs: 10 * 60 * 1000, // 10 minutes
+    })
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.resetTime)
+      return NextResponse.json(
+        {
+          error: 'Too many contact submissions. Please try again later.',
+          retryAfter: Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000),
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+            'X-RateLimit-Reset': resetDate.toISOString(),
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          },
+        }
+      )
+    }
+
     const body = await request.json()
     const { name, email, subject, message, type } = body
 
