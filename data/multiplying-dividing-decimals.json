@@ -1,0 +1,156 @@
+{
+  "topic": "Multiplying and Dividing Decimals",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Decimals multiply and divide almost like whole numbers! The trick is to keep track of where the decimal point goes.",
+  "concepts": [
+    {
+      "title": "Multiplication with Decimals",
+      "steps": [
+        "Ignore the decimal points at first. Multiply the numbers like whole numbers.",
+        "Count the total number of decimal places in both numbers.",
+        "Put the decimal in the product so it has that many decimal places."
+      ],
+      "latex_example": "2.3 \\times 1.4 = 3.22"
+    },
+    {
+      "title": "Division with Decimals",
+      "steps": [
+        "If the divisor is not a whole number, shift the decimal point to the right until it becomes one.",
+        "Do the same shift for the dividend.",
+        "Divide like whole numbers. Place the decimal point in the quotient directly above its position in the dividend."
+      ],
+      "latex_example": "\\dfrac{4.2}{0.7} = 6"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Multiply 0.6 × 0.5",
+      "steps": [
+        "Ignore decimals: 6 × 5 = 30.",
+        "Two total decimal places (one in each factor).",
+        "So answer is 0.30."
+      ],
+      "latex": "0.6 \\times 0.5 = 0.30"
+    },
+    {
+      "title": "Divide 12.6 ÷ 0.3",
+      "steps": [
+        "Move decimal in divisor (0.3 → 3).",
+        "Also move dividend (12.6 → 126).",
+        "Now divide: 126 ÷ 3 = 42."
+      ],
+      "latex": "12.6 \\div 0.3 = 42"
+    }
+  ],
+  "teaching_tips": [
+    "Always double-check decimal placement at the end.",
+    "Practice with money (like $2.30 × 1.4).",
+    "Use grid or area models for younger kids to visualize multiplication."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Multiply 0.4 × 0.2",
+        "answer": "0.08",
+        "explain": "4 × 2 = 8, two decimal places → 0.08"
+      },
+      {
+        "id": "E2",
+        "prompt": "Divide 4.5 ÷ 1.5",
+        "answer": "3",
+        "explain": "4.5 ÷ 1.5 = 3"
+      },
+      {
+        "id": "E3",
+        "prompt": "Multiply 2.5 × 3",
+        "answer": "7.5",
+        "explain": "Ignore decimal: 25 × 3 = 75 → one decimal place → 7.5"
+      },
+      {
+        "id": "E4",
+        "prompt": "Divide 6.4 ÷ 0.2",
+        "answer": "32",
+        "explain": "Shift both by 1 → 64 ÷ 2 = 32"
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Multiply 1.23 × 0.4",
+        "answer": "0.492",
+        "explain": "123 × 4 = 492 → three decimal places → 0.492"
+      },
+      {
+        "id": "M2",
+        "prompt": "Divide 7.2 ÷ 0.6",
+        "answer": "12",
+        "explain": "Shift → 72 ÷ 6 = 12"
+      },
+      {
+        "id": "M3",
+        "prompt": "Multiply 3.2 × 2.5",
+        "answer": "8.00",
+        "explain": "32 × 25 = 800 → two decimal places → 8.00"
+      },
+      {
+        "id": "M4",
+        "prompt": "Divide 9.36 ÷ 0.12",
+        "answer": "78",
+        "explain": "Shift → 936 ÷ 12 = 78"
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Multiply 0.007 × 0.8",
+        "answer": "0.0056",
+        "explain": "7 × 8 = 56 → four decimal places → 0.0056"
+      },
+      {
+        "id": "C2",
+        "prompt": "Divide 45.6 ÷ 0.04",
+        "answer": "1140",
+        "explain": "Shift → 4560 ÷ 4 = 1140"
+      },
+      {
+        "id": "C3",
+        "prompt": "Multiply 12.5 × 0.16",
+        "answer": "2.00",
+        "explain": "125 × 16 = 2000 → three decimal places → 2.000 = 2"
+      },
+      {
+        "id": "C4",
+        "prompt": "Divide 0.063 ÷ 0.009",
+        "answer": "7",
+        "explain": "Shift both ×1000 → 63 ÷ 9 = 7"
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Multiply 0.0045 × 0.003",
+        "answer": "0.0000135",
+        "explain": "45 × 3 = 135 → seven decimal places → 0.0000135"
+      },
+      {
+        "id": "X2",
+        "prompt": "Divide 123.456 ÷ 0.0072",
+        "answer": "17146.67 (approx)",
+        "explain": "Shift ×10,000 → 1234560 ÷ 72 ≈ 17146.67"
+      },
+      {
+        "id": "X3",
+        "prompt": "Multiply 25.06 × 0.004",
+        "answer": "0.10024",
+        "explain": "2506 × 4 = 10024 → five decimal places → 0.10024"
+      },
+      {
+        "id": "X4",
+        "prompt": "Divide 0.00084 ÷ 0.07",
+        "answer": "0.012",
+        "explain": "Shift → 0.00084 ÷ 0.07 = 0.012"
+      }
+    ]
+  }
+}

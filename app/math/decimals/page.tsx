@@ -39,7 +39,7 @@ export default function DecimalsPage() {
                   { title: "Comparing Decimals", href: "/math/comparing-decimals" },
                   { title: "Rounding Decimals", href: "/math/rounding-decimals" },
                   { title: "Adding/Subtracting Decimals", href: "/math/adding-subtracting-decimals" },
-                  { title: "Multiplying/Dividing Decimals", href: null }
+                  { title: "Multiplying/Dividing Decimals", href: "/math/multiplying-dividing-decimals" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>
