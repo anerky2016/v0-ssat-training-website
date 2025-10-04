@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://ssat-math-prep.vercel.app/sitemap.xml
+Sitemap: https://www.midssat.com/sitemap.xml

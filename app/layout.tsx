@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://www.midssat.com'),
   title: {
     default: "SSAT Math Prep - Middle Level Math Training",
     template: "%s | SSAT Math Prep"
