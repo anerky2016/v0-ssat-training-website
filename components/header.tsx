@@ -38,7 +38,7 @@ export function Header() {
             Test Sections
           </Link>
           <Link
-            href="#about"
+            href="/about"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             About
@@ -116,7 +116,7 @@ export function Header() {
                   Test Sections
                 </Link>
                 <Link
-                  href="#about"
+                  href="/about"
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
                 >
                   About
