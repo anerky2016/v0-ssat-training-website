@@ -57,43 +57,115 @@
     "medium": [
       {
         "id": "M1",
-        "prompt": "Find the volume and surface area for l = 5 cm, w = 2 cm, h = 10 cm.",
-        "answer": { "volume": "100 cm^3", "surface_area": "160 cm^2" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 cm</text><text x='175' y='90' class='text'>10 cm</text><text x='95' y='160' class='text'>2 cm</text></svg>"
+        "prompt": "A gift box has l = 9 cm, w = 3 cm, h = 4 cm. You only wrap the four side faces (no top or bottom). How much paper do you need?",
+        "answer": {
+          "reasoning": "Side wrap area = perimeter of base × height = 2(l + w) × h = 2(9+3)×4 = 24×4 = 96",
+          "result": "96 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>9 cm</text><text x='175' y='90' class='text'>4 cm</text><text x='95' y='160' class='text'>3 cm</text></svg>"
       },
       {
         "id": "M2",
-        "prompt": "A box has l = 7 m, w = 4 m, h = 2 m. Find the surface area.",
-        "answer": { "surface_area": "92 m^2" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>7 m</text><text x='175' y='90' class='text'>2 m</text><text x='95' y='160' class='text'>4 m</text></svg>"
+        "prompt": "A cereal box is scaled up so every edge is 1.5 times longer than the original box (l = 8 cm, w = 4 cm, h = 5 cm). By what factor do (a) volume and (b) surface area change?",
+        "answer": {
+          "reasoning": "Scaling factor k = 1.5. Volume scales by k^3, surface area by k^2.",
+          "result": { "volume_factor": "1.5^3 = 3.375×", "surface_area_factor": "1.5^2 = 2.25×" }
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>8 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>4 cm</text></svg>"
+      },
+      {
+        "id": "M3",
+        "prompt": "A storage bin (l = 12 cm, w = 5 cm, h = 5 cm) is filled with 1-cm cubes. How many cubes fit exactly?",
+        "answer": {
+          "reasoning": "Number of unit cubes equals the volume in cubic centimeters.",
+          "result": "12×5×5 = 300 cubes"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>12 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>5 cm</text></svg>"
+      },
+      {
+        "id": "M4",
+        "prompt": "A shipping label wraps straight around the box once (no overlap) at mid-height. For l = 10 cm, w = 7 cm, h = 6 cm, how long is the label?",
+        "answer": {
+          "reasoning": "Length equals the perimeter of the base: 2(l + w) = 2(10+7) = 34",
+          "result": "34 cm"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>10 cm</text><text x='175' y='90' class='text'>6 cm</text><text x='95' y='160' class='text'>7 cm</text></svg>"
       }
     ],
     "challenge": [
       {
         "id": "C1",
-        "prompt": "Find the surface area when l = 12 cm, w = 8 cm, h = 5 cm.",
-        "answer": { "surface_area": "472 cm^2" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>12 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>8 cm</text></svg>"
+        "prompt": "You remove the top face of a box (open-top crate). For l = 14 cm, w = 9 cm, h = 5 cm, what is the area you must paint now?",
+        "answer": {
+          "reasoning": "Painted area = surface area − top = [2(lw+lh+wh)] − lw = lw + 2lh + 2wh",
+          "result": "14×9 + 2×14×5 + 2×9×5 = 126 + 140 + 90 = 356 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>14 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>9 cm</text></svg>"
       },
       {
         "id": "C2",
-        "prompt": "A large crate has l = 15 cm, w = 10 cm, h = 4 cm. Find its volume and surface area.",
-        "answer": { "volume": "600 cm^3", "surface_area": "500 cm^2" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>15 cm</text><text x='175' y='90' class='text'>4 cm</text><text x='95' y='160' class='text'>10 cm</text></svg>"
+        "prompt": "Two different boxes have the same volume as Box A (l = 12 cm, w = 6 cm, h = 3 cm). Box B doubles the height and halves the width (same length). Is B's volume the same as A's? Explain.",
+        "answer": {
+          "reasoning": "A: 12×6×3 = 216. B: 12×(6/2)×(3×2) = 12×3×6 = 216 — factors cancel.",
+          "result": "Yes, same volume (216 cm^3)."
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>12 cm</text><text x='175' y='90' class='text'>3 cm</text><text x='95' y='160' class='text'>6 cm</text></svg>"
+      },
+      {
+        "id": "C3",
+        "prompt": "A box (l = 11 cm, w = 7 cm, h = 6 cm) has a sticker on one side that covers exactly one full rectangular face. What is the sticker's area?",
+        "answer": {
+          "reasoning": "Pick the side face (w×h) = 7×6 = 42",
+          "result": "42 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>11 cm</text><text x='175' y='90' class='text'>6 cm</text><text x='95' y='160' class='text'>7 cm</text></svg>"
+      },
+      {
+        "id": "C4",
+        "prompt": "You line the bottom of a drawer (l = 24 cm, w = 18 cm, h = 8 cm) with felt. How much felt is needed?",
+        "answer": {
+          "reasoning": "Bottom area = l×w = 24×18",
+          "result": "432 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>24 cm</text><text x='175' y='90' class='text'>8 cm</text><text x='95' y='160' class='text'>18 cm</text></svg>"
       }
     ],
     "extreme": [
       {
         "id": "X1",
-        "prompt": "A box has l = 5 m, w = 4 m, h = 3 m. If you double only the length, what is the new volume?",
-        "answer": { "new_volume": "120 m^3 (since original V=60 m^3 and doubling l doubles V)" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 m</text><text x='175' y='90' class='text'>3 m</text><text x='95' y='160' class='text'>4 m</text></svg>"
+        "prompt": "A crate (l = 20 cm, w = 12 cm, h = 9 cm) will be dipped in paint. Only the outside is painted. How many square centimeters of paint will touch the crate?",
+        "answer": {
+          "reasoning": "Outside area = surface area = 2(lw + lh + wh) = 2(240 + 180 + 108) = 2×528",
+          "result": "1056 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>20 cm</text><text x='175' y='90' class='text'>9 cm</text><text x='95' y='160' class='text'>12 cm</text></svg>"
       },
       {
         "id": "X2",
-        "prompt": "A cube is a special rectangular prism with l = w = h. If l = w = h = 5 cm, find its surface area and volume.",
-        "answer": { "volume": "125 cm^3", "surface_area": "150 cm^2" },
-        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>5 cm</text></svg>"
+        "prompt": "A hollow, open-top planter (l = 30 cm, w = 20 cm, h = 15 cm) is made of wood 1 cm thick. How much soil (volume) can it hold?",
+        "answer": {
+          "reasoning": "Inner dimensions: l' = 28, w' = 18, h' = 14. Volume of soil = 28×18×14",
+          "result": "7056 cm^3"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>30 cm</text><text x='175' y='90' class='text'>15 cm</text><text x='95' y='160' class='text'>20 cm</text></svg>"
+      },
+      {
+        "id": "X3",
+        "prompt": "A rectangular prism (l = 16 cm, w = 10 cm, h = 9 cm) is cut perfectly in half by a plane parallel to the base (splitting the height). Find the surface area of ONE piece (newly cut face included).",
+        "answer": {
+          "reasoning": "New piece has h/2 = 4.5. Its surface area = 2(lw + l·4.5 + w·4.5) = 2(160 + 72 + 45) = 2×277",
+          "result": "554 cm^2"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>16 cm</text><text x='175' y='90' class='text'>9 cm</text><text x='95' y='160' class='text'>10 cm</text></svg>"
+      },
+      {
+        "id": "X4",
+        "prompt": "A prism (l = 18 cm, w = 12 cm, h = 6 cm) is scaled so volume becomes exactly 2× larger while length stays the same. All edges scale by the same factor except length. What must the common scale factor k be for width and height?",
+        "answer": {
+          "reasoning": "Original V = lwh. New V = l·(kw)·(kh) = k^2·lwh = 2V ⇒ k^2 = 2 ⇒ k = √2",
+          "result": "k = √2 ≈ 1.414"
+        },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>18 cm</text><text x='175' y='90' class='text'>6 cm</text><text x='95' y='160' class='text'>12 cm</text></svg>"
       }
     ]
   }

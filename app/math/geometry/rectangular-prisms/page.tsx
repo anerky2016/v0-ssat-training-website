@@ -212,9 +212,31 @@ export default function RectangularPrismsPage() {
                       <CardContent>
                         <div className="bg-chart-1/10 rounded-lg p-4 overflow-x-auto">
                           <p className="text-sm font-semibold mb-2">Answer:</p>
-                          <div className="text-sm">
+                          <div className="text-sm space-y-3">
                             {typeof item.answer === 'string' ? (
                               <MathJax>{item.answer}</MathJax>
+                            ) : 'reasoning' in item.answer ? (
+                              <>
+                                <div className="text-muted-foreground">
+                                  <MathJax><strong>Reasoning:</strong> {item.answer.reasoning}</MathJax>
+                                </div>
+                                <div>
+                                  {typeof item.answer.result === 'string' ? (
+                                    <MathJax><strong>Result:</strong> {item.answer.result}</MathJax>
+                                  ) : (
+                                    <div className="space-y-1">
+                                      <MathJax><strong>Result:</strong></MathJax>
+                                      {Object.entries(item.answer.result).map(([key, value]) => (
+                                        <p key={key} className="ml-4">
+                                          <MathJax>
+                                            <strong className="capitalize">{key.replace(/_/g, ' ')}:</strong> {value}
+                                          </MathJax>
+                                        </p>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </>
                             ) : (
                               <div className="space-y-2">
                                 {Object.entries(item.answer).map(([key, value]) => (
