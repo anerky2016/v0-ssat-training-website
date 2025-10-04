@@ -1,0 +1,81 @@
+{
+  "topic": "Proportional Ratios",
+  "audience": "Kids (ages 9–13)",
+  "summary": "A proportion means that two ratios are equal. You can think of it like a balance: both sides are the same. We use cross multiplication to solve proportions.",
+  "concepts": [
+    {
+      "title": "What is a proportion?",
+      "kid_friendly": "A proportion is when two ratios are equal, like saying 1/2 is the same as 2/4.",
+      "latex_example": "\\frac{a}{b} = \\frac{c}{d}"
+    },
+    {
+      "title": "Cross multiplication",
+      "kid_friendly": "Multiply across the equal sign. Multiply top of one fraction with the bottom of the other.",
+      "latex_example": "a \\times d = b \\times c"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1",
+      "steps": [
+        "Solve: 2/4 = 3/x",
+        "Cross multiply: 2 × x = 3 × 4",
+        "2x = 12",
+        "Divide both sides by 2: x = 6"
+      ],
+      "latex": "\\frac{2}{4} = \\frac{3}{x} \\Rightarrow 2x = 12 \\Rightarrow x = 6"
+    },
+    {
+      "title": "Example 2",
+      "steps": [
+        "The ratio of red balls to blue balls is 2:5.",
+        "If there are 60 blue balls, how many red?",
+        "Set up: 2/5 = x/60",
+        "Cross multiply: 2 × 60 = 5 × x",
+        "120 = 5x",
+        "Divide: x = 24"
+      ],
+      "latex": "\\frac{2}{5} = \\frac{x}{60} \\Rightarrow 2 \\times 60 = 5x \\Rightarrow 120 = 5x \\Rightarrow x=24"
+    }
+  ],
+  "teaching_tips": [
+    "Show kids proportions using real-life examples (like comparing candies or toy cars).",
+    "Use cross multiplication step-by-step with arrows.",
+    "Have them check by plugging the number back into the ratio."
+  ],
+  "exercises": {
+    "easy": [
+      { "id": "E1", "prompt": "Solve: 3/4 = x/8", "answer": "x = 6" },
+      { "id": "E2", "prompt": "Solve: 5/10 = 1/x", "answer": "x = 2" },
+      { "id": "E3", "prompt": "Solve: 2/3 = 4/x", "answer": "x = 6" },
+      { "id": "E4", "prompt": "Solve: x/9 = 1/3", "answer": "x = 3" },
+      { "id": "E5", "prompt": "Solve: 6/x = 2/5", "answer": "x = 15" },
+      { "id": "E6", "prompt": "Solve: x/7 = 3/14", "answer": "x = 1.5" }
+    ],
+    "medium": [
+      { "id": "M1", "prompt": "Solve: 4/5 = 12/x", "answer": "x = 15" },
+      { "id": "M2", "prompt": "Solve: 7/9 = x/27", "answer": "x = 21" },
+      { "id": "M3", "prompt": "Solve: x/15 = 2/5", "answer": "x = 6" },
+      { "id": "M4", "prompt": "Solve: 8/x = 2/3", "answer": "x = 12" },
+      { "id": "M5", "prompt": "Solve: x/10 = 3/4", "answer": "x = 7.5" },
+      { "id": "M6", "prompt": "Solve: 9/x = 6/8", "answer": "x = 12" }
+    ],
+    "challenge": [
+      { "id": "C1", "prompt": "If the ratio of cats to dogs is 3:7 and there are 21 dogs, how many cats are there?", "answer": "9 cats" },
+      { "id": "C2", "prompt": "The ratio of boys to girls is 5:6. If there are 30 girls, how many boys?", "answer": "25 boys" },
+      { "id": "C3", "prompt": "Solve: 12/x = 18/24", "answer": "x = 16" },
+      { "id": "C4", "prompt": "Solve: (x/9) = (5/15)", "answer": "x = 3" },
+      { "id": "C5", "prompt": "A recipe uses 2 cups sugar for 5 cups flour. If you use 20 cups flour, how much sugar?", "answer": "8 cups" },
+      { "id": "C6", "prompt": "The ratio of lions to tigers is 2:3. If there are 24 tigers, how many lions?", "answer": "16 lions" }
+    ],
+    "extreme": [
+      { "id": "X1", "prompt": "Solve: 7/x = 14/28", "answer": "x = 14" },
+      { "id": "X2", "prompt": "Solve: (x/12) = (15/20)", "answer": "x = 9" },
+      { "id": "X3", "prompt": "The ratio of apples to oranges is 7:9. If there are 180 oranges, how many apples?", "answer": "140 apples" },
+      { "id": "X4", "prompt": "The ratio of pencils to erasers is 4:9. If there are 132 erasers, how many pencils?", "answer": "58.67 (≈59)" },
+      { "id": "X5", "prompt": "Solve: 18/x = 24/32", "answer": "x = 24" },
+      { "id": "X6", "prompt": "A car travels 120 miles using 5 gallons of gas. How far can it go with 12 gallons?", "answer": "288 miles" },
+      { "id": "X7", "prompt": "The ratio of red marbles to blue marbles is 11:13. If there are 208 blue marbles, how many red marbles?", "answer": "176 red marbles" }
+    ]
+  }
+}
