@@ -33,7 +33,7 @@ export function ResumeButton() {
       variant="default"
       size="sm"
       onClick={handleResume}
-      className="hidden sm:inline-flex gap-2 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-md"
+      className="inline-flex gap-2 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-md"
     >
       <Bookmark className="h-4 w-4 fill-current" />
       <span className="hidden md:inline">Resume: {bookmark.title}</span>
