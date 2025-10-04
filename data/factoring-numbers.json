@@ -1,0 +1,131 @@
+{
+  "topic": "Factoring Numbers",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Factoring numbers means breaking them into smaller building blocks called prime numbers. Prime numbers are numbers that can only be divided by 1 and themselves.",
+  "concepts": [
+    {
+      "title": "Prime Numbers",
+      "kid_friendly": "Prime numbers are like the 'atoms' of math. They are numbers that can't be broken down into smaller whole numbers except 1 and themselves.",
+      "examples": "2, 3, 5, 7, 11, 13, 17, 19..."
+    },
+    {
+      "title": "Prime Factorization",
+      "kid_friendly": "Factoring a number means writing it as a multiplication of prime numbers.",
+      "latex_example": "12 = 2 \\times 2 \\times 3 = 2^2 \\times 3"
+    },
+    {
+      "title": "Why It Matters",
+      "kid_friendly": "Prime factorization is useful in simplifying fractions, finding greatest common factors (GCF), and least common multiples (LCM)."
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Factor 18",
+      "steps": [
+        "Start with the smallest prime, 2. 18 ÷ 2 = 9.",
+        "9 ÷ 3 = 3.",
+        "3 ÷ 3 = 1.",
+        "So the prime factors are 2 × 3 × 3."
+      ],
+      "latex": "18 = 2 \\times 3^2"
+    },
+    {
+      "title": "Factor 60",
+      "steps": [
+        "60 ÷ 2 = 30.",
+        "30 ÷ 2 = 15.",
+        "15 ÷ 3 = 5.",
+        "5 is prime.",
+        "So prime factors are 2 × 2 × 3 × 5."
+      ],
+      "latex": "60 = 2^2 \\times 3 \\times 5"
+    }
+  ],
+  "teaching_tips": [
+    "Start with small primes (2, 3, 5) before moving to larger ones.",
+    "Use a factor tree to break down numbers step by step.",
+    "Remind kids to check if a number is divisible by small primes first."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Find the prime factors of 12.",
+        "answer": "12 = 2 × 2 × 3 = 2^2 × 3",
+        "explain": "Divide by 2 → 6, then again by 2 → 3, then 3 is prime."
+      },
+      {
+        "id": "E2",
+        "prompt": "Find the prime factors of 20.",
+        "answer": "20 = 2 × 2 × 5 = 2^2 × 5",
+        "explain": "20 ÷ 2 = 10 ÷ 2 = 5 (prime)."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find the prime factors of 72.",
+        "answer": "72 = 2 × 2 × 2 × 3 × 3 = 2^3 × 3^2",
+        "explain": "Divide repeatedly by 2, then divide by 3."
+      },
+      {
+        "id": "M2",
+        "prompt": "Find the prime factors of 45.",
+        "answer": "45 = 3 × 3 × 5 = 3^2 × 5",
+        "explain": "45 ÷ 3 = 15 ÷ 3 = 5 (prime)."
+      },
+      {
+        "id": "M3",
+        "prompt": "Find the prime factors of 84.",
+        "answer": "84 = 2^2 × 3 × 7",
+        "explain": "84 ÷ 2 = 42 ÷ 2 = 21 ÷ 3 = 7."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Find the prime factors of 210.",
+        "answer": "210 = 2 × 3 × 5 × 7",
+        "explain": "210 ÷ 2 = 105 ÷ 3 = 35 ÷ 5 = 7 (prime)."
+      },
+      {
+        "id": "C2",
+        "prompt": "Find the prime factors of 98.",
+        "answer": "98 = 2 × 7 × 7 = 2 × 7^2",
+        "explain": "98 ÷ 2 = 49 ÷ 7 = 7."
+      },
+      {
+        "id": "C3",
+        "prompt": "Find the prime factors of 144.",
+        "answer": "144 = 2^4 × 3^2",
+        "explain": "Divide by 2 repeatedly until 9, then 3 × 3."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Find the prime factors of 2310.",
+        "answer": "2310 = 2 × 3 × 5 × 7 × 11",
+        "explain": "Break it down step by step using smallest primes."
+      },
+      {
+        "id": "X2",
+        "prompt": "Find the prime factors of 1024.",
+        "answer": "1024 = 2^10",
+        "explain": "Divide by 2 ten times until 1."
+      },
+      {
+        "id": "X3",
+        "prompt": "Find the prime factors of 198.",
+        "answer": "198 = 2 × 3^2 × 11",
+        "explain": "Divide by 2 → 99 ÷ 3 = 33 ÷ 3 = 11."
+      },
+      {
+        "id": "X4",
+        "prompt": "Find the prime factors of 999.",
+        "answer": "999 = 3^3 × 37",
+        "explain": "999 ÷ 3 = 333 ÷ 3 = 111 ÷ 3 = 37 (prime)."
+      }
+    ]
+  }
+}
