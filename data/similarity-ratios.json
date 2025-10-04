@@ -1,0 +1,75 @@
+{
+  "topic": "Similarity and Ratios",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Two or more figures are similar if their shapes are the same but their sizes may be different. This means the corresponding angles are equal, and the corresponding sides are in proportion.",
+  "concepts": [
+    {
+      "title": "Definition of Similar Figures",
+      "kid_friendly": "If two shapes look the same but one is bigger or smaller, they are similar shapes.",
+      "latex_example": "\\frac{a}{b} = \\frac{c}{d}"
+    },
+    {
+      "title": "Using Proportions",
+      "kid_friendly": "We use proportions (equal fractions) to solve missing side lengths when shapes are similar.",
+      "latex_example": "\\frac{\\text{Side of small figure}}{\\text{Side of big figure}} = \\frac{\\text{Other side of small figure}}{\\text{Other side of big figure}}"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1",
+      "problem": "A girl 180 cm tall stands 340 cm from a lamp post. Her shadow is 80 cm long. How tall is the lamp post?",
+      "steps": [
+        "Set up proportion: (Smaller triangle height) / (Smaller triangle base) = (Bigger triangle height) / (Bigger triangle base).",
+        "Substitute: 180/80 = x/(80 + 340).",
+        "Solve: 180/80 = x/420 → 80x = 180 × 420 → x = 945 cm."
+      ],
+      "latex": "\\frac{180}{80} = \\frac{x}{420} \\Rightarrow x = 945"
+    },
+    {
+      "title": "Example 2",
+      "problem": "A tree 20 feet tall casts a shadow 14 feet long. Jack is 10 feet tall. How long is Jack's shadow?",
+      "steps": [
+        "Set up proportion: 20/14 = 10/x.",
+        "Solve: 20x = 10 × 14 → 20x = 140 → x = 7.",
+        "Jack's shadow is 7 feet long."
+      ],
+      "latex": "\\frac{20}{14} = \\frac{10}{x} \\Rightarrow x = 7"
+    }
+  ],
+  "teaching_tips": [
+    "Draw triangles to show how similar figures look alike but are scaled versions of each other.",
+    "Relate to real life: lamp posts, shadows, models of buildings, or toy cars vs. real cars.",
+    "Have kids check their answers by cross multiplying."
+  ],
+  "exercises": {
+    "easy": [
+      { "id": "E1", "prompt": "A 6 ft person casts a 3 ft shadow. How tall is a tree that casts a 12 ft shadow?", "answer": "24 ft" },
+      { "id": "E2", "prompt": "Two rectangles are similar. One is 4 cm wide and 8 cm long. If another rectangle is 2 cm wide, how long is it?", "answer": "4 cm" },
+      { "id": "E3", "prompt": "A photo is 5 cm wide and 10 cm long. If resized to be 15 cm long, how wide will it be?", "answer": "7.5 cm" },
+      { "id": "E4", "prompt": "A model of a car is 10 cm long. The real car is 400 cm long. If the real car is 200 cm wide, how wide is the model?", "answer": "5 cm" },
+      { "id": "E5", "prompt": "A 2 m tall person casts a shadow 1 m long. How long is the shadow of a 4 m tall tree?", "answer": "2 m" }
+    ],
+    "medium": [
+      { "id": "M1", "prompt": "A 12 ft flagpole casts a 9 ft shadow. How tall is a nearby statue with a 6 ft shadow?", "answer": "8 ft" },
+      { "id": "M2", "prompt": "A small triangle has sides 3 and 6. A similar triangle's smaller side is 9. What is its larger side?", "answer": "18" },
+      { "id": "M3", "prompt": "A map shows 1 cm = 5 km. If two towns are 8 cm apart on the map, how far apart are they in real life?", "answer": "40 km" },
+      { "id": "M4", "prompt": "A 10 ft tree casts a 4 ft shadow. A building casts a 20 ft shadow. How tall is the building?", "answer": "50 ft" },
+      { "id": "M5", "prompt": "A toy house is 12 cm tall and 18 cm wide. If the real house is 6 m tall, how wide is it?", "answer": "9 m" }
+    ],
+    "challenge": [
+      { "id": "C1", "prompt": "Two similar triangles have sides 8 and 12, and 20 and x. Find x.", "answer": "30" },
+      { "id": "C2", "prompt": "A ladder 15 ft tall casts a 9 ft shadow. A nearby building casts a 36 ft shadow. How tall is the building?", "answer": "60 ft" },
+      { "id": "C3", "prompt": "On a blueprint, a wall is 4 cm long. In reality, the wall is 10 m. How long is a wall that is drawn 7 cm long?", "answer": "17.5 m" },
+      { "id": "C4", "prompt": "A 9 m tree casts a 4.5 m shadow. A flagpole casts a 12 m shadow. How tall is the flagpole?", "answer": "24 m" },
+      { "id": "C5", "prompt": "A triangle has sides 5, 12, and 13. A similar triangle's smallest side is 15. Find its largest side.", "answer": "39" }
+    ],
+    "extreme": [
+      { "id": "X1", "prompt": "Two towers cast shadows at the same time. A 40 m tower casts a 25 m shadow. The taller tower casts a 60 m shadow. How tall is the taller tower?", "answer": "96 m" },
+      { "id": "X2", "prompt": "A painting is 80 cm wide and 120 cm tall. A scaled-down version is 20 cm wide. How tall is it?", "answer": "30 cm" },
+      { "id": "X3", "prompt": "Two similar pentagons have side lengths 6 cm and 18 cm. The smaller pentagon has a perimeter of 30 cm. What is the perimeter of the larger pentagon?", "answer": "90 cm" },
+      { "id": "X4", "prompt": "A 1.5 m tall child casts a shadow 1 m long. At the same time, a tower casts a 50 m shadow. How tall is the tower?", "answer": "75 m" },
+      { "id": "X5", "prompt": "A rectangular billboard is 4 m tall and 6 m wide. A model of the billboard is similar and 15 cm tall. How wide is the model?", "answer": "22.5 cm" },
+      { "id": "X6", "prompt": "A triangular roof has base 12 m and height 8 m. A model has base 3 m. What is the height of the model?", "answer": "2 m" }
+    ]
+  }
+}

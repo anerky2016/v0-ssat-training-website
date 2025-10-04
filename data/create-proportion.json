@@ -1,0 +1,73 @@
+{
+  "topic": "Create a Proportion",
+  "audience": "Kids (ages 9–13)",
+  "summary": "A proportion means two fractions are equal. To create a proportion, you simply match two equal fractions. Proportions are often used to solve real-world problems like speed, recipes, or scaling.",
+  "concepts": [
+    {
+      "title": "What is a Proportion?",
+      "kid_friendly": "A proportion is like saying two ratios are the same, such as 1/2 = 2/4.",
+      "latex_example": "\\frac{a}{b} = \\frac{c}{d}"
+    },
+    {
+      "title": "How to Create a Proportion",
+      "kid_friendly": "Find or create two equal fractions that compare the same things.",
+      "latex_example": "a \\times d = b \\times c"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1",
+      "steps": [
+        "We know: 180 miles in 9 gallons of gas.",
+        "Find miles in 1 gallon: 180 ÷ 9 = 20.",
+        "That means the proportion is 180/9 = 20/1."
+      ],
+      "latex": "\\frac{180}{9} = \\frac{20}{1}"
+    },
+    {
+      "title": "Example 2",
+      "steps": [
+        "Do 2/3 and 12/30 form a proportion?",
+        "Cross multiply: 2 × 30 = 60, and 3 × 12 = 36.",
+        "Since 60 ≠ 36, they are NOT a proportion."
+      ],
+      "latex": "\\frac{2}{3} \\neq \\frac{12}{30}"
+    }
+  ],
+  "teaching_tips": [
+    "Show kids proportions with real-life examples like miles per hour or candies shared.",
+    "Have them test proportions by cross multiplying.",
+    "Ask them to explain in words what each ratio means."
+  ],
+  "exercises": {
+    "easy": [
+      { "id": "E1", "prompt": "Does 1/2 = 2/4 form a proportion?", "answer": "Yes" },
+      { "id": "E2", "prompt": "Find x: 3/6 = x/12", "answer": "x = 6" },
+      { "id": "E3", "prompt": "Simplify: 10/20 = x/2", "answer": "x = 1" },
+      { "id": "E4", "prompt": "True or False: 5/10 and 2/4 are proportional?", "answer": "True" },
+      { "id": "E5", "prompt": "If 8 pencils cost $4, how much for 2 pencils?", "answer": "$1" }
+    ],
+    "medium": [
+      { "id": "M1", "prompt": "Find x: 4/5 = 16/x", "answer": "x = 20" },
+      { "id": "M2", "prompt": "Does 6/8 = 9/12 form a proportion?", "answer": "Yes" },
+      { "id": "M3", "prompt": "If 12 cookies cost $6, how much do 4 cookies cost?", "answer": "$2" },
+      { "id": "M4", "prompt": "Find x: x/9 = 15/45", "answer": "x = 3" },
+      { "id": "M5", "prompt": "Check: 7/21 and 2/6 form a proportion?", "answer": "Yes" }
+    ],
+    "challenge": [
+      { "id": "C1", "prompt": "Find x: 9/12 = x/16", "answer": "x = 12" },
+      { "id": "C2", "prompt": "If 5 apples cost $10, how much do 8 apples cost?", "answer": "$16" },
+      { "id": "C3", "prompt": "Check: 14/28 = 18/36, are they proportional?", "answer": "Yes" },
+      { "id": "C4", "prompt": "Find x: 25/x = 5/10", "answer": "x = 50" },
+      { "id": "C5", "prompt": "A car drives 90 miles in 3 hours. How far in 5 hours?", "answer": "150 miles" }
+    ],
+    "extreme": [
+      { "id": "X1", "prompt": "Find x: (7/9) = (21/x)", "answer": "x = 27" },
+      { "id": "X2", "prompt": "If 3 notebooks cost $7.50, how much do 8 notebooks cost?", "answer": "$20" },
+      { "id": "X3", "prompt": "Check: 45/60 and 18/24, are they proportional?", "answer": "Yes" },
+      { "id": "X4", "prompt": "Find x: (12/x) = (18/27)", "answer": "x = 18" },
+      { "id": "X5", "prompt": "A recipe uses 3 cups sugar for 8 cups flour. If you use 20 cups flour, how much sugar?", "answer": "7.5 cups" },
+      { "id": "X6", "prompt": "Two gears rotate in proportion: 12 turns for 18 turns. How many turns of the small gear for 30 turns of the large?", "answer": "20 turns" }
+    ]
+  }
+}
