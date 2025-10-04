@@ -9,12 +9,13 @@ export const size = {
 
 export const contentType = 'image/png'
 
+// This generates the Apple Touch Icon for iOS devices
 export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
         style={{
-          fontSize: 100,
+          fontSize: 120,
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           width: '100%',
           height: '100%',
@@ -22,8 +23,9 @@ export default function AppleIcon() {
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
-          fontFamily: 'system-ui, sans-serif',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
           fontWeight: 700,
+          borderRadius: '32px',
         }}
       >
         M
