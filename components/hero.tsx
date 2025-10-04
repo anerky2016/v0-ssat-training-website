@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Star } from "lucide-react"
+import Link from "next/link"
 
 export function Hero() {
   return (
@@ -21,13 +22,17 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-            <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-lg">
-              START THE ADVENTURE!
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 animate-bounce" />
-            </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base bg-transparent border-2 hover:bg-accent/10 transition-all duration-300 transform hover:scale-105">
-              EXPLORE THE MAGIC!
-            </Button>
+            <Link href="/math/exercises" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full text-sm sm:text-base bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-lg">
+                START THE ADVENTURE!
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 animate-bounce" />
+              </Button>
+            </Link>
+            <Link href="/math" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full text-sm sm:text-base bg-transparent border-2 hover:bg-accent/10 transition-all duration-300 transform hover:scale-105">
+                EXPLORE THE MAGIC!
+              </Button>
+            </Link>
           </div>
 
           <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground px-4">
