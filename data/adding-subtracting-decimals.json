@@ -1,0 +1,142 @@
+{
+  "topic": "Adding and Subtracting Decimals",
+  "audience": "Kids (ages 9–13)",
+  "summary": "When adding or subtracting decimals, line up the decimal points, add zeros if needed, and use column addition or subtraction just like with whole numbers.",
+  "concepts": [
+    {
+      "title": "Line Up the Decimal Points",
+      "kid_friendly": "Always make sure the decimal points are straight above each other before adding or subtracting."
+    },
+    {
+      "title": "Add Zeros",
+      "kid_friendly": "If one number has fewer digits after the decimal, add zeros so both numbers have the same number of decimal places. This makes it easier to compare place by place."
+    },
+    {
+      "title": "Use Column Method",
+      "kid_friendly": "Now add or subtract digits column by column (like normal), keeping the decimal point in the same place in the answer."
+    }
+  ],
+  "latex_examples": [
+    {
+      "example": "3.45 + 2.7",
+      "step": "Add a zero to make 2.7 into 2.70, then add.",
+      "latex": "3.45 + 2.70 = 6.15"
+    },
+    {
+      "example": "5.2 - 1.38",
+      "step": "Add a zero to 5.2 → 5.20, then subtract.",
+      "latex": "5.20 - 1.38 = 3.82"
+    }
+  ],
+  "teaching_tips": [
+    "Remind students that the decimal point should drop straight down into the answer.",
+    "Encourage them to rewrite the numbers with the same number of decimal digits before solving.",
+    "Practice with money examples (like $3.45 + $2.70)."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Add 1.2 + 3.4",
+        "answer": "4.6",
+        "explain": "Decimals line up → 1.2 + 3.4 = 4.6"
+      },
+      {
+        "id": "E2",
+        "prompt": "Subtract 5.6 − 2.3",
+        "answer": "3.3",
+        "explain": "Line up → 5.6 − 2.3 = 3.3"
+      },
+      {
+        "id": "E3",
+        "prompt": "Add 7.05 + 2.1",
+        "answer": "9.15",
+        "explain": "Rewrite 2.1 as 2.10 → 7.05 + 2.10 = 9.15"
+      },
+      {
+        "id": "E4",
+        "prompt": "Subtract 9.8 − 0.7",
+        "answer": "9.1",
+        "explain": "Line up decimals → 9.8 − 0.7 = 9.1"
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Add 4.32 + 6.8",
+        "answer": "11.12",
+        "explain": "Rewrite 6.8 as 6.80 → 4.32 + 6.80 = 11.12"
+      },
+      {
+        "id": "M2",
+        "prompt": "Subtract 10.05 − 3.7",
+        "answer": "6.35",
+        "explain": "Rewrite 3.7 as 3.70 → 10.05 − 3.70 = 6.35"
+      },
+      {
+        "id": "M3",
+        "prompt": "Add 12.456 + 3.004",
+        "answer": "15.460",
+        "explain": "Line up → 12.456 + 3.004 = 15.460"
+      },
+      {
+        "id": "M4",
+        "prompt": "Subtract 7.25 − 2.08",
+        "answer": "5.17",
+        "explain": "Line up → 7.25 − 2.08 = 5.17"
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Add 23.005 + 7.95",
+        "answer": "30.955",
+        "explain": "Rewrite 7.95 as 7.950 → 23.005 + 7.950 = 30.955"
+      },
+      {
+        "id": "C2",
+        "prompt": "Subtract 100.0 − 0.456",
+        "answer": "99.544",
+        "explain": "Rewrite 100.0 as 100.000 → subtract 100.000 − 0.456 = 99.544"
+      },
+      {
+        "id": "C3",
+        "prompt": "Add 0.678 + 0.099",
+        "answer": "0.777",
+        "explain": "Line up → 0.678 + 0.099 = 0.777"
+      },
+      {
+        "id": "C4",
+        "prompt": "Subtract 50.05 − 49.995",
+        "answer": "0.055",
+        "explain": "Line up → 50.050 − 49.995 = 0.055"
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Add 123.4567 + 0.00089",
+        "answer": "123.45759",
+        "explain": "Line up and add digit by digit → 123.4567 + 0.00089 = 123.45759"
+      },
+      {
+        "id": "X2",
+        "prompt": "Subtract 1000.0001 − 0.9999",
+        "answer": "999.0002",
+        "explain": "Careful subtraction with decimals → 1000.0001 − 0.9999 = 999.0002"
+      },
+      {
+        "id": "X3",
+        "prompt": "Add 45.678 + 0.000322",
+        "answer": "45.678322",
+        "explain": "Add zeros → 45.678000 + 0.000322 = 45.678322"
+      },
+      {
+        "id": "X4",
+        "prompt": "Subtract 0.0005 − 0.00049",
+        "answer": "0.00001",
+        "explain": "Line up carefully → 0.0005 − 0.00049 = 0.00001"
+      }
+    ]
+  }
+}

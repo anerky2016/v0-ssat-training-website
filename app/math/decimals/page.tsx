@@ -38,7 +38,7 @@ export default function DecimalsPage() {
                 {[
                   { title: "Comparing Decimals", href: "/math/comparing-decimals" },
                   { title: "Rounding Decimals", href: "/math/rounding-decimals" },
-                  { title: "Adding/Subtracting Decimals", href: null },
+                  { title: "Adding/Subtracting Decimals", href: "/math/adding-subtracting-decimals" },
                   { title: "Multiplying/Dividing Decimals", href: null }
                 ].map((topic, index) => (
                   topic.href ? (
