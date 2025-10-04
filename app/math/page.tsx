@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, BookOpen, FileCheck, Lightbulb, ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { StructuredData, generateCourseStructuredData, generateBreadcrumbStructuredData } from "@/components/structured-data"
+import { StructuredData, generateCourseStructuredData, generateBreadcrumbStructuredData, generateMathTopicCollectionStructuredData } from "@/components/structured-data"
 import { generateMetadata as genMeta, seoKeywords } from "@/lib/seo"
 import type { Metadata } from "next"
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.midssat.com'
 
 export const metadata: Metadata = genMeta({
   title: 'SSAT Math Training - Quantitative Section Practice',
@@ -24,6 +24,8 @@ const courseData = generateCourseStructuredData({
   skillLevel: 'Middle School',
 })
 
+const mathCollectionData = generateMathTopicCollectionStructuredData()
+
 const breadcrumbData = generateBreadcrumbStructuredData([
   { name: 'Home', url: '/' },
   { name: 'Math', url: '/math' },
@@ -33,6 +35,7 @@ export default function MathPage() {
   return (
     <div className="min-h-screen">
       <StructuredData data={courseData} />
+      <StructuredData data={mathCollectionData} />
       <StructuredData data={breadcrumbData} />
       <Header />
       <main>
