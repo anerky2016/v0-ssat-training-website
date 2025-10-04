@@ -1,0 +1,115 @@
+{
+  "topic": "Adding and Subtracting Integers",
+  "audience": "Kids (ages 9–13)",
+  "summary": "Integers are numbers that can be positive, negative, or zero. Adding and subtracting them is like walking along a number line: move right for positive numbers, move left for negative numbers. To subtract, add the opposite number.",
+  "concepts": [
+    {
+      "title": "What are Integers?",
+      "kid_friendly": "Integers include ..., -3, -2, -1, 0, 1, 2, 3, ..."
+    },
+    {
+      "title": "Adding a Positive Integer",
+      "kid_friendly": "Move to the right on the number line.",
+      "latex_example": "-2 + 3 = 1"
+    },
+    {
+      "title": "Adding a Negative Integer",
+      "kid_friendly": "Move to the left on the number line.",
+      "latex_example": "4 + (-5) = -1"
+    },
+    {
+      "title": "Subtracting Integers",
+      "kid_friendly": "Subtracting is the same as adding the opposite.",
+      "latex_example": "7 - (-2) = 7 + 2 = 9"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1: Add -3 and 5",
+      "steps": [
+        "Start at -3 on the number line.",
+        "Move 5 steps right.",
+        "You land on 2."
+      ],
+      "latex": "-3 + 5 = 2"
+    },
+    {
+      "title": "Example 2: Subtract 8 - 10",
+      "steps": [
+        "Think of 8 - 10 as 8 + (-10).",
+        "Start at 8 and move 10 steps left.",
+        "You land on -2."
+      ],
+      "latex": "8 - 10 = -2"
+    }
+  ],
+  "teaching_tips": [
+    "Use a number line to make movements clear.",
+    "Explain subtraction as 'adding the opposite.'",
+    "Play simple games where kids walk left and right to model adding and subtracting."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Solve: -2 + 4",
+        "answer": "2",
+        "explain": "Start at -2, move 4 right → 2."
+      },
+      {
+        "id": "E2",
+        "prompt": "Solve: 6 - 3",
+        "answer": "3",
+        "explain": "6 - 3 = 3."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Solve: -5 + (-7)",
+        "answer": "-12",
+        "explain": "Both negative, add and keep the sign: -12."
+      },
+      {
+        "id": "M2",
+        "prompt": "Solve: 10 - (-4)",
+        "answer": "14",
+        "explain": "Subtracting a negative is adding: 10 + 4 = 14."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Solve: -8 - 12",
+        "answer": "-20",
+        "explain": "-8 - 12 = -8 + (-12) = -20."
+      },
+      {
+        "id": "C2",
+        "prompt": "Solve: 15 + (-20)",
+        "answer": "-5",
+        "explain": "Subtract the smaller from the bigger and keep the larger's sign: -5."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Solve: -25 - (-40)",
+        "answer": "15",
+        "explain": "-25 - (-40) = -25 + 40 = 15."
+      },
+      {
+        "id": "X2",
+        "prompt": "Solve: (-18) + 30 - (-12)",
+        "answer": "24",
+        "explain": "(-18 + 30) - (-12) = 12 + 12 = 24."
+      },
+      {
+        "id": "X3",
+        "prompt": "Solve: -50 + (-25) - 10",
+        "answer": "-85",
+        "explain": "-50 + (-25) = -75, then -75 - 10 = -85."
+      }
+    ]
+  }
+}
