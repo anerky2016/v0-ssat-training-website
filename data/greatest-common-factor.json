@@ -1,0 +1,109 @@
+{
+  "topic": "Greatest Common Factor (GCF)",
+  "audience": "Kids (ages 9–13)",
+  "summary": "The Greatest Common Factor (GCF) is the biggest number that divides two numbers evenly. We find it by breaking numbers into prime factors and multiplying the primes they share.",
+  "concepts": [
+    {
+      "title": "Step 1: Prime Factorization",
+      "kid_friendly": "Break each number into prime factors, just like building blocks."
+    },
+    {
+      "title": "Step 2: Find Common Factors",
+      "kid_friendly": "Look for the prime factors both numbers share."
+    },
+    {
+      "title": "Step 3: Multiply the Common Factors",
+      "kid_friendly": "Multiply the shared prime factors to get the GCF.",
+      "latex_example": "GCF(12, 18) = 2 \\times 3 = 6"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Find GCF of 12 and 18",
+      "steps": [
+        "12 = 2 × 2 × 3",
+        "18 = 2 × 3 × 3",
+        "Common factors = 2 × 3 = 6"
+      ],
+      "latex": "GCF(12, 18) = 6"
+    },
+    {
+      "title": "Find GCF of 20 and 28",
+      "steps": [
+        "20 = 2 × 2 × 5",
+        "28 = 2 × 2 × 7",
+        "Common factors = 2 × 2 = 4"
+      ],
+      "latex": "GCF(20, 28) = 4"
+    }
+  ],
+  "teaching_tips": [
+    "Remind kids that GCF is always smaller than or equal to the smaller number.",
+    "Practice by circling common primes in factor trees.",
+    "If two numbers don't share any prime factors, the GCF is 1 (they're called coprime)."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Find the GCF of 8 and 12.",
+        "answer": "4",
+        "explain": "8 = 2 × 2 × 2, 12 = 2 × 2 × 3. Common = 2 × 2 = 4."
+      },
+      {
+        "id": "E2",
+        "prompt": "Find the GCF of 15 and 25.",
+        "answer": "5",
+        "explain": "15 = 3 × 5, 25 = 5 × 5. Common = 5."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find the GCF of 24 and 36.",
+        "answer": "12",
+        "explain": "24 = 2^3 × 3, 36 = 2^2 × 3^2. Common = 2^2 × 3 = 12."
+      },
+      {
+        "id": "M2",
+        "prompt": "Find the GCF of 42 and 56.",
+        "answer": "14",
+        "explain": "42 = 2 × 3 × 7, 56 = 2^3 × 7. Common = 2 × 7 = 14."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Find the GCF of 84 and 126.",
+        "answer": "42",
+        "explain": "84 = 2^2 × 3 × 7, 126 = 2 × 3^2 × 7. Common = 2 × 3 × 7 = 42."
+      },
+      {
+        "id": "C2",
+        "prompt": "Find the GCF of 72 and 90.",
+        "answer": "18",
+        "explain": "72 = 2^3 × 3^2, 90 = 2 × 3^2 × 5. Common = 2 × 3^2 = 18."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Find the GCF of 210 and 315.",
+        "answer": "105",
+        "explain": "210 = 2 × 3 × 5 × 7, 315 = 3^2 × 5 × 7. Common = 3 × 5 × 7 = 105."
+      },
+      {
+        "id": "X2",
+        "prompt": "Find the GCF of 128 and 320.",
+        "answer": "64",
+        "explain": "128 = 2^7, 320 = 2^6 × 5. Common = 2^6 = 64."
+      },
+      {
+        "id": "X3",
+        "prompt": "Find the GCF of 231 and 385.",
+        "answer": "77",
+        "explain": "231 = 3 × 7 × 11, 385 = 5 × 7 × 11. Common = 7 × 11 = 77."
+      }
+    ]
+  }
+}
