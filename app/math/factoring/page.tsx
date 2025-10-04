@@ -38,7 +38,7 @@ export default function FactoringPage() {
                 {[
                   { title: "Factoring Numbers", href: "/math/factoring-numbers" },
                   { title: "Greatest Common Factor (GCF)", href: "/math/greatest-common-factor" },
-                  { title: "Least Common Multiple (LCM)", href: "" }
+                  { title: "Least Common Multiple (LCM)", href: "/math/least-common-multiple" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>

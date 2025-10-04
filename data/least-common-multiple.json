@@ -1,0 +1,109 @@
+{
+  "topic": "Least Common Multiple (LCM)",
+  "audience": "Kids (ages 9–13)",
+  "summary": "The Least Common Multiple (LCM) is the smallest number that two or more numbers share in their multiplication tables. It's like finding the first number where two kids' clapping rhythms match up.",
+  "concepts": [
+    {
+      "title": "Step 1: Multiples",
+      "kid_friendly": "Write the multiplication tables for each number."
+    },
+    {
+      "title": "Step 2: Common Multiples",
+      "kid_friendly": "Look for numbers that show up in both lists."
+    },
+    {
+      "title": "Step 3: Pick the Smallest",
+      "kid_friendly": "The first (smallest) number that appears in both lists is the LCM.",
+      "latex_example": "LCM(4, 6) = 12"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Find LCM of 4 and 6",
+      "steps": [
+        "Multiples of 4: 4, 8, 12, 16, ...",
+        "Multiples of 6: 6, 12, 18, ...",
+        "Smallest common multiple = 12"
+      ],
+      "latex": "LCM(4, 6) = 12"
+    },
+    {
+      "title": "Find LCM of 5 and 7",
+      "steps": [
+        "Multiples of 5: 5, 10, 15, 20, 25, 30, 35...",
+        "Multiples of 7: 7, 14, 21, 28, 35...",
+        "Smallest common multiple = 35"
+      ],
+      "latex": "LCM(5, 7) = 35"
+    }
+  ],
+  "teaching_tips": [
+    "Connect it with rhythms or clapping games—when do the beats meet?",
+    "Use visual lists or skip counting to spot common multiples.",
+    "Remind kids LCM is always equal to or greater than the bigger number."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Find the LCM of 3 and 4.",
+        "answer": "12",
+        "explain": "Multiples of 3: 3, 6, 9, 12; Multiples of 4: 4, 8, 12. LCM = 12."
+      },
+      {
+        "id": "E2",
+        "prompt": "Find the LCM of 2 and 5.",
+        "answer": "10",
+        "explain": "Multiples of 2: 2, 4, 6, 8, 10; Multiples of 5: 5, 10. LCM = 10."
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find the LCM of 6 and 8.",
+        "answer": "24",
+        "explain": "Multiples of 6: 6, 12, 18, 24; Multiples of 8: 8, 16, 24. LCM = 24."
+      },
+      {
+        "id": "M2",
+        "prompt": "Find the LCM of 9 and 12.",
+        "answer": "36",
+        "explain": "Multiples of 9: 9, 18, 27, 36; Multiples of 12: 12, 24, 36. LCM = 36."
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Find the LCM of 10, 15, and 20.",
+        "answer": "60",
+        "explain": "Multiples of 10: 10, 20, 30, 40, 50, 60; Multiples of 15: 15, 30, 45, 60; Multiples of 20: 20, 40, 60. LCM = 60."
+      },
+      {
+        "id": "C2",
+        "prompt": "Find the LCM of 14 and 18.",
+        "answer": "126",
+        "explain": "14 = 2 × 7, 18 = 2 × 3^2. LCM = 2 × 7 × 3^2 = 126."
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Find the LCM of 21, 28, and 36.",
+        "answer": "252",
+        "explain": "21 = 3 × 7, 28 = 2^2 × 7, 36 = 2^2 × 3^2. LCM = 2^2 × 3^2 × 7 = 252."
+      },
+      {
+        "id": "X2",
+        "prompt": "Find the LCM of 16, 24, and 40.",
+        "answer": "240",
+        "explain": "16 = 2^4, 24 = 2^3 × 3, 40 = 2^3 × 5. LCM = 2^4 × 3 × 5 = 240."
+      },
+      {
+        "id": "X3",
+        "prompt": "Find the LCM of 27, 36, and 54.",
+        "answer": "108",
+        "explain": "27 = 3^3, 36 = 2^2 × 3^2, 54 = 2 × 3^3. LCM = 2^2 × 3^3 = 108."
+      }
+    ]
+  }
+}
