@@ -1,0 +1,188 @@
+{
+  "topic": "Integers and Absolute Value",
+  "audience": "Kids (ages 9–13)",
+  "summary": "The absolute value of a number is its distance from zero on a number line. It's always positive because distance cannot be negative.",
+  "concepts": [
+    {
+      "title": "Definition",
+      "kid_friendly": "Absolute value means how far a number is from 0 on the number line."
+    },
+    {
+      "title": "Example with Positive Numbers",
+      "kid_friendly": "The absolute value of 7 is 7 because it is 7 steps away from 0.",
+      "latex_example": "|7| = 7"
+    },
+    {
+      "title": "Example with Negative Numbers",
+      "kid_friendly": "The absolute value of -7 is also 7 because it is also 7 steps away from 0.",
+      "latex_example": "|-7| = 7"
+    },
+    {
+      "title": "General Rule",
+      "kid_friendly": "Absolute value ignores the sign of a number.",
+      "latex_example": "|x| = x \\text{ if } x \\geq 0; \\quad |x| = -x \\text{ if } x < 0"
+    }
+  ],
+  "worked_examples": [
+    {
+      "title": "Example 1",
+      "steps": [
+        "Find |12|.",
+        "12 is 12 steps away from 0.",
+        "So |12| = 12."
+      ],
+      "latex": "|12| = 12"
+    },
+    {
+      "title": "Example 2",
+      "steps": [
+        "Find |-12|.",
+        "-12 is also 12 steps away from 0.",
+        "So |-12| = 12."
+      ],
+      "latex": "|-12| = 12"
+    }
+  ],
+  "teaching_tips": [
+    "Draw a number line and show distances from zero.",
+    "Remind kids: absolute value is always positive (or zero).",
+    "Practice comparing integers and their absolute values to avoid confusion."
+  ],
+  "exercises": {
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Find |5|",
+        "answer": "5"
+      },
+      {
+        "id": "E2",
+        "prompt": "Find |-8|",
+        "answer": "8"
+      },
+      {
+        "id": "E3",
+        "prompt": "Find |0|",
+        "answer": "0"
+      },
+      {
+        "id": "E4",
+        "prompt": "Find |-3|",
+        "answer": "3"
+      },
+      {
+        "id": "E5",
+        "prompt": "Find |10|",
+        "answer": "10"
+      },
+      {
+        "id": "E6",
+        "prompt": "Find |-1|",
+        "answer": "1"
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find |7| + |-2|",
+        "answer": "9"
+      },
+      {
+        "id": "M2",
+        "prompt": "Find |-4| + |-6|",
+        "answer": "10"
+      },
+      {
+        "id": "M3",
+        "prompt": "Find |3 - 8|",
+        "answer": "5"
+      },
+      {
+        "id": "M4",
+        "prompt": "Find |-12 + 5|, then its absolute value",
+        "answer": "7"
+      },
+      {
+        "id": "M5",
+        "prompt": "Find |20 - 15|",
+        "answer": "5"
+      },
+      {
+        "id": "M6",
+        "prompt": "Find |2| + |−9|",
+        "answer": "11"
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Find ||-7||",
+        "answer": "7",
+        "explain": "The absolute value of -7 is 7, and |7| = 7."
+      },
+      {
+        "id": "C2",
+        "prompt": "Find |5 - 12|",
+        "answer": "7"
+      },
+      {
+        "id": "C3",
+        "prompt": "Find |(-3) + (-7)|",
+        "answer": "10"
+      },
+      {
+        "id": "C4",
+        "prompt": "Find |15 - 20| + |-4|",
+        "answer": "9"
+      },
+      {
+        "id": "C5",
+        "prompt": "Find |(-8) + 3|",
+        "answer": "5"
+      },
+      {
+        "id": "C6",
+        "prompt": "Find |12 ÷ (-3)|",
+        "answer": "4"
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "Find |(-5)^2 - 30|",
+        "answer": "5",
+        "explain": "(-5)^2 = 25, then 25 - 30 = -5, absolute value = 5."
+      },
+      {
+        "id": "X2",
+        "prompt": "Find |(−10 + 4)| + |(−3 − 2)|",
+        "answer": "11",
+        "explain": "-10+4 = -6 → | -6 | = 6; -3-2 = -5 → | -5 | = 5; total = 11."
+      },
+      {
+        "id": "X3",
+        "prompt": "Find |(7 − 12) × (−2)|",
+        "answer": "10",
+        "explain": "7-12 = -5, then (-5)×(-2)=10, absolute value = 10."
+      },
+      {
+        "id": "X4",
+        "prompt": "Find |(−15 ÷ 3) + 8|",
+        "answer": "3",
+        "explain": "-15 ÷ 3 = -5, then -5 + 8 = 3, absolute value = 3."
+      },
+      {
+        "id": "X5",
+        "prompt": "Find |(−4)^2 − 20|",
+        "answer": "4",
+        "explain": "(-4)^2 = 16, then 16-20=-4, absolute value=4."
+      },
+      {
+        "id": "X6",
+        "prompt": "Find |(-2) × (-3) × (-4)|",
+        "answer": "24",
+        "explain": "(-2 × -3)=6, 6×(-4)=-24, absolute value=24."
+      }
+    ]
+  }
+}

@@ -40,7 +40,7 @@ export default function IntegersPage() {
                   { title: "Multiplying/Dividing Integers", href: "/math/multiplying-dividing-integers" },
                   { title: "Ordering Integers & Numbers", href: "/math/ordering-integers-numbers" },
                   { title: "Order of Operations", href: "/math/order-of-operations" },
-                  { title: "Integers & Absolute Value", href: "" }
+                  { title: "Integers & Absolute Value", href: "/math/integers-absolute-value" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>
