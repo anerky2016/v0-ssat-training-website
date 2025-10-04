@@ -36,29 +36,51 @@ export default function RatiosPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  "Simplifying Ratios",
-                  "Proportional Ratios",
-                  "Creating Proportions",
-                  "Similarity & Ratios",
-                  "Simple Interest"
+                  { title: "Simplifying Ratios", href: "/math/simplifying-ratios" },
+                  { title: "Proportional Ratios", href: "/math/proportional-ratios" },
+                  { title: "Creating Proportions", href: "/math/create-proportion" },
+                  { title: "Similarity & Ratios", href: "/math/similarity-ratios" },
+                  { title: "Simple Interest", href: "" }
                 ].map((topic, index) => (
-                  <Card key={topic} className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-chart-5/10 flex items-center justify-center">
-                          <span className="text-chart-5 font-bold text-sm">{index + 1}</span>
+                  topic.href ? (
+                    <Link key={topic.title} href={topic.href}>
+                      <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-chart-5/10 flex items-center justify-center">
+                              <span className="text-chart-5 font-bold text-sm">{index + 1}</span>
+                            </div>
+                            <CardTitle className="text-lg text-card-foreground">
+                              {topic.title}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-sm text-muted-foreground">
+                            Interactive lessons and practice problems
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={topic.title} className="border-border bg-card opacity-60">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-lg bg-chart-5/10 flex items-center justify-center">
+                            <span className="text-chart-5 font-bold text-sm">{index + 1}</span>
+                          </div>
+                          <CardTitle className="text-lg text-card-foreground">
+                            {topic.title}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-lg text-card-foreground">
-                          {topic}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground">
-                        Practice problems and step-by-step solutions
-                      </p>
-                    </CardContent>
-                  </Card>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm text-muted-foreground">
+                          Coming soon
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )
                 ))}
               </div>
             </div>
