@@ -1,0 +1,100 @@
+{
+  "topic": "Rectangular Prisms",
+  "audience": "Kids (ages 9–13)",
+  "summary": "A rectangular prism is like a box with 6 rectangle faces. We can find how much space it holds (volume) and how much paper it takes to cover the outside (surface area).",
+  "concepts": [
+    {
+      "title": "What is a Rectangular Prism?",
+      "kid_friendly": "Think of a shoebox or a brick. It has a length (l), a width (w), and a height (h)."
+    },
+    {
+      "title": "Formulas",
+      "latex": {
+        "volume": "V = l \\times w \\times h",
+        "surface_area": "S = 2(lw + lh + wh)"
+      },
+      "kid_friendly": "Volume = how many cubes fit inside. Surface area = how much wrapping paper covers the outside."
+    }
+  ],
+  "worked_example": {
+    "given": { "l": 6, "w": 4, "h": 8, "unit": "m" },
+    "steps": [
+      {
+        "label": "Volume",
+        "latex": [
+          "V = l \\times w \\times h = 6 \\times 4 \\times 8 = 192",
+          "V = 192\\, \\text{m}^3"
+        ]
+      },
+      {
+        "label": "Surface Area",
+        "latex": [
+          "S = 2(lw + lh + wh) = 2((6\\times4)+(6\\times8)+(4\\times8))",
+          "S = 2(24+48+32) = 2(104) = 208",
+          "S = 208\\, \\text{m}^2"
+        ]
+      }
+    ],
+    "answers": { "volume": "192 m^3", "surface_area": "208 m^2" },
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>6 m</text><text x='175' y='90' class='text'>8 m</text><text x='95' y='160' class='text'>4 m</text></svg>"
+  },
+  "exercises": {
+    "instructions": "Use V = l×w×h and S = 2(lw + lh + wh). Include units. Round only if asked.",
+    "easy": [
+      {
+        "id": "E1",
+        "prompt": "Find the volume when l = 2 cm, w = 3 cm, h = 4 cm.",
+        "answer": { "volume": "24 cm^3" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>2 cm</text><text x='175' y='90' class='text'>4 cm</text><text x='95' y='160' class='text'>3 cm</text></svg>"
+      },
+      {
+        "id": "E2",
+        "prompt": "Find the surface area when l = 1 m, w = 2 m, h = 3 m.",
+        "answer": { "surface_area": "22 m^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>1 m</text><text x='175' y='90' class='text'>3 m</text><text x='95' y='160' class='text'>2 m</text></svg>"
+      }
+    ],
+    "medium": [
+      {
+        "id": "M1",
+        "prompt": "Find the volume and surface area for l = 5 cm, w = 2 cm, h = 10 cm.",
+        "answer": { "volume": "100 cm^3", "surface_area": "160 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 cm</text><text x='175' y='90' class='text'>10 cm</text><text x='95' y='160' class='text'>2 cm</text></svg>"
+      },
+      {
+        "id": "M2",
+        "prompt": "A box has l = 7 m, w = 4 m, h = 2 m. Find the surface area.",
+        "answer": { "surface_area": "92 m^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>7 m</text><text x='175' y='90' class='text'>2 m</text><text x='95' y='160' class='text'>4 m</text></svg>"
+      }
+    ],
+    "challenge": [
+      {
+        "id": "C1",
+        "prompt": "Find the surface area when l = 12 cm, w = 8 cm, h = 5 cm.",
+        "answer": { "surface_area": "472 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>12 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>8 cm</text></svg>"
+      },
+      {
+        "id": "C2",
+        "prompt": "A large crate has l = 15 cm, w = 10 cm, h = 4 cm. Find its volume and surface area.",
+        "answer": { "volume": "600 cm^3", "surface_area": "500 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>15 cm</text><text x='175' y='90' class='text'>4 cm</text><text x='95' y='160' class='text'>10 cm</text></svg>"
+      }
+    ],
+    "extreme": [
+      {
+        "id": "X1",
+        "prompt": "A box has l = 5 m, w = 4 m, h = 3 m. If you double only the length, what is the new volume?",
+        "answer": { "new_volume": "120 m^3 (since original V=60 m^3 and doubling l doubles V)" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 m</text><text x='175' y='90' class='text'>3 m</text><text x='95' y='160' class='text'>4 m</text></svg>"
+      },
+      {
+        "id": "X2",
+        "prompt": "A cube is a special rectangular prism with l = w = h. If l = w = h = 5 cm, find its surface area and volume.",
+        "answer": { "volume": "125 cm^3", "surface_area": "150 cm^2" },
+        "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 200' width='300' height='260'><style>.outline{fill:#fff;stroke:#000;stroke-width:2}.hidden{stroke:#000;stroke-dasharray:4 4;stroke-width:1.5}.shade{fill:#ddd;stroke:#000;stroke-width:2}.text{font:16px \"Times New Roman\",serif;font-style:italic}</style><rect x='40' y='60' width='100' height='80' class='outline'/><polygon points='40,60 70,40 170,40 140,60' class='outline'/><polygon points='140,60 170,40 170,120 140,140' class='shade'/><line x1='170' y1='40' x2='170' y2='120' class='hidden'/><line x1='70' y1='120' x2='170' y2='120' class='hidden'/><line x1='70' y1='40' x2='70' y2='120' class='hidden'/><line x1='40' y1='140' x2='70' y2='120' class='hidden'/><text x='100' y='35' class='text'>5 cm</text><text x='175' y='90' class='text'>5 cm</text><text x='95' y='160' class='text'>5 cm</text></svg>"
+      }
+    ]
+  }
+}

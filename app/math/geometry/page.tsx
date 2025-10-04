@@ -42,7 +42,7 @@ export default function GeometryPage() {
                   { title: "Circles", href: null },
                   { title: "Trapezoids", href: null },
                   { title: "Cubes", href: "/math/geometry/cubes" },
-                  { title: "Rectangular Prisms", href: null },
+                  { title: "Rectangular Prisms", href: "/math/geometry/rectangular-prisms" },
                   { title: "Cylinder", href: "/math/geometry/cylinder" }
                 ].map((topic, index) => (
                   topic.href ? (
