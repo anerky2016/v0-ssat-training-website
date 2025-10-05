@@ -38,6 +38,7 @@ export default function ExponentsPage() {
                 {[
                   { title: "Multiplication Properties of Exponents", href: "/math/exponents/multiplication-division-properties" },
                   { title: "Division Property of Exponents", href: "/math/exponents/division-properties" },
+                  { title: "Powers of Products and Quotients", href: "/math/exponents/powers-products-quotients" },
                   { title: "Zero & Negative Exponents", href: null },
                   { title: "Negative Exponents & Negative Bases", href: null },
                   { title: "Scientific Notation", href: null },
