@@ -36,30 +36,52 @@ export default function ExponentsPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  "Multiplication/Division Properties of Exponents",
-                  "Powers of Products & Quotients",
-                  "Zero & Negative Exponents",
-                  "Negative Exponents & Negative Bases",
-                  "Scientific Notation",
-                  "Square Roots"
+                  { title: "Multiplication/Division Properties of Exponents", href: "/math/exponents/multiplication-division-properties" },
+                  { title: "Powers of Products & Quotients", href: null },
+                  { title: "Zero & Negative Exponents", href: null },
+                  { title: "Negative Exponents & Negative Bases", href: null },
+                  { title: "Scientific Notation", href: null },
+                  { title: "Square Roots", href: null }
                 ].map((topic, index) => (
-                  <Card key={topic} className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-chart-7/10 flex items-center justify-center">
-                          <span className="text-chart-7 font-bold text-sm">{index + 1}</span>
+                  topic.href ? (
+                    <Link key={topic.title} href={topic.href}>
+                      <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-chart-7/10 flex items-center justify-center">
+                              <span className="text-chart-7 font-bold text-sm">{index + 1}</span>
+                            </div>
+                            <CardTitle className="text-lg text-card-foreground">
+                              {topic.title}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-sm text-muted-foreground">
+                            Practice problems and step-by-step solutions
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={topic.title} className="border-border bg-card opacity-60">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-lg bg-chart-7/10 flex items-center justify-center">
+                            <span className="text-chart-7 font-bold text-sm">{index + 1}</span>
+                          </div>
+                          <CardTitle className="text-lg text-card-foreground">
+                            {topic.title}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-lg text-card-foreground">
-                          {topic}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground">
-                        Practice problems and step-by-step solutions
-                      </p>
-                    </CardContent>
-                  </Card>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm text-muted-foreground">
+                          Coming soon
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )
                 ))}
               </div>
             </div>
