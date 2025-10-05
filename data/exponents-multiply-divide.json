@@ -4,7 +4,7 @@
   "topic_id": "exponents_multiply_v1",
   "kid_friendly_explainer": [
     "Exponents are a shortcut for repeated multiplication.",
-    "Instead of writing 2 × 2 × 2 × 2, we can write 2^4.",
+    "Instead of writing 2 × 2 × 2 × 2, we can write \\(2^4\\).",
     "A letter like x or y can stand for a number. We call it a variable."
   ],
   "core_rules": [
@@ -34,7 +34,7 @@
       "id": "ex1",
       "problem_latex": "4x^3\\times 2x^2",
       "walkthrough": [
-        "Group numbers and variables: (4×2) and (x^3×x^2).",
+        "Group numbers and variables: (4×2) and \\((x^3×x^2)\\).",
         "Multiply numbers: 4×2=8.",
         "Same base x: add exponents 3+2=5.",
         "Answer:"
@@ -45,8 +45,8 @@
       "id": "ex2",
       "problem_latex": "(x^3y^5)^2",
       "walkthrough": [
-        "Power of a product: give the 2 to x^3 and y^5.",
-        "Power of a power: x^{3\\cdot2}=x^6 and y^{5\\cdot2}=y^{10}.",
+        "Power of a product: give the 2 to \\(x^3\\) and \\(y^5\\).",
+        "Power of a power: \\(x^{3\\cdot2}=x^6\\) and \\(y^{5\\cdot2}=y^{10}\\).",
         "Answer:"
       ],
       "answer_latex": "x^6y^{10}"
@@ -54,7 +54,7 @@
   ],
   "exercises": {
     "easy": {
-      "directions": "Use the rule x^a × x^b = x^{a+b}. Keep bases the same and add exponents.",
+      "directions": "Use the rule \\(x^a × x^b = x^{a+b}\\). Keep bases the same and add exponents.",
       "items": [
         {
           "id": "e1",
@@ -71,13 +71,13 @@
         {
           "id": "e3",
           "question_latex": "(a^5)\\times (a)",
-          "hint": "a = a^1.",
+          "hint": "\\(a = a^1\\).",
           "answer_latex": "a^6"
         },
         {
           "id": "e4",
           "question_latex": "5x\\times x^4",
-          "hint": "x = x^1.",
+          "hint": "\\(x = x^1\\).",
           "answer_latex": "5x^5"
         },
         {
@@ -94,7 +94,7 @@
         {
           "id": "m1",
           "question_latex": "2x^3y^2\\times 3x",
-          "hint": "x = x^1. Multiply numbers 2×3.",
+          "hint": "\\(x = x^1\\). Multiply numbers 2×3.",
           "answer_latex": "6x^4y^2"
         },
         {
@@ -112,7 +112,7 @@
         {
           "id": "m4",
           "question_latex": "x^5\\times x^2\\times x",
-          "hint": "x = x^1. Add all exponents.",
+          "hint": "\\(x = x^1\\). Add all exponents.",
           "answer_latex": "x^8"
         },
         {
@@ -141,7 +141,7 @@
         {
           "id": "c3",
           "question_latex": "\\frac{y^4}{y}\\times y^2",
-          "hint": "y = y^1. Subtract then add, or add all with signs.",
+          "hint": "\\(y = y^1\\). Subtract then add, or add all with signs.",
           "answer_latex": "y^{5}"
         },
         {
@@ -153,7 +153,7 @@
         {
           "id": "c5",
           "question_latex": "5x^0y^3\\times 2y^{-1}",
-          "hint": "x^0 = 1. Add y-exponents 3 + (−1).",
+          "hint": "\\(x^0 = 1\\). Add y-exponents 3 + (−1).",
           "answer_latex": "10y^{2}"
         }
       ]
@@ -176,13 +176,13 @@
         {
           "id": "x3",
           "question_latex": "\\left(\\frac{x^2y^{-1}}{x^{-3}y^2}\\right)^2\\times x^{-1}",
-          "hint": "Inside the parentheses subtract exponents (top minus bottom), then square, then combine with x^{-1}.",
+          "hint": "Inside the parentheses subtract exponents (top minus bottom), then square, then combine with \\(x^{-1}\\).",
           "answer_latex": "x^{9}y^{-6}=\\frac{x^{9}}{y^{6}}"
         },
         {
           "id": "x4",
           "question_latex": "(3m^0n^{-2})\\times (m^{-4}n)^2\\times (mn^3)",
-          "hint": "m^0=1. Square the middle group, then collect m- and n-exponents.",
+          "hint": "\\(m^0=1\\). Square the middle group, then collect m- and n-exponents.",
           "answer_latex": "3m^{-7}n^{3}=\\frac{3n^{3}}{m^{7}}"
         },
         {
@@ -196,7 +196,7 @@
   },
   "teacher_notes": [
     "Emphasize: the ADD rule only works when the bases match.",
-    "Encourage students to rewrite lone variables as power 1 (x = x^1) and remember x^0 = 1 (for x ≠ 0).",
+    "Encourage students to rewrite lone variables as power 1 \\((x = x^1)\\) and remember \\(x^0 = 1\\) (for \\(x ≠ 0\\)).",
     "Have students circle like bases before combining."
   ]
 }

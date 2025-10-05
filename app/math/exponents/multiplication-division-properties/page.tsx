@@ -64,7 +64,9 @@ export default function ExponentsMultiplyDividePage() {
                   {exponentsData.kid_friendly_explainer.map((explanation, index) => (
                     <Card key={index} className="border-chart-2/20">
                       <CardContent className="pt-6">
-                        <p className="text-base text-muted-foreground leading-relaxed">{explanation}</p>
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          <MathJax>{explanation}</MathJax>
+                        </p>
                       </CardContent>
                     </Card>
                   ))}
@@ -128,7 +130,7 @@ export default function ExponentsMultiplyDividePage() {
                             {example.walkthrough.map((step, idx) => (
                               <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <span className="font-semibold text-primary">{idx + 1}.</span>
-                                <span>{step}</span>
+                                <span><MathJax>{step}</MathJax></span>
                               </li>
                             ))}
                           </ol>
@@ -160,7 +162,7 @@ export default function ExponentsMultiplyDividePage() {
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-3">
                           <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-muted-foreground">{note}</p>
+                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
                         </div>
                       </CardContent>
                     </Card>
@@ -199,7 +201,7 @@ export default function ExponentsMultiplyDividePage() {
                     <Card className="mb-6 border-primary/20">
                       <CardContent className="pt-6">
                         <p className="text-sm text-muted-foreground">
-                          <strong>Directions:</strong> {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].directions}
+                          <strong>Directions:</strong> <MathJax>{exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].directions}</MathJax>
                         </p>
                       </CardContent>
                     </Card>
@@ -217,7 +219,7 @@ export default function ExponentsMultiplyDividePage() {
                             </div>
                             {item.hint && (
                               <CardDescription className="text-sm text-muted-foreground italic">
-                                💡 {item.hint}
+                                💡 <MathJax inline>{item.hint}</MathJax>
                               </CardDescription>
                             )}
                           </CardHeader>
