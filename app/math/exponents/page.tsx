@@ -36,8 +36,8 @@ export default function ExponentsPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { title: "Multiplication/Division Properties of Exponents", href: "/math/exponents/multiplication-division-properties" },
-                  { title: "Powers of Products & Quotients", href: null },
+                  { title: "Multiplication Properties of Exponents", href: "/math/exponents/multiplication-division-properties" },
+                  { title: "Division Property of Exponents", href: "/math/exponents/division-properties" },
                   { title: "Zero & Negative Exponents", href: null },
                   { title: "Negative Exponents & Negative Bases", href: null },
                   { title: "Scientific Notation", href: null },

@@ -1,0 +1,197 @@
+{
+  "title": "Division Property of Exponents",
+  "audience": "Ages 10–13",
+  "topic_id": "exponents_division_v1",
+  "kid_friendly_explainer": [
+    "When we divide numbers or variables with exponents, we keep the base the same and SUBTRACT the exponents.",
+    "This works because division is the opposite of multiplication — if multiplying adds exponents, dividing subtracts them.",
+    "Remember: we can only divide when the base is not zero!"
+  ],
+  "core_rules": [
+    {
+      "name": "Same base ÷ Same base",
+      "plain_english": "When dividing powers with the SAME base, keep the base and SUBTRACT the exponents (top minus bottom).",
+      "latex": "\\frac{x^a}{x^b} = x^{a-b},\\quad x \\neq 0"
+    },
+    {
+      "name": "Negative exponents",
+      "plain_english": "If you get a negative exponent, it means the base moves to the denominator.",
+      "latex": "x^{-b} = \\frac{1}{x^b}"
+    },
+    {
+      "name": "Alternative form",
+      "plain_english": "Dividing can also be written as flipping the base and subtracting the other way.",
+      "latex": "\\frac{x^a}{x^b} = \\frac{1}{x^{b-a}}"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "\\frac{12x^2y}{4xy^3}",
+      "walkthrough": [
+        "Step 1: Divide the numbers (12 ÷ 4 = 3).",
+        "Step 2: For x: subtract exponents → 2 − 1 = 1.",
+        "Step 3: For y: subtract exponents → 1 − 3 = −2.",
+        "Step 4: Simplify: y^{-2} = 1/y^2."
+      ],
+      "answer_latex": "\\frac{3x}{y^2}"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "\\frac{18x^{-6}}{2x^{-3}}",
+      "walkthrough": [
+        "Step 1: Divide numbers (18 ÷ 2 = 9).",
+        "Step 2: Subtract exponents (−6) − (−3) = −6 + 3 = −3.",
+        "Step 3: Negative exponent means move x to denominator."
+      ],
+      "answer_latex": "\\frac{9}{x^3}"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Simplify each expression using the rule: divide same bases → subtract exponents (top − bottom).",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "\\frac{x^5}{x^2}",
+          "hint": "Subtract exponents: 5 − 2.",
+          "answer_latex": "x^3"
+        },
+        {
+          "id": "e2",
+          "question_latex": "\\frac{y^6}{y^4}",
+          "hint": "Subtract exponents: 6 − 4.",
+          "answer_latex": "y^2"
+        },
+        {
+          "id": "e3",
+          "question_latex": "\\frac{a^3b^2}{a}",
+          "hint": "a = a^1, subtract for a only.",
+          "answer_latex": "a^2b^2"
+        },
+        {
+          "id": "e4",
+          "question_latex": "\\frac{12x^2}{3x}",
+          "hint": "Divide numbers and subtract x exponents.",
+          "answer_latex": "4x"
+        },
+        {
+          "id": "e5",
+          "question_latex": "\\frac{p^5q^3}{q}",
+          "hint": "q = q^1, subtract exponents for q.",
+          "answer_latex": "p^5q^2"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Include negative exponents and multiple variables. Simplify carefully.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "\\frac{3x^4y^2}{6xy}",
+          "hint": "Divide numbers, then subtract exponents.",
+          "answer_latex": "\\frac{1}{2}x^3y"
+        },
+        {
+          "id": "m2",
+          "question_latex": "\\frac{a^5b^3}{a^2b^4}",
+          "hint": "Subtract each exponent: a (5−2), b (3−4).",
+          "answer_latex": "a^3b^{-1}=\\frac{a^3}{b}"
+        },
+        {
+          "id": "m3",
+          "question_latex": "\\frac{4m^2n^3}{2mn^2}",
+          "hint": "Simplify coefficients and subtract powers.",
+          "answer_latex": "2mn"
+        },
+        {
+          "id": "m4",
+          "question_latex": "\\frac{7x^{-2}}{x^{-5}}",
+          "hint": "Subtract exponents (−2 − (−5)).",
+          "answer_latex": "7x^3"
+        },
+        {
+          "id": "m5",
+          "question_latex": "\\frac{(p^3q)^2}{p^4q^3}",
+          "hint": "Expand the top first: p^{6}q^{2}. Then divide.",
+          "answer_latex": "p^2q^{-1}=\\frac{p^2}{q}"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Include nested parentheses, zero exponents, and negatives. Write your answer with positive exponents only.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "\\frac{x^0y^4}{y^7}",
+          "hint": "x^0 = 1, subtract y exponents.",
+          "answer_latex": "y^{-3}=\\frac{1}{y^3}"
+        },
+        {
+          "id": "c2",
+          "question_latex": "\\frac{(a^2b^{-3})^2}{ab^{-1}}",
+          "hint": "Expand top, then subtract exponents for each base.",
+          "answer_latex": "a^3b^{-5}=\\frac{a^3}{b^5}"
+        },
+        {
+          "id": "c3",
+          "question_latex": "\\frac{2x^5y^{-2}}{4x^3y}",
+          "hint": "Divide coefficients and subtract exponents carefully.",
+          "answer_latex": "\\frac{1}{2}x^2y^{-3}=\\frac{x^2}{2y^3}"
+        },
+        {
+          "id": "c4",
+          "question_latex": "\\frac{(mn^{-1})^3}{m^2n^{-4}}",
+          "hint": "Multiply powers in the numerator, then subtract exponents.",
+          "answer_latex": "m^{1}n^{1}=mn"
+        },
+        {
+          "id": "c5",
+          "question_latex": "\\frac{(3x^2y^{-1})^3}{9xy^2}",
+          "hint": "Cube first: coefficients and exponents. Then divide.",
+          "answer_latex": "x^5y^{-5}=\\frac{x^5}{y^5}"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Complex multi-variable and fraction cases. Be cautious: apply parentheses and negative signs correctly.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "\\frac{(2x^{-2}y^3)^2}{(4x^3y^{-1})^3}",
+          "hint": "Expand both numerator and denominator before dividing.",
+          "answer_latex": "\\frac{1}{2}x^{-13}y^{9}=\\frac{y^{9}}{2x^{13}}"
+        },
+        {
+          "id": "x2",
+          "question_latex": "\\frac{(a^{-1}b^2)^3}{(a^2b^{-3})^2}",
+          "hint": "Raise powers, then subtract exponents of a and b.",
+          "answer_latex": "a^{-7}b^{10}=\\frac{b^{10}}{a^{7}}"
+        },
+        {
+          "id": "x3",
+          "question_latex": "\\frac{(x^2y^{-3})^4}{(x^{-1}y^2)^3}",
+          "hint": "Multiply exponents first, then subtract across fraction.",
+          "answer_latex": "x^{11}y^{-18}=\\frac{x^{11}}{y^{18}}"
+        },
+        {
+          "id": "x4",
+          "question_latex": "\\frac{(p^{-2}q)^5(p^3q^{-4})}{(p^{-1}q^2)^3}",
+          "hint": "Expand step by step, combine p's and q's separately.",
+          "answer_latex": "p^{2}q^{-11}=\\frac{p^{2}}{q^{11}}"
+        },
+        {
+          "id": "x5",
+          "question_latex": "\\frac{(2x^{-3}y^2)^3(x^2y^{-4})^2}{(8x^{-2}y)^4}",
+          "hint": "Compute powers and coefficients carefully; track negatives.",
+          "answer_latex": "\\frac{1}{2}x^{-1}y^{-6}=\\frac{1}{2x y^6}"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Remind students: subtract top − bottom, not the other way around!",
+    "Always rewrite negative exponents as fractions to make final answers positive.",
+    "Encourage simplifying coefficients before handling exponents."
+  ]
+}
