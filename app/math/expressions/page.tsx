@@ -2,7 +2,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, ArrowLeft, Target, Zap } from "lucide-react"
+import { BookOpen, ArrowLeft, Target, Zap, Clock } from "lucide-react"
 import Link from "next/link"
 
 export default function ExpressionsPage() {
@@ -36,31 +36,56 @@ export default function ExpressionsPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  "Simplifying Variable Expressions",
-                  "Simplifying Polynomial Expressions",
-                  "Translating Phrases to Algebra",
-                  "Distributive Property",
-                  "Evaluating One Variable",
-                  "Evaluating Two Variables",
-                  "Combining Like Terms"
+                  { title: "Simplifying Variable Expressions", href: null },
+                  { title: "Simplifying Polynomial Expressions", href: null },
+                  { title: "Translating Phrases to Algebra", href: null },
+                  { title: "Distributive Property", href: null },
+                  { title: "Evaluating One Variable", href: null },
+                  { title: "Evaluating Two Variables", href: null },
+                  { title: "Combining Like Terms", href: null }
                 ].map((topic, index) => (
-                  <Card key={topic} className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-lg bg-chart-8/10 flex items-center justify-center">
-                          <span className="text-chart-8 font-bold text-sm">{index + 1}</span>
+                  topic.href ? (
+                    <Link key={topic.title} href={topic.href}>
+                      <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-chart-8/10 flex items-center justify-center">
+                              <span className="text-chart-8 font-bold text-sm">{index + 1}</span>
+                            </div>
+                            <CardTitle className="text-lg text-card-foreground">
+                              {topic.title}
+                            </CardTitle>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-sm text-muted-foreground">
+                            Interactive lessons and practice problems
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={topic.title} className="border-border bg-card opacity-60">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-lg bg-chart-8/10 flex items-center justify-center">
+                            <span className="text-chart-8 font-bold text-sm">{index + 1}</span>
+                          </div>
+                          <CardTitle className="text-lg text-card-foreground">
+                            {topic.title}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-lg text-card-foreground">
-                          {topic}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground">
-                        Practice problems and step-by-step solutions
-                      </p>
-                    </CardContent>
-                  </Card>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">
+                            Coming soon
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )
                 ))}
               </div>
             </div>
