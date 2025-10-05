@@ -91,95 +91,95 @@ export default function IntegersPage() {
         <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto">
-              <Link href="/math/integers/exercises">
-                <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
-                  <CardHeader>
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-4/10 text-chart-4">
-                      <BookOpen className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-xl text-card-foreground">Practice Exercises</CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                      Fun integers problems with instant feedback
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
-                        <span>Step-by-step solutions</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
-                        <span>Multiple difficulty levels</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
-                        <span>Detailed explanations</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </Link>
+              <Card className="border-border bg-card opacity-60 h-full">
+                <CardHeader>
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-4/10 text-chart-4">
+                    <BookOpen className="h-6 w-6" />
+                  </div>
+                  <CardTitle className="text-xl text-card-foreground">
+                    Practice Exercises <span className="text-sm font-normal text-muted-foreground">(Coming Soon)</span>
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Fun integers problems with instant feedback
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
+                      <span>Step-by-step solutions</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
+                      <span>Multiple difficulty levels</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-4 flex-shrink-0" />
+                      <span>Detailed explanations</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <Link href="/math/integers/tactics">
-                <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
-                  <CardHeader>
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-2/10 text-chart-2">
-                      <Target className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-xl text-card-foreground">Integers Tactics</CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                      Super strategies for integers mastery
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
-                        <span>Proven problem-solving methods</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
-                        <span>Time-saving shortcuts</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
-                        <span>Common mistake avoiders</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </Link>
+              <Card className="border-border bg-card opacity-60 h-full">
+                <CardHeader>
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-2/10 text-chart-2">
+                    <Target className="h-6 w-6" />
+                  </div>
+                  <CardTitle className="text-xl text-card-foreground">
+                    Integers Tactics <span className="text-sm font-normal text-muted-foreground">(Coming Soon)</span>
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Super strategies for integers mastery
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
+                      <span>Proven problem-solving methods</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
+                      <span>Time-saving shortcuts</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-2 flex-shrink-0" />
+                      <span>Common mistake avoiders</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <Link href="/math/integers/tests">
-                <Card className="border-border bg-card hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer h-full">
-                  <CardHeader>
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-3/10 text-chart-3">
-                      <Zap className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-xl text-card-foreground">Practice Tests</CardTitle>
-                    <CardDescription className="text-muted-foreground">
-                      Test your integers skills
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
-                        <span>Timed challenges</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
-                        <span>Mixed difficulty levels</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
-                        <span>Detailed score reports</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </Link>
+              <Card className="border-border bg-card opacity-60 h-full">
+                <CardHeader>
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-3/10 text-chart-3">
+                    <Zap className="h-6 w-6" />
+                  </div>
+                  <CardTitle className="text-xl text-card-foreground">
+                    Practice Tests <span className="text-sm font-normal text-muted-foreground">(Coming Soon)</span>
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Test your integers skills
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
+                      <span>Timed challenges</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
+                      <span>Mixed difficulty levels</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
+                      <span>Detailed score reports</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
