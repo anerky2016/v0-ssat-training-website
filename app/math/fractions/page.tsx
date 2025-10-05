@@ -2,7 +2,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calculator, ArrowLeft, BookOpen, Target, Zap } from "lucide-react"
+import { Calculator, ArrowLeft, BookOpen, Target, Zap, Clock } from "lucide-react"
 import Link from "next/link"
 
 export default function FractionsPage() {
@@ -77,9 +77,12 @@ export default function FractionsPage() {
                         </div>
                       </CardHeader>
                       <CardContent className="pt-0">
-                        <p className="text-sm text-muted-foreground">
-                          Coming soon
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">
+                            Coming soon
+                          </p>
+                        </div>
                       </CardContent>
                     </Card>
                   )
