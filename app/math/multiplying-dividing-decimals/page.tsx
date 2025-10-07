@@ -9,6 +9,8 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import decimalsData from "@/data/multiplying-dividing-decimals.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { DecimalMultiplicationAnimation } from "@/components/decimal-multiplication-animation"
+import { DecimalDivisionAnimation } from "@/components/decimal-division-animation"
 
 export default function MultiplyingDividingDecimalsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -103,6 +105,20 @@ export default function MultiplyingDividingDecimalsPage() {
                     </CardContent>
                   </Card>
                 )}
+
+                {/* Interactive Animation for Multiplication */}
+                {concept.title === "Multiplication with Decimals" && (
+                  <div className="mb-6">
+                    <DecimalMultiplicationAnimation num1={2.3} num2={1.4} />
+                  </div>
+                )}
+
+                {/* Interactive Animation for Division */}
+                {concept.title === "Division with Decimals" && (
+                  <div className="mb-6">
+                    <DecimalDivisionAnimation dividend={4.2} divisor={0.7} />
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -127,6 +143,13 @@ export default function MultiplyingDividingDecimalsPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
+                        {/* Interactive Animation for first example (0.6 × 0.5) */}
+                        {example.title === "Multiply 0.6 × 0.5" && (
+                          <div className="mb-6">
+                            <DecimalMultiplicationAnimation num1={0.6} num2={0.5} />
+                          </div>
+                        )}
+
                         {/* Steps */}
                         {example.steps && example.steps.length > 0 && (
                           <div className="bg-muted/50 rounded-lg p-4">
