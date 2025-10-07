@@ -1,0 +1,96 @@
+{
+  "title": "Math Practice Exercises",
+  "description": "Practice problems covering all SSAT Middle Level math topics",
+  "exercises": [
+    {
+      "id": 1,
+      "topic": "Fractions",
+      "difficulty": "Medium",
+      "question": "Simplify: 2/3 × 9/4",
+      "options": ["18/12", "3/2", "11/7", "6/4"],
+      "correct": 1,
+      "explanation": "Multiply numerators and denominators: (2 × 9)/(3 × 4) = 18/12. Simplify by dividing both by 6: 18/12 = 3/2 or 1 1/2"
+    },
+    {
+      "id": 2,
+      "topic": "Decimals",
+      "difficulty": "Easy",
+      "question": "What is 0.45 + 0.8?",
+      "options": ["0.53", "1.25", "1.05", "0.125"],
+      "correct": 1,
+      "explanation": "Line up the decimals: 0.45 + 0.80 = 1.25"
+    },
+    {
+      "id": 3,
+      "topic": "Factoring",
+      "difficulty": "Medium",
+      "question": "What is the Greatest Common Factor (GCF) of 24 and 36?",
+      "options": ["6", "8", "12", "4"],
+      "correct": 2,
+      "explanation": "Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. Factors of 36: 1, 2, 3, 4, 6, 9, 12, 18, 36. The greatest common factor is 12."
+    },
+    {
+      "id": 4,
+      "topic": "Integers",
+      "difficulty": "Medium",
+      "question": "Calculate: -8 + 15 - 3",
+      "options": ["4", "10", "-4", "20"],
+      "correct": 0,
+      "explanation": "Start with -8 + 15 = 7, then 7 - 3 = 4"
+    },
+    {
+      "id": 5,
+      "topic": "Ratios",
+      "difficulty": "Medium",
+      "question": "If the ratio of boys to girls in a class is 3:5 and there are 15 girls, how many boys are there?",
+      "options": ["6", "9", "12", "25"],
+      "correct": 1,
+      "explanation": "Set up proportion: 3/5 = x/15. Cross multiply: 5x = 45, so x = 9"
+    },
+    {
+      "id": 6,
+      "topic": "Percentage",
+      "difficulty": "Medium",
+      "question": "A jacket originally costs $80. If it's on sale for 30% off, what is the sale price?",
+      "options": ["$24", "$50", "$56", "$110"],
+      "correct": 2,
+      "explanation": "30% of $80 = 0.30 × 80 = $24. Sale price = $80 - $24 = $56"
+    },
+    {
+      "id": 7,
+      "topic": "Exponents",
+      "difficulty": "Medium",
+      "question": "Simplify: 2³ × 2²",
+      "options": ["2⁵", "2⁶", "4⁵", "2⁹"],
+      "correct": 0,
+      "explanation": "When multiplying with the same base, add the exponents: 2³ × 2² = 2⁽³⁺²⁾ = 2⁵ = 32"
+    },
+    {
+      "id": 8,
+      "topic": "Expressions",
+      "difficulty": "Medium",
+      "question": "Simplify: 3x + 7 - x + 2",
+      "options": ["2x + 9", "4x + 9", "2x + 5", "3x + 9"],
+      "correct": 0,
+      "explanation": "Combine like terms: 3x - x = 2x and 7 + 2 = 9. Answer: 2x + 9"
+    },
+    {
+      "id": 9,
+      "topic": "Equations",
+      "difficulty": "Medium",
+      "question": "Solve for n: 3n - 7 = 14",
+      "options": ["n = 5", "n = 7", "n = 21", "n = 3"],
+      "correct": 1,
+      "explanation": "Add 7 to both sides: 3n = 21. Divide both sides by 3: n = 7"
+    },
+    {
+      "id": 10,
+      "topic": "Geometry",
+      "difficulty": "Hard",
+      "question": "A rectangular prism has a length of 5 cm, width of 3 cm, and height of 4 cm. What is its volume?",
+      "options": ["12 cm³", "60 cm³", "47 cm³", "20 cm³"],
+      "correct": 1,
+      "explanation": "Volume of a rectangular prism = length × width × height = 5 × 3 × 4 = 60 cm³"
+    }
+  ]
+}

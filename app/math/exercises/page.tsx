@@ -9,54 +9,9 @@ import { Label } from "@/components/ui/label"
 import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import exercisesData from "@/data/math-practice-exercises.json"
 
-const exercises = [
-  {
-    id: 1,
-    topic: "Fractions",
-    difficulty: "Easy",
-    question: "What is 3/4 + 1/2?",
-    options: ["5/6", "4/6", "5/4", "1 1/4"],
-    correct: 3,
-    explanation: "First find a common denominator: 3/4 + 2/4 = 5/4 = 1 1/4",
-  },
-  {
-    id: 2,
-    topic: "Percentages",
-    difficulty: "Medium",
-    question: "If a shirt costs $40 and is on sale for 25% off, what is the sale price?",
-    options: ["$10", "$25", "$30", "$35"],
-    correct: 2,
-    explanation: "25% of $40 is $10. Subtract: $40 - $10 = $30",
-  },
-  {
-    id: 3,
-    topic: "Algebra",
-    difficulty: "Medium",
-    question: "Solve for x: 2x + 5 = 17",
-    options: ["x = 4", "x = 6", "x = 8", "x = 11"],
-    correct: 1,
-    explanation: "Subtract 5 from both sides: 2x = 12. Divide by 2: x = 6",
-  },
-  {
-    id: 4,
-    topic: "Geometry",
-    difficulty: "Hard",
-    question: "A rectangle has a length of 12 cm and a width of 8 cm. What is its area?",
-    options: ["20 cm²", "40 cm²", "96 cm²", "192 cm²"],
-    correct: 2,
-    explanation: "Area = length × width = 12 × 8 = 96 cm²",
-  },
-  {
-    id: 5,
-    topic: "Ratios",
-    difficulty: "Hard",
-    question: "If the ratio of boys to girls in a class is 3:5 and there are 15 girls, how many boys are there?",
-    options: ["6", "9", "12", "25"],
-    correct: 1,
-    explanation: "Set up proportion: 3/5 = x/15. Cross multiply: 5x = 45, so x = 9",
-  },
-]
+const exercises = exercisesData.exercises
 
 export default function ExercisesPage() {
   const [answers, setAnswers] = useState<Record<number, number>>({})
@@ -86,10 +41,10 @@ export default function ExercisesPage() {
 
           <div className="mb-8 sm:mb-12">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3 text-balance">
-              Math Practice Exercises
+              {exercisesData.title}
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground text-pretty leading-relaxed">
-              Practice problems covering all SSAT math topics. Select your answer and check your work.
+              {exercisesData.description}. Select your answer and check your work.
             </p>
           </div>
 

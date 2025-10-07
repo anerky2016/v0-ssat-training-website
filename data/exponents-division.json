@@ -10,7 +10,7 @@
   "core_rules": [
     {
       "name": "Same base ÷ Same base",
-      "plain_english": "When dividing powers with the SAME base, keep the base and SUBTRACT the exponents (top minus bottom).",
+      "plain_english": "When dividing powers with the same base, the result is the base with exponents subtracted. Visualization Story (Buckets): Represent x^a as 'a' buckets of 'x' in the numerator, and x^b as 'b' buckets of 'x' in the denominator. Cross out one top bucket with one bottom bucket, repeating until one side is gone. Leftover buckets: If more on top → leftover buckets in numerator. If more on bottom → leftover buckets in denominator. If equal → all canceled, result = 1.",
       "latex": "\\frac{x^a}{x^b} = x^{a-b},\\quad x \\neq 0"
     },
     {

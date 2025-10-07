@@ -9,6 +9,8 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import exponentsData from "@/data/exponents-division.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { BucketVisualization } from "@/components/bucket-visualization"
+import { NegativeExponentVisualization } from "@/components/negative-exponent-visualization"
 
 export default function ExponentsDivisionPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -83,27 +85,114 @@ export default function ExponentsDivisionPage() {
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Rules</h2>
                 </div>
-                <div className="grid gap-6">
-                  {exponentsData.core_rules.map((rule, index) => (
-                    <Card key={index} className="border-chart-3/20">
+                <div className="space-y-12">
+                  {/* Rule 1: Same base division with bucket visualization */}
+                  <div className="p-6 bg-background/50 rounded-xl border-2 border-primary/20">
+                    <Card className="border-chart-3/20 mb-6">
                       <CardHeader>
-                        <CardTitle className="text-xl text-primary">{rule.name}</CardTitle>
-                        <CardDescription className="text-base">{rule.plain_english}</CardDescription>
+                        <CardTitle className="text-xl text-primary">{exponentsData.core_rules[0].name}</CardTitle>
+                        <CardDescription className="text-base">{exponentsData.core_rules[0].plain_english}</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                          <MathJax>{"\\[" + rule.latex + "\\]"}</MathJax>
+                          <MathJax>{"\\[" + exponentsData.core_rules[0].latex + "\\]"}</MathJax>
                         </div>
                       </CardContent>
                     </Card>
-                  ))}
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4 text-foreground">Interactive Bucket Visualization</h3>
+                      <p className="text-muted-foreground mb-6 text-sm">
+                        Click "Start" to see how buckets cancel out when dividing powers with the same base.
+                      </p>
+                      <div className="space-y-6">
+                        <div>
+                          <div className="text-sm font-semibold mb-3 flex items-center gap-2">
+                            <span className="text-muted-foreground">Example 1: More buckets on top</span>
+                            <span className="text-red-600 dark:text-red-400 font-bold text-base">
+                              <MathJax inline>{"\\(x^5 \\div x^2\\)"}</MathJax>
+                            </span>
+                          </div>
+                          <BucketVisualization numeratorExponent={5} denominatorExponent={2} base="x" />
+                        </div>
+
+                        <div>
+                          <div className="text-sm font-semibold mb-3 flex items-center gap-2">
+                            <span className="text-muted-foreground">Example 2: More buckets on bottom</span>
+                            <span className="text-red-600 dark:text-red-400 font-bold text-base">
+                              <MathJax inline>{"\\(y^3 \\div y^6\\)"}</MathJax>
+                            </span>
+                          </div>
+                          <BucketVisualization numeratorExponent={3} denominatorExponent={6} base="y" />
+                        </div>
+
+                        <div>
+                          <div className="text-sm font-semibold mb-3 flex items-center gap-2">
+                            <span className="text-muted-foreground">Example 3: Equal buckets - all cancel</span>
+                            <span className="text-red-600 dark:text-red-400 font-bold text-base">
+                              <MathJax inline>{"\\(a^4 \\div a^4\\)"}</MathJax>
+                            </span>
+                          </div>
+                          <BucketVisualization numeratorExponent={4} denominatorExponent={4} base="a" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Rule 2: Negative exponents with bucket visualization */}
+                  <div className="p-6 bg-background/50 rounded-xl border-2 border-orange-300 dark:border-orange-700">
+                    <Card className="border-orange-300 dark:border-orange-700 mb-6">
+                      <CardHeader>
+                        <CardTitle className="text-xl text-orange-600 dark:text-orange-400">{exponentsData.core_rules[1].name}</CardTitle>
+                        <CardDescription className="text-base">{exponentsData.core_rules[1].plain_english}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
+                          <MathJax>{"\\[" + exponentsData.core_rules[1].latex + "\\]"}</MathJax>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4 text-foreground">Understanding Negative Exponents with Buckets</h3>
+                      <p className="text-muted-foreground mb-6 text-sm">
+                        Watch how leftover buckets on the bottom create negative exponents, and why they flip to the denominator.
+                      </p>
+                      <div className="space-y-6">
+                        <div>
+                          <div className="text-sm font-semibold mb-3 flex items-center gap-2">
+                            <span className="text-muted-foreground">Example: Fewer buckets on top creates negative exponent</span>
+                            <span className="text-orange-600 dark:text-orange-400 font-bold text-base">
+                              <MathJax inline>{"\\(x^2 \\div x^5\\)"}</MathJax>
+                            </span>
+                          </div>
+                          <NegativeExponentVisualization numeratorExponent={2} denominatorExponent={5} base="x" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Rule 3: Alternative form (without visualization) */}
+                  <div>
+                    <Card className="border-chart-3/20">
+                      <CardHeader>
+                        <CardTitle className="text-xl text-primary">{exponentsData.core_rules[2].name}</CardTitle>
+                        <CardDescription className="text-base">{exponentsData.core_rules[2].plain_english}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
+                          <MathJax>{"\\[" + exponentsData.core_rules[2].latex + "\\]"}</MathJax>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
           {/* Step-by-Step Examples */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -145,7 +234,7 @@ export default function ExponentsDivisionPage() {
           </section>
 
           {/* Teacher Notes */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -171,7 +260,7 @@ export default function ExponentsDivisionPage() {
           </section>
 
           {/* Practice Exercises */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
@@ -249,7 +338,7 @@ export default function ExponentsDivisionPage() {
           </section>
 
           {/* Navigation */}
-          <section className="py-8 bg-muted/30">
+          <section className="py-8">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
                 <Link href="/math/exponents">
