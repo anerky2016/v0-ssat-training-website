@@ -44,7 +44,7 @@ export function QuestionsCarousel() {
             }}
             plugins={[
               Autoplay({
-                delay: 4000,
+                delay: 5000,
                 stopOnInteraction: true,
                 stopOnMouseEnter: true,
               }),

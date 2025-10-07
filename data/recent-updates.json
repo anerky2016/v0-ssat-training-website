@@ -1,0 +1,315 @@
+{
+  "updates": [
+    {
+      "id": "update-005",
+      "date": "2025-10-06",
+      "lesson_path": "/math/multiplying-dividing-decimals",
+      "lesson_title": "Multiplying and Dividing Decimals",
+      "chapter": "Decimals",
+      "update_type": "major_enhancement",
+      "summary": "Comprehensive lesson with step-by-step procedures, worked examples with detailed explanations, and 16 practice problems across 4 difficulty levels",
+      "features": [
+        {
+          "title": "Step-by-Step Procedures",
+          "description": "Clear, numbered steps for both multiplication and division with decimals, breaking down complex operations into simple rules",
+          "examples": [
+            "Multiplication: Ignore decimals → count total decimal places → place decimal in product",
+            "Division: Shift divisor to whole number → shift dividend same amount → divide normally"
+          ]
+        },
+        {
+          "title": "LaTeX-Rendered Examples",
+          "description": "Professional mathematical notation for all formulas and examples using MathJax",
+          "examples": [
+            "2.3 × 1.4 = 3.22 (multiplication example)",
+            "4.2 ÷ 0.7 = 6 (division example with fraction notation)"
+          ]
+        },
+        {
+          "title": "Worked Examples with Detailed Solutions",
+          "description": "Two complete examples showing step-by-step reasoning from start to finish",
+          "examples": [
+            "Multiply 0.6 × 0.5: Shows ignoring decimals (6×5=30), counting decimal places (2 total), final answer (0.30)",
+            "Divide 12.6 ÷ 0.3: Shows decimal shifting (0.3→3, 12.6→126), division (126÷3=42)"
+          ]
+        },
+        {
+          "title": "16 Practice Problems Across 4 Difficulty Levels",
+          "description": "Progressive difficulty from basic single-decimal operations to extreme precision with many decimal places",
+          "examples": [
+            "Easy: 0.4 × 0.2, 4.5 ÷ 1.5 (4 problems)",
+            "Medium: 1.23 × 0.4, 9.36 ÷ 0.12 (4 problems)",
+            "Challenge: 0.007 × 0.8, 0.063 ÷ 0.009 (4 problems)",
+            "Extreme: 0.0045 × 0.003, 123.456 ÷ 0.0072 (4 problems)"
+          ]
+        },
+        {
+          "title": "Answer Explanations for Every Problem",
+          "description": "Each practice problem includes both the answer and a step-by-step explanation showing the reasoning",
+          "examples": [
+            "0.4 × 0.2 = 0.08 | Explanation: 4 × 2 = 8, two decimal places → 0.08",
+            "4.5 ÷ 1.5 = 3 | Explanation: Shift both → 45 ÷ 15 = 3"
+          ]
+        },
+        {
+          "title": "Teaching Tips Section",
+          "description": "Practical guidance for parents and tutors including real-world contexts and visual aids",
+          "examples": [
+            "Always double-check decimal placement at the end",
+            "Practice with money (like $2.30 × 1.4)",
+            "Use grid or area models for younger kids to visualize multiplication"
+          ]
+        },
+        {
+          "title": "Interactive Show/Hide Answers",
+          "description": "Toggle answers and explanations individually for self-paced learning and self-testing"
+        }
+      ],
+      "learning_improvements": [
+        "Step-by-step procedures demystify decimal operations",
+        "Explanations show the 'why' behind each step, not just mechanical rules",
+        "Progressive difficulty builds confidence from simple to complex problems",
+        "Real-world money context makes abstract decimals concrete",
+        "Answer explanations allow students to learn from mistakes independently",
+        "Extreme problems prepare advanced students for scientific notation and precision"
+      ],
+      "tags": ["decimals", "multiplication", "division", "decimal-places", "decimal-shifting", "step-by-step", "latex", "practice-problems"]
+    },
+    {
+      "id": "update-004",
+      "date": "2025-10-06",
+      "lesson_path": "/math/geometry/cylinder",
+      "lesson_title": "Cylinder",
+      "chapter": "Geometry",
+      "update_type": "major_enhancement",
+      "summary": "Comprehensive cylinder lesson with professional SVG diagrams, symbolic and numeric answers, and advanced optimization problems",
+      "features": [
+        {
+          "title": "Professional SVG Cylinder Diagrams with Directional Arrows",
+          "description": "Detailed technical drawings showing elliptical cross-sections, dashed hidden edges, and dimension arrows for radius and height",
+          "examples": [
+            "Worked example with labeled r=2cm, h=8cm",
+            "All 7 practice problems include unique cylinder diagrams",
+            "Arrow markers show measurement directions (up/down for height, left/right for radius)"
+          ]
+        },
+        {
+          "title": "Symbolic and Numeric Answer Format",
+          "description": "Teaches proper mathematical notation by requiring both exact (with π) and approximate decimal answers",
+          "examples": [
+            "Volume: 32π cm³ (symbolic) ≈ 100.48 cm³ (numeric)",
+            "Surface Area: 40π cm² (symbolic) ≈ 125.6 cm² (numeric)",
+            "Emphasizes mathematical precision and real-world application"
+          ]
+        },
+        {
+          "title": "Volume and Surface Area Formulas",
+          "description": "LaTeX-rendered formulas with kid-friendly explanations: 'Volume stacks the top circle through the whole height'",
+          "examples": [
+            "V = πr²h (volume formula)",
+            "S = 2πr² + 2πrh (surface area: top + bottom + wrap-around side)"
+          ]
+        },
+        {
+          "title": "Key Terms with Definitions",
+          "description": "Clear definitions for radius, height, and π tailored for ages 9-13",
+          "examples": [
+            "radius (r): Half the width of the circle on top",
+            "height (h): How tall the cylinder is",
+            "π (pi): About 3.14, used for circles"
+          ]
+        },
+        {
+          "title": "Advanced Practice Problems",
+          "description": "Progression from basic calculations to optimization and reverse engineering, totaling 7 problems across 4 difficulty levels",
+          "examples": [
+            "Easy: Direct calculation (r=3cm, h=5cm → find V)",
+            "Medium: Special case where r=h (both volume and surface area)",
+            "Challenge: Volume scaling (how many times larger?), reverse from circumference",
+            "Extreme: Given surface area find height, optimization (h=2r maximizes volume for fixed surface area)"
+          ]
+        },
+        {
+          "title": "Worked Example with Multi-Step Solution",
+          "description": "Complete example showing separate volume and surface area calculations with step-by-step LaTeX work and SVG diagram"
+        },
+        {
+          "title": "Interactive Show/Hide Answers",
+          "description": "Toggle answers individually for self-paced learning, with complex answers broken down by reasoning, symbolic, and numeric parts"
+        }
+      ],
+      "learning_improvements": [
+        "SVG diagrams with directional arrows make 3D visualization concrete",
+        "Symbolic vs numeric answers teach mathematical notation and approximation",
+        "Key terms section builds vocabulary for circular geometry",
+        "Advanced problems (optimization, scaling) prepare students for algebra and calculus concepts",
+        "Real-world context (soup can, label wrapping) makes abstract formulas relatable",
+        "Consistent diagram style across all problems reduces cognitive load"
+      ],
+      "tags": ["geometry", "3d-shapes", "cylinders", "volume", "surface-area", "svg", "pi", "optimization", "latex"]
+    },
+    {
+      "id": "update-003",
+      "date": "2025-10-06",
+      "lesson_path": "/math/geometry/cubes",
+      "lesson_title": "Cubes",
+      "chapter": "Geometry",
+      "update_type": "major_enhancement",
+      "summary": "Interactive 3D geometry lesson with consistent SVG cube visualizations and comprehensive volume/surface area practice",
+      "features": [
+        {
+          "title": "Consistent SVG Cube Visualizations",
+          "description": "Professional 3D cube diagrams embedded throughout the lesson using inline SVG, showing isometric perspective with shaded faces",
+          "examples": [
+            "Example problems with labeled dimensions on cube drawings",
+            "Practice problems each with unique cube visualization",
+            "Consistent blue gradient shading (light top, medium right, dark left faces)"
+          ]
+        },
+        {
+          "title": "Volume and Surface Area Formulas",
+          "description": "LaTeX-rendered key formulas: V = s³ (volume) and SA = 6s² (surface area) with clear explanations",
+          "examples": [
+            "V = s³ for cubic volume",
+            "SA = 6s² for total surface area of 6 square faces"
+          ]
+        },
+        {
+          "title": "Units Emphasis",
+          "description": "Dedicated tip section teaching proper unit usage: cubic units (cm³, m³) for volume, square units (cm², m²) for surface area"
+        },
+        {
+          "title": "Multi-Level Practice with Visuals",
+          "description": "Four difficulty levels with SVG diagrams for every practice problem, totaling 8 problems across all levels",
+          "examples": [
+            "Easy: Direct calculation problems (s=3cm, s=5m, s=2in)",
+            "Medium: Reverse problems (given SA, find s and V)",
+            "Challenge: Nested cubes word problem (64 small cubes fit in big cube)",
+            "Extreme: Cube root problems (given V=3.375m³, find s and SA)"
+          ]
+        },
+        {
+          "title": "Worked Example with Step-by-Step Solutions",
+          "description": "Complete example showing both volume and surface area calculation with visual cube diagram and LaTeX work shown"
+        },
+        {
+          "title": "Interactive Show/Hide Answers",
+          "description": "Toggle answers individually for self-paced learning across all difficulty levels"
+        }
+      ],
+      "learning_improvements": [
+        "SVG visualizations make 3D geometry concrete and easier to understand",
+        "Consistent cube drawings help students visualize the same object from problem to problem",
+        "Units tip prevents common errors with cubic vs square measurements",
+        "Progression from basic calculation to cube roots builds mathematical confidence",
+        "Visual diagrams reduce abstract thinking burden for young learners (ages 9-12)"
+      ],
+      "tags": ["geometry", "3d-shapes", "cubes", "volume", "surface-area", "svg", "visualizations", "latex"]
+    },
+    {
+      "id": "update-002",
+      "date": "2025-10-06",
+      "lesson_path": "/math/proportional-ratios",
+      "lesson_title": "Proportional Ratios",
+      "chapter": "Ratios & Proportions",
+      "update_type": "major_enhancement",
+      "summary": "Comprehensive lesson page with LaTeX-rendered mathematical notation and interactive practice problems",
+      "features": [
+        {
+          "title": "LaTeX Mathematical Notation",
+          "description": "Professional mathematical typesetting using MathJax for all formulas, ratios, and equations",
+          "examples": [
+            "Proportion definition: a/b = c/d",
+            "Cross multiplication: a × d = b × c",
+            "Worked examples with step-by-step LaTeX rendering"
+          ]
+        },
+        {
+          "title": "Structured Concept Explanations",
+          "description": "Kid-friendly explanations of proportions and cross multiplication with visual examples",
+          "examples": [
+            "What is a proportion? - Comparing equal ratios",
+            "Cross multiplication technique with visual arrows"
+          ]
+        },
+        {
+          "title": "Multi-Level Practice Problems",
+          "description": "Four difficulty levels (easy, medium, challenge, extreme) with 6-7 problems each, totaling 25+ practice problems",
+          "examples": [
+            "Easy: Basic proportion solving (3/4 = x/8)",
+            "Medium: Slightly larger numbers (4/5 = 12/x)",
+            "Challenge: Real-world word problems (ratio of cats to dogs)",
+            "Extreme: Complex scenarios (car mileage, marble ratios)"
+          ]
+        },
+        {
+          "title": "Interactive Show/Hide Answers",
+          "description": "Toggle answers for each practice problem individually for self-paced learning"
+        },
+        {
+          "title": "Teaching Tips Section",
+          "description": "Practical teaching guidance including real-life examples, step-by-step methods, and verification techniques"
+        },
+        {
+          "title": "Worked Examples with Steps",
+          "description": "Two detailed examples showing complete problem-solving process from setup through final answer"
+        }
+      ],
+      "learning_improvements": [
+        "Clear progression from basic concepts to challenging word problems",
+        "Professional mathematical notation improves readability",
+        "Interactive elements encourage active learning and self-testing",
+        "Real-world examples make abstract ratios concrete and relatable",
+        "Teaching tips help parents and tutors guide students effectively"
+      ],
+      "tags": ["ratios", "proportions", "cross-multiplication", "latex", "practice-problems", "word-problems"]
+    },
+    {
+      "id": "update-001",
+      "date": "2025-10-06",
+      "lesson_path": "/math/exponents/division-properties",
+      "lesson_title": "Division Property of Exponents",
+      "chapter": "Exponents & Variables",
+      "update_type": "major_enhancement",
+      "summary": "Added interactive bucket visualizations to make exponent division concepts easier to understand",
+      "features": [
+        {
+          "title": "Bucket Cancellation Visualization",
+          "description": "Interactive animations showing how x^a ÷ x^b works by canceling matching 'buckets' of the base",
+          "examples": [
+            "x⁵ ÷ x² (more buckets on top)",
+            "y³ ÷ y⁶ (more buckets on bottom)",
+            "a⁴ ÷ a⁴ (equal buckets - all cancel)"
+          ]
+        },
+        {
+          "title": "Negative Exponent Visualization",
+          "description": "Step-by-step animation explaining why leftover buckets on the bottom create negative exponents and how they flip to the denominator",
+          "examples": [
+            "x² ÷ x⁵ → x⁻³ → 1/x³"
+          ]
+        },
+        {
+          "title": "Color-Coded Sections",
+          "description": "Visual grouping of rules with their visualizations - blue theme for regular division, orange theme for negative exponents"
+        },
+        {
+          "title": "LaTeX Mathematical Notation",
+          "description": "All formulas now rendered with proper LaTeX for professional mathematical typesetting"
+        }
+      ],
+      "learning_improvements": [
+        "Visual metaphor makes abstract concept concrete",
+        "Animated step-by-step process shows the 'why' not just the 'how'",
+        "Clear connection between bucket cancellation and exponent subtraction",
+        "Negative exponents explained through the same bucket metaphor"
+      ],
+      "tags": ["visualization", "interactive", "exponents", "division", "negative-exponents"]
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-10-06",
+    "total_updates": 5
+  }
+}
