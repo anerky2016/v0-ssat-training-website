@@ -45,7 +45,7 @@ export function RecentUpdatesCarousel() {
             }}
             plugins={[
               Autoplay({
-                delay: 6000,
+                delay: 5000,
                 stopOnInteraction: true,
                 stopOnMouseEnter: true,
               }),
