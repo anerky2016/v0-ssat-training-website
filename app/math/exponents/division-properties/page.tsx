@@ -314,7 +314,7 @@ export default function ExponentsDivisionPage() {
                             </div>
                             {item.hint && (
                               <CardDescription className="text-sm text-muted-foreground italic">
-                                💡 <MathJax inline>{item.hint}</MathJax>
+                                💡 <MathJax inline>{item.hint.replace(/([xy]\^[{]?-?\d+[}]?)/g, '\\($1\\)')}</MathJax>
                               </CardDescription>
                             )}
                           </CardHeader>
