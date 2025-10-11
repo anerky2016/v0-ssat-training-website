@@ -7,8 +7,24 @@
       "lesson_title": "Multiplying and Dividing Decimals",
       "chapter": "Decimals",
       "update_type": "major_enhancement",
-      "summary": "Comprehensive lesson with step-by-step procedures, worked examples with detailed explanations, and 16 practice problems across 4 difficulty levels",
+      "summary": "Interactive lesson with animated decimal operations, step-by-step procedures, worked examples with detailed explanations, and 16 practice problems across 4 difficulty levels",
       "features": [
+        {
+          "title": "Interactive Decimal Multiplication Animation",
+          "description": "Animated step-by-step visualization showing how to multiply decimals by ignoring decimal points, multiplying whole numbers, then placing the decimal",
+          "examples": [
+            "2.3 × 1.4: Shows 23×14=322, then placing decimal (2 places) → 3.22",
+            "0.6 × 0.5: Animates 6×5=30, then adds 2 decimal places → 0.30"
+          ]
+        },
+        {
+          "title": "Interactive Decimal Division Animation",
+          "description": "Animated visualization demonstrating the decimal-shifting technique for division with step-by-step progression",
+          "examples": [
+            "4.2 ÷ 0.7: Shows shifting both by 1 place (42 ÷ 7), then performing division → 6",
+            "Visual arrow indicators show decimal movement in real-time"
+          ]
+        },
         {
           "title": "Step-by-Step Procedures",
           "description": "Clear, numbered steps for both multiplication and division with decimals, breaking down complex operations into simple rules",
@@ -27,9 +43,9 @@
         },
         {
           "title": "Worked Examples with Detailed Solutions",
-          "description": "Two complete examples showing step-by-step reasoning from start to finish",
+          "description": "Two complete examples showing step-by-step reasoning from start to finish with interactive animations",
           "examples": [
-            "Multiply 0.6 × 0.5: Shows ignoring decimals (6×5=30), counting decimal places (2 total), final answer (0.30)",
+            "Multiply 0.6 × 0.5: Animated visualization + written steps showing ignoring decimals (6×5=30), counting decimal places (2 total), final answer (0.30)",
             "Divide 12.6 ÷ 0.3: Shows decimal shifting (0.3→3, 12.6→126), division (126÷3=42)"
           ]
         },
@@ -66,14 +82,16 @@
         }
       ],
       "learning_improvements": [
+        "Animated visualizations make abstract decimal operations concrete and intuitive",
+        "Step-by-step animations show the 'why' behind decimal placement, not just rules",
+        "Interactive elements engage visual and kinesthetic learners",
         "Step-by-step procedures demystify decimal operations",
-        "Explanations show the 'why' behind each step, not just mechanical rules",
         "Progressive difficulty builds confidence from simple to complex problems",
         "Real-world money context makes abstract decimals concrete",
         "Answer explanations allow students to learn from mistakes independently",
         "Extreme problems prepare advanced students for scientific notation and precision"
       ],
-      "tags": ["decimals", "multiplication", "division", "decimal-places", "decimal-shifting", "step-by-step", "latex", "practice-problems"]
+      "tags": ["decimals", "multiplication", "division", "decimal-places", "decimal-shifting", "step-by-step", "latex", "practice-problems", "interactive", "animations", "visualization"]
     },
     {
       "id": "update-004",

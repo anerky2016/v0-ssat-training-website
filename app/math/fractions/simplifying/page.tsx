@@ -8,6 +8,7 @@ import { ArrowLeft, BookOpen, Lightbulb, Target, CheckCircle, AlertCircle, Spark
 import Link from "next/link"
 import { useState } from "react"
 import simplifyingData from "@/data/fractions-simplifying.json"
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function SimplifyingFractionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -216,8 +217,8 @@ export default function SimplifyingFractionsPage() {
               <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
               <p className="text-muted-foreground mb-6">{simplifyingData.practice.instructions}</p>
 
-              {/* Difficulty Selector */}
-              <div className="flex flex-wrap gap-2 mb-8">
+              {/* Difficulty Selector and Print Button */}
+              <div className="flex flex-wrap items-center gap-2 mb-8">
                 {simplifyingData.practice.sets.map((set) => (
                   <Button
                     key={set.difficulty}
@@ -228,6 +229,13 @@ export default function SimplifyingFractionsPage() {
                     {set.difficulty}
                   </Button>
                 ))}
+                {currentSet && (
+                  <PrintExercisesButton
+                    exercises={currentSet.items}
+                    topicTitle={simplifyingData.topic}
+                    difficulty={selectedDifficulty}
+                  />
+                )}
               </div>
 
               {/* Current Set Info */}

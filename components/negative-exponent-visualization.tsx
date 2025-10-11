@@ -36,7 +36,7 @@ export function NegativeExponentVisualization({
       setTimeout(() => {
         setStep(step + 1)
         setIsAnimating(false)
-      }, 500)
+      }, 800)
     }
   }
 
@@ -56,7 +56,7 @@ export function NegativeExponentVisualization({
         clearInterval(interval)
         setIsAnimating(false)
       }
-    }, 1200)
+    }, 2000)
   }
 
   return (

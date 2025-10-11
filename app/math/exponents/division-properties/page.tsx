@@ -11,6 +11,7 @@ import exponentsData from "@/data/exponents-division.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { BucketVisualization } from "@/components/bucket-visualization"
 import { NegativeExponentVisualization } from "@/components/negative-exponent-visualization"
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function ExponentsDivisionPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -268,8 +269,8 @@ export default function ExponentsDivisionPage() {
                   Master division of exponents with practice problems at different difficulty levels.
                 </p>
 
-                {/* Difficulty Selector */}
-                <div className="flex flex-wrap gap-2 mb-8">
+                {/* Difficulty Selector and Print Button */}
+                <div className="flex flex-wrap items-center gap-2 mb-8">
                   {Object.keys(exponentsData.exercises).map((difficulty) => (
                     <Button
                       key={difficulty}
@@ -280,6 +281,13 @@ export default function ExponentsDivisionPage() {
                       {difficulty}
                     </Button>
                   ))}
+                  {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] && (
+                    <PrintExercisesButton
+                      exercises={exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].items}
+                      topicTitle={exponentsData.title}
+                      difficulty={selectedDifficulty}
+                    />
+                  )}
                 </div>
 
                 {/* Current Set Info */}

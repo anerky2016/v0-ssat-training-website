@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import fractionsData from "@/data/fractions-dividing-mixed-numbers.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function DividingMixedNumbersPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -214,7 +215,7 @@ export default function DividingMixedNumbersPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Practice Problems</h2>
               </div>
 
-              {/* Difficulty Selector */}
+              {/* Difficulty Selector and Print Button */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {Object.keys(practiceByDifficulty).map((difficulty) => (
                   <Button
@@ -226,6 +227,11 @@ export default function DividingMixedNumbersPage() {
                     {difficulty}
                   </Button>
                 ))}
+                <PrintExercisesButton
+                  exercises={practiceByDifficulty[selectedDifficulty as keyof typeof practiceByDifficulty]}
+                  topicTitle={fractionsData.title}
+                  difficulty={selectedDifficulty}
+                />
               </div>
 
               {/* Practice Items */}

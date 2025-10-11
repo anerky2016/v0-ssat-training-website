@@ -40,7 +40,7 @@ export function BucketVisualization({
         clearInterval(interval)
         setIsAnimating(false)
       }
-    }, 700)
+    }, 1500)
   }
 
   const remainingTop = numeratorExponent - canceledPairs

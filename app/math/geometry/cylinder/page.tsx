@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import cylinderData from "@/data/geometry-cylinder.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function CylinderPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -195,7 +196,7 @@ export default function CylinderPage() {
                 </CardHeader>
               </Card>
 
-              {/* Difficulty Selector */}
+              {/* Difficulty Selector and Print Button */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {Object.keys(exercisesByDifficulty).map((difficulty) => (
                   <Button
@@ -207,6 +208,11 @@ export default function CylinderPage() {
                     {difficulty}
                   </Button>
                 ))}
+                <PrintExercisesButton
+                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty]}
+                  topicTitle={cylinderData.topic}
+                  difficulty={selectedDifficulty}
+                />
               </div>
 
               {/* Practice Items */}

@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import decimalsData from "@/data/adding-subtracting-decimals.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function AddingSubtractingDecimalsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -158,7 +159,7 @@ export default function AddingSubtractingDecimalsPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Practice Problems</h2>
               </div>
 
-              {/* Difficulty Selector */}
+              {/* Difficulty Selector and Print Button */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {Object.keys(exercisesByDifficulty).map((difficulty) => (
                   <Button
@@ -170,6 +171,11 @@ export default function AddingSubtractingDecimalsPage() {
                     {difficulty}
                   </Button>
                 ))}
+                <PrintExercisesButton
+                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty]}
+                  topicTitle={decimalsData.topic}
+                  difficulty={selectedDifficulty}
+                />
               </div>
 
               {/* Practice Items */}

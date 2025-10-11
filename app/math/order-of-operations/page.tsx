@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import pemdas from "@/data/order-of-operations.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function OrderOfOperationsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -178,7 +179,7 @@ export default function OrderOfOperationsPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Practice Problems</h2>
               </div>
 
-              {/* Difficulty Selector */}
+              {/* Difficulty Selector and Print Button */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {Object.keys(exercisesByDifficulty).map((difficulty) => (
                   <Button
@@ -190,6 +191,11 @@ export default function OrderOfOperationsPage() {
                     {difficulty}
                   </Button>
                 ))}
+                <PrintExercisesButton
+                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty]}
+                  topicTitle={pemdas.topic}
+                  difficulty={selectedDifficulty}
+                />
               </div>
 
               {/* Practice Items */}

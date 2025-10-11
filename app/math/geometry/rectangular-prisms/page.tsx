@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import prismsData from "@/data/geometry-rectangular-prisms.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
 
 export default function RectangularPrismsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -170,7 +171,7 @@ export default function RectangularPrismsPage() {
                 </CardHeader>
               </Card>
 
-              {/* Difficulty Selector */}
+              {/* Difficulty Selector and Print Button */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {Object.keys(exercisesByDifficulty).map((difficulty) => (
                   <Button
@@ -182,6 +183,11 @@ export default function RectangularPrismsPage() {
                     {difficulty}
                   </Button>
                 ))}
+                <PrintExercisesButton
+                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty]}
+                  topicTitle={prismsData.topic}
+                  difficulty={selectedDifficulty}
+                />
               </div>
 
               {/* Practice Items */}
