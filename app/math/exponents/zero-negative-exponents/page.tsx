@@ -202,7 +202,7 @@ export default function ZeroNegativeExponentsPage() {
                             </div>
                             {item.hint && (
                               <CardDescription className="text-sm text-muted-foreground italic">
-                                💡 {item.hint}
+                                💡 <MathJax inline>{item.hint}</MathJax>
                               </CardDescription>
                             )}
                           </CardHeader>
