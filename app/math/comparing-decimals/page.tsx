@@ -61,11 +61,10 @@ export default function ComparingDecimalsPage() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {decimalsData.topic}
               </h1>
-              <p className="text-lg text-muted-foreground mb-6">
+              <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {decimalsData.audience}
               </p>
-              <CompleteStudyButton topicTitle={decimalsData.topic} />
-              <p className="text-base text-muted-foreground mt-6">
+              <p className="text-base text-muted-foreground">
                 {decimalsData.summary}
               </p>
             </div>
@@ -80,7 +79,7 @@ export default function ComparingDecimalsPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
                   {concept.title}
                 </h2>
-                <p className="text-lg text-muted-foreground mb-6">
+                <p className="text-lg text-muted-foreground mb-4">
                   {concept.kid_friendly}
                 </p>
 
@@ -304,6 +303,15 @@ export default function ComparingDecimalsPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Complete Study Button */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <CompleteStudyButton topicTitle={decimalsData.topic} />
             </div>
           </div>
         </section>

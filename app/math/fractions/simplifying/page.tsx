@@ -53,14 +53,13 @@ export default function SimplifyingFractionsPage() {
               <p className="text-lg text-muted-foreground mb-6">
                 {simplifyingData.kid_friendly_explainer.what}
               </p>
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2">
                 {simplifyingData.learning_goals.map((goal, index) => (
                   <div key={index} className="px-3 py-1 bg-chart-1/10 text-chart-1 rounded-full text-sm">
                     {goal}
                   </div>
                 ))}
               </div>
-              <CompleteStudyButton topicTitle={simplifyingData.topic} />
             </div>
           </div>
         </section>
@@ -335,6 +334,15 @@ export default function SimplifyingFractionsPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Complete Study Button */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <CompleteStudyButton topicTitle={simplifyingData.topic} />
             </div>
           </div>
         </section>

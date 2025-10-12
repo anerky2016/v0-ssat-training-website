@@ -304,6 +304,19 @@ export function markLessonComplete(topicPath: string, topicTitle: string) {
   }
 }
 
+// Uncomplete a lesson (remove it from completions)
+export function uncompletLesson(topicPath: string) {
+  if (typeof window === 'undefined') return
+
+  try {
+    const completions = getLessonCompletions()
+    const filtered = completions.filter(c => c.topicPath !== topicPath)
+    localStorage.setItem(LESSON_COMPLETIONS_KEY, JSON.stringify(filtered))
+  } catch (error) {
+    console.error('Failed to uncomplete lesson:', error)
+  }
+}
+
 // Get lessons due for review (sorted by urgency)
 export function getLessonsDueForReview(): LessonCompletion[] {
   const completions = getLessonCompletions()

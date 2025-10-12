@@ -62,11 +62,10 @@ export default function MultiplyingMixedNumbersPage() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {fractionsData.title}
               </h1>
-              <p className="text-lg text-muted-foreground mb-6">
+              <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {fractionsData.audience}
               </p>
-              <CompleteStudyButton topicTitle={fractionsData.title} />
-              <div className="text-base text-muted-foreground mt-6">
+              <div className="text-base text-muted-foreground">
                 <MathJax>{fractionsData.summary}</MathJax>
               </div>
             </div>
@@ -81,7 +80,7 @@ export default function MultiplyingMixedNumbersPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
                   {section.heading}
                 </h2>
-                <p className="text-lg text-muted-foreground mb-6">
+                <p className="text-lg text-muted-foreground mb-4">
                   {section.kid_friendly_explanation}
                 </p>
 
@@ -275,6 +274,15 @@ export default function MultiplyingMixedNumbersPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Complete Study Button */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <CompleteStudyButton topicTitle={fractionsData.title} />
             </div>
           </div>
         </section>

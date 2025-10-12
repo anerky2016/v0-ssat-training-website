@@ -61,11 +61,10 @@ export default function RoundingDecimalsPage() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {roundingData.topic}
               </h1>
-              <p className="text-lg text-muted-foreground mb-6">
+              <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {roundingData.audience}
               </p>
-              <CompleteStudyButton topicTitle={roundingData.topic} />
-              <p className="text-base text-muted-foreground mt-6">
+              <p className="text-base text-muted-foreground">
                 {roundingData.summary}
               </p>
             </div>
@@ -80,7 +79,7 @@ export default function RoundingDecimalsPage() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
                   {concept.title}
                 </h2>
-                <p className="text-lg text-muted-foreground mb-6">
+                <p className="text-lg text-muted-foreground mb-4">
                   {concept.kid_friendly}
                 </p>
 
@@ -302,6 +301,15 @@ export default function RoundingDecimalsPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Complete Study Button */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <CompleteStudyButton topicTitle={roundingData.topic} />
             </div>
           </div>
         </section>
