@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Bell, Calendar, CheckCircle2, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { getUpcomingReviews, getLessonsDueForReview, formatReviewDate } from '@/lib/study-history'
+import { checkAndNotifyDueLessons } from '@/lib/notifications'
 
 interface StudyReminderProps {
   showHeader?: boolean
@@ -21,6 +22,9 @@ export function StudyReminder({ showHeader = true, compact = false }: StudyRemin
     setMounted(true)
     setUpcomingReviews(getUpcomingReviews())
     setLessonsDue(getLessonsDueForReview())
+
+    // Check and show browser notification if enabled
+    checkAndNotifyDueLessons()
   }, [])
 
   if (!mounted) {

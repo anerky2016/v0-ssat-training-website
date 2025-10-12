@@ -31,6 +31,7 @@ import {
   type StudyStats,
   type LessonCompletion
 } from "@/lib/study-history"
+import { NotificationSettings } from "@/components/notification-settings"
 import Link from "next/link"
 
 export default function ProgressPage() {
@@ -311,6 +312,11 @@ export default function ProgressPage() {
                       </CardContent>
                     </Card>
                   )}
+
+                  {/* Notification Settings */}
+                  <div className="mb-12">
+                    <NotificationSettings />
+                  </div>
 
                   {/* Last 7 Days Activity */}
                   <Card className="mb-12">
