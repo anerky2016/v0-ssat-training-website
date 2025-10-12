@@ -253,15 +253,23 @@ export default function ProgressPage() {
                                     </span>
                                   </div>
                                   <div className="space-y-1">
-                                    {sessions.map((session, idx) => (
-                                      <Link
-                                        key={idx}
-                                        href={session.topicPath}
-                                        className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
-                                      >
-                                        {session.topicTitle} ({formatDuration(session.duration)})
-                                      </Link>
-                                    ))}
+                                    {sessions.map((session, idx) => {
+                                      const sessionTime = new Date(session.timestamp).toLocaleTimeString('en-US', {
+                                        hour: 'numeric',
+                                        minute: '2-digit',
+                                        hour12: true
+                                      })
+
+                                      return (
+                                        <Link
+                                          key={idx}
+                                          href={session.topicPath}
+                                          className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
+                                        >
+                                          <span className="font-medium">{sessionTime}</span> - {session.topicTitle} ({formatDuration(session.duration)})
+                                        </Link>
+                                      )
+                                    })}
                                   </div>
                                 </div>
                               )
