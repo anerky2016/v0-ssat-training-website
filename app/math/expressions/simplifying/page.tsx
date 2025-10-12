@@ -58,9 +58,6 @@ export default function SimplifyingExpressionsPage() {
                   <ArrowLeft className="h-4 w-4" />
                   Back to Expressions Chapter
                 </Link>
-                <div className="mb-6">
-                  <CompleteStudyButton topicTitle={simplifyingData.title} />
-                </div>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {simplifyingData.title}
                 </h1>
@@ -280,8 +277,17 @@ export default function SimplifyingExpressionsPage() {
             </div>
           </section>
 
+          {/* Complete Study Button */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <CompleteStudyButton topicTitle={simplifyingData.title} />
+              </div>
+            </div>
+          </section>
+
           {/* Navigation */}
-          <section className="py-8 bg-muted/30">
+          <section className="py-8">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
                 <Link href="/math/expressions">
