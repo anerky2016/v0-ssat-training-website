@@ -41,7 +41,7 @@ export default function ExpressionsPage() {
                   { title: "Translating Phrases to Algebra", href: "/math/expressions/translating" },
                   { title: "Distributive Property", href: "/math/expressions/distributive" },
                   { title: "Evaluating One Variable", href: "/math/expressions/evaluating" },
-                  { title: "Evaluating Two Variables", href: null },
+                  { title: "Evaluating Two Variables", href: "/math/expressions/evaluating-two" },
                   { title: "Combining Like Terms", href: null }
                 ].map((topic, index) => (
                   topic.href ? (
