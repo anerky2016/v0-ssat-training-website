@@ -67,7 +67,6 @@ export default function TranslatingPhrasesPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {translatingData.audience}
                 </p>
-                <CompleteStudyButton topicTitle={translatingData.title} />
               </div>
             </div>
           </section>
@@ -280,8 +279,17 @@ export default function TranslatingPhrasesPage() {
             </div>
           </section>
 
+          {/* Complete Study Button */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <CompleteStudyButton topicTitle={translatingData.title} />
+              </div>
+            </div>
+          </section>
+
           {/* Navigation */}
-          <section className="py-8 bg-muted/30">
+          <section className="py-8">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
                 <Link href="/math/expressions">
