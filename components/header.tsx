@@ -46,6 +46,12 @@ export function Header() {
             Progress
           </Link>
           <Link
+            href="/how-to"
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            How To
+          </Link>
+          <Link
             href="/about"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -131,6 +137,13 @@ export function Header() {
                 >
                   <TrendingUp className="h-5 w-5" />
                   Progress
+                </Link>
+                <Link
+                  href="/how-to"
+                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-2"
+                >
+                  <BookOpen className="h-5 w-5" />
+                  How To
                 </Link>
                 <Link
                   href="/about"
