@@ -51,25 +51,23 @@ export default function RoundingDecimalsPage() {
         <Header />
       <main>
         {/* Hero Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-10/5 to-background">
+        <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-10/5 to-background">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
               <Link href="/math/decimals" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Decimals
               </Link>
-              <div className="mb-6">
-                <CompleteStudyButton topicTitle={roundingData.topic} />
-              </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {roundingData.topic}
               </h1>
               <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {roundingData.audience}
               </p>
-              <p className="text-base text-muted-foreground">
+              <p className="text-base text-muted-foreground mb-6">
                 {roundingData.summary}
               </p>
+              <CompleteStudyButton topicTitle={roundingData.topic} />
             </div>
           </div>
         </section>
@@ -312,7 +310,17 @@ export default function RoundingDecimalsPage() {
         <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <CompleteStudyButton topicTitle={roundingData.topic} />
+              <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                    Finished This Lesson?
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                    Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                  </p>
+                  <CompleteStudyButton topicTitle={roundingData.topic} centered size="lg" />
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
