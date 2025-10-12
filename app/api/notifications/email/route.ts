@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
+import nodemailer from 'nodemailer'
 
 /**
  * API Route for sending email notifications
  *
  * This endpoint sends email reminders for lessons due for review.
- * It requires authentication and uses Resend for email delivery.
- *
- * To use this endpoint:
- * 1. Install Resend: npm install resend
- * 2. Add RESEND_API_KEY to .env.local
- * 3. Uncomment the Resend integration code below
+ * It uses your existing SMTP configuration (PurelyMail).
  */
 
 export async function POST(request: NextRequest) {
@@ -36,33 +32,43 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // TODO: Integrate with Resend
-    //
-    // Uncomment this code after setting up Resend:
-    //
-    // import { Resend } from 'resend';
-    // const resend = new Resend(process.env.RESEND_API_KEY);
-    //
-    // const { data, error } = await resend.emails.send({
-    //   from: 'SSAT Prep <noreply@yourdomain.com>',
-    //   to: [session.user.email],
-    //   subject: `${lessonsDue.length} Lesson${lessonsDue.length === 1 ? '' : 's'} Ready for Review`,
-    //   html: generateEmailHTML(session.user.name, lessonsDue, upcomingReviews),
-    // });
-    //
-    // if (error) {
-    //   console.error('Resend error:', error);
-    //   return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
-    // }
+    // Skip sending if no lessons due
+    if (lessonsDue.length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: 'No lessons due, email not sent',
+        recipient: session.user.email,
+        lessonCount: 0
+      })
+    }
 
-    // For now, return a placeholder response
-    console.log(`Would send email to ${session.user.email} for ${lessonsDue.length} lessons due`)
+    // Configure SMTP transporter using existing credentials
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    })
+
+    // Send email
+    const info = await transporter.sendMail({
+      from: `"SSAT Prep" <${process.env.SMTP_FROM}>`,
+      to: session.user.email,
+      subject: `${lessonsDue.length} Lesson${lessonsDue.length === 1 ? '' : 's'} Ready for Review`,
+      html: generateEmailHTML(session.user.name, lessonsDue, upcomingReviews),
+    })
+
+    console.log('Email sent:', info.messageId)
 
     return NextResponse.json({
       success: true,
-      message: 'Email notification queued (placeholder)',
+      message: 'Email notification sent',
       recipient: session.user.email,
-      lessonCount: lessonsDue.length
+      lessonCount: lessonsDue.length,
+      messageId: info.messageId
     })
   } catch (error) {
     console.error('Email notification error:', error)

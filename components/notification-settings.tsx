@@ -174,8 +174,14 @@ export function NotificationSettings() {
           </div>
           <div className="mt-4 p-3 bg-muted/50 rounded-lg border">
             <p className="text-xs text-muted-foreground">
-              <strong>Setup Required:</strong> Email notifications require additional configuration with Resend API.
-              See the <a href="https://github.com/anerky2016/v0-ssat-training-website/blob/main/docs/EMAIL_NOTIFICATIONS.md" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">setup guide</a> for instructions.
+              <strong>Setup Required:</strong> Email notifications use your existing SMTP configuration and require:
+              <br />
+              1. CRON_SECRET environment variable
+              <br />
+              2. Ubuntu cron job or Vercel cron to trigger daily emails
+              <br />
+              <br />
+              See the <a href="https://github.com/anerky2016/v0-ssat-training-website/blob/main/docs/EMAIL_NOTIFICATIONS.md" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">setup guide</a> for step-by-step instructions (3 simple steps!).
             </p>
           </div>
         </CardContent>

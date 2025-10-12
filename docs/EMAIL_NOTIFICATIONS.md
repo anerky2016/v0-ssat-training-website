@@ -1,140 +1,156 @@
 # Email Notifications Setup Guide
 
-This guide explains how to set up email notifications for study reminders.
+This guide explains how to set up email notifications for study reminders using your existing SMTP configuration.
 
 ## Overview
 
-The email notification system sends daily reminders to students and parents when lessons are due for review using spaced repetition.
+The email notification system sends daily reminders to students and parents when lessons are due for review using spaced repetition. It uses your **existing PurelyMail SMTP** setup - no additional services needed!
 
 ## Features
 
-- ✅ **Browser Notifications**: Already working! Users can enable browser notifications in their settings
-- ⏳ **Email Notifications**: Requires additional setup (see below)
+- ✅ **Browser Notifications**: Fully working! Users can enable in settings
+- ✅ **Email Notifications**: Uses your existing SMTP (PurelyMail)
 - 📧 Daily email reminders at 9 AM
 - 🎯 Personalized with lesson titles and review schedules
 - 🔔 Opt-in/opt-out preferences per user
+- 🖥️ Simple Ubuntu cron job or Vercel cron
 
-## Current Status
+## Architecture
 
-### ✅ Implemented
-- Browser notification system (fully functional)
-- Email API routes (`/api/notifications/email`)
-- Cron job endpoint (`/api/cron/daily-reminders`)
-- Email HTML templates
-- Notification settings UI
-
-### ⏳ Requires Setup
-- Email service integration (Resend)
-- Database for user preferences
-- Environment variables configuration
-- Vercel cron job deployment
-
-## Setup Instructions
-
-### 1. Install Resend
-
-```bash
-npm install resend
+```
+┌─────────────────┐
+│   User Browser  │
+│  [Settings UI]  │◄──── Browser Notifications (✅ Working)
+└────────┬────────┘
+         │
+┌────────▼───────────────────┐
+│   Ubuntu Cron Job          │
+│   (or Vercel Cron)         │
+│                            │
+│   0 9 * * * curl POST      │
+│   /api/cron/daily-reminders│
+└────────┬───────────────────┘
+         │
+┌────────▼────────────────────┐
+│    Next.js API Routes       │
+│  /api/cron/daily-reminders  │
+│  /api/notifications/email   │
+└────────┬────────────────────┘
+         │
+┌────────▼────────────────────┐
+│   PurelyMail SMTP           │
+│   (Already configured!)     │
+└────────┬────────────────────┘
+         │
+         ▼
+    📧 Email to users
 ```
 
-### 2. Get Resend API Key
+## Quick Setup (3 Steps!)
 
-1. Sign up at [resend.com](https://resend.com)
-2. Verify your domain (or use their test domain)
-3. Get your API key from the dashboard
+### Step 1: Generate Cron Secret
 
-### 3. Configure Environment Variables
-
-Add to your `.env.local`:
-
-```env
-RESEND_API_KEY=re_your_api_key_here
-CRON_SECRET=your-cron-secret-here
-```
-
-Generate a secure CRON_SECRET:
 ```bash
 openssl rand -base64 32
 ```
 
-### 4. Uncomment Email Sending Code
-
-In `app/api/notifications/email/route.ts`, uncomment the Resend integration code:
-
-```typescript
-import { Resend } from 'resend';
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const { data, error } = await resend.emails.send({
-  from: 'SSAT Prep <noreply@yourdomain.com>',
-  to: [session.user.email],
-  subject: `${lessonsDue.length} Lesson${lessonsDue.length === 1 ? '' : 's'} Ready for Review`,
-  html: generateEmailHTML(session.user.name, lessonsDue, upcomingReviews),
-});
+Add to your `.env.local`:
+```env
+CRON_SECRET=your-generated-secret-here
 ```
 
-### 5. Add Database Support (Optional)
+Your SMTP credentials are already configured, so nothing else needed!
 
-For production use, you'll want to store user preferences in a database:
+### Step 2: Choose Your Cron Method
 
-```typescript
-// Example schema (Prisma)
-model UserNotificationPreferences {
-  id                        String   @id @default(cuid())
-  userId                    String   @unique
-  emailNotificationsEnabled Boolean  @default(false)
-  emailFrequency            String   @default("daily") // daily, weekly
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
+**Option A: Ubuntu Cron Job (Recommended for Simplicity)**
 
-  user                      User     @relation(fields: [userId], references: [id])
-}
+Add to your crontab:
+```bash
+crontab -e
 ```
 
-### 6. Deploy to Vercel
-
-The `vercel.json` file is already configured to run the cron job daily at 9 AM:
-
-```json
-{
-  "crons": [
-    {
-      "path": "/api/cron/daily-reminders",
-      "schedule": "0 9 * * *"
-    }
-  ]
-}
+Add this line (replace with your actual domain and secret):
+```cron
+0 9 * * * curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
-Add environment variables in Vercel:
-1. Go to your project settings
-2. Navigate to "Environment Variables"
-3. Add `RESEND_API_KEY` and `CRON_SECRET`
+This runs daily at 9 AM.
 
-## Alternative: Manual Cron Setup
+**Option B: Vercel Cron (if deployed on Vercel)**
 
-If you're not using Vercel, you can use a service like [cron-job.org](https://cron-job.org):
+The `vercel.json` is already configured! Just:
+1. Deploy to Vercel
+2. Add `CRON_SECRET` to Vercel environment variables
+3. Done! Vercel handles the rest
 
-1. Create a new cron job
-2. URL: `https://yourdomain.com/api/cron/daily-reminders`
-3. Method: `POST`
-4. Headers: `Authorization: Bearer YOUR_CRON_SECRET`
-5. Schedule: Daily at 9:00 AM
+**Option C: External Cron Service**
+
+Use [cron-job.org](https://cron-job.org) or similar:
+- URL: `https://yourdomain.com/api/cron/daily-reminders`
+- Method: `POST`
+- Header: `Authorization: Bearer YOUR_CRON_SECRET`
+- Schedule: `0 9 * * *`
+
+### Step 3: Deploy & Test
+
+```bash
+# Test the endpoint locally
+curl -X POST http://localhost:3001/api/cron/daily-reminders \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
+
+# Deploy
+git push
+```
+
+## Environment Variables
+
+You already have these from your contact form setup:
+
+```env
+# SMTP Configuration (already set up!)
+SMTP_HOST=smtp.purelymail.com
+SMTP_PORT=587
+SMTP_USER=your-email@midssat.com
+SMTP_PASS=your-smtp-password
+SMTP_FROM=noreply@midssat.com
+
+# New: Cron Job Secret
+CRON_SECRET=your-generated-secret-here
+```
+
+## How It Works
+
+1. **User completes a lesson** → Marked with next review date (spaced repetition)
+2. **Cron job runs at 9 AM** → Calls `/api/cron/daily-reminders`
+3. **API fetches users** → Gets lessons due for each user (from localStorage currently)
+4. **Sends emails** → Uses nodemailer + your SMTP credentials
+5. **User receives email** → With lessons due and upcoming reviews
+
+## Email Template
+
+The email includes:
+- Personalized greeting with student name
+- List of lessons due for review today
+- Review number (Review #1, Review #2, etc.)
+- Upcoming reviews in next 7 days
+- Direct links to lessons
+- Beautiful HTML formatting
 
 ## Testing
 
-### Test Browser Notifications
+### Test Browser Notifications (Works Now!)
 
 1. Visit `/progress`
-2. Enable browser notifications in settings
-3. Complete a lesson and mark it as done
-4. Visit the site again the next day to see the notification
+2. Enable browser notifications
+3. Complete a lesson and mark it done
+4. Visit site next day → See notification
 
-### Test Email API (Manual)
+### Test Email Sending
 
 ```bash
-# Get an auth token by signing in first
-curl -X POST https://yourdomain.com/api/notifications/email \
+# Test the email API (need to be signed in)
+curl -X POST http://localhost:3001/api/notifications/email \
   -H "Content-Type: application/json" \
   -H "Cookie: next-auth.session-token=YOUR_TOKEN" \
   -d '{
@@ -149,93 +165,112 @@ curl -X POST https://yourdomain.com/api/notifications/email \
   }'
 ```
 
-### Test Cron Endpoint
+### Test Cron Job
 
 ```bash
+# Test locally
+curl -X POST http://localhost:3001/api/cron/daily-reminders \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"
+
+# Test production
 curl -X POST https://yourdomain.com/api/cron/daily-reminders \
   -H "Authorization: Bearer YOUR_CRON_SECRET"
 ```
 
-## Architecture
+## Ubuntu Cron Job Examples
 
-```
-┌─────────────────┐
-│   User Browser  │
-│                 │
-│  [Settings UI]  │◄──── Browser Notifications (✅ Working)
-│                 │
-└────────┬────────┘
-         │
-         │ HTTP POST
-         ▼
-┌─────────────────────────────┐
-│    Next.js API Routes       │
-│                             │
-│  /api/notifications/email   │◄──── User-triggered
-│  /api/cron/daily-reminders  │◄──── Cron-triggered (9 AM daily)
-│                             │
-└────────┬────────────────────┘
-         │
-         │ Email API
-         ▼
-┌─────────────────┐
-│     Resend      │──────► 📧 Email to users
-└─────────────────┘
+### Basic Daily Reminder (9 AM)
+```cron
+0 9 * * * curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_SECRET"
 ```
 
-## User Flow
+### With Logging
+```cron
+0 9 * * * curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_SECRET" >> /var/log/ssat-reminders.log 2>&1
+```
 
-1. **Sign in** with Google OAuth
-2. **Complete lessons** and mark as done
-3. **Enable notifications** in `/progress` settings
-   - Browser notifications work immediately ✅
-   - Email notifications require Resend setup ⏳
-4. **Receive reminders**:
-   - Browser: When visiting site with lessons due
-   - Email: Daily at 9 AM if lessons are due
+### Multiple Times Per Day
+```cron
+# 9 AM and 5 PM
+0 9,17 * * * curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_SECRET"
+```
+
+### Weekdays Only
+```cron
+# Monday-Friday at 9 AM
+0 9 * * 1-5 curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_SECRET"
+```
 
 ## Current Limitations
 
-- Email notifications require additional setup with Resend
-- User preferences are stored in localStorage (browser-only)
-- No database for persistent user settings across devices
-- Cron job implementation is a placeholder
+Since user data is in localStorage (browser-only):
+- ❌ Can't send emails yet (need database for user emails)
+- ❌ Can't persist preferences across devices
+- ✅ Browser notifications work great!
+
+To enable email sending, you'll need to:
+1. Add a database (Prisma + PostgreSQL recommended)
+2. Store user lesson completions in database
+3. Store email notification preferences
+4. Update cron job to fetch from database
 
 ## Future Enhancements
 
-- [ ] Add database support for user preferences
-- [ ] Implement Resend email sending
-- [ ] Add email frequency options (daily, weekly, custom)
+- [ ] Add database for persistent storage
+- [ ] Store lesson completions server-side
+- [ ] Email notification preferences per user
 - [ ] Weekly summary emails
 - [ ] Parent email CC functionality
-- [ ] Email templates with better styling
-- [ ] Unsubscribe links in emails
+- [ ] Customizable reminder times
+- [ ] Unsubscribe links
 - [ ] Email open/click tracking
+
+## Why This Approach?
+
+✅ **Simple**: Uses your existing SMTP setup
+✅ **Free**: No additional services needed
+✅ **Reliable**: SMTP is battle-tested
+✅ **Flexible**: Works with any cron system
+✅ **No Dependencies**: Just nodemailer (already installed)
+
+No need for Resend, SendGrid, or other services - you already have everything!
 
 ## Troubleshooting
 
 ### Browser Notifications Not Working
-
-- Check browser settings allow notifications
-- Try in a different browser
+- Check browser allows notifications
 - Ensure HTTPS (required for notifications)
+- Try different browser
 
-### Email Notifications Not Working
-
-- Verify `RESEND_API_KEY` is set correctly
-- Check domain is verified in Resend
-- Review Resend logs for errors
-- Check `CRON_SECRET` matches in environment
+### Email Not Sending
+- Verify SMTP credentials in .env
+- Check SMTP_HOST, SMTP_PORT are correct
+- Test with simple nodemailer script first
+- Check SMTP logs
 
 ### Cron Job Not Running
+- Verify crontab syntax: `crontab -l`
+- Check system time zone
+- Test curl command manually first
+- Check cron logs: `/var/log/syslog` or `/var/log/cron`
 
-- Verify `vercel.json` is deployed
-- Check Vercel cron job logs
-- Ensure `CRON_SECRET` is set in Vercel environment
+### Authorization Failed
+- Verify CRON_SECRET matches in .env and cron command
+- Check no extra spaces in Authorization header
+- Try base64 encoding the secret
 
 ## Support
 
-For issues or questions:
-- Check the [Resend documentation](https://resend.com/docs)
-- Review Vercel [cron jobs documentation](https://vercel.com/docs/cron-jobs)
-- Open an issue in the project repository
+For issues:
+- Check server logs: `pm2 logs` or `journalctl`
+- Check Next.js API route logs
+- Test endpoints manually with curl
+- Review SMTP connection with telnet
+
+## Security Notes
+
+- ✅ CRON_SECRET protects endpoint from unauthorized access
+- ✅ Session authentication required for email API
+- ✅ SMTP credentials in environment variables (not code)
+- ✅ Rate limiting recommended for production
+- ⚠️ Add IP whitelist for cron endpoint if possible

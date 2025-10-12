@@ -6,32 +6,21 @@ import { NextRequest, NextResponse } from 'next/server'
  * This endpoint should be called daily to send email reminders to users
  * who have lessons due for review.
  *
- * Setup Instructions:
+ * Setup Options:
  *
- * 1. Deploy your Next.js app to Vercel
- * 2. Add CRON_SECRET to your environment variables in Vercel
- * 3. Create a Vercel Cron Job:
- *    - Go to your project settings in Vercel
- *    - Navigate to "Cron Jobs"
- *    - Add a new cron job:
- *      Path: /api/cron/daily-reminders
- *      Schedule: 0 9 * * * (9 AM daily)
- *      OR use vercel.json:
+ * OPTION 1: Ubuntu Server Cron Job (Simplest!)
+ * Add to your crontab (crontab -e):
+ * 0 9 * * * curl -X POST https://yourdomain.com/api/cron/daily-reminders -H "Authorization: Bearer YOUR_CRON_SECRET"
  *
- * {
- *   "crons": [
- *     {
- *       "path": "/api/cron/daily-reminders",
- *       "schedule": "0 9 * * *"
- *     }
- *   ]
- * }
+ * OPTION 2: Vercel Cron Job (if deployed on Vercel)
+ * The vercel.json file is already configured to run this at 9 AM daily
+ * Just add CRON_SECRET to your Vercel environment variables
  *
- * Alternative: Use a service like cron-job.org or EasyCron:
+ * OPTION 3: External Cron Service (cron-job.org, EasyCron, etc.)
  *    URL: https://yourdomain.com/api/cron/daily-reminders
  *    Method: POST
  *    Header: Authorization: Bearer YOUR_CRON_SECRET
- *    Schedule: Daily at 9 AM
+ *    Schedule: 0 9 * * * (9 AM daily)
  *
  * Security: This endpoint requires a CRON_SECRET token in the Authorization header
  */
