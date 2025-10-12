@@ -96,7 +96,7 @@ const mathTopics = [
 
 export function TestSections() {
   return (
-    <section id="sections" className="py-12 sm:py-20 lg:py-24 bg-muted/30">
+    <section id="math-chapters" className="py-12 sm:py-20 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="mx-auto max-w-2xl text-center mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-foreground mb-3 sm:mb-4 text-balance">

@@ -22,13 +22,13 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-            <Link href="#sections" className="w-full sm:w-auto">
+            <Link href="/#sections" className="w-full sm:w-auto">
               <Button size="lg" className="w-full text-sm sm:text-base bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-lg">
                 START THE ADVENTURE!
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 animate-bounce" />
               </Button>
             </Link>
-            <Link href="#sections" className="w-full sm:w-auto">
+            <Link href="/#sections" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full text-sm sm:text-base bg-transparent border-2 hover:bg-accent/10 transition-all duration-300 transform hover:scale-105">
                 EXPLORE THE MAGIC!
               </Button>

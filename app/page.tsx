@@ -2,6 +2,7 @@ import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { RecentUpdatesCarousel } from "@/components/recent-updates-carousel"
 import { StudyReminder } from "@/components/study-reminder"
+import { SubjectSections } from "@/components/subject-sections"
 import { TestSections } from "@/components/test-sections"
 import { QuestionsCarousel } from "@/components/questions-carousel"
 import { TrustedContent } from "@/components/trusted-content"
@@ -22,6 +23,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <SubjectSections />
         <TestSections />
         <QuestionsCarousel />
         <TrustedContent />

@@ -1,0 +1,178 @@
+{
+  "words": [
+    {
+      "word": "abdicate",
+      "pronunciation": "[ab-di-keyt]",
+      "part_of_speech": "Verb",
+      "meanings": [
+        "To renounce or give up a throne, right, power, claim, responsibility, or the like, especially in a formal manner."
+      ],
+      "examples": [
+        "The old president of the company decided to abdicate his role.",
+        "King Edward VIII abdicated his throne to marry the love of his life."
+      ],
+      "synonyms": [
+        "forgo",
+        "relinquish",
+        "renounce",
+        "step down",
+        "vacate",
+        "abandon"
+      ],
+      "antonyms": [
+        "keep",
+        "stay",
+        "remain"
+      ],
+      "further_information": [
+        "Abdicate is typically used when stepping down from a higher position of power in an organization, institution, or a country.",
+        "Originated from the Latin word ab + dicare meaning 'away from' + 'declare.'",
+        "Can be confused with abnegate (verb) which means to deny or renounce something."
+      ]
+    },
+    {
+      "word": "aberration",
+      "pronunciation": "[ab-uh-REY-shuhn]",
+      "part_of_speech": "Noun",
+      "meanings": [
+        "Deviation from what is normal, expected, or usual; Departure from truth, morality, etc.",
+        "An irregularity from the normal."
+      ],
+      "examples": [
+        "Mary's sudden outburst was an aberration from her calm demeanor.",
+        "If a person can roll his tongue, he is thought to have a genetic aberration."
+      ],
+      "synonyms": [
+        "oddity",
+        "peculiarity",
+        "quirk",
+        "eccentricity",
+        "strangeness"
+      ],
+      "antonyms": [
+        "normality"
+      ],
+      "further_information": [
+        "Originated from the Latin word ab + errare meaning 'away from' + 'to stray.'",
+        "Aberration can also mean a temporary mental irregularity or disorder.",
+        "In Astronomy, an aberration (of light) is the appearance of a heavenly body in a position different from its actual or true location in space due to Earth's movement."
+      ]
+    },
+    {
+      "word": "abhorrent",
+      "pronunciation": "[ab-HAWR-uhnt]",
+      "part_of_speech": "Adjective",
+      "meanings": [
+        "Causing or deserving strong dislike or hatred. Feeling or showing strong dislike or hatred."
+      ],
+      "examples": [
+        "John's abhorrent behavior caused him to get kicked out of the cafe.",
+        "He woke up due to the abhorrent noise made by the passing train."
+      ],
+      "synonyms": [
+        "disgusting",
+        "despicable",
+        "loathsome",
+        "repulsive",
+        "detestable",
+        "repugnant"
+      ],
+      "antonyms": [
+        "admirable"
+      ],
+      "further_information": [
+        "Originated from ab + horrere meaning 'away from' + 'to shudder.'",
+        "The synonym repugnant implies a stronger meaning of disgust and aversion."
+      ]
+    },
+    {
+      "word": "abide",
+      "pronunciation": "[uh-BAHYD]",
+      "part_of_speech": "Verb",
+      "meanings": [
+        "To act in accordance with rules.",
+        "To endure without yielding."
+      ],
+      "examples": [
+        "The students must abide by the rules of the school or get punished.",
+        "I said I would abide by their decision and follow them."
+      ],
+      "synonyms": [
+        "comply with",
+        "obey",
+        "follow",
+        "adhere to"
+      ],
+      "antonyms": [
+        "disallow",
+        "avoid",
+        "contradict"
+      ],
+      "further_information": [
+        "Commonly used in the phrase abide by meaning 'to put up with or tolerate.'",
+        "Originated from the Old English a + bidan or gebidan meaning 'remain, wait, or delay.'",
+        "Might be confused with abode (noun) which means 'a place where a person lives.'"
+      ]
+    },
+    {
+      "word": "abrasive",
+      "pronunciation": "[uh-BREY-siv]",
+      "part_of_speech": "Noun/Adjective",
+      "meanings": [
+        "Any material or substance used for grinding, polishing, etc.",
+        "Causing damage, wear, or removal of surface material by grinding or rubbing."
+      ],
+      "examples": [
+        "The athlete was banned from playing future games for using abrasive language.",
+        "An abrasive is used to smoothen the furniture."
+      ],
+      "synonyms": [
+        "annoying",
+        "caustic",
+        "nasty",
+        "irritating",
+        "rough"
+      ],
+      "antonyms": [
+        "agreeable",
+        "calm",
+        "kind",
+        "mild",
+        "pleasant"
+      ],
+      "further_information": [
+        "Originated from the Latin word ab + radere meaning 'away from' + 'to scrape.'",
+        "Its synonym irritating denotes a stronger connotation: 'causing annoyance or pain.'"
+      ]
+    },
+    {
+      "word": "abstain",
+      "pronunciation": "[ab-STAYN]",
+      "part_of_speech": "Verb",
+      "meanings": [
+        "To hold oneself back voluntarily, especially from something regarded as improper or unhealthy.",
+        "To choose not to do or have something."
+      ],
+      "examples": [
+        "Marcus found it difficult to abstain from sleeping during the movie.",
+        "If you want to live healthy, you should abstain from drinking too much soda."
+      ],
+      "synonyms": [
+        "desist",
+        "forgo",
+        "pass up",
+        "quit",
+        "refrain"
+      ],
+      "antonyms": [
+        "continue",
+        "do",
+        "accept"
+      ],
+      "further_information": [
+        "Abstain also refers to 'to refrain from casting one's vote' as in during an election.",
+        "Originated from the French word abstinere meaning 'to withhold oneself.'"
+      ]
+    }
+  ]
+}
