@@ -58,6 +58,9 @@ export default function EvaluatingOneVariablePage() {
                   <ArrowLeft className="h-4 w-4" />
                   Back to Expressions Chapter
                 </Link>
+                <div className="mb-6">
+                  <CompleteStudyButton topicTitle={evaluatingData.title} />
+                </div>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {evaluatingData.title}
                 </h1>

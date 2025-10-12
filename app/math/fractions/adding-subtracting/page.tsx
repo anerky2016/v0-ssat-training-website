@@ -58,6 +58,9 @@ export default function AddingSubtractingFractionsPage() {
                 <ArrowLeft className="h-4 w-4" />
                 Back to Fractions
               </Link>
+              <div className="mb-6">
+                <CompleteStudyButton topicTitle={fractionsData.title} />
+              </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {fractionsData.title}
               </h1>
