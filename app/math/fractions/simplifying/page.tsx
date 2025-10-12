@@ -40,29 +40,27 @@ export default function SimplifyingFractionsPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-1/5 to-background">
+        <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-1/5 to-background">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
               <Link href="/math/fractions" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Fractions
               </Link>
-              <div className="mb-6">
-                <CompleteStudyButton topicTitle={simplifyingData.topic} />
-              </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {simplifyingData.topic}
               </h1>
               <p className="text-lg text-muted-foreground mb-6">
                 {simplifyingData.kid_friendly_explainer.what}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-6">
                 {simplifyingData.learning_goals.map((goal, index) => (
                   <div key={index} className="px-3 py-1 bg-chart-1/10 text-chart-1 rounded-full text-sm">
                     {goal}
                   </div>
                 ))}
               </div>
+              <CompleteStudyButton topicTitle={simplifyingData.topic} />
             </div>
           </div>
         </section>
@@ -345,7 +343,17 @@ export default function SimplifyingFractionsPage() {
         <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <CompleteStudyButton topicTitle={simplifyingData.topic} />
+              <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                    Finished This Lesson?
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                    Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                  </p>
+                  <CompleteStudyButton topicTitle={simplifyingData.topic} centered size="lg" />
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
