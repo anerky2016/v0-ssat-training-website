@@ -1,6 +1,93 @@
 {
   "updates": [
     {
+      "id": "update-006",
+      "date": "2025-01-10",
+      "lesson_path": "/progress",
+      "lesson_title": "Study Reminder System & Spaced Repetition",
+      "chapter": "Study Features",
+      "update_type": "major_feature",
+      "summary": "Complete notification system with browser notifications and email reminders to help students stay on track with spaced repetition reviews",
+      "features": [
+        {
+          "title": "Browser Notifications",
+          "description": "Real-time browser notifications alert students when lessons are due for review, with daily limit to avoid notification fatigue",
+          "examples": [
+            "Bell icon with red badge in header shows count of lessons due",
+            "Automatic notification when visiting site with due lessons",
+            "Click notification to navigate directly to progress page",
+            "Only shows once per day to prevent spam"
+          ]
+        },
+        {
+          "title": "Email Notification System",
+          "description": "Daily email reminders sent at 9 AM using existing SMTP infrastructure (PurelyMail) - no additional services needed",
+          "examples": [
+            "Personalized HTML emails with student name",
+            "Lists all lessons due for review today",
+            "Shows upcoming reviews in next 7 days",
+            "Direct links to each lesson for quick access",
+            "Beautiful responsive design for desktop and mobile"
+          ]
+        },
+        {
+          "title": "Notification Settings UI",
+          "description": "User-friendly settings interface on progress page to enable/disable notifications with clear permission flow",
+          "examples": [
+            "Toggle switch for browser notifications",
+            "One-click permission request with success/error states",
+            "Test notification sent on first enable",
+            "Email notification section (requires simple cron job setup)",
+            "Setup guide linked with step-by-step instructions"
+          ]
+        },
+        {
+          "title": "Study Reminders Dashboard",
+          "description": "Comprehensive reminders section on homepage showing lessons due and upcoming reviews with visual indicators",
+          "examples": [
+            "Red alert cards for lessons due today with 'Review Now' button",
+            "Blue upcoming review cards for next 7 days",
+            "Shows review count (Review #1, Review #2, etc.)",
+            "Formatted dates (Due today, Due tomorrow, Due in X days)",
+            "'All Caught Up!' message when no reviews pending"
+          ]
+        },
+        {
+          "title": "Spaced Repetition Enhancements",
+          "description": "Improved spaced repetition system with complete/uncomplete functionality and review tracking",
+          "examples": [
+            "Mark lessons as completed at top and bottom of each lesson",
+            "'Uncomplete' button to undo accidental clicks",
+            "Review intervals: 1, 3, 7, 14, 30, 60, 90 days",
+            "Next review date displayed prominently",
+            "Review count tracking (tracks how many times reviewed)"
+          ]
+        },
+        {
+          "title": "Email Automation with Ubuntu Cron",
+          "description": "Simple cron job setup using existing SMTP - no third-party services required, just one crontab entry",
+          "examples": [
+            "Single crontab entry: 0 9 * * * curl POST endpoint",
+            "Uses existing PurelyMail SMTP credentials",
+            "Secure with CRON_SECRET token authentication",
+            "Works with Ubuntu cron, Vercel cron, or external cron services",
+            "Comprehensive setup guide in docs/EMAIL_NOTIFICATIONS.md"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Notifications ensure students don't forget review sessions, maximizing spaced repetition effectiveness",
+        "Daily email reminders create consistent study habits",
+        "Browser notifications provide immediate feedback when lessons are ready",
+        "Visual reminders on homepage keep learning goals top-of-mind",
+        "Uncomplete functionality prevents accidental progression",
+        "Simple SMTP-based approach avoids vendor lock-in and additional costs",
+        "Review count tracking motivates students to keep reviewing",
+        "Parent-friendly - emails can remind parents to check in with students"
+      ],
+      "tags": ["notifications", "browser-notifications", "email-reminders", "spaced-repetition", "study-tracking", "cron-jobs", "smtp", "progress-tracking", "user-engagement"]
+    },
+    {
       "id": "update-005",
       "date": "2025-10-06",
       "lesson_path": "/math/multiplying-dividing-decimals",
@@ -327,7 +414,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-10-06",
-    "total_updates": 5
+    "last_updated": "2025-01-10",
+    "total_updates": 6
   }
 }
