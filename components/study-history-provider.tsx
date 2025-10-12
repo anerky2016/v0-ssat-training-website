@@ -39,6 +39,9 @@ const TRACKABLE_PATHS = [
   '/math/expressions/polynomial',
   '/math/expressions/translating',
   '/math/expressions/distributive',
+  '/math/expressions/evaluating',
+  '/math/expressions/evaluating-two',
+  '/math/expressions/combining-like-terms',
   '/verbal',
 ]
 
