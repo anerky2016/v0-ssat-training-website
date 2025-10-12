@@ -93,6 +93,43 @@ export function getStudyStats(): StudyStats {
   }
 }
 
+// Get study statistics for a specific category
+export function getStudyStatsByCategory(category: string): StudyStats {
+  const history = getStudyHistory().filter(s => s.category === category)
+
+  if (history.length === 0) {
+    return {
+      totalSessions: 0,
+      totalTimeSpent: 0,
+      topicsStudied: 0,
+      problemsViewed: 0,
+      lastStudyDate: 0,
+      streakDays: 0,
+    }
+  }
+
+  // Calculate total time spent
+  const totalTimeSpent = history.reduce((sum, session) => sum + session.duration, 0)
+
+  // Calculate unique topics
+  const uniqueTopics = new Set(history.map(s => s.topicPath))
+
+  // Calculate total problems viewed
+  const problemsViewed = history.reduce((sum, session) => sum + session.problemsViewed, 0)
+
+  // Calculate streak (consecutive days with study sessions in this category)
+  const streakDays = calculateStreak(history)
+
+  return {
+    totalSessions: history.length,
+    totalTimeSpent,
+    topicsStudied: uniqueTopics.size,
+    problemsViewed,
+    lastStudyDate: history[0].timestamp,
+    streakDays,
+  }
+}
+
 // Calculate study streak
 function calculateStreak(history: StudySession[]): number {
   if (history.length === 0) return 0
@@ -174,6 +211,36 @@ export function getSessionsByDay(days: number = 7): Map<string, StudySession[]> 
 // Get most studied topics
 export function getMostStudiedTopics(limit: number = 5): Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }> {
   const history = getStudyHistory()
+  const topicMap = new Map<string, { title: string; count: number; totalTime: number }>()
+
+  history.forEach(session => {
+    if (!topicMap.has(session.topicPath)) {
+      topicMap.set(session.topicPath, {
+        title: session.topicTitle,
+        count: 0,
+        totalTime: 0,
+      })
+    }
+
+    const topic = topicMap.get(session.topicPath)!
+    topic.count++
+    topic.totalTime += session.duration
+  })
+
+  return Array.from(topicMap.entries())
+    .map(([path, data]) => ({
+      topicPath: path,
+      topicTitle: data.title,
+      count: data.count,
+      totalTime: data.totalTime,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit)
+}
+
+// Get most studied topics for a specific category
+export function getMostStudiedTopicsByCategory(category: string, limit: number = 5): Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }> {
+  const history = getStudyHistory().filter(s => s.category === category)
   const topicMap = new Map<string, { title: string; count: number; totalTime: number }>()
 
   history.forEach(session => {

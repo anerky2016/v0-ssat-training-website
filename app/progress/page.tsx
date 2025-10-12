@@ -14,13 +14,16 @@ import {
   Flame,
   BarChart3,
   RefreshCcw,
-  AlertCircle
+  AlertCircle,
+  Calculator
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
   getStudyStats,
+  getStudyStatsByCategory,
   getStudyHistory,
   getMostStudiedTopics,
+  getMostStudiedTopicsByCategory,
   getSessionsByDay,
   formatDuration,
   exportStudyHistory,
@@ -36,8 +39,12 @@ import Link from "next/link"
 
 export default function ProgressPage() {
   const [stats, setStats] = useState<StudyStats | null>(null)
+  const [mathStats, setMathStats] = useState<StudyStats | null>(null)
+  const [vocabularyStats, setVocabularyStats] = useState<StudyStats | null>(null)
   const [recentSessions, setRecentSessions] = useState<StudySession[]>([])
   const [topTopics, setTopTopics] = useState<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>>([])
+  const [mathTopics, setMathTopics] = useState<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>>([])
+  const [vocabularyTopics, setVocabularyTopics] = useState<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>>([])
   const [sessionsByDay, setSessionsByDay] = useState<Map<string, StudySession[]>>(new Map())
   const [lessonsDue, setLessonsDue] = useState<LessonCompletion[]>([])
   const [upcomingLessons, setUpcomingLessons] = useState<LessonCompletion[]>([])
@@ -48,15 +55,23 @@ export default function ProgressPage() {
 
     // Load all data
     const studyStats = getStudyStats()
+    const mathStudyStats = getStudyStatsByCategory('math')
+    const vocabularyStudyStats = getStudyStatsByCategory('vocabulary')
     const history = getStudyHistory()
     const topics = getMostStudiedTopics(5)
+    const mathTopicsData = getMostStudiedTopicsByCategory('math', 5)
+    const vocabularyTopicsData = getMostStudiedTopicsByCategory('vocabulary', 5)
     const byDay = getSessionsByDay(7)
     const due = getLessonsDueForReview()
     const upcoming = getUpcomingReviews(10)
 
     setStats(studyStats)
+    setMathStats(mathStudyStats)
+    setVocabularyStats(vocabularyStudyStats)
     setRecentSessions(history.slice(0, 10)) // Last 10 sessions
     setTopTopics(topics)
+    setMathTopics(mathTopicsData)
+    setVocabularyTopics(vocabularyTopicsData)
     setSessionsByDay(byDay)
     setLessonsDue(due)
     setUpcomingLessons(upcoming)
@@ -188,17 +203,120 @@ export default function ProgressPage() {
                     </Card>
                   </div>
 
-                  {/* Most Studied Topics */}
+                  {/* Subject-Specific Progress */}
+                  <div className="grid gap-8 lg:grid-cols-2 mb-12">
+                    {/* Math Progress */}
+                    {mathStats && mathStats.totalSessions > 0 && (
+                      <Card className="border-chart-1/20">
+                        <CardHeader>
+                          <div className="flex items-center gap-3">
+                            <div className="h-12 w-12 rounded-xl bg-chart-1/10 flex items-center justify-center">
+                              <Calculator className="h-6 w-6 text-chart-1" />
+                            </div>
+                            <div>
+                              <CardTitle>Math Progress</CardTitle>
+                              <CardDescription>Your mathematics journey</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Study Time</span>
+                              <span className="text-sm font-semibold">{formatDuration(mathStats.totalTimeSpent)}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Topics Studied</span>
+                              <span className="text-sm font-semibold">{mathStats.topicsStudied}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Sessions</span>
+                              <span className="text-sm font-semibold">{mathStats.totalSessions}</span>
+                            </div>
+                          </div>
+
+                          {mathTopics.length > 0 && (
+                            <>
+                              <h4 className="font-semibold text-sm mb-3">Top Topics</h4>
+                              <div className="space-y-2">
+                                {mathTopics.slice(0, 3).map((topic, index) => (
+                                  <Link
+                                    key={topic.topicPath}
+                                    href={topic.topicPath}
+                                    className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
+                                  >
+                                    {index + 1}. {topic.topicTitle} ({topic.count} sessions)
+                                  </Link>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </CardContent>
+                      </Card>
+                    )}
+
+                    {/* Vocabulary Progress */}
+                    {vocabularyStats && vocabularyStats.totalSessions > 0 && (
+                      <Card className="border-chart-5/20">
+                        <CardHeader>
+                          <div className="flex items-center gap-3">
+                            <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
+                              <BookOpen className="h-6 w-6 text-chart-5" />
+                            </div>
+                            <div>
+                              <CardTitle>Vocabulary Progress</CardTitle>
+                              <CardDescription>Your vocabulary mastery</CardDescription>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Study Time</span>
+                              <span className="text-sm font-semibold">{formatDuration(vocabularyStats.totalTimeSpent)}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Topics Studied</span>
+                              <span className="text-sm font-semibold">{vocabularyStats.topicsStudied}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">Sessions</span>
+                              <span className="text-sm font-semibold">{vocabularyStats.totalSessions}</span>
+                            </div>
+                          </div>
+
+                          {vocabularyTopics.length > 0 && (
+                            <>
+                              <h4 className="font-semibold text-sm mb-3">Top Topics</h4>
+                              <div className="space-y-2">
+                                {vocabularyTopics.slice(0, 3).map((topic, index) => (
+                                  <Link
+                                    key={topic.topicPath}
+                                    href={topic.topicPath}
+                                    className="block text-sm text-muted-foreground hover:text-foreground hover:underline"
+                                  >
+                                    {index + 1}. {topic.topicTitle} ({topic.count} sessions)
+                                  </Link>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+
+                  {/* Most Studied Topics (Overall) */}
                   {topTopics.length > 0 && (
                     <Card className="mb-12">
                       <CardHeader>
                         <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
-                            <BarChart3 className="h-6 w-6 text-chart-5" />
+                          <div className="h-12 w-12 rounded-xl bg-chart-7/10 flex items-center justify-center">
+                            <BarChart3 className="h-6 w-6 text-chart-7" />
                           </div>
                           <div>
-                            <CardTitle>Most Studied Topics</CardTitle>
-                            <CardDescription>Your top focus areas</CardDescription>
+                            <CardTitle>All Topics Combined</CardTitle>
+                            <CardDescription>Your overall top focus areas</CardDescription>
                           </div>
                         </div>
                       </CardHeader>

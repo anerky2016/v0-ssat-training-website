@@ -5,17 +5,26 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ListChecks, ArrowLeft, Volume2, Info } from "lucide-react"
+import { ListChecks, ArrowLeft, Volume2, Info, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 
 export default function WordListsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [playingWord, setPlayingWord] = useState<string | null>(null)
+  const [activeTooltip, setActiveTooltip] = useState<number | null>(null)
+  const [currentExampleIndex, setCurrentExampleIndex] = useState<Record<number, number>>({})
 
   const filteredWords = vocabularyData.words.filter(word =>
     word.word.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  const cycleExample = (wordIndex: number, totalExamples: number) => {
+    setCurrentExampleIndex(prev => ({
+      ...prev,
+      [wordIndex]: ((prev[wordIndex] || 0) + 1) % totalExamples
+    }))
+  }
 
   const pronounceWord = (word: string) => {
     if ('speechSynthesis' in window) {
@@ -85,9 +94,21 @@ export default function WordListsPage() {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2 flex-wrap">
-                            <CardTitle className="text-2xl font-bold text-foreground">
-                              {word.word}
-                            </CardTitle>
+                            <div className="relative">
+                              <CardTitle
+                                className="text-2xl font-bold text-foreground cursor-pointer hover:text-chart-5 transition-colors border-b-2 border-dashed border-transparent hover:border-chart-5"
+                                onClick={() => setActiveTooltip(activeTooltip === index ? null : index)}
+                              >
+                                {word.word}
+                              </CardTitle>
+                              {activeTooltip === index && (
+                                <div className="absolute z-10 mt-2 p-3 bg-chart-5 text-white rounded-lg shadow-xl max-w-xs text-sm leading-relaxed">
+                                  <div className="font-semibold mb-1">{word.meanings[0]}</div>
+                                  <div className="text-xs opacity-90 italic">{word.part_of_speech}</div>
+                                  <div className="absolute -top-2 left-4 w-4 h-4 bg-chart-5 transform rotate-45"></div>
+                                </div>
+                              )}
+                            </div>
                             <Button
                               onClick={(e) => {
                                 e.stopPropagation()
@@ -128,19 +149,42 @@ export default function WordListsPage() {
                         </ol>
                       </div>
 
-                      {/* Examples */}
+                      {/* Examples with Context Cycling */}
                       {word.examples && word.examples.length > 0 && (
                         <div>
-                          <h3 className="text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">
-                            Example{word.examples.length > 1 ? 's' : ''}
-                          </h3>
-                          <div className="space-y-2">
-                            {word.examples.map((example, idx) => (
-                              <p key={idx} className="text-sm text-muted-foreground italic pl-4 border-l-2 border-muted">
-                                "{example}"
-                              </p>
-                            ))}
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
+                              Example Context
+                            </h3>
+                            {word.examples.length > 1 && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => cycleExample(index, word.examples.length)}
+                                className="h-8 text-xs hover:text-chart-5"
+                              >
+                                <RefreshCw className="h-3 w-3 mr-1" />
+                                Different Context ({(currentExampleIndex[index] || 0) + 1}/{word.examples.length})
+                              </Button>
+                            )}
                           </div>
+                          <p className="text-sm text-muted-foreground italic pl-4 border-l-2 border-chart-5 leading-relaxed">
+                            "{word.examples[currentExampleIndex[index] || 0]}"
+                          </p>
+                          {word.examples.length > 1 && (
+                            <div className="mt-2 flex gap-1">
+                              {word.examples.map((_, idx) => (
+                                <div
+                                  key={idx}
+                                  className={`h-1.5 flex-1 rounded-full transition-colors ${
+                                    idx === (currentExampleIndex[index] || 0)
+                                      ? 'bg-chart-5'
+                                      : 'bg-muted'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
 
