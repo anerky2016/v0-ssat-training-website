@@ -51,7 +51,7 @@ export default function EvaluatingTwoVariablePage() {
         <Header />
         <main>
           {/* Hero Section */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-8/5 to-background">
+          <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-8/5 to-background">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Link href="/math/expressions" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
