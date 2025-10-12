@@ -8,9 +8,11 @@ import { usePathname } from 'next/navigation'
 
 interface CompleteStudyButtonProps {
   topicTitle: string
+  centered?: boolean
+  size?: 'default' | 'lg'
 }
 
-export function CompleteStudyButton({ topicTitle }: CompleteStudyButtonProps) {
+export function CompleteStudyButton({ topicTitle, centered = false, size = 'default' }: CompleteStudyButtonProps) {
   const pathname = usePathname()
   const [completion, setCompletion] = useState<ReturnType<typeof getLessonCompletion>>(null)
   const [justCompleted, setJustCompleted] = useState(false)
@@ -43,9 +45,9 @@ export function CompleteStudyButton({ topicTitle }: CompleteStudyButtonProps) {
 
   if (justCompleted) {
     return (
-      <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-600 dark:text-green-400 rounded-lg border border-green-500/20">
-        <CheckCircle2 className="h-5 w-5" />
-        <span className="font-medium">
+      <div className={`flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-600 dark:text-green-400 rounded-lg border border-green-500/20 ${centered ? 'justify-center' : ''}`}>
+        <CheckCircle2 className={size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />
+        <span className={`font-medium ${size === 'lg' ? 'text-lg' : ''}`}>
           {completion?.reviewCount === 1 ? 'Review recorded!' : 'Lesson completed!'}
         </span>
       </div>
@@ -54,22 +56,23 @@ export function CompleteStudyButton({ topicTitle }: CompleteStudyButtonProps) {
 
   if (justUncompleted) {
     return (
-      <div className="flex items-center gap-2 px-4 py-2 bg-muted text-muted-foreground rounded-lg border">
-        <X className="h-5 w-5" />
-        <span className="font-medium">Completion removed</span>
+      <div className={`flex items-center gap-2 px-4 py-2 bg-muted text-muted-foreground rounded-lg border ${centered ? 'justify-center' : ''}`}>
+        <X className={size === 'lg' ? 'h-6 w-6' : 'h-5 w-5'} />
+        <span className={`font-medium ${size === 'lg' ? 'text-lg' : ''}`}>Completion removed</span>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <div className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 ${centered ? 'sm:justify-center' : ''}`}>
       <div className="flex items-center gap-2">
         <Button
           onClick={handleComplete}
           variant={completion ? "outline" : "default"}
+          size={size}
           className="w-full sm:w-auto"
         >
-          <CheckCircle2 className="h-4 w-4 mr-2" />
+          <CheckCircle2 className={size === 'lg' ? 'h-5 w-5 mr-2' : 'h-4 w-4 mr-2'} />
           {completion ? (completion.reviewCount > 0 ? 'Mark as Reviewed' : 'Mark as Reviewed Again') : 'Mark as Completed'}
         </Button>
 

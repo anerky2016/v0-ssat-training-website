@@ -297,7 +297,7 @@ export default function CombiningLikeTermsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={combiningData.title} />
+                    <CompleteStudyButton topicTitle={combiningData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

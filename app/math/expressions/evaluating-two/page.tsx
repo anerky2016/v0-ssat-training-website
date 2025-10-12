@@ -292,7 +292,7 @@ export default function EvaluatingTwoVariablePage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={evaluatingTwoData.title} />
+                    <CompleteStudyButton topicTitle={evaluatingTwoData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>
