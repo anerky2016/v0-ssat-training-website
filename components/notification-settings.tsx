@@ -153,7 +153,7 @@ export function NotificationSettings() {
             <CardTitle className="text-lg">Email Notifications</CardTitle>
           </div>
           <CardDescription>
-            Get email reminders for upcoming reviews (Coming Soon)
+            Get daily email reminders for lessons due for review
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -163,7 +163,7 @@ export function NotificationSettings() {
                 Enable Email Notifications
               </Label>
               <p className="text-sm text-muted-foreground mt-1">
-                Receive weekly summaries of lessons due for review
+                Receive daily email reminders at 9 AM when lessons are due
               </p>
             </div>
             <Switch
@@ -172,9 +172,12 @@ export function NotificationSettings() {
               checked={false}
             />
           </div>
-          <p className="text-xs text-muted-foreground mt-4 italic">
-            Email notifications will be available once you sign in with your Google account.
-          </p>
+          <div className="mt-4 p-3 bg-muted/50 rounded-lg border">
+            <p className="text-xs text-muted-foreground">
+              <strong>Setup Required:</strong> Email notifications require additional configuration with Resend API.
+              See the <a href="https://github.com/anerky2016/v0-ssat-training-website/blob/main/docs/EMAIL_NOTIFICATIONS.md" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">setup guide</a> for instructions.
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
