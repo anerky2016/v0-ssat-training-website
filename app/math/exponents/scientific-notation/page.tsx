@@ -51,16 +51,13 @@ export default function ScientificNotationPage() {
         <Header />
         <main>
           {/* Hero Section */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-7/5 to-background">
+          <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-7/5 to-background">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Link href="/math/exponents" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
                   <ArrowLeft className="h-4 w-4" />
                   Back to Exponents Chapter
                 </Link>
-                <div className="mb-6">
-                  <CompleteStudyButton topicTitle={scientificData.title} />
-                </div>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {scientificData.title}
                 </h1>
@@ -280,8 +277,27 @@ export default function ScientificNotationPage() {
             </div>
           </section>
 
+          {/* Complete Study Button */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
+                  <CardContent className="pt-8 pb-8 text-center">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                      Finished This Lesson?
+                    </h3>
+                    <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                      Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                    </p>
+                    <CompleteStudyButton topicTitle={scientificData.title} centered size="lg" />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
           {/* Navigation */}
-          <section className="py-8 bg-muted/30">
+          <section className="py-8">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
                 <Link href="/math/exponents">
