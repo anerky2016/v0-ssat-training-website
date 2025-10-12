@@ -40,7 +40,7 @@ export default function ExpressionsPage() {
                   { title: "Simplifying Polynomial Expressions", href: "/math/expressions/polynomial" },
                   { title: "Translating Phrases to Algebra", href: "/math/expressions/translating" },
                   { title: "Distributive Property", href: "/math/expressions/distributive" },
-                  { title: "Evaluating One Variable", href: null },
+                  { title: "Evaluating One Variable", href: "/math/expressions/evaluating" },
                   { title: "Evaluating Two Variables", href: null },
                   { title: "Combining Like Terms", href: null }
                 ].map((topic, index) => (
