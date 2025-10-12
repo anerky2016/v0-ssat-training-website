@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import fractionsData from "@/data/fractions-mixed-numbers-add-sub.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function MixedNumbersAddSubPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -60,10 +61,11 @@ export default function MixedNumbersAddSubPage() {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                 {fractionsData.title}
               </h1>
-              <p className="text-lg text-muted-foreground mb-4">
+              <p className="text-lg text-muted-foreground mb-6">
                 <strong>Audience:</strong> {fractionsData.audience}
               </p>
-              <div className="text-base text-muted-foreground">
+              <CompleteStudyButton topicTitle={fractionsData.title} />
+              <div className="text-base text-muted-foreground mt-6">
                 <MathJax>{fractionsData.summary}</MathJax>
               </div>
             </div>

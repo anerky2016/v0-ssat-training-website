@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useState } from "react"
 import simplifyingData from "@/data/fractions-simplifying.json"
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function SimplifyingFractionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -52,13 +53,14 @@ export default function SimplifyingFractionsPage() {
               <p className="text-lg text-muted-foreground mb-6">
                 {simplifyingData.kid_friendly_explainer.what}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-6">
                 {simplifyingData.learning_goals.map((goal, index) => (
                   <div key={index} className="px-3 py-1 bg-chart-1/10 text-chart-1 rounded-full text-sm">
                     {goal}
                   </div>
                 ))}
               </div>
+              <CompleteStudyButton topicTitle={simplifyingData.topic} />
             </div>
           </div>
         </section>
