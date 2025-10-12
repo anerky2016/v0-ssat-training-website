@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import orderingData from "@/data/ordering-integers-numbers.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function OrderingIntegersNumbersPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -63,9 +64,10 @@ export default function OrderingIntegersNumbersPage() {
               <p className="text-lg text-muted-foreground mb-4">
                 <strong>Audience:</strong> {orderingData.audience}
               </p>
-              <p className="text-base text-muted-foreground">
+              <p className="text-base text-muted-foreground mb-6">
                 {orderingData.summary}
               </p>
+              <CompleteStudyButton topicTitle={orderingData.topic} />
             </div>
           </div>
         </section>
@@ -247,6 +249,25 @@ export default function OrderingIntegersNumbersPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Complete Study Button */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                    Finished This Lesson?
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                    Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                  </p>
+                  <CompleteStudyButton topicTitle={orderingData.topic} centered size="lg" />
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
