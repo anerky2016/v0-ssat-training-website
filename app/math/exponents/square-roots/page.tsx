@@ -11,6 +11,7 @@ import squareRootsData from "@/data/square-roots.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
 import { SquareRootSimplificationAnimation } from "@/components/square-root-simplification-animation"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function SquareRootsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -61,9 +62,10 @@ export default function SquareRootsPage() {
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {squareRootsData.title}
                 </h1>
-                <p className="text-lg text-muted-foreground mb-4">
+                <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {squareRootsData.audience}
                 </p>
+                <CompleteStudyButton topicTitle={squareRootsData.title} />
               </div>
             </div>
           </section>

@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import polynomialData from "@/data/polynomial-expressions.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function PolynomialExpressionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -60,9 +61,10 @@ export default function PolynomialExpressionsPage() {
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {polynomialData.title}
                 </h1>
-                <p className="text-lg text-muted-foreground mb-4">
+                <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {polynomialData.audience}
                 </p>
+                <CompleteStudyButton topicTitle={polynomialData.title} />
               </div>
             </div>
           </section>

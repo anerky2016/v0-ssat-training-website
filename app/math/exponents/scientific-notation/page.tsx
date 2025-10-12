@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import scientificData from "@/data/scientific-notation.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function ScientificNotationPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -60,9 +61,10 @@ export default function ScientificNotationPage() {
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {scientificData.title}
                 </h1>
-                <p className="text-lg text-muted-foreground mb-4">
+                <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {scientificData.audience}
                 </p>
+                <CompleteStudyButton topicTitle={scientificData.title} />
               </div>
             </div>
           </section>
