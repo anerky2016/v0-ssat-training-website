@@ -42,7 +42,7 @@ export default function ExpressionsPage() {
                   { title: "Distributive Property", href: "/math/expressions/distributive" },
                   { title: "Evaluating One Variable", href: "/math/expressions/evaluating" },
                   { title: "Evaluating Two Variables", href: "/math/expressions/evaluating-two" },
-                  { title: "Combining Like Terms", href: null }
+                  { title: "Combining Like Terms", href: "/math/expressions/combining-like-terms" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>

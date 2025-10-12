@@ -1,0 +1,189 @@
+{
+  "version": "1.0",
+  "title": "Combining Like Terms",
+  "audience": "Ages 11-13",
+  "topic": "Combining Like Terms",
+  "age_range": "11-13",
+  "reference_note": "From the slide: like terms have the same variable and power. Use distributive property first if needed, then combine them carefully with correct signs.",
+  "concept": {
+    "kid_friendly_def": "$\\text{Like terms are terms that have the same variable and the same exponent.}$",
+    "rule_summary": [
+      "$\\text{1) Separate terms by "+" or "–" signs.}$",
+      "$\\text{2) Combine coefficients of terms with the same variable and power.}$",
+      "$\\text{3) Keep the sign in front of each term!}$",
+      "$\\text{Example: }-3x + 7x = ( -3 + 7 )x = 4x.$"
+    ],
+    "distributive_connection": "$a(b+c)=ab+ac\\quad\\text{(use this first before combining)}$",
+    "worked_examples": [
+      {
+        "title": "Example 1",
+        "steps": [
+          "Simplify $(-2)(2x-2).$",
+          "Use distributive property: $(-2)(2x-2)=-4x+4.$"
+        ]
+      },
+      {
+        "title": "Example 2",
+        "steps": [
+          "Simplify $4(-2x+6).$",
+          "Distribute 4: $4(-2x)+4(6)=-8x+24.$"
+        ]
+      }
+    ],
+    "common_mistakes": [
+      "Forgetting to multiply negative signs (e.g. $-2(3x-4)\\neq -6x+4$; it should be $-6x+8$).",
+      "Combining unlike terms (e.g. $3x+5$ can't become $8x$).",
+      "Dropping the sign in front of a term when combining."
+    ],
+    "kid_tip": "Color or underline like terms in the same color before adding them!"
+  },
+  "exercises": {
+    "easy": {
+      "instructions": "Combine the like terms or distribute once before combining.",
+      "problems": [
+        {
+          "id": "E1",
+          "question_latex": "$-4x+x+5=\\;?$",
+          "answer_latex": "$-3x+5$",
+          "solution_steps": ["Combine $-4x+x=(-3x)$; constant 5 stays."]
+        },
+        {
+          "id": "E2",
+          "question_latex": "$-2(3x-4)=\\;?$",
+          "answer_latex": "$-6x+8$",
+          "solution_steps": ["Distribute $-2$: $-6x+8$."]
+        },
+        {
+          "id": "E3",
+          "question_latex": "$-14x+6-12x=\\;?$",
+          "answer_latex": "$-26x+6$",
+          "solution_steps": ["Combine $-14x-12x=-26x$."]
+        },
+        {
+          "id": "E4",
+          "question_latex": "$x+7x-2=\\;?$",
+          "answer_latex": "$8x-2$",
+          "solution_steps": ["Combine $x+7x=8x$."]
+        },
+        {
+          "id": "E5",
+          "question_latex": "$3(2x-5)=\\;?$",
+          "answer_latex": "$6x-15$",
+          "solution_steps": ["Distribute $3$ over both terms."]
+        }
+      ]
+    },
+    "medium": {
+      "instructions": "Use distributive property when needed, then combine like terms.",
+      "problems": [
+        {
+          "id": "M1",
+          "question_latex": "$3(5-2x)-20x=\\;?$",
+          "answer_latex": "$15-6x-20x=15-26x=-26x+15$",
+          "solution_steps": ["Distribute $3(5)=15$, $3(-2x)=-6x$, then combine."]
+        },
+        {
+          "id": "M2",
+          "question_latex": "$-5x-(7-15x)=\\;?$",
+          "answer_latex": "$-5x-7+15x=10x-7$",
+          "solution_steps": ["Distribute the negative: $-(7-15x)=-7+15x$."]
+        },
+        {
+          "id": "M3",
+          "question_latex": "$5(-15x+3)-17x=\\;?$",
+          "answer_latex": "$-75x+15-17x=-92x+15$",
+          "solution_steps": ["Distribute $5$, then combine $-75x-17x=-92x$."]
+        },
+        {
+          "id": "M4",
+          "question_latex": "$4x-7+3x+9=\\;?$",
+          "answer_latex": "$7x+2$",
+          "solution_steps": ["Combine $4x+3x=7x$, $-7+9=2$."]
+        },
+        {
+          "id": "M5",
+          "question_latex": "$2(4x-3)-3(x+2)=\\;?$",
+          "answer_latex": "$8x-6-3x-6=5x-12$",
+          "solution_steps": ["Distribute both parentheses, then combine."]
+        }
+      ]
+    },
+    "challenge": {
+      "instructions": "Include nested signs, larger coefficients, or multiple like-term groups.",
+      "problems": [
+        {
+          "id": "C1",
+          "question_latex": "$-(3x-4)+2(5x+1)=\\;?$",
+          "answer_latex": "$-3x+4+10x+2=7x+6$",
+          "solution_steps": ["Distribute $-1$ and $2$, then combine."]
+        },
+        {
+          "id": "C2",
+          "question_latex": "$7x-3(2x-4)+8=\\;?$",
+          "answer_latex": "$7x-6x+12+8=x+20$",
+          "solution_steps": ["Distribute $-3$ across $2x-4$, combine like terms."]
+        },
+        {
+          "id": "C3",
+          "question_latex": "$4(a-3)-2(5a-6)=\\;?$",
+          "answer_latex": "$4a-12-10a+12=-6a$",
+          "solution_steps": ["Simplify both, $-12+12=0$."]
+        },
+        {
+          "id": "C4",
+          "question_latex": "$9-3x-2(4x-5)=\\;?$",
+          "answer_latex": "$9-3x-8x+10=19-11x$",
+          "solution_steps": ["Distribute $-2$: $-8x+10$, combine with $-3x$."]
+        },
+        {
+          "id": "C5",
+          "question_latex": "$5x-3(2x-1)+4(1-x)=\\;?$",
+          "answer_latex": "$5x-6x+3+4-4x=-5x+7$",
+          "solution_steps": ["Distribute and carefully handle negatives."]
+        }
+      ]
+    },
+    "extreme": {
+      "instructions": "Nested parentheses and multiple signs. Always use parentheses for negatives and simplify step by step.",
+      "problems": [
+        {
+          "id": "X1",
+          "question_latex": "$-(2x-3)-[4(3x-5)-2(x-1)]=\\;?$",
+          "answer_latex": "$-2x+3-[12x-20-2x+2]=-2x+3-10x+18=-12x+21$",
+          "solution_steps": [
+            "Distribute inside brackets: $4(3x-5)=12x-20,\\; -2(x-1)=-2x+2$.",
+            "Simplify inside: $12x-20-2x+2=10x-18$.",
+            "Then subtract entire bracket: $-2x+3-(10x-18)=-2x+3-10x+18=-12x+21.$"
+          ]
+        },
+        {
+          "id": "X2",
+          "question_latex": "$3(2x-5)-2[3x-(4x-1)]\\;=\\;?$",
+          "answer_latex": "$6x-15-2[3x-4x+1]=6x-15-2[-x+1]=6x-15+2x-2=8x-17$",
+          "solution_steps": [
+            "Simplify inner: $3x-(4x-1)=3x-4x+1=-x+1.$",
+            "Distribute $-2$ and combine."
+          ]
+        },
+        {
+          "id": "X3",
+          "question_latex": "$-4(2x-5)+3[4x-(3x-2)]\\;=\\;?$",
+          "answer_latex": "$-8x+20+3[x+2]=-8x+20+3x+6=-5x+26$",
+          "solution_steps": ["Distribute both parentheses, then combine $-8x+3x=-5x$."]
+        },
+        {
+          "id": "X4",
+          "question_latex": "$7-2[5-(x-4)]\\;=\\;?$",
+          "answer_latex": "$7-2[5-x+4]=7-2[9-x]=7-18+2x=2x-11$",
+          "solution_steps": ["Simplify inner first, then distribute $-2$."]
+        },
+        {
+          "id": "X5",
+          "question_latex": "$3(2x-4)-2(5x-7)+4(3-x)=\\;?$",
+          "answer_latex": "$6x-12-10x+14+12-4x=(-8x+14)\\Rightarrow-8x+14$",
+          "solution_steps": ["Combine all like terms carefully: $6x-10x-4x=-8x$, constants $-12+14+12=14$."]
+        }
+      ]
+    }
+  }
+}
