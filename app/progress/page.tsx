@@ -12,7 +12,9 @@ import {
   TrendingUp,
   Download,
   Flame,
-  BarChart3
+  BarChart3,
+  RefreshCcw,
+  AlertCircle
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
@@ -22,8 +24,12 @@ import {
   getSessionsByDay,
   formatDuration,
   exportStudyHistory,
+  getLessonsDueForReview,
+  getUpcomingReviews,
+  formatReviewDate,
   type StudySession,
-  type StudyStats
+  type StudyStats,
+  type LessonCompletion
 } from "@/lib/study-history"
 import Link from "next/link"
 
@@ -32,6 +38,8 @@ export default function ProgressPage() {
   const [recentSessions, setRecentSessions] = useState<StudySession[]>([])
   const [topTopics, setTopTopics] = useState<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>>([])
   const [sessionsByDay, setSessionsByDay] = useState<Map<string, StudySession[]>>(new Map())
+  const [lessonsDue, setLessonsDue] = useState<LessonCompletion[]>([])
+  const [upcomingLessons, setUpcomingLessons] = useState<LessonCompletion[]>([])
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -42,11 +50,15 @@ export default function ProgressPage() {
     const history = getStudyHistory()
     const topics = getMostStudiedTopics(5)
     const byDay = getSessionsByDay(7)
+    const due = getLessonsDueForReview()
+    const upcoming = getUpcomingReviews(10)
 
     setStats(studyStats)
     setRecentSessions(history.slice(0, 10)) // Last 10 sessions
     setTopTopics(topics)
     setSessionsByDay(byDay)
+    setLessonsDue(due)
+    setUpcomingLessons(upcoming)
   }, [])
 
   const handleExport = () => {
@@ -209,6 +221,93 @@ export default function ProgressPage() {
                             </div>
                           ))}
                         </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Spaced Repetition Review */}
+                  {(lessonsDue.length > 0 || upcomingLessons.length > 0) && (
+                    <Card className="mb-12">
+                      <CardHeader>
+                        <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                            <RefreshCcw className="h-6 w-6 text-purple-500" />
+                          </div>
+                          <div>
+                            <CardTitle>Spaced Repetition Review</CardTitle>
+                            <CardDescription>Optimize your learning with strategic review</CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        {lessonsDue.length > 0 && (
+                          <div className="mb-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <AlertCircle className="h-5 w-5 text-orange-500" />
+                              <h3 className="font-semibold text-foreground">Ready to Review ({lessonsDue.length})</h3>
+                            </div>
+                            <div className="space-y-3">
+                              {lessonsDue.map((lesson) => (
+                                <Link
+                                  key={lesson.topicPath}
+                                  href={lesson.topicPath}
+                                  className="block p-4 rounded-lg border border-orange-500/20 bg-orange-500/5 hover:bg-orange-500/10 transition-colors"
+                                >
+                                  <div className="flex items-center justify-between gap-4">
+                                    <div className="flex-1">
+                                      <h4 className="font-medium text-foreground hover:underline">{lesson.topicTitle}</h4>
+                                      <p className="text-sm text-muted-foreground mt-1">
+                                        {lesson.reviewCount === 0 ? 'First review' : `Review #${lesson.reviewCount + 1}`} •
+                                        <span className="text-orange-600 dark:text-orange-400 font-medium ml-1">
+                                          {formatReviewDate(lesson.nextReviewDate)}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <Button variant="outline" size="sm" className="border-orange-500/20">
+                                      Review Now
+                                    </Button>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {upcomingLessons.length > 0 && (
+                          <div>
+                            <h3 className="font-semibold text-foreground mb-4">Upcoming Reviews</h3>
+                            <div className="space-y-2">
+                              {upcomingLessons.map((lesson) => (
+                                <Link
+                                  key={lesson.topicPath}
+                                  href={lesson.topicPath}
+                                  className="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                                >
+                                  <div className="flex items-center justify-between gap-4">
+                                    <div className="flex-1">
+                                      <h4 className="font-medium text-foreground hover:underline">{lesson.topicTitle}</h4>
+                                      <p className="text-sm text-muted-foreground">
+                                        {lesson.reviewCount === 0 ? 'First review' : `Review #${lesson.reviewCount + 1}`}
+                                      </p>
+                                    </div>
+                                    <span className="text-sm text-muted-foreground">
+                                      {formatReviewDate(lesson.nextReviewDate)}
+                                    </span>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {lessonsDue.length === 0 && upcomingLessons.length === 0 && (
+                          <div className="text-center py-8">
+                            <RefreshCcw className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+                            <p className="text-muted-foreground">
+                              Complete lessons and mark them as done to start using spaced repetition!
+                            </p>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   )}

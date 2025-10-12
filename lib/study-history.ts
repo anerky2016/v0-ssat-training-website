@@ -231,3 +231,129 @@ export function formatDuration(seconds: number): string {
     return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`
   }
 }
+
+// ===== SPACED REPETITION SYSTEM =====
+
+export interface LessonCompletion {
+  topicPath: string
+  topicTitle: string
+  completionTimestamp: number // When the lesson was marked as completed
+  reviewCount: number // Number of times reviewed (0 = initial completion)
+  nextReviewDate: number // Timestamp for next recommended review
+}
+
+const LESSON_COMPLETIONS_KEY = 'ssat-lesson-completions'
+
+// Spaced repetition intervals in days: 1, 3, 7, 14, 30, 60, 90...
+const REVIEW_INTERVALS = [1, 3, 7, 14, 30, 60, 90]
+
+// Calculate next review date based on review count
+function calculateNextReviewDate(completionTimestamp: number, reviewCount: number): number {
+  const intervalIndex = Math.min(reviewCount, REVIEW_INTERVALS.length - 1)
+  const daysUntilReview = REVIEW_INTERVALS[intervalIndex]
+  return completionTimestamp + (daysUntilReview * 24 * 60 * 60 * 1000)
+}
+
+// Get all lesson completions
+export function getLessonCompletions(): LessonCompletion[] {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const stored = localStorage.getItem(LESSON_COMPLETIONS_KEY)
+    if (!stored) return []
+
+    return JSON.parse(stored) as LessonCompletion[]
+  } catch (error) {
+    console.error('Failed to retrieve lesson completions:', error)
+    return []
+  }
+}
+
+// Mark a lesson as completed (or reviewed)
+export function markLessonComplete(topicPath: string, topicTitle: string) {
+  if (typeof window === 'undefined') return
+
+  try {
+    const completions = getLessonCompletions()
+    const existingIndex = completions.findIndex(c => c.topicPath === topicPath)
+    const now = Date.now()
+
+    if (existingIndex >= 0) {
+      // This is a review - increment review count
+      const existing = completions[existingIndex]
+      completions[existingIndex] = {
+        ...existing,
+        completionTimestamp: now,
+        reviewCount: existing.reviewCount + 1,
+        nextReviewDate: calculateNextReviewDate(now, existing.reviewCount + 1)
+      }
+    } else {
+      // This is a new completion
+      completions.push({
+        topicPath,
+        topicTitle,
+        completionTimestamp: now,
+        reviewCount: 0,
+        nextReviewDate: calculateNextReviewDate(now, 0)
+      })
+    }
+
+    localStorage.setItem(LESSON_COMPLETIONS_KEY, JSON.stringify(completions))
+  } catch (error) {
+    console.error('Failed to mark lesson complete:', error)
+  }
+}
+
+// Get lessons due for review (sorted by urgency)
+export function getLessonsDueForReview(): LessonCompletion[] {
+  const completions = getLessonCompletions()
+  const now = Date.now()
+
+  return completions
+    .filter(c => c.nextReviewDate <= now)
+    .sort((a, b) => a.nextReviewDate - b.nextReviewDate) // Most overdue first
+}
+
+// Get upcoming reviews (sorted by date)
+export function getUpcomingReviews(limit: number = 10): LessonCompletion[] {
+  const completions = getLessonCompletions()
+  const now = Date.now()
+
+  return completions
+    .filter(c => c.nextReviewDate > now)
+    .sort((a, b) => a.nextReviewDate - b.nextReviewDate) // Soonest first
+    .slice(0, limit)
+}
+
+// Get completion info for a specific lesson
+export function getLessonCompletion(topicPath: string): LessonCompletion | null {
+  const completions = getLessonCompletions()
+  return completions.find(c => c.topicPath === topicPath) || null
+}
+
+// Format date for display
+export function formatReviewDate(timestamp: number): string {
+  const date = new Date(timestamp)
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000)
+  const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+  if (dateOnly.getTime() === today.getTime()) {
+    return 'Today'
+  } else if (dateOnly.getTime() === tomorrow.getTime()) {
+    return 'Tomorrow'
+  } else {
+    const diffTime = dateOnly.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffDays < 0) {
+      const absDays = Math.abs(diffDays)
+      return absDays === 1 ? '1 day overdue' : `${absDays} days overdue`
+    } else if (diffDays <= 7) {
+      return `in ${diffDays} days`
+    } else {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { useState, useEffect } from "react"
 import evaluatingData from "@/data/evaluating-one-variable.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
 
 export default function EvaluatingOneVariablePage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
@@ -60,9 +61,10 @@ export default function EvaluatingOneVariablePage() {
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {evaluatingData.title}
                 </h1>
-                <p className="text-lg text-muted-foreground mb-4">
+                <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {evaluatingData.audience}
                 </p>
+                <CompleteStudyButton topicTitle={evaluatingData.title} />
               </div>
             </div>
           </section>
