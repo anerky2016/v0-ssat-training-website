@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Menu, LogOut } from "lucide-react"
+import { BookOpen, Menu, LogOut, TrendingUp } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { AcademicCap, BookOpen as BookOpenIcon } from "@/components/ui/icon"
@@ -37,6 +37,12 @@ export function Header() {
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             Test Sections
+          </Link>
+          <Link
+            href="/progress"
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Progress
           </Link>
           <Link
             href="/about"
@@ -116,6 +122,13 @@ export function Header() {
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
                 >
                   Test Sections
+                </Link>
+                <Link
+                  href="/progress"
+                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-2"
+                >
+                  <TrendingUp className="h-5 w-5" />
+                  Progress
                 </Link>
                 <Link
                   href="/about"

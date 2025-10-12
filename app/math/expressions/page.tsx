@@ -36,10 +36,10 @@ export default function ExpressionsPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { title: "Simplifying Variable Expressions", href: null },
-                  { title: "Simplifying Polynomial Expressions", href: null },
-                  { title: "Translating Phrases to Algebra", href: null },
-                  { title: "Distributive Property", href: null },
+                  { title: "Simplifying Variable Expressions", href: "/math/expressions/simplifying" },
+                  { title: "Simplifying Polynomial Expressions", href: "/math/expressions/polynomial" },
+                  { title: "Translating Phrases to Algebra", href: "/math/expressions/translating" },
+                  { title: "Distributive Property", href: "/math/expressions/distributive" },
                   { title: "Evaluating One Variable", href: null },
                   { title: "Evaluating Two Variables", href: null },
                   { title: "Combining Like Terms", href: null }

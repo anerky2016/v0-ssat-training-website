@@ -1,0 +1,245 @@
+{
+  "title": "Translate Phrases into Algebraic Statements",
+  "audience": "Ages 11-13",
+  "topic_id": "translating_phrases_v1",
+  "kid_friendly_explainer": [
+    "We can turn words into math! A letter (like $x$) stands for an unknown number.",
+    "Key words tell us which operation to use: plus, minus, times, or divide.",
+    "Pay attention to order! \"Five less than x\" means $x - 5$ (not $5 - x$).",
+    "Use parentheses for grouped phrases like \"sum of...\" or \"product of...\".",
+    "Remember: \"of\" usually means multiply, especially with percents like \"30% of $n$ = $0.30n$\"."
+  ],
+  "core_rules": [
+    {
+      "name": "Addition Keywords",
+      "plain_english": "Words like sum, plus, more than, increased by, and total all mean addition (+).",
+      "latex": "\\text{sum, plus, more than, increased by} \\Rightarrow +"
+    },
+    {
+      "name": "Subtraction Keywords",
+      "plain_english": "Words like minus, difference, decreased by, and less than all mean subtraction (-).",
+      "latex": "\\text{minus, difference, decreased by, less than} \\Rightarrow -"
+    },
+    {
+      "name": "Multiplication Keywords",
+      "plain_english": "Words like times, product, of, twice, and thrice all mean multiplication (×).",
+      "latex": "\\text{times, product, of, twice, thrice} \\Rightarrow \\times"
+    },
+    {
+      "name": "Division Keywords",
+      "plain_english": "Words like quotient, divided by, per, and ratio of all mean division (÷).",
+      "latex": "\\text{quotient, divided by, per, ratio of} \\Rightarrow \\div"
+    },
+    {
+      "name": "Order Matters!",
+      "plain_english": "\"a less than b\" means b - a (reverse the order). \"Subtract a from b\" also means b - a.",
+      "latex": "\\text{\"a less than b\"} = b - a \\quad \\text{(not } a - b\\text{)}"
+    },
+    {
+      "name": "Grouping with Parentheses",
+      "plain_english": "Phrases like \"sum of...\" or \"difference of...\" need parentheses. Example: twice the sum of x and 5 is 2(x + 5).",
+      "latex": "\\text{twice the sum of } x \\text{ and } 5 = 2(x + 5)"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "\\text{Twelve times the sum of 5 and } x",
+      "walkthrough": [
+        "Start with the inner phrase: \"sum of 5 and \\(x\\)\" means \\(5 + x\\).",
+        "Put this sum in parentheses: \\((5 + x)\\).",
+        "\"Twelve times\" this sum means multiply by 12.",
+        "Answer:"
+      ],
+      "answer_latex": "12(5 + x)"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "\\text{Nine more than a number is 18}",
+      "walkthrough": [
+        "\"A number\" can be represented by \\(x\\) (or any variable).",
+        "\"Nine more than \\(x\\)\" means add 9: \\(x + 9\\).",
+        "\"Is 18\" means equals 18: \\(= 18\\).",
+        "Put it together:",
+        "Answer:"
+      ],
+      "answer_latex": "x + 9 = 18"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "\\text{Six less than } m \\text{ is } 11",
+      "walkthrough": [
+        "\"Six less than \\(m\\)\" means \\(m - 6\\) (order reversed!).",
+        "\"Is 11\" means \\(= 11\\).",
+        "Answer:"
+      ],
+      "answer_latex": "m - 6 = 11"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\text{Thirty percent of } k",
+      "walkthrough": [
+        "\"Percent\" means divide by 100: 30% = 0.30.",
+        "\"Of\" means multiply: 30% of \\(k\\) = \\(0.30 \\times k\\).",
+        "Answer:"
+      ],
+      "answer_latex": "0.30k"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Write an expression or equation. Use $x$ if the number is not named.",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "9 \\text{ decreased by } y",
+          "hint": "\"Decreased by\" means subtract: 9 - y",
+          "answer_latex": "9 - y"
+        },
+        {
+          "id": "e2",
+          "question_latex": "\\text{Add } y \\text{ to } 16",
+          "hint": "Addition: 16 + y",
+          "answer_latex": "16 + y"
+        },
+        {
+          "id": "e3",
+          "question_latex": "\\text{The square of } 8",
+          "hint": "Square means raise to power 2",
+          "answer_latex": "8^2"
+        },
+        {
+          "id": "e4",
+          "question_latex": "7 \\text{ multiplied by } x",
+          "hint": "Product: 7 × x = 7x",
+          "answer_latex": "7x"
+        },
+        {
+          "id": "e5",
+          "question_latex": "\\text{Subtract } 22 \\text{ from } y",
+          "hint": "\"Subtract 22 from y\" means y - 22",
+          "answer_latex": "y - 22"
+        },
+        {
+          "id": "e6",
+          "question_latex": "13 \\text{ divided by } x",
+          "hint": "Quotient: 13 ÷ x",
+          "answer_latex": "\\frac{13}{x}"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Watch the order and use parentheses for grouped words like \"sum of...\".",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "\\text{Twice the sum of } x \\text{ and } 5",
+          "hint": "Sum needs parentheses: (x + 5), then multiply by 2",
+          "answer_latex": "2(x + 5)"
+        },
+        {
+          "id": "m2",
+          "question_latex": "\\text{The difference of } 3x \\text{ and } 7",
+          "hint": "\"Difference of A and B\" means A - B",
+          "answer_latex": "3x - 7"
+        },
+        {
+          "id": "m3",
+          "question_latex": "\\text{Six less than } m \\text{ is } 11",
+          "hint": "\"Less than\" reverses order: m - 6, then \"is\" = 11",
+          "answer_latex": "m - 6 = 11"
+        },
+        {
+          "id": "m4",
+          "question_latex": "\\text{The product of } 4 \\text{ and } (x - 3)",
+          "hint": "Product means multiply: 4 × (x - 3)",
+          "answer_latex": "4(x - 3)"
+        },
+        {
+          "id": "m5",
+          "question_latex": "\\text{Three more than twice } y",
+          "hint": "Twice y = 2y, then add 3",
+          "answer_latex": "2y + 3"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Multi-part phrases; include percents and rates.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "\\text{Five more than the quotient of } x \\text{ and } 3",
+          "hint": "Quotient first: x ÷ 3, then add 5",
+          "answer_latex": "\\frac{x}{3} + 5"
+        },
+        {
+          "id": "c2",
+          "question_latex": "\\text{Half of the sum of } p \\text{ and } q",
+          "hint": "\"Of\" means multiply: ½ × (p + q)",
+          "answer_latex": "\\frac{1}{2}(p + q)"
+        },
+        {
+          "id": "c3",
+          "question_latex": "\\text{Eight decreased by three times } n",
+          "hint": "Three times n = 3n, then subtract from 8",
+          "answer_latex": "8 - 3n"
+        },
+        {
+          "id": "c4",
+          "question_latex": "\\text{Thirty percent of } k \\text{ is } 12",
+          "hint": "30% = 0.30, \"of\" means multiply, \"is\" means equals",
+          "answer_latex": "0.30k = 12"
+        },
+        {
+          "id": "c5",
+          "question_latex": "\\text{The ratio of } a \\text{ to } b \\text{ minus } 4",
+          "hint": "Ratio a to b is a/b, then subtract 4",
+          "answer_latex": "\\frac{a}{b} - 4"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Tricky order words, nested groups, and inequalities.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "\\text{Three less than the product of } 5 \\text{ and the sum of } x \\text{ and } 2",
+          "hint": "Work inside out: sum (x+2), then product with 5, then subtract 3",
+          "answer_latex": "5(x + 2) - 3"
+        },
+        {
+          "id": "x2",
+          "question_latex": "\\text{Four more than } \\frac{m}{m+1}",
+          "hint": "Add 4 to the entire fraction",
+          "answer_latex": "\\frac{m}{m+1} + 4"
+        },
+        {
+          "id": "x3",
+          "question_latex": "\\text{Twice the difference of } (2x+1) \\text{ and } (x-3)",
+          "hint": "Difference: (2x+1) - (x-3), then multiply by 2",
+          "answer_latex": "2((2x+1) - (x-3))"
+        },
+        {
+          "id": "x4",
+          "question_latex": "\\text{At least } 7 \\text{ more than } 3p",
+          "hint": "\"At least\" means ≥; expression is 3p + 7 (if comparing to value k: 3p + 7 ≥ k)",
+          "answer_latex": "3p + 7 \\ge \\text{(value)}"
+        },
+        {
+          "id": "x5",
+          "question_latex": "\\text{The number } x \\text{ is } 5 \\text{ less than three times } y",
+          "hint": "Three times y = 3y, five less than that = 3y - 5, equals x",
+          "answer_latex": "x = 3y - 5"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize that ORDER MATTERS with subtraction and division. \"5 less than x\" is $x - 5$, not $5 - x$.",
+    "Teach students to identify grouped phrases that need parentheses: \"sum of\", \"difference of\", \"product of\", \"quotient of\".",
+    "\"Of\" almost always means multiply, especially with fractions and percents: \"half of x\" = $\\frac{1}{2}x$, \"20% of n\" = $0.20n$.",
+    "Practice \"less than\" and \"more than\" extensively, as these commonly cause confusion with order.",
+    "When translating to equations, the word \"is\" or \"equals\" becomes the equals sign.",
+    "Inequality words: \"at least\" (≥), \"at most\" (≤), \"fewer than\" (<), \"greater than\" (>), \"no more than\" (≤), \"no less than\" (≥)."
+  ]
+}

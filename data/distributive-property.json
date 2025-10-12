@@ -1,0 +1,232 @@
+{
+  "title": "The Distributive Property",
+  "audience": "Ages 11-13",
+  "topic_id": "distributive_property_v1",
+  "kid_friendly_explainer": [
+    "The Distributive Property: $a(b + c) = ab + ac$ and $a(b - c) = ab - ac$.",
+    "It lets you multiply a number or variable across everything inside parentheses.",
+    "You can also use it backwards (called factoring) to pull out a common factor.",
+    "Pro tip: Draw arrows from the outside number to each term inside. One arrow per term!",
+    "Watch out for negative signs! $-(x + 4) = -x - 4$ (not $-x + 4$)."
+  ],
+  "core_rules": [
+    {
+      "name": "Basic Distributive Property",
+      "plain_english": "Multiply the term outside the parentheses by each term inside the parentheses.",
+      "latex": "a(b + c) = ab + ac \\quad \\text{and} \\quad a(b - c) = ab - ac"
+    },
+    {
+      "name": "Distributing a Negative",
+      "plain_english": "When distributing a negative sign, multiply -1 by each term inside. This changes all the signs.",
+      "latex": "-(b + c) = -b - c \\quad \\text{and} \\quad -(b - c) = -b + c"
+    },
+    {
+      "name": "Distributing to Multiple Terms",
+      "plain_english": "The distributive property works with any number of terms inside the parentheses.",
+      "latex": "a(b + c + d) = ab + ac + ad"
+    },
+    {
+      "name": "Reverse Distribution (Factoring)",
+      "plain_english": "You can factor out a common term from an expression by using the distributive property in reverse.",
+      "latex": "ab + ac = a(b + c)"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "3(x + 4) = \\; ?",
+      "walkthrough": [
+        "Multiply 3 by the first term: \\(3 \\times x = 3x\\).",
+        "Multiply 3 by the second term: \\(3 \\times 4 = 12\\).",
+        "Combine the results:",
+        "Answer:"
+      ],
+      "answer_latex": "3x + 12"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "-2(y - 5) = \\; ?",
+      "walkthrough": [
+        "Multiply -2 by the first term: \\(-2 \\times y = -2y\\).",
+        "Multiply -2 by the second term: \\(-2 \\times (-5) = +10\\).",
+        "Note: negative times negative gives positive!",
+        "Answer:"
+      ],
+      "answer_latex": "-2y + 10"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "2(x - 3) + 3(x + 1) = \\; ?",
+      "walkthrough": [
+        "Distribute the 2: \\(2(x - 3) = 2x - 6\\).",
+        "Distribute the 3: \\(3(x + 1) = 3x + 3\\).",
+        "Now combine like terms: \\(2x - 6 + 3x + 3\\).",
+        "Combine \\(x\\) terms: \\(2x + 3x = 5x\\).",
+        "Combine constants: \\(-6 + 3 = -3\\).",
+        "Answer:"
+      ],
+      "answer_latex": "5x - 3"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\text{Factor: } 12y + 18 = \\; ?",
+      "walkthrough": [
+        "Find the greatest common factor (GCF) of 12 and 18: GCF = 6.",
+        "Divide each term by 6: \\(12y \\div 6 = 2y\\) and \\(18 \\div 6 = 3\\).",
+        "Write as: \\(6(2y + 3)\\).",
+        "Answer:"
+      ],
+      "answer_latex": "6(2y + 3)"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Distribute once and simplify.",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "3(x + 4) = \\; ?",
+          "hint": "Multiply 3 by both x and 4",
+          "answer_latex": "3x + 12"
+        },
+        {
+          "id": "e2",
+          "question_latex": "-2(y - 5) = \\; ?",
+          "hint": "Remember: -2 × (-5) = +10",
+          "answer_latex": "-2y + 10"
+        },
+        {
+          "id": "e3",
+          "question_latex": "5(a - 1) = \\; ?",
+          "hint": "Multiply 5 by both terms",
+          "answer_latex": "5a - 5"
+        },
+        {
+          "id": "e4",
+          "question_latex": "\\frac{1}{2}(8x - 6) = \\; ?",
+          "hint": "Half of 8x is 4x, half of 6 is 3",
+          "answer_latex": "4x - 3"
+        },
+        {
+          "id": "e5",
+          "question_latex": "7(2 + z) = \\; ?",
+          "hint": "7 × 2 = 14 and 7 × z = 7z",
+          "answer_latex": "14 + 7z"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Distribute, then combine like terms.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "2(x - 3) + 3(x + 1) = \\; ?",
+          "hint": "Distribute both 2 and 3, then combine x terms and constants",
+          "answer_latex": "5x - 3"
+        },
+        {
+          "id": "m2",
+          "question_latex": "-4(2y + 3) + y = \\; ?",
+          "hint": "Distribute -4, then combine -8y and y",
+          "answer_latex": "-7y - 12"
+        },
+        {
+          "id": "m3",
+          "question_latex": "3(a + b) - 2a = \\; ?",
+          "hint": "Distribute 3, then combine the a terms",
+          "answer_latex": "a + 3b"
+        },
+        {
+          "id": "m4",
+          "question_latex": "5(t - 4) - 3(t - 1) = \\; ?",
+          "hint": "Distribute both, then combine t terms and constants separately",
+          "answer_latex": "2t - 17"
+        },
+        {
+          "id": "m5",
+          "question_latex": "-(x + 6) + 4(x - 2) = \\; ?",
+          "hint": "Remember -(x+6) = -x - 6, then distribute the 4",
+          "answer_latex": "3x - 14"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Include three-term groups and nested negatives. Finish in standard form.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "3(2x - 1 + 4y) = \\; ?",
+          "hint": "Multiply 3 by all three terms inside",
+          "answer_latex": "6x - 3 + 12y"
+        },
+        {
+          "id": "c2",
+          "question_latex": "2(3x - 5) - 3(2x - 1) = \\; ?",
+          "hint": "After distributing, x terms will cancel out",
+          "answer_latex": "-7"
+        },
+        {
+          "id": "c3",
+          "question_latex": "-(2m - 3n + 4) + 5(n - 1) = \\; ?",
+          "hint": "Distribute the negative to all three terms, then distribute 5",
+          "answer_latex": "-2m + 8n - 9"
+        },
+        {
+          "id": "c4",
+          "question_latex": "4\\left(\\frac{1}{2}x - 3\\right) - \\frac{3}{2}(x - 2) = \\; ?",
+          "hint": "4 × (1/2)x = 2x, then distribute -3/2",
+          "answer_latex": "\\frac{1}{2}x - 9"
+        },
+        {
+          "id": "c5",
+          "question_latex": "6 - (2x - 3) - (x + 5) = \\; ?",
+          "hint": "Distribute both negative signs, then combine",
+          "answer_latex": "-3x + 4"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Multi-layer distribution (nested parentheses) and reverse distribution (factoring).",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "-(2x - 3) + 4(1 - (x - 2)) = \\; ?",
+          "hint": "Work inside out: simplify 1 - (x - 2) first",
+          "answer_latex": "-6x + 15"
+        },
+        {
+          "id": "x2",
+          "question_latex": "3(x - 2) - 2(2x - (3 - x)) = \\; ?",
+          "hint": "Simplify 2x - (3 - x) first, then distribute",
+          "answer_latex": "-3x"
+        },
+        {
+          "id": "x3",
+          "question_latex": "\\text{Factor (reverse distribute): } 12y + 18 = \\; ?",
+          "hint": "GCF of 12 and 18 is 6",
+          "answer_latex": "6(2y + 3)"
+        },
+        {
+          "id": "x4",
+          "question_latex": "\\text{Factor: } 15x - 20y + 5 = \\; ?",
+          "hint": "GCF is 5; factor it out from all three terms",
+          "answer_latex": "5(3x - 4y + 1)"
+        },
+        {
+          "id": "x5",
+          "question_latex": "2(3x - 4(1 - x)) - (5x - 2(3 - x)) = \\; ?",
+          "hint": "Work on each nested group separately first",
+          "answer_latex": "7x - 2"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize that EVERY term inside must be multiplied. Students often forget to distribute to all terms.",
+    "Distributing a negative is especially tricky: $-(x + 4) = -x - 4$, not $-x + 4$. Use many examples.",
+    "Draw arrows from outside to inside to visualize the distribution. This helps students remember to hit every term.",
+    "When combining like terms after distribution, encourage students to group terms by type (all $x$ terms together, all constants together).",
+    "For factoring (reverse distribution): find the greatest common factor (GCF) first, then divide each term by it.",
+    "With nested parentheses, teach students to work from the innermost layer outward, one level at a time."
+  ]
+}

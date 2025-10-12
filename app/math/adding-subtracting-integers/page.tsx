@@ -21,7 +21,16 @@ export default function AddingSubtractingIntegersPage() {
   }, [])
 
   const toggleAnswer = (id: string) => {
-    setShowAnswers(prev => ({ ...prev, [id]: !prev[id] }))
+    setShowAnswers(prev => {
+      const newState = { ...prev, [id]: !prev[id] }
+
+      // Dispatch custom event when answer is revealed for tracking
+      if (newState[id] && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('answer-revealed'))
+      }
+
+      return newState
+    })
   }
 
   const exercisesByDifficulty = {

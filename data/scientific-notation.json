@@ -1,0 +1,229 @@
+{
+  "title": "Scientific Notation",
+  "audience": "Ages 11-13",
+  "topic_id": "scientific_notation_v1",
+  "kid_friendly_explainer": [
+    "Scientific notation writes very big or very small numbers in a shorter way: $m \\times 10^n$.",
+    "The mantissa $m$ must be between 1 and 10 (including 1, but not 10): $1 \\le m < 10$.",
+    "The exponent $n$ tells you how many places to move the decimal point.",
+    "Think of $10^n$ as a decimal point mover: positive $n$ moves right, negative $n$ moves left."
+  ],
+  "core_rules": [
+    {
+      "name": "Standard Form",
+      "plain_english": "Any nonzero number can be written as m × 10^n, where 1 ≤ m < 10 and n is an integer.",
+      "latex": "m \\times 10^{n}, \\quad 1 \\le m < 10, \\; n \\in \\mathbb{Z}"
+    },
+    {
+      "name": "Converting Decimal to Scientific",
+      "plain_english": "Move the decimal point to make m between 1 and 10. Count the moves: left = positive n, right = negative n.",
+      "latex": "\\text{moved left} \\Rightarrow n > 0; \\quad \\text{moved right} \\Rightarrow n < 0"
+    },
+    {
+      "name": "Converting Scientific to Decimal",
+      "plain_english": "If n > 0, move decimal right n places. If n < 0, move decimal left |n| places. Fill in zeros as needed.",
+      "latex": "n > 0: \\text{move right}; \\quad n < 0: \\text{move left}"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "25{,}000 = \\; ? \\; \\text{(scientific notation)}",
+      "walkthrough": [
+        "Move the decimal point left to make the mantissa between 1 and 10: \\(25{,}000 \\to 2.5\\).",
+        "Count the moves: moved 4 places left.",
+        "Left move means positive exponent: \\(n = 4\\).",
+        "Answer:"
+      ],
+      "answer_latex": "2.5 \\times 10^{4}"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "0.007 = \\; ? \\; \\text{(scientific notation)}",
+      "walkthrough": [
+        "Move the decimal point right to make the mantissa between 1 and 10: \\(0.007 \\to 7\\).",
+        "Count the moves: moved 3 places right.",
+        "Right move means negative exponent: \\(n = -3\\).",
+        "Answer:"
+      ],
+      "answer_latex": "7 \\times 10^{-3}"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "4.06 \\times 10^{3} = \\; ? \\; \\text{(decimal)}",
+      "walkthrough": [
+        "Look at the exponent: \\(n = 3\\) (positive).",
+        "Move the decimal point in \\(4.06\\) right 3 places.",
+        "Fill in zeros as needed: \\(4.06 \\to 4060\\).",
+        "Answer:"
+      ],
+      "answer_latex": "4060"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "(3 \\times 10^{4}) \\times (2 \\times 10^{2}) = \\; ?",
+      "walkthrough": [
+        "Multiply the mantissas: \\(3 \\times 2 = 6\\).",
+        "Add the exponents: \\(4 + 2 = 6\\).",
+        "Combine: \\(6 \\times 10^{6}\\).",
+        "Answer:"
+      ],
+      "answer_latex": "6 \\times 10^{6}"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Convert between decimal and scientific notation. Remember: $1 \\le m < 10$.",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "5000 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 3 places left to get 5.",
+          "answer_latex": "5 \\times 10^{3}"
+        },
+        {
+          "id": "e2",
+          "question_latex": "0.007 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 3 places right to make 7.",
+          "answer_latex": "7 \\times 10^{-3}"
+        },
+        {
+          "id": "e3",
+          "question_latex": "3.2 \\times 10^{2} = \\; ? \\; \\text{(decimal)}",
+          "hint": "Exponent 2 means move decimal 2 places right.",
+          "answer_latex": "320"
+        },
+        {
+          "id": "e4",
+          "question_latex": "9.5 \\times 10^{0} = \\; ?",
+          "hint": "$10^0 = 1$, so the value stays the same.",
+          "answer_latex": "9.5"
+        },
+        {
+          "id": "e5",
+          "question_latex": "0.5 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 1 place right to get 5.",
+          "answer_latex": "5 \\times 10^{-1}"
+        },
+        {
+          "id": "e6",
+          "question_latex": "120 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 2 places left to get 1.2.",
+          "answer_latex": "1.2 \\times 10^{2}"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Include negatives and mix directions. Some require back-and-forth conversions and operations.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "-25{,}000 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Work with the absolute value first, then add the negative sign back.",
+          "answer_latex": "-2.5 \\times 10^{4}"
+        },
+        {
+          "id": "m2",
+          "question_latex": "4.06 \\times 10^{3} = \\; ? \\; \\text{(decimal)}",
+          "hint": "Move decimal 3 places right.",
+          "answer_latex": "4060"
+        },
+        {
+          "id": "m3",
+          "question_latex": "0.00092 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 4 places right to get 9.2.",
+          "answer_latex": "9.2 \\times 10^{-4}"
+        },
+        {
+          "id": "m4",
+          "question_latex": "(6.4 \\times 10^{3}) + (1.6 \\times 10^{3}) = \\; ?",
+          "hint": "Same exponent, so add the mantissas.",
+          "answer_latex": "8.0 \\times 10^{3}"
+        },
+        {
+          "id": "m5",
+          "question_latex": "(3 \\times 10^{4}) \\times (2 \\times 10^{2}) = \\; ?",
+          "hint": "Multiply mantissas and add exponents.",
+          "answer_latex": "6 \\times 10^{6}"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Normalization and mixed operations. Make sure $1 \\le m < 10$ in your final answer.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "0.000050 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Move decimal 5 places right to get 5.0.",
+          "answer_latex": "5.0 \\times 10^{-5}"
+        },
+        {
+          "id": "c2",
+          "question_latex": "(9 \\times 10^{-2}) \\times (4 \\times 10^{5}) = \\; ?",
+          "hint": "Multiply: $9 \\times 4 = 36$, exponents: $-2 + 5 = 3$. Then normalize $36 \\times 10^3$.",
+          "answer_latex": "3.6 \\times 10^{4}"
+        },
+        {
+          "id": "c3",
+          "question_latex": "7.2 \\times 10^{6} \\div 3 \\times 10^{2} = \\; ?",
+          "hint": "Divide mantissas: $7.2 \\div 3 = 2.4$. Subtract exponents: $6 - 2 = 4$.",
+          "answer_latex": "2.4 \\times 10^{4}"
+        },
+        {
+          "id": "c4",
+          "question_latex": "(5 \\times 10^{3}) + (4 \\times 10^{4}) = \\; ?",
+          "hint": "Rewrite $5 \\times 10^3$ as $0.5 \\times 10^4$, then add mantissas.",
+          "answer_latex": "4.5 \\times 10^{4}"
+        },
+        {
+          "id": "c5",
+          "question_latex": "(2 \\times 10^{3})^{2} = \\; ?",
+          "hint": "Square mantissa: $2^2 = 4$. Multiply exponent: $3 \\times 2 = 6$.",
+          "answer_latex": "4 \\times 10^{6}"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Trickier alignment and multi-step reasoning. Watch for normalization after each step.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "(0.6 \\times 10^{5}) + (4.2 \\times 10^{4}) = \\; ?",
+          "hint": "Rewrite $4.2 \\times 10^4$ as $0.42 \\times 10^5$, then add mantissas.",
+          "answer_latex": "1.02 \\times 10^{5}"
+        },
+        {
+          "id": "x2",
+          "question_latex": "\\frac{3 \\times 10^{-3}}{6 \\times 10^{-7}} = \\; ?",
+          "hint": "Divide mantissas: $3 \\div 6 = 0.5$. Subtract exponents: $-3 - (-7) = 4$. Then normalize.",
+          "answer_latex": "5 \\times 10^{3}"
+        },
+        {
+          "id": "x3",
+          "question_latex": "(8 \\times 10^{-2}) \\times (7.5 \\times 10^{6}) = \\; ?",
+          "hint": "Multiply: $8 \\times 7.5 = 60$. Add exponents: $-2 + 6 = 4$. Then normalize $60 \\times 10^4$.",
+          "answer_latex": "6.0 \\times 10^{5}"
+        },
+        {
+          "id": "x4",
+          "question_latex": "0.00000000056 = \\; ? \\; \\text{(scientific)}",
+          "hint": "Count carefully: move decimal 10 places right to get 5.6.",
+          "answer_latex": "5.6 \\times 10^{-10}"
+        },
+        {
+          "id": "x5",
+          "question_latex": "\\text{Order from smallest to largest: } 3.1 \\times 10^{-4}, \\; 2.9 \\times 10^{-3}, \\; 4 \\times 10^{-5}",
+          "hint": "Compare exponents first: $10^{-5}$ is smallest, then $10^{-4}$, then $10^{-3}$.",
+          "answer_latex": "4 \\times 10^{-5} < 3.1 \\times 10^{-4} < 2.9 \\times 10^{-3}"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize that the mantissa $m$ must satisfy $1 \\le m < 10$. Common mistakes include using $m = 25$ or $m = 0.25$.",
+    "Remind students that negative exponents are for small decimals (e.g., $0.007 = 7 \\times 10^{-3}$), not negative numbers.",
+    "When multiplying or dividing in scientific notation: mantissas multiply/divide, exponents add/subtract, then normalize.",
+    "For addition/subtraction: exponents must match first, then you can add/subtract the mantissas.",
+    "Always preserve the sign of the original number (positive or negative)."
+  ]
+}

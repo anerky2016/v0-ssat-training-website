@@ -18,7 +18,16 @@ export default function SimplifyingFractionsPage() {
   const currentSet = simplifyingData.practice.sets.find(set => set.difficulty === selectedDifficulty)
 
   const toggleAnswer = (id: string) => {
-    setShowAnswer(prev => ({ ...prev, [id]: !prev[id] }))
+    setShowAnswer(prev => {
+      const newState = { ...prev, [id]: !prev[id] }
+
+      // Dispatch custom event when answer is revealed for tracking
+      if (newState[id] && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('answer-revealed'))
+      }
+
+      return newState
+    })
   }
 
   const toggleSteps = (id: string) => {

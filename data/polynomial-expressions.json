@@ -1,0 +1,223 @@
+{
+  "title": "Simplifying Polynomial Expressions",
+  "audience": "Ages 11-13",
+  "topic_id": "polynomial_expressions_v1",
+  "kid_friendly_explainer": [
+    "A polynomial is an expression like $P(x) = a_n x^n + a_{n-1} x^{n-1} + \\cdots + a_1 x + a_0$ where the exponents are non-negative integers.",
+    "Examples: $3x^2 + 2x - 5$, $x^4 - 3x^3 + x$, and $7x + 1$ are all polynomials.",
+    "Like terms have the SAME variable(s) and SAME power(s). You can add or subtract their coefficients.",
+    "Always write your final answer in standard form: highest power first, descending to the lowest.",
+    "Tip: Color-code like terms before you combine. Treat the minus in front of parentheses as a \"spread the negative\" signal."
+  ],
+  "core_rules": [
+    {
+      "name": "Like Terms in Polynomials",
+      "plain_english": "Like terms must have the same variable(s) raised to the same power(s). Only like terms can be combined by adding or subtracting their coefficients.",
+      "latex": "3x^2 \\text{ and } 5x^2 \\text{ are like; } x^2 \\text{ and } x^3 \\text{ are NOT like}"
+    },
+    {
+      "name": "Distributive Property",
+      "plain_english": "Multiply the term outside parentheses by each term inside. Apply to both constants and variables.",
+      "latex": "a(b + c) = ab + ac \\quad \\text{and} \\quad -(b + c) = -b - c"
+    },
+    {
+      "name": "Standard Form",
+      "plain_english": "Write polynomial terms in descending order of exponents (highest power first).",
+      "latex": "ax^3 + bx^2 + cx + d \\quad \\text{(not } cx + ax^3 + d + bx^2\\text{)}"
+    },
+    {
+      "name": "Product of Monomials",
+      "plain_english": "When multiplying monomials, multiply the coefficients and add the exponents of like variables.",
+      "latex": "(ax^m)(bx^n) = ab \\cdot x^{m+n}"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "x^2 - 5x^3 + 2x^4 - 4x^3 = \\; ?",
+      "walkthrough": [
+        "Identify like terms: \\(-5x^3\\) and \\(-4x^3\\) are both \\(x^3\\) terms.",
+        "Combine the \\(x^3\\) terms: \\(-5x^3 - 4x^3 = -9x^3\\).",
+        "Gather all terms: \\(2x^4 - 9x^3 + x^2\\).",
+        "Write in standard form (highest power first):",
+        "Answer:"
+      ],
+      "answer_latex": "2x^4 - 9x^3 + x^2"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "(2x^2 - x^3) - (x^3 - 4x^2) = \\; ?",
+      "walkthrough": [
+        "Distribute the negative sign to all terms in the second parentheses.",
+        "\\(2x^2 - x^3 - x^3 + 4x^2\\).",
+        "Combine like terms: \\(x^2\\) terms: \\(2x^2 + 4x^2 = 6x^2\\).",
+        "\\(x^3\\) terms: \\(-x^3 - x^3 = -2x^3\\).",
+        "Write in standard form (highest power first):",
+        "Answer:"
+      ],
+      "answer_latex": "-2x^3 + 6x^2"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "2t(3t - 1) + 4 - 5t^2 = \\; ?",
+      "walkthrough": [
+        "Distribute \\(2t\\) to each term inside: \\(2t \\cdot 3t = 6t^2\\) and \\(2t \\cdot (-1) = -2t\\).",
+        "Now we have: \\(6t^2 - 2t + 4 - 5t^2\\).",
+        "Combine \\(t^2\\) terms: \\(6t^2 - 5t^2 = t^2\\).",
+        "Gather all terms: \\(t^2 - 2t + 4\\).",
+        "Answer:"
+      ],
+      "answer_latex": "t^2 - 2t + 4"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "No parentheses. Just combine like terms and write in standard form (highest power first).",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "3x^2 + 5x^2 + 4 = \\; ?",
+          "hint": "Both terms have x², so add: 3 + 5 = 8",
+          "answer_latex": "8x^2 + 4"
+        },
+        {
+          "id": "e2",
+          "question_latex": "7x - 2x + 9 = \\; ?",
+          "hint": "Combine x terms: (7 - 2)x = 5x",
+          "answer_latex": "5x + 9"
+        },
+        {
+          "id": "e3",
+          "question_latex": "6y^3 + y^2 - 4y^3 + 2 = \\; ?",
+          "hint": "Combine y³ terms: 6y³ - 4y³ = 2y³",
+          "answer_latex": "2y^3 + y^2 + 2"
+        },
+        {
+          "id": "e4",
+          "question_latex": "10 - 3x + 4x = \\; ?",
+          "hint": "Combine x terms: -3x + 4x = x",
+          "answer_latex": "x + 10"
+        },
+        {
+          "id": "e5",
+          "question_latex": "2a^4 + 5 - 7a^4 = \\; ?",
+          "hint": "Combine a⁴ terms: 2a⁴ - 7a⁴ = -5a⁴",
+          "answer_latex": "-5a^4 + 5"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Distribute first, then combine like terms. Keep standard form (highest power first).",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "3(x + 2) = \\; ?",
+          "hint": "Distribute 3 to both terms: 3·x and 3·2",
+          "answer_latex": "3x + 6"
+        },
+        {
+          "id": "m2",
+          "question_latex": "2(4x - 3) - x = \\; ?",
+          "hint": "First distribute 2, then combine x terms",
+          "answer_latex": "7x - 6"
+        },
+        {
+          "id": "m3",
+          "question_latex": "5y - (2y - 8) = \\; ?",
+          "hint": "Distribute the negative: -(2y - 8) = -2y + 8",
+          "answer_latex": "3y + 8"
+        },
+        {
+          "id": "m4",
+          "question_latex": "x^2 + 3x - 2(x - 4) = \\; ?",
+          "hint": "Distribute -2, then combine x terms",
+          "answer_latex": "x^2 + x + 8"
+        },
+        {
+          "id": "m5",
+          "question_latex": "2t(3t - 1) + 4 - 5t^2 = \\; ?",
+          "hint": "Distribute 2t: 2t·3t = 6t², then combine t² terms",
+          "answer_latex": "t^2 - 2t + 4"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Multiple parentheses or higher powers. Watch signs carefully and finish in standard form.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "(2x^2 - 3x + 1) - (x^2 - 5x - 4) = \\; ?",
+          "hint": "Distribute the negative to all three terms in the second parentheses",
+          "answer_latex": "x^2 + 2x + 5"
+        },
+        {
+          "id": "c2",
+          "question_latex": "4(y - 2) - 3(y + 5) = \\; ?",
+          "hint": "Distribute both 4 and -3, then combine",
+          "answer_latex": "y - 23"
+        },
+        {
+          "id": "c3",
+          "question_latex": "-(3a^2 - 2a + 7) + 2(4a^2 + a - 1) = \\; ?",
+          "hint": "Distribute the negative and the 2 separately, then combine all terms",
+          "answer_latex": "5a^2 + 4a - 9"
+        },
+        {
+          "id": "c4",
+          "question_latex": "(x^3 - 2x) + (3x - 5) - (2x^3 + x) = \\; ?",
+          "hint": "Group by powers: x³ terms, x terms, and constants",
+          "answer_latex": "-x^3 - 5"
+        },
+        {
+          "id": "c5",
+          "question_latex": "2z(z^2 - 3z + 4) - 3(z^2 - 1) = \\; ?",
+          "hint": "Distribute 2z to get cubic term, distribute -3, then combine",
+          "answer_latex": "2z^3 - 9z^2 + 8z + 3"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Nested distribution or multiple variables. Combine meticulously; present final result in standard form.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "(2x - 3) - (x - 4 - 2(x - 1)) = \\; ?",
+          "hint": "Work inside out: first simplify the nested parentheses",
+          "answer_latex": "3x - 1"
+        },
+        {
+          "id": "x2",
+          "question_latex": "-(2x^2 - 5x + 6) + 3(x^2 - 2x - 1) - 4(x - 3) = \\; ?",
+          "hint": "Distribute all three parts separately, then combine all like terms",
+          "answer_latex": "x^2 - 5x + 3"
+        },
+        {
+          "id": "x3",
+          "question_latex": "(3a - 2b) + (4b - 5a) + 2(a - b) = \\; ?",
+          "hint": "Combine a terms and b terms separately",
+          "answer_latex": "0"
+        },
+        {
+          "id": "x4",
+          "question_latex": "x(2x^2 - 3x + 1) - 2(x^2 - 4x - 5) = \\; ?",
+          "hint": "First distribution creates x³ term. Be careful with all signs",
+          "answer_latex": "2x^3 - 5x^2 + 9x + 10"
+        },
+        {
+          "id": "x5",
+          "question_latex": "(x^2 - (2x - 1)) - (x - (x^2 - 3x + 4)) = \\; ?",
+          "hint": "Simplify each group first, then subtract the second from the first",
+          "answer_latex": "2x^2 - 6x + 5"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize that like terms MUST have identical variable parts AND exponents. $x^2$ and $x$ cannot be combined.",
+    "When distributing a negative sign, EVERY term inside changes sign. Use multiple examples to reinforce this.",
+    "Standard form convention: always write with powers descending from highest to lowest, then the constant term.",
+    "Common error: students try to add unlike terms. Remind them that $x^2 + x \\ne 2x^2$ or $2x$.",
+    "For nested parentheses: work from the innermost layer outward, one step at a time.",
+    "When multiplying monomials: multiply coefficients separately, then add exponents of the same base."
+  ]
+}

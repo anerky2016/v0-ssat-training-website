@@ -1,0 +1,240 @@
+{
+  "title": "Simplifying Variable Expressions",
+  "audience": "Ages 11-13",
+  "topic_id": "simplifying_expressions_v1",
+  "kid_friendly_explainer": [
+    "A variable expression uses letters (like $x$, $y$, $a$) to stand for numbers.",
+    "Like terms have the SAME variable(s) to the SAME power. Examples: $3x$ and $-7x$ are like terms; $x^2$ and $x$ are NOT like terms.",
+    "To simplify, group like terms together and add or subtract their coefficients.",
+    "Use the distributive property to remove parentheses: $a(b + c) = ab + ac$.",
+    "Tip: Circle like terms with the same color before you add or subtract them!"
+  ],
+  "core_rules": [
+    {
+      "name": "Like Terms",
+      "plain_english": "Like terms have the same variable(s) raised to the same power. Only like terms can be combined by adding or subtracting their coefficients.",
+      "latex": "3x \\text{ and } -7x \\text{ are like; } x^2 \\text{ and } x \\text{ are NOT like}"
+    },
+    {
+      "name": "Combining Like Terms",
+      "plain_english": "Add or subtract the coefficients of like terms, keeping the variable part the same.",
+      "latex": "ax + bx = (a + b)x"
+    },
+    {
+      "name": "Distributive Property",
+      "plain_english": "Multiply the number outside parentheses by each term inside. This removes the parentheses.",
+      "latex": "a(b + c) = ab + ac \\quad \\text{and} \\quad a(b - c) = ab - ac"
+    },
+    {
+      "name": "Distributing a Negative",
+      "plain_english": "When distributing a negative sign, change the sign of every term inside the parentheses.",
+      "latex": "-(a + b) = -a - b \\quad \\text{and} \\quad -(a - b) = -a + b"
+    },
+    {
+      "name": "Standard Form",
+      "plain_english": "Write terms in order from highest power to lowest power, with constants last.",
+      "latex": "ax^2 + bx + c \\quad \\text{(not } bx + ax^2 + c\\text{)}"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "2x + 3x + 4 = \\; ?",
+      "walkthrough": [
+        "Identify like terms: \\(2x\\) and \\(3x\\) are both \\(x\\)-terms.",
+        "Add the coefficients: \\(2 + 3 = 5\\).",
+        "Keep the variable: \\(5x\\).",
+        "The constant \\(4\\) stays as is.",
+        "Answer:"
+      ],
+      "answer_latex": "5x + 4"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "12 - 3x^2 + 5x + 4x^2 = \\; ?",
+      "walkthrough": [
+        "Identify and group like terms: \\(-3x^2\\) and \\(4x^2\\) are like.",
+        "Combine \\(x^2\\) terms: \\(-3x^2 + 4x^2 = x^2\\).",
+        "The \\(x\\) term stays: \\(5x\\).",
+        "The constant stays: \\(12\\).",
+        "Write in standard form (highest power first):",
+        "Answer:"
+      ],
+      "answer_latex": "x^2 + 5x + 12"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "3(x + 4) = \\; ?",
+      "walkthrough": [
+        "Use the distributive property: multiply \\(3\\) by each term inside.",
+        "\\(3 \\times x = 3x\\).",
+        "\\(3 \\times 4 = 12\\).",
+        "Answer:"
+      ],
+      "answer_latex": "3x + 12"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "4x - 2(x - 3) = \\; ?",
+      "walkthrough": [
+        "Distribute the \\(-2\\): multiply by each term inside.",
+        "\\(-2 \\times x = -2x\\).",
+        "\\(-2 \\times (-3) = +6\\) (negative times negative is positive).",
+        "Now we have: \\(4x - 2x + 6\\).",
+        "Combine like terms: \\(4x - 2x = 2x\\).",
+        "Answer:"
+      ],
+      "answer_latex": "2x + 6"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Combine like terms. No parentheses to distribute.",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "4x + 7x = \\; ?",
+          "hint": "Both terms have \\(x\\), so add the coefficients: \\(4 + 7\\)",
+          "answer_latex": "11x"
+        },
+        {
+          "id": "e2",
+          "question_latex": "9y - 3y + 5 = \\; ?",
+          "hint": "Combine the \\(y\\) terms: \\(9y - 3y = 6y\\)",
+          "answer_latex": "6y + 5"
+        },
+        {
+          "id": "e3",
+          "question_latex": "2a^2 + a^2 = \\; ?",
+          "hint": "Both have \\(a^2\\), so add: \\(2 + 1 = 3\\)",
+          "answer_latex": "3a^2"
+        },
+        {
+          "id": "e4",
+          "question_latex": "6 + 3x - 2 = \\; ?",
+          "hint": "Combine constants: \\(6 - 2 = 4\\), then write with variable first",
+          "answer_latex": "3x + 4"
+        },
+        {
+          "id": "e5",
+          "question_latex": "5m + 8 - 2m = \\; ?",
+          "hint": "Combine \\(m\\) terms: \\(5m - 2m = 3m\\)",
+          "answer_latex": "3m + 8"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Distribute first, then combine like terms.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "3(x + 4) = \\; ?",
+          "hint": "Distribute \\(3\\): multiply by both \\(x\\) and \\(4\\)",
+          "answer_latex": "3x + 12"
+        },
+        {
+          "id": "m2",
+          "question_latex": "2(3y - 5) + y = \\; ?",
+          "hint": "First distribute \\(2\\), then combine \\(y\\) terms",
+          "answer_latex": "7y - 10"
+        },
+        {
+          "id": "m3",
+          "question_latex": "4x - 2(x - 3) = \\; ?",
+          "hint": "Distribute \\(-2\\): remember \\(-2 \\times (-3) = +6\\)",
+          "answer_latex": "2x + 6"
+        },
+        {
+          "id": "m4",
+          "question_latex": "5a + 3 - 2(a + 1) = \\; ?",
+          "hint": "Distribute \\(-2\\), then combine \\(a\\) terms and constants",
+          "answer_latex": "3a + 1"
+        },
+        {
+          "id": "m5",
+          "question_latex": "7 - 3(b - 2) + b = \\; ?",
+          "hint": "\\(-3(b - 2) = -3b + 6\\), then combine all terms",
+          "answer_latex": "-2b + 13"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Multiple variables and powers. Watch for unlike terms and negative signs!",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "6x + 2x^2 - 3 + 4x^2 - 5x = \\; ?",
+          "hint": "Group separately: \\(x^2\\) terms, \\(x\\) terms, and constants",
+          "answer_latex": "6x^2 + x - 3"
+        },
+        {
+          "id": "c2",
+          "question_latex": "-(2y - 7) + 3(y + 1) = \\; ?",
+          "hint": "Distribute both the negative and the \\(3\\)",
+          "answer_latex": "y + 10"
+        },
+        {
+          "id": "c3",
+          "question_latex": "4p - \\frac{1}{2}(6p - 8) = \\; ?",
+          "hint": "\\(\\frac{1}{2}(6p - 8) = 3p - 4\\), then subtract this from \\(4p\\)",
+          "answer_latex": "p + 4"
+        },
+        {
+          "id": "c4",
+          "question_latex": "3a^2 - 2a + 5 - (a^2 + 4a - 1) = \\; ?",
+          "hint": "Distribute the negative to all three terms in parentheses",
+          "answer_latex": "2a^2 - 6a + 6"
+        },
+        {
+          "id": "c5",
+          "question_latex": "2x - 3y + 5 - 4x + 7y - 1 = \\; ?",
+          "hint": "Group \\(x\\) terms, \\(y\\) terms, and constants separately",
+          "answer_latex": "-2x + 4y + 4"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Nested parentheses, brackets, and tricky distributions. Work from inside out!",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "(x - 3) - [2x - (4 - (x - 1))] = \\; ?",
+          "hint": "Start with innermost parentheses: \\((x - 1)\\), then work outward",
+          "answer_latex": "-2x + 2"
+        },
+        {
+          "id": "x2",
+          "question_latex": "-2(3x - 5) - [x - 2(2x - 3)] = \\; ?",
+          "hint": "Distribute \\(-2\\) first, then work on the bracket separately",
+          "answer_latex": "-3x + 4"
+        },
+        {
+          "id": "x3",
+          "question_latex": "(5y - 2) - (3y - 2) - (2y - 2) = \\; ?",
+          "hint": "Distribute each negative sign, then combine all terms",
+          "answer_latex": "2"
+        },
+        {
+          "id": "x4",
+          "question_latex": "4 - 3x + 2x^2 - (x^2 - 5x - 6) = \\; ? \\; \\text{(standard form)}",
+          "hint": "Distribute the negative, combine like terms, write highest power first",
+          "answer_latex": "x^2 + 2x + 10"
+        },
+        {
+          "id": "x5",
+          "question_latex": "(2k - 3) - (2k - 3) = \\; ?",
+          "hint": "Subtracting the same expression from itself gives zero",
+          "answer_latex": "0"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize the importance of identifying like terms BEFORE combining. Students should circle or underline like terms.",
+    "Common error: trying to combine unlike terms like \\(x^2 + x \\ne 2x^2\\) or \\(2x\\). Reinforce that only like terms can be combined.",
+    "When distributing a negative sign: EVERY term inside changes sign. Use examples like \\(-(3x - 5) = -3x + 5\\) repeatedly.",
+    "Dropping variables is common: \\(2x + 5x = 7x\\) (not \\(7\\)). Emphasize keeping the variable part.",
+    "For nested parentheses: teach students to work from the innermost parentheses outward, one layer at a time.",
+    "Standard form convention: write terms in decreasing order of exponents: \\(x^2\\) before \\(x\\) before constants."
+  ]
+}

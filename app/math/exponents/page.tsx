@@ -41,8 +41,8 @@ export default function ExponentsPage() {
                   { title: "Powers of Products and Quotients", href: "/math/exponents/powers-products-quotients" },
                   { title: "Zero & Negative Exponents", href: "/math/exponents/zero-negative-exponents" },
                   { title: "Negative Exponents & Negative Bases", href: null },
-                  { title: "Scientific Notation", href: null },
-                  { title: "Square Roots", href: null }
+                  { title: "Scientific Notation", href: "/math/exponents/scientific-notation" },
+                  { title: "Square Roots", href: "/math/exponents/square-roots" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>

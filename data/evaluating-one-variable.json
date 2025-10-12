@@ -1,0 +1,225 @@
+{
+  "title": "Evaluating One-Variable Expressions",
+  "audience": "Ages 11-13",
+  "topic_id": "evaluating_one_variable_v1",
+  "kid_friendly_explainer": [
+    "To evaluate an expression like $3x-6$ when $x=3$, replace $x$ with $3$ and compute.",
+    "Substitute first: $x \\to$ given number.",
+    "Then use order of operations: Parentheses $\\to$ Exponents $\\to$ Multiply/Divide $\\to$ Add/Subtract (PEMDAS).",
+    "After you plug in the number, underline each step you finish so you don't skip the order."
+  ],
+  "core_rules": [
+    {
+      "name": "Substitute First",
+      "plain_english": "Replace the variable with the given number. Use parentheses around negative numbers.",
+      "latex": "x \\to \\text{given number}"
+    },
+    {
+      "name": "Order of Operations",
+      "plain_english": "After substituting, follow PEMDAS: Parentheses, Exponents, Multiplication/Division (left to right), Addition/Subtraction (left to right).",
+      "latex": "\\text{P} \\to \\text{E} \\to \\text{MD} \\to \\text{AS}"
+    },
+    {
+      "name": "Parentheses with Negatives",
+      "plain_english": "When substituting a negative number, always use parentheses. Write 2(-3) not 2-3.",
+      "latex": "\\text{If } x = -3, \\text{ write } 2x = 2(-3), \\text{ not } 2-3"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "\\text{Evaluate } 18-2x \\text{ when } x=2",
+      "walkthrough": [
+        "Substitute \\(x = 2\\): \\(18 - 2(2)\\).",
+        "Multiply first: \\(2(2) = 4\\).",
+        "Then subtract: \\(18 - 4 = 14\\).",
+        "Answer:"
+      ],
+      "answer_latex": "14"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "\\text{Evaluate } 5-2x \\text{ when } x=-1",
+      "walkthrough": [
+        "Substitute \\(x = -1\\): \\(5 - 2(-1)\\).",
+        "Multiply: \\(2(-1) = -2\\).",
+        "Subtract a negative becomes add: \\(5 - (-2) = 5 + 2 = 7\\).",
+        "Answer:"
+      ],
+      "answer_latex": "7"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "\\text{Evaluate } 6(5x+3) \\text{ when } x=7",
+      "walkthrough": [
+        "Substitute \\(x = 7\\): \\(6(5(7) + 3)\\).",
+        "Work inside parentheses first. Multiply: \\(5(7) = 35\\).",
+        "Add: \\(35 + 3 = 38\\).",
+        "Multiply by 6: \\(6(38) = 228\\).",
+        "Answer:"
+      ],
+      "answer_latex": "228"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\text{Evaluate } x^2-4x+1 \\text{ when } x=-3",
+      "walkthrough": [
+        "Substitute \\(x = -3\\): \\((-3)^2 - 4(-3) + 1\\).",
+        "Exponent first: \\((-3)^2 = 9\\).",
+        "Multiply: \\(-4(-3) = 12\\).",
+        "Add: \\(9 + 12 + 1 = 22\\).",
+        "Answer:"
+      ],
+      "answer_latex": "22"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Substitute and compute. No exponents; light negatives.",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "3x-6 \\text{ when } x=3",
+          "hint": "Substitute 3: \\(3(3)-6\\), then multiply before subtracting",
+          "answer_latex": "3"
+        },
+        {
+          "id": "e2",
+          "question_latex": "6x+5 \\text{ when } x=-2",
+          "hint": "\\(6(-2) = -12\\), then add 5",
+          "answer_latex": "-7"
+        },
+        {
+          "id": "e3",
+          "question_latex": "10-x \\text{ when } x=2",
+          "hint": "Simply subtract: \\(10-2\\)",
+          "answer_latex": "8"
+        },
+        {
+          "id": "e4",
+          "question_latex": "x+3 \\text{ when } x=4",
+          "hint": "Add: \\(4+3\\)",
+          "answer_latex": "7"
+        },
+        {
+          "id": "e5",
+          "question_latex": "4x+5 \\text{ when } x=3",
+          "hint": "Multiply first: \\(4(3) = 12\\), then add 5",
+          "answer_latex": "17"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Include parentheses and mixed operations.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "12+3x-7 \\text{ when } x=2",
+          "hint": "Multiply \\(3(2) = 6\\), then compute \\(12+6-7\\)",
+          "answer_latex": "11"
+        },
+        {
+          "id": "m2",
+          "question_latex": "6(5x+3) \\text{ when } x=7",
+          "hint": "Inside parentheses first: \\(5(7)+3 = 38\\), then multiply by 6",
+          "answer_latex": "228"
+        },
+        {
+          "id": "m3",
+          "question_latex": "2(x-4)+9 \\text{ when } x=-1",
+          "hint": "Inside: \\(-1-4=-5\\), then \\(2(-5) = -10\\), add 9",
+          "answer_latex": "-1"
+        },
+        {
+          "id": "m4",
+          "question_latex": "\\frac{18}{x}+2 \\text{ when } x=3",
+          "hint": "Divide: \\(18 \\div 3 = 6\\), then add 2",
+          "answer_latex": "8"
+        },
+        {
+          "id": "m5",
+          "question_latex": "5-2(3-x) \\text{ when } x=1",
+          "hint": "Inside: \\(3-1=2\\), then \\(2(2)=4\\), then \\(5-4\\)",
+          "answer_latex": "1"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Add exponents, absolute value, and fractions. Keep order of operations.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "x^2-4x+1 \\text{ when } x=-3",
+          "hint": "Square first: \\((-3)^2 = 9\\), then \\(-4(-3) = 12\\)",
+          "answer_latex": "22"
+        },
+        {
+          "id": "c2",
+          "question_latex": "2|x-5|+3 \\text{ when } x=1",
+          "hint": "Inside absolute value: \\(|1-5| = |-4| = 4\\), then \\(2(4)+3\\)",
+          "answer_latex": "11"
+        },
+        {
+          "id": "c3",
+          "question_latex": "\\frac{3x-2}{4} \\text{ when } x=6",
+          "hint": "Numerator: \\(3(6)-2 = 16\\), then divide by 4",
+          "answer_latex": "4"
+        },
+        {
+          "id": "c4",
+          "question_latex": "(x-2)^2-x \\text{ when } x=5",
+          "hint": "Parentheses first: \\(5-2=3\\), then square: \\(3^2=9\\), subtract 5",
+          "answer_latex": "4"
+        },
+        {
+          "id": "c5",
+          "question_latex": "7-\\frac{12}{x-3} \\text{ when } x=9",
+          "hint": "Denominator: \\(9-3=6\\), then \\(12 \\div 6 = 2\\), subtract from 7",
+          "answer_latex": "5"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Nested parentheses, multiple exponents, and tricky negatives.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "2(3-|x-4|)^2 \\text{ when } x=1",
+          "hint": "Inside absolute value: \\(|1-4|=3\\), then \\(3-3=0\\), square and multiply",
+          "answer_latex": "0"
+        },
+        {
+          "id": "x2",
+          "question_latex": "\\frac{(2x-1)^2-(x+1)(x-1)}{x} \\text{ when } x=2",
+          "hint": "Numerator: \\((4-1)^2 - (3)(1) = 9-3 = 6\\), divide by 2",
+          "answer_latex": "3"
+        },
+        {
+          "id": "x3",
+          "question_latex": "(-1)^{x}+3^{2-x} \\text{ when } x=2",
+          "hint": "Evaluate exponents: \\((-1)^2 = 1\\) and \\(3^0 = 1\\)",
+          "answer_latex": "2"
+        },
+        {
+          "id": "x4",
+          "question_latex": "\\left(\\frac{x}{x-2}\\right)^2-\\frac{4}{x-2} \\text{ when } x=5",
+          "hint": "\\(\\left(\\frac{5}{3}\\right)^2 = \\frac{25}{9}\\), then \\(\\frac{25}{9}-\\frac{12}{9}\\)",
+          "answer_latex": "\\frac{13}{9}"
+        },
+        {
+          "id": "x5",
+          "question_latex": "\\frac{1}{2}[4x-(3x-2(1-x))] \\text{ when } x=-2",
+          "hint": "Work from innermost parentheses outward, step by step",
+          "answer_latex": "2"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Dropping parentheses with negatives: write \\(2(-3)\\) not \\(2-3\\). Emphasize this repeatedly.",
+    "Ignoring order of operations (do multiplication before addition). Use PEMDAS mnemonics.",
+    "Replacing only some of the variables—replace every \\(x\\) you see. Circle all \\(x\\) variables first.",
+    "With absolute value: compute what's inside first, then take absolute value, then continue.",
+    "With fractions: compute numerator and denominator separately, then divide."
+  ]
+}

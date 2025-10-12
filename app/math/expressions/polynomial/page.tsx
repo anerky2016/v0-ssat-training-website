@@ -4,17 +4,24 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Lightbulb, Target, BookOpen } from "lucide-react"
+import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import exponentsData from "@/data/exponents-powers-products-quotients.json"
+import polynomialData from "@/data/polynomial-expressions.json"
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { PrintExercisesButton } from "@/components/print-exercises-button"
 
-export default function PowersProductsQuotientsPage() {
+export default function PolynomialExpressionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
   const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
   const [mounted, setMounted] = useState(false)
+
+  const mathJaxConfig = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -38,24 +45,49 @@ export default function PowersProductsQuotientsPage() {
   }
 
   return (
-    <MathJaxContext>
+    <MathJaxContext config={mathJaxConfig}>
       <div className="min-h-screen">
         <Header />
         <main>
           {/* Hero Section */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-7/5 to-background">
+          <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-chart-8/5 to-background">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
-                <Link href="/math/exponents" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+                <Link href="/math/expressions" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
                   <ArrowLeft className="h-4 w-4" />
-                  Back to Exponents Chapter
+                  Back to Expressions Chapter
                 </Link>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
-                  {exponentsData.title}
+                  {polynomialData.title}
                 </h1>
                 <p className="text-lg text-muted-foreground mb-4">
-                  <strong>Audience:</strong> {exponentsData.audience}
+                  <strong>Audience:</strong> {polynomialData.audience}
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Kid-Friendly Explainer */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-chart-2" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Polynomials</h2>
+                </div>
+                <div className="grid gap-4">
+                  {polynomialData.kid_friendly_explainer.map((explanation, index) => (
+                    <Card key={index} className="border-chart-2/20">
+                      <CardContent className="pt-6">
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          <MathJax>{explanation}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -71,7 +103,7 @@ export default function PowersProductsQuotientsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Rules</h2>
                 </div>
                 <div className="grid gap-6">
-                  {exponentsData.core_rules.map((rule, index) => (
+                  {polynomialData.core_rules.map((rule, index) => (
                     <Card key={index} className="border-chart-3/20">
                       <CardHeader>
                         <CardTitle className="text-xl text-primary">{rule.name}</CardTitle>
@@ -100,7 +132,7 @@ export default function PowersProductsQuotientsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Worked Examples</h2>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {exponentsData.step_by_step_examples.map((example) => (
+                  {polynomialData.step_by_step_examples.map((example) => (
                     <Card key={example.id} className="border-chart-4/20">
                       <CardHeader>
                         <CardTitle className="text-lg">Example {example.id.replace('ex', '')}</CardTitle>
@@ -115,7 +147,7 @@ export default function PowersProductsQuotientsPage() {
                             {example.walkthrough.map((step, idx) => (
                               <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <span className="font-semibold text-primary">{idx + 1}.</span>
-                                <span>{step}</span>
+                                <span><MathJax>{step}</MathJax></span>
                               </li>
                             ))}
                           </ol>
@@ -142,12 +174,12 @@ export default function PowersProductsQuotientsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Pro Tips</h2>
                 </div>
                 <div className="grid gap-4">
-                  {exponentsData.teacher_notes.map((note, index) => (
+                  {polynomialData.teacher_notes.map((note, index) => (
                     <Card key={index} className="border-chart-5/20">
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-3">
                           <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-muted-foreground">{note}</p>
+                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
                         </div>
                       </CardContent>
                     </Card>
@@ -163,12 +195,12 @@ export default function PowersProductsQuotientsPage() {
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
                 <p className="text-muted-foreground mb-6">
-                  Master powers of products and quotients with practice problems at different difficulty levels.
+                  Master simplifying polynomial expressions with practice problems at different difficulty levels.
                 </p>
 
                 {/* Difficulty Selector and Print Button */}
                 <div className="flex flex-wrap items-center gap-2 mb-8">
-                  {Object.keys(exponentsData.exercises).map((difficulty) => (
+                  {Object.keys(polynomialData.exercises).map((difficulty) => (
                     <Button
                       key={difficulty}
                       variant={selectedDifficulty === difficulty ? "default" : "outline"}
@@ -178,29 +210,29 @@ export default function PowersProductsQuotientsPage() {
                       {difficulty}
                     </Button>
                   ))}
-                  {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] && (
+                  {polynomialData.exercises[selectedDifficulty as keyof typeof polynomialData.exercises] && (
                     <PrintExercisesButton
-                      exercises={exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].items}
-                      topicTitle={exponentsData.title}
+                      exercises={polynomialData.exercises[selectedDifficulty as keyof typeof polynomialData.exercises].items}
+                      topicTitle={polynomialData.title}
                       difficulty={selectedDifficulty}
                     />
                   )}
                 </div>
 
                 {/* Current Set Info */}
-                {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] && (
+                {polynomialData.exercises[selectedDifficulty as keyof typeof polynomialData.exercises] && (
                   <>
                     <Card className="mb-6 border-primary/20">
                       <CardContent className="pt-6">
                         <p className="text-sm text-muted-foreground">
-                          <strong>Directions:</strong> {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].directions}
+                          <strong>Directions:</strong> <MathJax>{polynomialData.exercises[selectedDifficulty as keyof typeof polynomialData.exercises].directions}</MathJax>
                         </p>
                       </CardContent>
                     </Card>
 
                     {/* Practice Items */}
                     <div className="space-y-4">
-                      {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].items.map((item) => (
+                      {polynomialData.exercises[selectedDifficulty as keyof typeof polynomialData.exercises].items.map((item) => (
                         <Card key={item.id} className="border-border">
                           <CardHeader>
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -210,8 +242,9 @@ export default function PowersProductsQuotientsPage() {
                               </div>
                             </div>
                             {item.hint && (
-                              <CardDescription className="text-sm text-muted-foreground italic">
-                                💡 <MathJax inline>{item.hint.replace(/([xy]\^[{]?-?\d+[}]?)/g, '\\($1\\)')}</MathJax>
+                              <CardDescription className="text-sm text-muted-foreground italic flex items-baseline gap-1">
+                                <span>💡</span>
+                                <span><MathJax>{item.hint}</MathJax></span>
                               </CardDescription>
                             )}
                           </CardHeader>
@@ -227,7 +260,7 @@ export default function PowersProductsQuotientsPage() {
                             </div>
 
                             {showAnswers[item.id] && (
-                              <div className="mt-4 p-4 bg-chart-7/10 rounded-lg overflow-x-auto">
+                              <div className="mt-4 p-4 bg-chart-8/10 rounded-lg overflow-x-auto">
                                 <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
                                 <MathJax>{"\\[" + item.answer_latex + "\\]"}</MathJax>
                               </div>
@@ -246,10 +279,10 @@ export default function PowersProductsQuotientsPage() {
           <section className="py-8 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
-                <Link href="/math/exponents">
+                <Link href="/math/expressions">
                   <Button variant="outline" className="flex items-center gap-2">
                     <ArrowLeft className="h-4 w-4" />
-                    Back to Exponents Chapter
+                    Back to Expressions Chapter
                   </Button>
                 </Link>
               </div>

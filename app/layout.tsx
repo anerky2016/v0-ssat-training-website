@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-provider"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { BookmarkProvider } from "@/components/bookmark-provider"
+import { StudyHistoryProvider } from "@/components/study-history-provider"
 import { FeedbackButton } from "@/components/feedback-button"
 import { StructuredData } from "@/components/structured-data"
 import "./globals.css"
@@ -114,9 +115,11 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <BookmarkProvider>
-              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-              <FeedbackButton />
-              <Analytics />
+              <StudyHistoryProvider>
+                <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+                <FeedbackButton />
+                <Analytics />
+              </StudyHistoryProvider>
             </BookmarkProvider>
           </ThemeProvider>
         </AuthProvider>

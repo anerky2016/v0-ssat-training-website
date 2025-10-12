@@ -21,6 +21,12 @@ const BOOKMARKABLE_PATHS = [
   '/math/proportional-ratios',
   '/math/create-proportion',
   '/math/similarity-ratios',
+  '/math/exponents/scientific-notation',
+  '/math/exponents/square-roots',
+  '/math/expressions/simplifying',
+  '/math/expressions/polynomial',
+  '/math/expressions/translating',
+  '/math/expressions/distributive',
 ]
 
 // Generate page title from path

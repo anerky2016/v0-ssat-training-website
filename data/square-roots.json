@@ -1,0 +1,232 @@
+{
+  "title": "Square Roots",
+  "audience": "Ages 11-13",
+  "topic_id": "square_roots_v1",
+  "kid_friendly_explainer": [
+    "A square root of $x$ is a number $r$ such that $r^2 = x$.",
+    "We write the principal (non-negative) square root with a radical: $\\sqrt{x}$.",
+    "Perfect squares are numbers like $1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, \\ldots$ that have whole number square roots.",
+    "Think of the radical as a *square-canceler*: it undoes squaring."
+  ],
+  "core_rules": [
+    {
+      "name": "Square Root Definition",
+      "plain_english": "A square root of x is a number r such that r² = x. The symbol √x means the non-negative square root.",
+      "latex": "\\text{If } r^2 = x, \\text{ then } r = \\sqrt{x} \\text{ (principal root)}"
+    },
+    {
+      "name": "Perfect Squares",
+      "plain_english": "Numbers whose square roots are whole numbers: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, ...",
+      "latex": "\\sqrt{1}=1, \\sqrt{4}=2, \\sqrt{9}=3, \\sqrt{16}=4, \\sqrt{25}=5, \\ldots"
+    },
+    {
+      "name": "Product Rule",
+      "plain_english": "The square root of a product equals the product of the square roots (when both numbers are non-negative).",
+      "latex": "\\sqrt{ab} = \\sqrt{a} \\cdot \\sqrt{b} \\quad (a, b \\ge 0)"
+    },
+    {
+      "name": "Quotient Rule",
+      "plain_english": "The square root of a quotient equals the quotient of the square roots (when the denominator is positive).",
+      "latex": "\\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}} \\quad (b > 0)"
+    },
+    {
+      "name": "Simplifying Radicals",
+      "plain_english": "Factor out perfect squares from inside the radical. The goal is to have no perfect square factors remaining inside.",
+      "latex": "\\sqrt{a^2 \\cdot b} = \\sqrt{a^2} \\cdot \\sqrt{b} = |a| \\sqrt{b}"
+    }
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "\\sqrt{169} = \\; ?",
+      "walkthrough": [
+        "Recognize that \\[169 = 13^2\\] (13 is a perfect square root).",
+        "Therefore, \\[\\sqrt{169} = \\sqrt{13^2} = 13\\]",
+        "Answer:"
+      ],
+      "answer_latex": "13"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "\\sqrt{9} \\times \\sqrt{25} = \\; ?",
+      "walkthrough": [
+        "Method 1: Evaluate each square root first: \\[\\sqrt{9} = 3 \\text{ and } \\sqrt{25} = 5\\]",
+        "Then multiply: \\[3 \\times 5 = 15\\]",
+        "Method 2: Use the product rule: \\[\\sqrt{9} \\times \\sqrt{25} = \\sqrt{9 \\times 25} = \\sqrt{225} = 15\\]",
+        "Answer:"
+      ],
+      "answer_latex": "15"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "\\sqrt{50} = \\; ? \\; \\text{(simplified)}",
+      "walkthrough": [
+        "Factor 50 to find perfect squares: \\[50 = 25 \\times 2\\]",
+        "Apply the product rule: \\[\\sqrt{50} = \\sqrt{25 \\times 2} = \\sqrt{25} \\times \\sqrt{2}\\]",
+        "Simplify: \\[\\sqrt{25} = 5\\] so the answer is \\[5\\sqrt{2}\\]",
+        "Answer:"
+      ],
+      "answer_latex": "5\\sqrt{2}"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\sqrt{(-7)^2} = \\; ?",
+      "walkthrough": [
+        "First evaluate the square: \\[(-7)^2 = 49\\]",
+        "Then take the square root: \\[\\sqrt{49} = 7\\]",
+        "Important: \\[\\sqrt{a^2} = |a|\\] the absolute value of \\(a\\)",
+        "Answer:"
+      ],
+      "answer_latex": "7"
+    }
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Evaluate perfect squares or simple products. Memorize the first 20 perfect squares!",
+      "items": [
+        {
+          "id": "e1",
+          "question_latex": "\\sqrt{49} = \\; ?",
+          "hint": "\\(49 = 7^2\\)",
+          "answer_latex": "7"
+        },
+        {
+          "id": "e2",
+          "question_latex": "\\sqrt{81} = \\; ?",
+          "hint": "\\(81 = 9^2\\)",
+          "answer_latex": "9"
+        },
+        {
+          "id": "e3",
+          "question_latex": "\\sqrt{9} \\times \\sqrt{16} = \\; ?",
+          "hint": "\\(\\sqrt{9} = 3\\) and \\(\\sqrt{16} = 4\\)",
+          "answer_latex": "12"
+        },
+        {
+          "id": "e4",
+          "question_latex": "\\sqrt{100} = \\; ?",
+          "hint": "\\(100 = 10^2\\)",
+          "answer_latex": "10"
+        },
+        {
+          "id": "e5",
+          "question_latex": "\\sqrt{1} = \\; ? \\quad \\text{and} \\quad \\sqrt{0} = \\; ?",
+          "hint": "\\(1 = 1^2\\) and \\(0 = 0^2\\)",
+          "answer_latex": "1 \\text{ and } 0"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Simplify by factoring out perfect squares. Look for the largest perfect square factor.",
+      "items": [
+        {
+          "id": "m1",
+          "question_latex": "\\sqrt{50} = \\; ?",
+          "hint": "\\(50 = 25 \\times 2\\)",
+          "answer_latex": "5\\sqrt{2}"
+        },
+        {
+          "id": "m2",
+          "question_latex": "\\sqrt{72} = \\; ?",
+          "hint": "\\(72 = 36 \\times 2\\)",
+          "answer_latex": "6\\sqrt{2}"
+        },
+        {
+          "id": "m3",
+          "question_latex": "\\sqrt{12} \\times \\sqrt{3} = \\; ?",
+          "hint": "Use product rule: \\(\\sqrt{12} \\times \\sqrt{3} = \\sqrt{36}\\)",
+          "answer_latex": "6"
+        },
+        {
+          "id": "m4",
+          "question_latex": "\\sqrt{\\frac{49}{4}} = \\; ?",
+          "hint": "Use quotient rule: \\(\\sqrt{49} / \\sqrt{4}\\)",
+          "answer_latex": "\\frac{7}{2}"
+        },
+        {
+          "id": "m5",
+          "question_latex": "\\sqrt{200} = \\; ?",
+          "hint": "\\(200 = 100 \\times 2\\)",
+          "answer_latex": "10\\sqrt{2}"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Include variables and absolute values; rationalize or combine radicals with like terms.",
+      "items": [
+        {
+          "id": "c1",
+          "question_latex": "\\sqrt{(-7)^2} = \\; ?",
+          "hint": "\\(\\sqrt{a^2} = |a|\\), the absolute value",
+          "answer_latex": "7"
+        },
+        {
+          "id": "c2",
+          "question_latex": "\\sqrt{45} - \\sqrt{20} = \\; ?",
+          "hint": "\\(\\sqrt{45} = 3\\sqrt{5}\\) and \\(\\sqrt{20} = 2\\sqrt{5}\\), then subtract",
+          "answer_latex": "\\sqrt{5}"
+        },
+        {
+          "id": "c3",
+          "question_latex": "\\sqrt{\\frac{8}{18}} = \\; ?",
+          "hint": "Simplify the fraction first: \\(8/18 = 4/9\\)",
+          "answer_latex": "\\frac{2}{3}"
+        },
+        {
+          "id": "c4",
+          "question_latex": "\\sqrt{32} + \\sqrt{8} = \\; ?",
+          "hint": "\\(\\sqrt{32} = 4\\sqrt{2}\\) and \\(\\sqrt{8} = 2\\sqrt{2}\\)",
+          "answer_latex": "6\\sqrt{2}"
+        },
+        {
+          "id": "c5",
+          "question_latex": "\\frac{\\sqrt{3}}{\\sqrt{12}} = \\; ?",
+          "hint": "\\(\\sqrt{12} = 2\\sqrt{3}\\), so this becomes \\(\\sqrt{3} / 2\\sqrt{3}\\)",
+          "answer_latex": "\\frac{1}{2}"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Multi-step simplification and comparison. Combine multiple radicals carefully.",
+      "items": [
+        {
+          "id": "x1",
+          "question_latex": "\\sqrt{98} - \\sqrt{50} + \\sqrt{8} = \\; ?",
+          "hint": "\\(\\sqrt{98} = 7\\sqrt{2}\\), \\(\\sqrt{50} = 5\\sqrt{2}\\), \\(\\sqrt{8} = 2\\sqrt{2}\\), then combine",
+          "answer_latex": "4\\sqrt{2}"
+        },
+        {
+          "id": "x2",
+          "question_latex": "\\sqrt{2} \\cdot \\sqrt{18} \\cdot \\sqrt{8} = \\; ?",
+          "hint": "Use product rule: \\(\\sqrt{2 \\times 18 \\times 8} = \\sqrt{288}\\)",
+          "answer_latex": "12\\sqrt{2}"
+        },
+        {
+          "id": "x3",
+          "question_latex": "\\text{Which is larger: } \\sqrt{45} \\text{ or } \\sqrt{44} + \\sqrt{1} \\; ?",
+          "hint": "\\(\\sqrt{45} \\approx 6.708\\), \\(\\sqrt{44} \\approx 6.633\\), \\(\\sqrt{1} = 1\\)",
+          "answer_latex": "\\sqrt{44} + \\sqrt{1} \\text{ is larger (≈ 7.633)}"
+        },
+        {
+          "id": "x4",
+          "question_latex": "\\sqrt{\\frac{245}{5}} + \\sqrt{20} - \\sqrt{180} = \\; ?",
+          "hint": "\\(245/5 = 49\\), so \\(\\sqrt{49} = 7\\). Then \\(\\sqrt{20} = 2\\sqrt{5}\\), \\(\\sqrt{180} = 6\\sqrt{5}\\)",
+          "answer_latex": "7 - 4\\sqrt{5}"
+        },
+        {
+          "id": "x5",
+          "question_latex": "\\sqrt{12} + \\sqrt{27} - \\sqrt{48} = \\; ?",
+          "hint": "\\(\\sqrt{12} = 2\\sqrt{3}\\), \\(\\sqrt{27} = 3\\sqrt{3}\\), \\(\\sqrt{48} = 4\\sqrt{3}\\)",
+          "answer_latex": "\\sqrt{3}"
+        }
+      ]
+    }
+  },
+  "teacher_notes": [
+    "Emphasize that \\(\\sqrt{a^2} = |a|\\) (absolute value), not just \\(a\\). This is crucial when dealing with variables that could be negative.",
+    "Students must learn to recognize perfect squares up to at least 225 (\\(15^2\\)). This makes simplification much faster.",
+    "Common error: thinking \\(\\sqrt{a + b} = \\sqrt{a} + \\sqrt{b}\\). This is FALSE! Always emphasize: the square root distributes over multiplication/division, NOT addition/subtraction.",
+    "When simplifying radicals, always look for the largest perfect square factor to minimize work.",
+    "For combining radicals: only like radicals (same number under the radical) can be added or subtracted, just like combining like terms in algebra."
+  ]
+}
