@@ -4,7 +4,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen, AlertTriangle } from "lucide-react"
+import { ArrowLeft, Lightbulb, Target, BookOpen, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import exponentsData from "@/data/exponents-zero-negative.json"
@@ -70,58 +70,33 @@ export default function ZeroNegativeExponentsPage() {
                   <strong>Audience:</strong> {exponentsData.audience}
                 </p>
                 <p className="text-base text-muted-foreground mb-6">
-                  {exponentsData.summary}
+                  <MathJax>{exponentsData.summary}</MathJax>
                 </p>
                 <CompleteStudyButton topicTitle={exponentsData.title} />
               </div>
             </div>
           </section>
 
-          {/* Kid-Friendly Explainer */}
+          {/* Key Points */}
           <section className="py-12 sm:py-16 lg:py-20">
-            <div className="container mx-auto px-4 sm:px-6">
-              <div className="mx-auto max-w-4xl">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
-                    <Sparkles className="h-6 w-6 text-chart-2" />
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Negative Exponents</h2>
-                </div>
-                <div className="grid gap-4">
-                  {exponentsData.kid_friendly_explainer.map((explanation, index) => (
-                    <Card key={index} className="border-chart-2/20">
-                      <CardContent className="pt-6">
-                        <p className="text-base text-muted-foreground leading-relaxed">
-                          <MathJax>{explanation}</MathJax>
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Core Rules */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="h-12 w-12 rounded-xl bg-chart-3/10 flex items-center justify-center">
                     <BookOpen className="h-6 w-6 text-chart-3" />
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Rules</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Key Points</h2>
                 </div>
                 <div className="grid gap-6">
-                  {exponentsData.core_rules.map((rule, index) => (
+                  {exponentsData.keyPoints.map((point, index) => (
                     <Card key={index} className="border-chart-3/20">
                       <CardHeader>
-                        <CardTitle className="text-xl text-primary">{rule.name}</CardTitle>
-                        <CardDescription className="text-base">{rule.plain_english}</CardDescription>
+                        <CardTitle className="text-xl text-primary">{point.heading}</CardTitle>
+                        <CardDescription className="text-base">{point.kidFriendlyNote}</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                          <MathJax>{"\\[" + rule.latex + "\\]"}</MathJax>
+                          <MathJax>{point.latex}</MathJax>
                         </div>
                       </CardContent>
                     </Card>
@@ -132,7 +107,7 @@ export default function ZeroNegativeExponentsPage() {
           </section>
 
           {/* Common Pitfalls */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -142,7 +117,7 @@ export default function ZeroNegativeExponentsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Common Pitfalls</h2>
                 </div>
                 <div className="grid gap-6">
-                  {exponentsData.common_pitfalls.map((pitfall, index) => (
+                  {exponentsData.commonPitfalls.map((pitfall, index) => (
                     <Card key={index} className="border-orange-500/20">
                       <CardHeader>
                         <CardTitle className="text-lg text-orange-600 dark:text-orange-400">{pitfall.title}</CardTitle>
@@ -151,11 +126,11 @@ export default function ZeroNegativeExponentsPage() {
                         <div className="space-y-4">
                           <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4 overflow-x-auto">
                             <p className="text-xs font-semibold text-red-600 dark:text-red-400 mb-2">❌ Wrong:</p>
-                            <MathJax>{"\\[" + pitfall.bad_latex + "\\]"}</MathJax>
+                            <MathJax>{pitfall.badLatex}</MathJax>
                           </div>
                           <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-4 overflow-x-auto">
                             <p className="text-xs font-semibold text-green-600 dark:text-green-400 mb-2">✓ Correct:</p>
-                            <MathJax>{"\\[" + pitfall.fix_latex + "\\]"}</MathJax>
+                            <MathJax>{pitfall.fixLatex}</MathJax>
                           </div>
                         </div>
                       </CardContent>
@@ -166,8 +141,8 @@ export default function ZeroNegativeExponentsPage() {
             </div>
           </section>
 
-          {/* Step-by-Step Examples */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          {/* Worked Examples */}
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -177,19 +152,19 @@ export default function ZeroNegativeExponentsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Worked Examples</h2>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {exponentsData.step_by_step_examples.map((example) => (
+                  {exponentsData.workedExamples.map((example) => (
                     <Card key={example.id} className="border-chart-4/20">
                       <CardHeader>
                         <CardTitle className="text-lg">Example {example.id.replace('ex', '')}</CardTitle>
                         <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                          <MathJax>{"\\[" + example.problem_latex + "\\]"}</MathJax>
+                          <MathJax>{example.promptLatex}</MathJax>
                         </div>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-3">
                           <p className="text-sm font-semibold text-foreground">Solution:</p>
                           <ol className="space-y-2">
-                            {example.walkthrough.map((step, idx) => (
+                            {example.solutionSteps.map((step, idx) => (
                               <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <span className="font-semibold text-primary">{idx + 1}.</span>
                                 <span><MathJax>{step}</MathJax></span>
@@ -198,7 +173,7 @@ export default function ZeroNegativeExponentsPage() {
                           </ol>
                           <div className="bg-chart-4/10 rounded-lg p-4 overflow-x-auto">
                             <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
-                            <MathJax>{"\\[" + example.answer_latex + "\\]"}</MathJax>
+                            <MathJax>{example.answerLatex}</MathJax>
                           </div>
                         </div>
                       </CardContent>
@@ -210,16 +185,16 @@ export default function ZeroNegativeExponentsPage() {
           </section>
 
           {/* Mini Quiz */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Card className="border-purple-500/20 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20">
                   <CardHeader>
-                    <CardTitle className="text-xl">Quick Check: {exponentsData.mini_quiz.prompt}</CardTitle>
+                    <CardTitle className="text-xl">Quick Check: {exponentsData.miniQuiz.prompt}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4 mb-6">
-                      {exponentsData.mini_quiz.items.map((item) => (
+                      {exponentsData.miniQuiz.items.map((item) => (
                         <div key={item.id} className="flex items-center justify-between p-4 bg-white/50 dark:bg-black/20 rounded-lg">
                           <div className="flex items-center gap-4">
                             <input
@@ -240,7 +215,7 @@ export default function ZeroNegativeExponentsPage() {
                     <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                       <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-2">💡 Explanation:</p>
                       <p className="text-sm text-blue-600 dark:text-blue-300">
-                        <MathJax>{exponentsData.mini_quiz.explanation}</MathJax>
+                        <MathJax>{exponentsData.miniQuiz.explanation}</MathJax>
                       </p>
                     </div>
                   </CardContent>
@@ -249,8 +224,8 @@ export default function ZeroNegativeExponentsPage() {
             </div>
           </section>
 
-          {/* Teacher Notes */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          {/* Teacher Tips */}
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -260,7 +235,7 @@ export default function ZeroNegativeExponentsPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Pro Tips</h2>
                 </div>
                 <div className="grid gap-4">
-                  {exponentsData.teacher_notes.map((note, index) => (
+                  {exponentsData.teacherTips.map((note, index) => (
                     <Card key={index} className="border-chart-5/20">
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-3">
@@ -276,7 +251,7 @@ export default function ZeroNegativeExponentsPage() {
           </section>
 
           {/* Practice Exercises */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
@@ -286,7 +261,7 @@ export default function ZeroNegativeExponentsPage() {
 
                 {/* Difficulty Selector and Print Button */}
                 <div className="flex flex-wrap items-center gap-2 mb-8">
-                  {Object.keys(exponentsData.exercises).map((difficulty) => (
+                  {Object.keys(exponentsData.exercises).filter(key => key !== 'instructions').map((difficulty) => (
                     <Button
                       key={difficulty}
                       variant={selectedDifficulty === difficulty ? "default" : "outline"}
@@ -298,7 +273,7 @@ export default function ZeroNegativeExponentsPage() {
                   ))}
                   {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] && (
                     <PrintExercisesButton
-                      exercises={exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].items}
+                      exercises={exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] as any}
                       topicTitle={exponentsData.title}
                       difficulty={selectedDifficulty}
                     />
@@ -306,57 +281,53 @@ export default function ZeroNegativeExponentsPage() {
                 </div>
 
                 {/* Current Set Info */}
-                {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] && (
-                  <>
-                    <Card className="mb-6 border-primary/20">
-                      <CardContent className="pt-6">
-                        <p className="text-sm text-muted-foreground">
-                          <strong>Directions:</strong> {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].directions}
-                        </p>
+                <Card className="mb-6 border-primary/20">
+                  <CardContent className="pt-6">
+                    <p className="text-sm text-muted-foreground">
+                      <strong>Directions:</strong> {exponentsData.exercises.instructions}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Practice Items */}
+                <div className="space-y-4">
+                  {(exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises] as any)?.map((item: any) => (
+                    <Card key={item.id} className="border-border">
+                      <CardHeader>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                          <CardTitle className="text-lg">Problem {item.id.replace(/[A-Z]/g, '')}</CardTitle>
+                          <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto flex-1 sm:flex-initial">
+                            <MathJax>{item.qLatex}</MathJax>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => toggleAnswer(item.id)}
+                          >
+                            {showAnswers[item.id] ? "Hide" : "Show"} Answer
+                          </Button>
+                        </div>
+
+                        {showAnswers[item.id] && (
+                          <div className="mt-4 p-4 bg-chart-7/10 rounded-lg overflow-x-auto">
+                            <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
+                            <MathJax>{item.aLatex}</MathJax>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
-
-                    {/* Practice Items */}
-                    <div className="space-y-4">
-                      {exponentsData.exercises[selectedDifficulty as keyof typeof exponentsData.exercises].items.map((item) => (
-                        <Card key={item.id} className="border-border">
-                          <CardHeader>
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                              <CardTitle className="text-lg">Problem {item.id.replace(/[a-z]/g, '')}</CardTitle>
-                              <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto flex-1 sm:flex-initial">
-                                <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
-                              </div>
-                            </div>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex flex-wrap gap-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => toggleAnswer(item.id)}
-                              >
-                                {showAnswers[item.id] ? "Hide" : "Show"} Answer
-                              </Button>
-                            </div>
-
-                            {showAnswers[item.id] && (
-                              <div className="mt-4 p-4 bg-chart-7/10 rounded-lg overflow-x-auto">
-                                <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
-                                <MathJax>{"\\[" + item.answer_latex + "\\]"}</MathJax>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </>
-                )}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
 
           {/* Complete Study Button */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
