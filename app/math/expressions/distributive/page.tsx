@@ -4,7 +4,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen } from "lucide-react"
+import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen, AlertCircle, Clock, CheckSquare } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import distributiveData from "@/data/distributive-property.json"
@@ -16,6 +16,11 @@ export default function DistributivePropertyPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
   const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
   const [mounted, setMounted] = useState(false)
+  const [checklist, setChecklist] = useState({
+    understand: false,
+    rules: false,
+    ready: false
+  })
 
   const mathJaxConfig = {
     tex: {
