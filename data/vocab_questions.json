@@ -1,0 +1,957 @@
+{
+  "metadata": {
+    "total_words": 5,
+    "successful": 5,
+    "failed": 0,
+    "difficulty": "medium",
+    "model": "gpt-5-mini"
+  },
+  "questions": [
+    {
+      "word": "abdicate",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Which word is closest in meaning to \"abdicate\"?",
+            "options": [
+              "relinquish",
+              "announce",
+              "maintain",
+              "celebrate"
+            ],
+            "answer": "relinquish"
+          },
+          {
+            "id": "syn2",
+            "question": "Choose the best synonym for \"abdicate.\"",
+            "options": [
+              "vacate",
+              "defend",
+              "increase",
+              "assemble"
+            ],
+            "answer": "vacate"
+          },
+          {
+            "id": "syn3",
+            "question": "Which word best matches the meaning of \"abdicate\"?",
+            "options": [
+              "step down",
+              "strengthen",
+              "purchase",
+              "inquire"
+            ],
+            "answer": "step down"
+          },
+          {
+            "id": "syn4",
+            "question": "Pick the word that is most like \"abdicate.\"",
+            "options": [
+              "renounce",
+              "explain",
+              "improve",
+              "hide"
+            ],
+            "answer": "renounce"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Which word is the best antonym for \"abdicate\"?",
+            "options": [
+              "keep",
+              "give up",
+              "vacate",
+              "resign"
+            ],
+            "answer": "keep"
+          },
+          {
+            "id": "ant2",
+            "question": "Choose the word that means the opposite of \"abdicate.\"",
+            "options": [
+              "remain",
+              "relinquish",
+              "forgo",
+              "abandon"
+            ],
+            "answer": "remain"
+          },
+          {
+            "id": "ant3",
+            "question": "Which word would be most opposite in meaning to \"abdicate\"?",
+            "options": [
+              "stay",
+              "step down",
+              "renounce",
+              "vacate"
+            ],
+            "answer": "stay"
+          },
+          {
+            "id": "ant4",
+            "question": "Pick the antonym of \"abdicate.\"",
+            "options": [
+              "retain",
+              "relinquish",
+              "vacate",
+              "resign"
+            ],
+            "answer": "retain"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "After the scandal, the king decided to ______ the throne rather than fight to keep it.",
+            "options": [
+              "abdicate",
+              "decorate",
+              "delegate",
+              "mock"
+            ],
+            "answer": "abdicate"
+          },
+          {
+            "id": "sent2",
+            "question": "Facing criticism and pressure, the CEO chose to ______ his leadership responsibilities.",
+            "options": [
+              "abdicate",
+              "hoard",
+              "secure",
+              "proclaim"
+            ],
+            "answer": "abdicate"
+          },
+          {
+            "id": "sent3",
+            "question": "When the athlete was injured, she had to ______ her role as team captain.",
+            "options": [
+              "abdicate",
+              "retain",
+              "celebrate",
+              "bolster"
+            ],
+            "answer": "abdicate"
+          },
+          {
+            "id": "sent4",
+            "question": "If a leader refuses to accept duty and walks away from responsibilities, they might ______ instead of fixing the problem.",
+            "options": [
+              "abdicate",
+              "manage",
+              "strengthen",
+              "address"
+            ],
+            "answer": "abdicate"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which of these definitions best matches the word \"abdicate\"?",
+            "options": [
+              "To give up a high position or authority, often in a formal way.",
+              "To decorate something carefully.",
+              "To argue loudly with someone.",
+              "To travel to a new place."
+            ],
+            "answer": "To give up a high position or authority, often in a formal way."
+          },
+          {
+            "id": "def2",
+            "question": "Choose the definition of \"abdicate.\"",
+            "options": [
+              "To formally step down from a position of power.",
+              "To hide something valuable.",
+              "To study a subject in depth.",
+              "To increase speed suddenly."
+            ],
+            "answer": "To formally step down from a position of power."
+          },
+          {
+            "id": "def3",
+            "question": "Pick the meaning that fits \"abdicate.\"",
+            "options": [
+              "To renounce a claim or responsibility, often an official one.",
+              "To refuse to help someone in need.",
+              "To collect taxes from citizens.",
+              "To practice a musical instrument."
+            ],
+            "answer": "To renounce a claim or responsibility, often an official one."
+          },
+          {
+            "id": "def4",
+            "question": "Which statement correctly defines \"abdicate\"?",
+            "options": [
+              "To give up ownership or control of an office, throne, or role.",
+              "To improve something gradually.",
+              "To hold onto something tightly.",
+              "To promise to do something later."
+            ],
+            "answer": "To give up ownership or control of an office, throne, or role."
+          }
+        ]
+      }
+    },
+    {
+      "word": "aberration",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Which word is closest in meaning to 'aberration'?",
+            "options": [
+              "oddity",
+              "routine",
+              "improvement",
+              "victory"
+            ],
+            "answer": "oddity"
+          },
+          {
+            "id": "syn2",
+            "question": "Which word best matches 'aberration' as used for a sudden, unexpected change?",
+            "options": [
+              "peculiarity",
+              "tradition",
+              "comfort",
+              "institution"
+            ],
+            "answer": "peculiarity"
+          },
+          {
+            "id": "syn3",
+            "question": "Choose the closest synonym for 'aberration'.",
+            "options": [
+              "quirk",
+              "uniformity",
+              "habit",
+              "normality"
+            ],
+            "answer": "quirk"
+          },
+          {
+            "id": "syn4",
+            "question": "Which word most nearly means the same as 'aberration'?",
+            "options": [
+              "eccentricity",
+              "regularity",
+              "steadiness",
+              "conformity"
+            ],
+            "answer": "eccentricity"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Which word is the best antonym for 'aberration'?",
+            "options": [
+              "normality",
+              "oddity",
+              "anomaly",
+              "peculiarity"
+            ],
+            "answer": "normality"
+          },
+          {
+            "id": "ant2",
+            "question": "Choose the word that most directly contrasts with 'aberration'.",
+            "options": [
+              "normality",
+              "strangeness",
+              "quirk",
+              "eccentricity"
+            ],
+            "answer": "normality"
+          },
+          {
+            "id": "ant3",
+            "question": "Which choice is the opposite of 'aberration'?",
+            "options": [
+              "routine",
+              "normality",
+              "atypicality",
+              "oddness"
+            ],
+            "answer": "normality"
+          },
+          {
+            "id": "ant4",
+            "question": "Pick the antonym of 'aberration'.",
+            "options": [
+              "normality",
+              "peculiarity",
+              "irregularity",
+              "eccentricity"
+            ],
+            "answer": "normality"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "Mary's sudden outburst was an _______ from her usual calm behavior.",
+            "options": [
+              "aberration",
+              "habit",
+              "tradition",
+              "rule"
+            ],
+            "answer": "aberration"
+          },
+          {
+            "id": "sent2",
+            "question": "The bright comet's path was an _______ noted by astronomers.",
+            "options": [
+              "aberration",
+              "celebration",
+              "pattern",
+              "custom"
+            ],
+            "answer": "aberration"
+          },
+          {
+            "id": "sent3",
+            "question": "Because his answer was wildly different from others, the teacher called it an _______.",
+            "options": [
+              "aberration",
+              "example",
+              "standard",
+              "norm"
+            ],
+            "answer": "aberration"
+          },
+          {
+            "id": "sent4",
+            "question": "A mild fever after the vaccination was only a temporary _______.",
+            "options": [
+              "aberration",
+              "improvement",
+              "comfort",
+              "routine"
+            ],
+            "answer": "aberration"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which definition matches 'aberration'?",
+            "options": [
+              "A departure from what is normal or expected",
+              "A sharp increase in size",
+              "A kind of protective covering",
+              "A long, calm period"
+            ],
+            "answer": "A departure from what is normal or expected"
+          },
+          {
+            "id": "def2",
+            "question": "Which definition matches 'aberration'?",
+            "options": [
+              "An irregularity or deviation from the usual",
+              "A journey to a sacred place",
+              "The act of agreeing with others",
+              "A simple machine"
+            ],
+            "answer": "An irregularity or deviation from the usual"
+          },
+          {
+            "id": "def3",
+            "question": "Which definition matches 'aberration' in a psychological sense?",
+            "options": [
+              "A temporary mental irregularity or disorder",
+              "A permanent change in personality",
+              "A peaceful feeling of contentment",
+              "A medical cure"
+            ],
+            "answer": "A temporary mental irregularity or disorder"
+          },
+          {
+            "id": "def4",
+            "question": "Which definition matches 'aberration' in astronomy?",
+            "options": [
+              "The apparent displacement of a star because of Earth's movement",
+              "The brightness of a planet at midnight",
+              "The size of a comet's tail",
+              "The speed of a shooting star"
+            ],
+            "answer": "The apparent displacement of a star because of Earth's movement"
+          }
+        ]
+      }
+    },
+    {
+      "word": "abhorrent",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "S1",
+            "question": "Which word is closest in meaning to 'abhorrent'?",
+            "options": [
+              "repugnant",
+              "mundane",
+              "amiable",
+              "tolerable"
+            ],
+            "answer": "repugnant"
+          },
+          {
+            "id": "S2",
+            "question": "Choose the synonym for 'abhorrent'.",
+            "options": [
+              "despicable",
+              "curious",
+              "pleasing",
+              "fragile"
+            ],
+            "answer": "despicable"
+          },
+          {
+            "id": "S3",
+            "question": "Which of these best matches the meaning of 'abhorrent'?",
+            "options": [
+              "loathsome",
+              "honorable",
+              "weak",
+              "colorful"
+            ],
+            "answer": "loathsome"
+          },
+          {
+            "id": "S4",
+            "question": "Pick the word that is a synonym of 'abhorrent'.",
+            "options": [
+              "detestable",
+              "friendly",
+              "expected",
+              "harmless"
+            ],
+            "answer": "detestable"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "A1",
+            "question": "Which word is the opposite of 'abhorrent'?",
+            "options": [
+              "admirable",
+              "gross",
+              "terrible",
+              "nasty"
+            ],
+            "answer": "admirable"
+          },
+          {
+            "id": "A2",
+            "question": "Choose the best antonym for 'abhorrent'.",
+            "options": [
+              "admirable",
+              "repulsive",
+              "vile",
+              "shocking"
+            ],
+            "answer": "admirable"
+          },
+          {
+            "id": "A3",
+            "question": "Which word most nearly means the opposite of 'abhorrent'?",
+            "options": [
+              "admirable",
+              "detestable",
+              "offensive",
+              "obnoxious"
+            ],
+            "answer": "admirable"
+          },
+          {
+            "id": "A4",
+            "question": "Pick the antonym of 'abhorrent'.",
+            "options": [
+              "admirable",
+              "loathsome",
+              "disgusting",
+              "repugnant"
+            ],
+            "answer": "admirable"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "SC1",
+            "question": "The class agreed that cheating on the test was _______ behavior.",
+            "options": [
+              "abhorrent",
+              "ordinary",
+              "exciting",
+              "gentle"
+            ],
+            "answer": "abhorrent"
+          },
+          {
+            "id": "SC2",
+            "question": "The idea of hurting animals made her feel deeply _______.",
+            "options": [
+              "abhorrent",
+              "joyful",
+              "indifferent",
+              "hopeful"
+            ],
+            "answer": "abhorrent"
+          },
+          {
+            "id": "SC3",
+            "question": "His _______ remarks about the new student surprised everyone.",
+            "options": [
+              "abhorrent",
+              "helpful",
+              "timid",
+              "inaccurate"
+            ],
+            "answer": "abhorrent"
+          },
+          {
+            "id": "SC4",
+            "question": "The smell from the trash was so _______ that we opened all the windows.",
+            "options": [
+              "abhorrent",
+              "pleasant",
+              "mild",
+              "sour"
+            ],
+            "answer": "abhorrent"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "D1",
+            "question": "Which definition matches 'abhorrent'?",
+            "options": [
+              "Causing strong dislike or hatred",
+              "Very small in size",
+              "Full of energy and excitement",
+              "Able to be eaten"
+            ],
+            "answer": "Causing strong dislike or hatred"
+          },
+          {
+            "id": "D2",
+            "question": "Which definition matches 'abhorrent'?",
+            "options": [
+              "Deserving strong disgust or hatred",
+              "Easily broken",
+              "Showing great skill",
+              "Calm and peaceful"
+            ],
+            "answer": "Deserving strong disgust or hatred"
+          },
+          {
+            "id": "D3",
+            "question": "Which definition matches 'abhorrent'?",
+            "options": [
+              "Extremely unpleasant and hateful",
+              "Made to look new",
+              "Related to numbers",
+              "Friendly and welcoming"
+            ],
+            "answer": "Extremely unpleasant and hateful"
+          },
+          {
+            "id": "D4",
+            "question": "Which definition matches 'abhorrent'?",
+            "options": [
+              "Something that causes people to shudder in dislike",
+              "A small secret",
+              "A bright color",
+              "A type of plant"
+            ],
+            "answer": "Something that causes people to shudder in dislike"
+          }
+        ]
+      }
+    },
+    {
+      "word": "abide",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Which word is the best synonym for 'abide' in this sentence: 'Students must abide by the school rules'?",
+            "options": [
+              "obey",
+              "ignore",
+              "delay",
+              "resist"
+            ],
+            "answer": "obey"
+          },
+          {
+            "id": "syn2",
+            "question": "Which word is closest in meaning to 'abide' when it means 'to endure' as in 'I can't abide loud chewing'?",
+            "options": [
+              "tolerate",
+              "avoid",
+              "celebrate",
+              "reject"
+            ],
+            "answer": "tolerate"
+          },
+          {
+            "id": "syn3",
+            "question": "Choose the best synonym for 'abide' when it means 'to follow rules or instructions'.",
+            "options": [
+              "adhere to",
+              "disrupt",
+              "question",
+              "neglect"
+            ],
+            "answer": "adhere to"
+          },
+          {
+            "id": "syn4",
+            "question": "Pick the word that most nearly means 'abide' in this context: 'She said she'd abide by their decision.'",
+            "options": [
+              "comply with",
+              "oppose",
+              "forget",
+              "delay"
+            ],
+            "answer": "comply with"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Which word is the opposite of 'abide' in the sentence 'He refused to abide by the agreement'?",
+            "options": [
+              "disobey",
+              "respect",
+              "follow",
+              "accept"
+            ],
+            "answer": "disobey"
+          },
+          {
+            "id": "ant2",
+            "question": "Pick the antonym of 'abide' when it means 'to tolerate' as in 'I can't abide the heat'.",
+            "options": [
+              "enjoy",
+              "endure",
+              "suffer",
+              "put up with"
+            ],
+            "answer": "enjoy"
+          },
+          {
+            "id": "ant3",
+            "question": "Which choice is most opposite to 'abide' in the sense 'to act in accordance with'?",
+            "options": [
+              "contradict",
+              "comply",
+              "adhere",
+              "obey"
+            ],
+            "answer": "contradict"
+          },
+          {
+            "id": "ant4",
+            "question": "Find the antonym of 'abide' in the sense 'to accept or put up with'.",
+            "options": [
+              "reject",
+              "accept",
+              "submit",
+              "stick with"
+            ],
+            "answer": "reject"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "The club members agreed to _____ by the coach's decision and support the team.",
+            "options": [
+              "abide",
+              "ignore",
+              "criticize",
+              "escape"
+            ],
+            "answer": "abide"
+          },
+          {
+            "id": "sent2",
+            "question": "When the judge announced the ruling, everyone had to ______ the court's decision.",
+            "options": [
+              "revoke",
+              "abide",
+              "ignore",
+              "protest"
+            ],
+            "answer": "abide"
+          },
+          {
+            "id": "sent3",
+            "question": "He couldn't ______ the loud music next to his room, so he asked them to turn it down.",
+            "options": [
+              "enjoy",
+              "create",
+              "abide",
+              "announce"
+            ],
+            "answer": "abide"
+          },
+          {
+            "id": "sent4",
+            "question": "If you want to stay in the game, you must _____ by the team's code of conduct.",
+            "options": [
+              "adhere to",
+              "anticipate",
+              "oppose",
+              "vanish"
+            ],
+            "answer": "adhere to"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which definition best matches 'abide' when used in 'abide by the rules'?",
+            "options": [
+              "To act in accordance with rules",
+              "A place where someone lives",
+              "To move quickly",
+              "A short, quiet sleep"
+            ],
+            "answer": "To act in accordance with rules"
+          },
+          {
+            "id": "def2",
+            "question": "Choose the definition of 'abide' in 'I will abide by your decision.'",
+            "options": [
+              "To refuse and fight against",
+              "To accept and follow",
+              "To hide",
+              "To finish early"
+            ],
+            "answer": "To accept and follow"
+          },
+          {
+            "id": "def3",
+            "question": "Pick the meaning of 'abide' in 'She could not abide the noise.'",
+            "options": [
+              "To put up with; to tolerate",
+              "To celebrate loudly",
+              "To forget quickly",
+              "To collect"
+            ],
+            "answer": "To put up with; to tolerate"
+          },
+          {
+            "id": "def4",
+            "question": "Which of these is NOT a correct meaning of 'abide'?",
+            "options": [
+              "A place where a person lives (abode)",
+              "To comply with",
+              "To tolerate or endure",
+              "To follow rules"
+            ],
+            "answer": "A place where a person lives (abode)"
+          }
+        ]
+      }
+    },
+    {
+      "word": "abrasive",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Choose the best synonym for 'abrasive' when describing a person's tone.",
+            "options": [
+              "irritating",
+              "graceful",
+              "warm",
+              "timid"
+            ],
+            "answer": "irritating"
+          },
+          {
+            "id": "syn2",
+            "question": "Which word is a synonym for 'abrasive' when referring to a surface or material?",
+            "options": [
+              "rough",
+              "shiny",
+              "smooth",
+              "soft"
+            ],
+            "answer": "rough"
+          },
+          {
+            "id": "syn3",
+            "question": "Pick the synonym of 'abrasive' that means 'harsh or cutting.'",
+            "options": [
+              "caustic",
+              "gentle",
+              "boring",
+              "careful"
+            ],
+            "answer": "caustic"
+          },
+          {
+            "id": "syn4",
+            "question": "Which word best matches 'abrasive' in the sense of 'likely to annoy'?",
+            "options": [
+              "annoying",
+              "kind",
+              "peaceful",
+              "agreeable"
+            ],
+            "answer": "annoying"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Choose the antonym of 'abrasive' when it means 'rude or harsh.'",
+            "options": [
+              "pleasant",
+              "hostile",
+              "sharp",
+              "abrasive"
+            ],
+            "answer": "pleasant"
+          },
+          {
+            "id": "ant2",
+            "question": "Which choice is the opposite of 'abrasive' for a surface or material?",
+            "options": [
+              "smooth",
+              "gritty",
+              "coarse",
+              "scratchy"
+            ],
+            "answer": "smooth"
+          },
+          {
+            "id": "ant3",
+            "question": "Select the antonym of 'abrasive' meaning 'not likely to irritate.'",
+            "options": [
+              "mild",
+              "rough",
+              "angry",
+              "caustic"
+            ],
+            "answer": "mild"
+          },
+          {
+            "id": "ant4",
+            "question": "Pick the opposite of 'abrasive' when referring to someone's behavior.",
+            "options": [
+              "kind",
+              "offensive",
+              "rude",
+              "gruff"
+            ],
+            "answer": "kind"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "Complete the sentence: The coach's _______ comments after the game made several players cry.",
+            "options": [
+              "abrasive",
+              "sincere",
+              "helpful",
+              "quiet"
+            ],
+            "answer": "abrasive"
+          },
+          {
+            "id": "sent2",
+            "question": "Complete the sentence: To remove the stubborn paint, the worker used a coarse _______.",
+            "options": [
+              "abrasive",
+              "adhesive",
+              "tranquilizer",
+              "lubricant"
+            ],
+            "answer": "abrasive"
+          },
+          {
+            "id": "sent3",
+            "question": "Complete the sentence: The cleaning sponge was too _______ and scratched the countertop.",
+            "options": [
+              "abrasive",
+              "gentle",
+              "colorful",
+              "expensive"
+            ],
+            "answer": "abrasive"
+          },
+          {
+            "id": "sent4",
+            "question": "Complete the sentence: Her _______ personality made it hard for classmates to approach her.",
+            "options": [
+              "abrasive",
+              "friendly",
+              "subtle",
+              "shy"
+            ],
+            "answer": "abrasive"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which definition best matches 'abrasive' (adjective)?",
+            "options": [
+              "causing irritation or harsh in manner",
+              "a person who is generous",
+              "an object that produces light",
+              "a short story"
+            ],
+            "answer": "causing irritation or harsh in manner"
+          },
+          {
+            "id": "def2",
+            "question": "Which definition best matches 'abrasive' (noun)?",
+            "options": [
+              "a substance used for grinding or polishing",
+              "a type of musical instrument",
+              "a friendly greeting",
+              "a place to rest"
+            ],
+            "answer": "a substance used for grinding or polishing"
+          },
+          {
+            "id": "def3",
+            "question": "Which definition describes 'abrasive' in the sense of wearing away by rubbing?",
+            "options": [
+              "causing damage or wear by rubbing or grinding",
+              "helping something grow quickly",
+              "making someone happy",
+              "covering with paint"
+            ],
+            "answer": "causing damage or wear by rubbing or grinding"
+          },
+          {
+            "id": "def4",
+            "question": "Which definition best matches 'abrasive' when applied to behavior?",
+            "options": [
+              "rude and likely to offend",
+              "bright and colorful",
+              "easy to carry",
+              "extremely boring"
+            ],
+            "answer": "rude and likely to offend"
+          }
+        ]
+      }
+    }
+  ],
+  "failed_words": []
+}

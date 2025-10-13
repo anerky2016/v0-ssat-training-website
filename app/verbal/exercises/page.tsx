@@ -1,73 +1,204 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { BookText, CheckCircle2, XCircle, ArrowLeft } from "lucide-react"
+import { BookText, ArrowLeft, RotateCcw, Search, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import vocabQuestions from "@/data/vocab_questions.json"
+import {
+  SynonymQuestion,
+  AntonymQuestion,
+  SentenceCompletionQuestion,
+  DefinitionMatchQuestion,
+  type SynonymQuestionData,
+  type AntonymQuestionData,
+  type SentenceCompletionQuestionData,
+  type DefinitionMatchQuestionData,
+} from "@/components/vocabulary/questions"
 
-const synonymQuestions = [
-  {
-    id: 1,
-    word: "ABUNDANT",
-    options: ["scarce", "plentiful", "moderate", "limited"],
-    correct: 1,
-    explanation: "Abundant means existing in large quantities; plentiful.",
-  },
-  {
-    id: 2,
-    word: "BENEVOLENT",
-    options: ["cruel", "kind", "neutral", "angry"],
-    correct: 1,
-    explanation: "Benevolent means well-meaning and kindly.",
-  },
-  {
-    id: 3,
-    word: "CANDID",
-    options: ["dishonest", "sweet", "frank", "hidden"],
-    correct: 2,
-    explanation: "Candid means truthful and straightforward; frank.",
-  },
-]
+type QuestionType = 'synonym' | 'antonym' | 'sentence' | 'definition'
 
-const analogyQuestions = [
-  {
-    id: 4,
-    question: "BOOK is to CHAPTER as",
-    options: ["car is to wheel", "house is to room", "tree is to forest", "student is to teacher"],
-    correct: 1,
-    explanation: "A book contains chapters, just as a house contains rooms. This is a part-to-whole relationship.",
-  },
-  {
-    id: 5,
-    question: "PAINTER is to BRUSH as",
-    options: ["writer is to pen", "doctor is to patient", "teacher is to student", "chef is to restaurant"],
-    correct: 0,
-    explanation:
-      "A painter uses a brush as their tool, just as a writer uses a pen. This is a worker-to-tool relationship.",
-  },
-]
+interface SelectedQuestion {
+  word: string
+  type: QuestionType
+  data: SynonymQuestionData | AntonymQuestionData | SentenceCompletionQuestionData | DefinitionMatchQuestionData
+}
 
 export default function VerbalExercisesPage() {
-  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [selectedQuestions, setSelectedQuestions] = useState<SelectedQuestion[]>([])
+  const [answers, setAnswers] = useState<Record<string, boolean>>({})
   const [showResults, setShowResults] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const wordsPerPage = 3
 
-  const allQuestions = [...synonymQuestions, ...analogyQuestions]
+  // Randomly select one question of each type for each word (client-side only)
+  useEffect(() => {
+    const questions: SelectedQuestion[] = []
+
+    vocabQuestions.questions.forEach((wordData) => {
+      const { word, questionSet } = wordData
+
+      // Randomly select one synonym question
+      if (questionSet.synonymQuestions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * questionSet.synonymQuestions.length)
+        questions.push({
+          word,
+          type: 'synonym',
+          data: questionSet.synonymQuestions[randomIndex]
+        })
+      }
+
+      // Randomly select one antonym question
+      if (questionSet.antonymQuestions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * questionSet.antonymQuestions.length)
+        questions.push({
+          word,
+          type: 'antonym',
+          data: questionSet.antonymQuestions[randomIndex]
+        })
+      }
+
+      // Randomly select one sentence completion question
+      if (questionSet.sentenceCompletionQuestions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * questionSet.sentenceCompletionQuestions.length)
+        questions.push({
+          word,
+          type: 'sentence',
+          data: questionSet.sentenceCompletionQuestions[randomIndex]
+        })
+      }
+
+      // Randomly select one definition match question
+      if (questionSet.definitionMatchQuestions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * questionSet.definitionMatchQuestions.length)
+        questions.push({
+          word,
+          type: 'definition',
+          data: questionSet.definitionMatchQuestions[randomIndex]
+        })
+      }
+    })
+
+    setSelectedQuestions(questions)
+  }, [])
+
+  const handleAnswer = (questionId: string, isCorrect: boolean) => {
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: isCorrect
+    }))
+  }
 
   const handleSubmit = () => {
     setShowResults(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleReset = () => {
     setAnswers({})
     setShowResults(false)
+    setSearchTerm("")
+    setCurrentPage(1)
+    // Force page reload to get new random questions
+    window.location.reload()
   }
 
-  const score = allQuestions.filter((q) => answers[q.id] === q.correct).length
+  // Reset to page 1 when search term changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
+
+  // Group questions by word
+  const questionsByWord = useMemo(() => {
+    const grouped: Record<string, SelectedQuestion[]> = {}
+    selectedQuestions.forEach((q) => {
+      if (!grouped[q.word]) {
+        grouped[q.word] = []
+      }
+      grouped[q.word].push(q)
+    })
+    return grouped
+  }, [selectedQuestions])
+
+  // Filter questions by search term
+  const filteredQuestionsByWord = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return questionsByWord
+    }
+
+    const filtered: Record<string, SelectedQuestion[]> = {}
+    const lowerSearchTerm = searchTerm.toLowerCase()
+
+    Object.entries(questionsByWord).forEach(([word, questions]) => {
+      if (word.toLowerCase().includes(lowerSearchTerm)) {
+        filtered[word] = questions
+      }
+    })
+
+    return filtered
+  }, [questionsByWord, searchTerm])
+
+  // Paginate words
+  const allWords = Object.keys(filteredQuestionsByWord)
+  const totalPages = Math.ceil(allWords.length / wordsPerPage)
+  const startIndex = (currentPage - 1) * wordsPerPage
+  const endIndex = startIndex + wordsPerPage
+  const currentPageWords = allWords.slice(startIndex, endIndex)
+
+  // Get questions for current page only
+  const paginatedQuestionsByWord = useMemo(() => {
+    const paginated: Record<string, SelectedQuestion[]> = {}
+    currentPageWords.forEach(word => {
+      paginated[word] = filteredQuestionsByWord[word]
+    })
+    return paginated
+  }, [filteredQuestionsByWord, currentPageWords])
+
+  // Calculate question IDs for current page only
+  const currentPageQuestionIds = useMemo(() => {
+    const ids = new Set<string>()
+    Object.entries(paginatedQuestionsByWord).forEach(([word, questions]) => {
+      questions.forEach((q) => {
+        const questionKey = `${word}-${q.type}-${q.data.id}`
+        ids.add(questionKey)
+      })
+    })
+    return ids
+  }, [paginatedQuestionsByWord])
+
+  const totalQuestions = currentPageQuestionIds.size
+  const answeredQuestions = Object.keys(answers).filter(id => currentPageQuestionIds.has(id)).length
+  const correctAnswers = Object.entries(answers)
+    .filter(([id, isCorrect]) => currentPageQuestionIds.has(id) && isCorrect)
+    .length
+  const percentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0
+
+  // Pagination handlers
+  const scrollToQuestions = () => {
+    const questionsElement = document.getElementById('questions-section')
+    if (questionsElement) {
+      questionsElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+      setTimeout(() => scrollToQuestions(), 100)
+    }
+  }
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+      setTimeout(() => scrollToQuestions(), 100)
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -89,143 +220,252 @@ export default function VerbalExercisesPage() {
                   <BookText className="h-6 w-6" />
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-                  Verbal Practice Exercises
+                  Vocabulary Practice Exercises
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Practice synonyms and analogies to build your vocabulary skills.
+                  Test your vocabulary skills with synonyms, antonyms, sentence completion, and definitions.
                 </p>
               </div>
 
-              {showResults && (
+              {/* Search Bar */}
+              <div className="mb-8">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search by word..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-10 h-12 text-base"
+                  />
+                  {searchTerm && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+                {searchTerm && (
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Found {allWords.length} word{allWords.length !== 1 ? 's' : ''} matching "{searchTerm}"
+                  </p>
+                )}
+                {allWords.length > wordsPerPage && (
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Showing page {currentPage} of {totalPages}
+                  </p>
+                )}
+              </div>
+
+              {/* Progress Card */}
+              {!showResults && answeredQuestions > 0 && (
                 <Card className="mb-8 border-chart-1 bg-chart-1/5">
                   <CardHeader>
                     <CardTitle className="text-xl">
-                      Your Score: {score} / {allQuestions.length}
+                      Progress: {answeredQuestions} / {totalQuestions}
                     </CardTitle>
                     <CardDescription>
-                      {score === allQuestions.length
-                        ? "Perfect score! Excellent work!"
-                        : score >= allQuestions.length * 0.7
-                          ? "Great job! Keep practicing to improve further."
-                          : "Keep practicing! Review the explanations below."}
+                      Keep going! Answer all questions to see your results.
                     </CardDescription>
                   </CardHeader>
                 </Card>
               )}
 
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-4">Synonyms</h2>
-                  {synonymQuestions.map((question, index) => (
-                    <Card key={question.id} className="mb-4">
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          Question {index + 1}: {question.word}
-                          {showResults &&
-                            (answers[question.id] === question.correct ? (
-                              <CheckCircle2 className="h-5 w-5 text-green-600" />
-                            ) : (
-                              <XCircle className="h-5 w-5 text-red-600" />
-                            ))}
-                        </CardTitle>
-                        <CardDescription>Choose the word closest in meaning</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <RadioGroup
-                          value={answers[question.id]?.toString()}
-                          onValueChange={(value) =>
-                            !showResults && setAnswers({ ...answers, [question.id]: Number.parseInt(value) })
-                          }
-                          disabled={showResults}
-                        >
-                          {question.options.map((option, optIndex) => (
-                            <div key={optIndex} className="flex items-center space-x-2 mb-2">
-                              <RadioGroupItem value={optIndex.toString()} id={`q${question.id}-${optIndex}`} />
-                              <Label
-                                htmlFor={`q${question.id}-${optIndex}`}
-                                className={`cursor-pointer ${
-                                  showResults && optIndex === question.correct ? "font-semibold text-green-600" : ""
-                                }`}
-                              >
-                                {option}
-                              </Label>
-                            </div>
-                          ))}
-                        </RadioGroup>
-                        {showResults && (
-                          <div className="mt-4 p-4 bg-muted rounded-lg">
-                            <p className="text-sm text-muted-foreground">
-                              <strong>Explanation:</strong> {question.explanation}
-                            </p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+              {/* Results Card */}
+              {showResults && (
+                <Card className="mb-8 border-chart-1 bg-chart-1/5">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">
+                      Your Score: {correctAnswers} / {totalQuestions} ({percentage}%)
+                    </CardTitle>
+                    <CardDescription className="text-base">
+                      {percentage === 100
+                        ? "🎉 Perfect score! Outstanding work!"
+                        : percentage >= 80
+                          ? "🌟 Excellent! You have a strong vocabulary."
+                          : percentage >= 60
+                            ? "👍 Good job! Keep practicing to improve further."
+                            : "📚 Keep studying! Review the vocabulary words and try again."}
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              )}
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-4">Analogies</h2>
-                  {analogyQuestions.map((question, index) => (
-                    <Card key={question.id} className="mb-4">
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          Question {synonymQuestions.length + index + 1}
-                          {showResults &&
-                            (answers[question.id] === question.correct ? (
-                              <CheckCircle2 className="h-5 w-5 text-green-600" />
-                            ) : (
-                              <XCircle className="h-5 w-5 text-red-600" />
-                            ))}
-                        </CardTitle>
-                        <CardDescription>{question.question}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <RadioGroup
-                          value={answers[question.id]?.toString()}
-                          onValueChange={(value) =>
-                            !showResults && setAnswers({ ...answers, [question.id]: Number.parseInt(value) })
-                          }
-                          disabled={showResults}
-                        >
-                          {question.options.map((option, optIndex) => (
-                            <div key={optIndex} className="flex items-center space-x-2 mb-2">
-                              <RadioGroupItem value={optIndex.toString()} id={`q${question.id}-${optIndex}`} />
-                              <Label
-                                htmlFor={`q${question.id}-${optIndex}`}
-                                className={`cursor-pointer ${
-                                  showResults && optIndex === question.correct ? "font-semibold text-green-600" : ""
-                                }`}
-                              >
-                                {option}
-                              </Label>
-                            </div>
-                          ))}
-                        </RadioGroup>
-                        {showResults && (
-                          <div className="mt-4 p-4 bg-muted rounded-lg">
-                            <p className="text-sm text-muted-foreground">
-                              <strong>Explanation:</strong> {question.explanation}
-                            </p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
+              {/* Loading State */}
+              {selectedQuestions.length === 0 && (
+                <div className="text-center py-12">
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4"></div>
+                    <div className="h-4 bg-muted rounded w-1/2 mx-auto"></div>
+                  </div>
+                  <p className="text-muted-foreground mt-4">Loading questions...</p>
                 </div>
+              )}
+
+              {/* No results message */}
+              {selectedQuestions.length > 0 && allWords.length === 0 && (
+                <Card className="border-orange-500">
+                  <CardContent className="pt-6 text-center">
+                    <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-semibold mb-2">No words found</h3>
+                    <p className="text-muted-foreground mb-4">
+                      No vocabulary words match "{searchTerm}"
+                    </p>
+                    <Button onClick={() => setSearchTerm("")} variant="outline">
+                      Clear Search
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Questions grouped by word */}
+              <div id="questions-section" className="space-y-12">
+                {Object.entries(paginatedQuestionsByWord).map(([word, questions], wordIndex) => (
+                  <div key={word}>
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold text-foreground capitalize">
+                        {word}
+                      </h2>
+                      <p className="text-sm text-muted-foreground">
+                        Word {startIndex + wordIndex + 1} of {allWords.length}
+                      </p>
+                    </div>
+
+                    <div className="space-y-6">
+                      {questions.map((question, index) => {
+                        const questionKey = `${word}-${question.type}-${question.data.id}`
+
+                        switch (question.type) {
+                          case 'synonym':
+                            return (
+                              <SynonymQuestion
+                                key={questionKey}
+                                question={question.data as SynonymQuestionData}
+                                onAnswer={(isCorrect) => handleAnswer(questionKey, isCorrect)}
+                                showFeedback={showResults}
+                              />
+                            )
+                          case 'antonym':
+                            return (
+                              <AntonymQuestion
+                                key={questionKey}
+                                question={question.data as AntonymQuestionData}
+                                onAnswer={(isCorrect) => handleAnswer(questionKey, isCorrect)}
+                                showFeedback={showResults}
+                              />
+                            )
+                          case 'sentence':
+                            return (
+                              <SentenceCompletionQuestion
+                                key={questionKey}
+                                question={question.data as SentenceCompletionQuestionData}
+                                onAnswer={(isCorrect) => handleAnswer(questionKey, isCorrect)}
+                                showFeedback={showResults}
+                              />
+                            )
+                          case 'definition':
+                            return (
+                              <DefinitionMatchQuestion
+                                key={questionKey}
+                                question={question.data as DefinitionMatchQuestionData}
+                                onAnswer={(isCorrect) => handleAnswer(questionKey, isCorrect)}
+                                showFeedback={showResults}
+                              />
+                            )
+                          default:
+                            return null
+                        }
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="mt-8 flex gap-4">
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="mt-8">
+                  {/* Page indicator - centered on mobile */}
+                  <div className="text-center mb-4">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                  </div>
+
+                  {/* Navigation buttons - grid on mobile, flex on desktop */}
+                  <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-4">
+                    <Button
+                      variant="outline"
+                      onClick={goToPreviousPage}
+                      disabled={currentPage === 1}
+                      className="h-10 sm:h-auto flex items-center justify-center gap-2"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      <span className="hidden xs:inline">Previous</span>
+                      <span className="xs:hidden">Prev</span>
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={goToNextPage}
+                      disabled={currentPage === totalPages}
+                      className="h-10 sm:h-auto flex items-center justify-center gap-2"
+                    >
+                      <span className="hidden xs:inline">Next</span>
+                      <span className="xs:hidden">Next</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="mt-12 flex gap-4 flex-wrap">
                 {!showResults ? (
-                  <Button onClick={handleSubmit} size="lg" className="bg-chart-1 hover:bg-chart-1/90">
-                    Submit Answers
+                  <Button
+                    onClick={handleSubmit}
+                    size="lg"
+                    disabled={answeredQuestions < totalQuestions}
+                    className="bg-chart-1 hover:bg-chart-1/90"
+                  >
+                    Submit Answers {answeredQuestions > 0 && `(${answeredQuestions}/${totalQuestions})`}
                   </Button>
                 ) : (
                   <Button onClick={handleReset} size="lg" variant="outline">
-                    Try Again
+                    <RotateCcw className="h-4 w-4 mr-2" />
+                    Try New Questions
                   </Button>
                 )}
+
+                <Link href="/vocabulary/word-lists">
+                  <Button variant="ghost" size="lg">
+                    Study Word List
+                  </Button>
+                </Link>
+
+                <Link href="/vocabulary/flashcards">
+                  <Button variant="ghost" size="lg">
+                    Practice Flashcards
+                  </Button>
+                </Link>
               </div>
+
+              {/* Tips Card */}
+              <Card className="mt-8 border-chart-1 bg-chart-1/5">
+                <CardHeader>
+                  <CardTitle>Study Tips</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground leading-relaxed space-y-2">
+                  <p>• Read each question carefully before selecting an answer</p>
+                  <p>• For synonyms and antonyms, think about the meaning of the word</p>
+                  <p>• In sentence completion, try each option in the blank to see what fits best</p>
+                  <p>• Definition questions test your precise understanding of word meanings</p>
+                  <p>• Click "Try New Questions" to practice with different questions for each word</p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

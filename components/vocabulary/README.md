@@ -8,6 +8,10 @@ Reusable components for rendering SSAT vocabulary words throughout the applicati
 
 A comprehensive card component that displays a vocabulary word with all its details including pronunciation, definitions, examples, synonyms, antonyms, and etymology.
 
+### VocabularyFlashcard
+
+An interactive flip-card component for vocabulary practice with front/back animation, audio pronunciation, and progress tracking.
+
 ## VocabularyWordCard Component
 
 ### Usage
@@ -260,9 +264,237 @@ components/
 - `/app/vocabulary/word-lists/page.tsx` - Main word list page
 - Can be used in any page that needs to display vocabulary words
 
+---
+
+## VocabularyFlashcard Component
+
+### Usage
+
+```tsx
+import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
+import vocabularyData from "@/data/vocabulary-words.json"
+
+export default function FlashcardPractice() {
+  const [isFlipped, setIsFlipped] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
+  const [isMastered, setIsMastered] = useState(false)
+
+  const word = vocabularyData.words[0]
+
+  const pronounceWord = (wordText: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+      setIsPlaying(true)
+      const utterance = new SpeechSynthesisUtterance(wordText)
+      utterance.rate = 0.8
+      utterance.onend = () => setIsPlaying(false)
+      window.speechSynthesis.speak(utterance)
+    }
+  }
+
+  return (
+    <VocabularyFlashcard
+      word={word}
+      isFlipped={isFlipped}
+      isMastered={isMastered}
+      isPlaying={isPlaying}
+      showDetails={showDetails}
+      onFlip={() => setIsFlipped(!isFlipped)}
+      onPronounce={pronounceWord}
+      onToggleDetails={() => setShowDetails(!showDetails)}
+    />
+  )
+}
+```
+
+### Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `word` | `VocabularyWord` | Yes | The vocabulary word object to display |
+| `isFlipped` | `boolean` | Yes | Controls whether card is flipped to back |
+| `isMastered` | `boolean` | Yes | Shows mastered badge on front of card |
+| `isPlaying` | `boolean` | Yes | Controls audio button animation state |
+| `showDetails` | `boolean` | Yes | Controls whether etymology section is expanded |
+| `onFlip` | `() => void` | Yes | Callback when card is clicked to flip |
+| `onPronounce` | `(word: string) => void` | Yes | Callback to handle audio pronunciation |
+| `onToggleDetails` | `() => void` | Yes | Callback to toggle etymology section |
+
+### Features
+
+#### 1. 3D Flip Animation
+- Click anywhere on card to flip between front and back
+- Smooth CSS 3D transform animation (500ms duration)
+- Front and back maintain proper visibility with `backfaceVisibility: hidden`
+- Perspective depth for realistic 3D effect
+
+#### 2. Front of Card
+- Large, bold word display (5xl size)
+- Interactive audio pronunciation button
+  - Circular button with speaker icon
+  - Pulse animation when audio is playing
+  - Scale animation on hover
+- Phonetic pronunciation guide
+- Part of speech label
+- "Mastered" badge when word is marked as mastered
+- Click hint text at bottom
+
+#### 3. Back of Card
+- **Definitions**: Numbered list of all meanings
+- **Examples**: Shows first 2 examples in italic text
+- **Synonyms**: Comma-separated list (first 4 only)
+- **Antonyms**: Comma-separated list (all antonyms)
+- **Etymology & Notes**: Collapsible section with additional information
+  - Button to show/hide details
+  - Styled background for expanded section
+  - Bullet points for each note
+- Click hint text to flip back
+
+#### 4. Responsive Design
+- Minimum height of 450px for consistent card size
+- Scrollable back content if it exceeds card height
+- Mobile-friendly touch interactions
+- Responsive padding and text sizes
+
+### Card States
+
+The component handles multiple visual states:
+
+1. **Default State**: Front of card showing word
+2. **Flipped State**: Back of card showing definitions
+3. **Playing State**: Audio button pulsing during pronunciation
+4. **Mastered State**: Green checkmark badge displayed
+5. **Details Expanded**: Etymology section visible
+
+### Example: Full Implementation
+
+```tsx
+"use client"
+
+import { useState } from "react"
+import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
+import vocabularyData from "@/data/vocabulary-words.json"
+
+export default function FlashcardsPage() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isFlipped, setIsFlipped] = useState(false)
+  const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set())
+  const [showDetails, setShowDetails] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const words = vocabularyData.words
+
+  const pronounceWord = (word: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+      setIsPlaying(true)
+      const utterance = new SpeechSynthesisUtterance(word)
+      utterance.rate = 0.8
+      utterance.onend = () => setIsPlaying(false)
+      window.speechSynthesis.speak(utterance)
+    }
+  }
+
+  const handleNext = () => {
+    if (currentIndex < words.length - 1) {
+      setCurrentIndex(currentIndex + 1)
+      setIsFlipped(false)
+      setShowDetails(false)
+      setIsPlaying(false)
+      window.speechSynthesis?.cancel()
+    }
+  }
+
+  const handleMarkMastered = () => {
+    setMasteredWords(new Set(masteredWords).add(currentIndex))
+    if (currentIndex < words.length - 1) {
+      handleNext()
+    }
+  }
+
+  const currentWord = words[currentIndex]
+
+  return (
+    <div>
+      <VocabularyFlashcard
+        word={currentWord}
+        isFlipped={isFlipped}
+        isMastered={masteredWords.has(currentIndex)}
+        isPlaying={isPlaying}
+        showDetails={showDetails}
+        onFlip={() => setIsFlipped(!isFlipped)}
+        onPronounce={pronounceWord}
+        onToggleDetails={() => setShowDetails(!showDetails)}
+      />
+
+      {/* Navigation buttons, progress tracking, etc. */}
+    </div>
+  )
+}
+```
+
+### Styling
+
+The component uses these color tokens:
+- `chart-7`: Primary accent color for borders, buttons, badges
+- `chart-1`: Audio button color
+- `card`: Card background
+- `foreground`: Primary text
+- `muted-foreground`: Secondary text
+- `green-600`: Mastered badge color
+
+### Content Limitations
+
+For optimal flashcard UX, the back of the card shows:
+- **All definitions** (no limit)
+- **First 2 examples only** (to prevent overflow)
+- **First 4 synonyms only** (condensed for quick review)
+- **All antonyms** (typically fewer items)
+- **Etymology** (collapsible to save space)
+
+### Accessibility
+
+- **Click Anywhere**: Both front and back are fully clickable for flipping
+- **Stop Propagation**: Audio and details buttons don't trigger flip
+- **Audio Fallback**: Alert shown if browser doesn't support speech synthesis
+- **Semantic HTML**: Proper heading hierarchy and list structures
+- **Focus Management**: Cancel audio when navigating away
+
+### Browser Compatibility
+
+- **3D Transforms**: Supported in all modern browsers
+- **Web Speech API**:
+  - Chrome/Edge: Full support
+  - Safari: Full support
+  - Firefox: Partial support
+- **CSS Backface Visibility**: Universal support
+
+### Performance
+
+- **Lightweight**: ~3kb component (excluding dependencies)
+- **Single Card Rendering**: Only renders current word, not all words
+- **Controlled State**: Parent manages state for better control
+- **Speech Cancellation**: Cleans up audio on unmount/navigation
+
+### File Location
+
+```
+components/
+└── vocabulary/
+    ├── VocabularyFlashcard.tsx
+    ├── VocabularyWordCard.tsx
+    └── README.md
+```
+
+### Used In
+
+- `/app/vocabulary/flashcards/page.tsx` - Main flashcards practice page
+
 ## Related Components
 
-- **VocabularyFlashcard**: Flip-card version for practice (not yet extracted)
+- **VocabularyWordCard**: Expandable card for word list display
+- **VocabularyFlashcard**: Interactive flip card for practice (documented above)
 - Future: VocabularyQuiz, VocabularySearch, etc.
 
 ## Future Enhancements
@@ -312,8 +544,15 @@ When modifying this component:
 
 ## Version History
 
+- **v1.1.0** (2025-01-12): Added VocabularyFlashcard component
+  - Extracted flip-card from flashcards page into reusable component
+  - Controlled component pattern with callbacks for state management
+  - Full 3D flip animation with front/back card rendering
+  - Audio pronunciation, mastered status, collapsible etymology
+  - Reduced flashcards page from 355 to ~195 lines
+
 - **v1.0.0** (2025-01-12): Initial release
-  - Extracted from inline template in word-lists page
+  - Extracted VocabularyWordCard from inline template in word-lists page
   - Full feature parity with original implementation
   - Added props for showing/hiding tooltip and audio
 
