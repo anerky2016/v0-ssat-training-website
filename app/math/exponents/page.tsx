@@ -40,7 +40,7 @@ export default function ExponentsPage() {
                   { title: "Division Property of Exponents", href: "/math/exponents/division-properties" },
                   { title: "Powers of Products and Quotients", href: "/math/exponents/powers-products-quotients" },
                   { title: "Zero & Negative Exponents", href: "/math/exponents/zero-negative-exponents" },
-                  { title: "Negative Exponents & Negative Bases", href: "/math/exponents/zero-negative-exponents" },
+                  { title: "Negative Exponents & Negative Bases", href: "/math/exponents/negative-exponents-negative-bases" },
                   { title: "Scientific Notation", href: "/math/exponents/scientific-notation" },
                   { title: "Square Roots", href: "/math/exponents/square-roots" }
                 ].map((topic, index) => (
