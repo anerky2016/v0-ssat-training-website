@@ -395,28 +395,28 @@ export default function VerbalExercisesPage() {
                     </span>
                   </div>
 
-                  {/* Navigation buttons - grid on mobile, flex on desktop */}
+                  {/* Navigation buttons - full width grid on mobile, centered flex on desktop */}
                   <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-4">
                     <Button
                       variant="outline"
                       onClick={goToPreviousPage}
                       disabled={currentPage === 1}
-                      className="h-10 sm:h-auto flex items-center justify-center gap-2"
+                      className="h-12 sm:h-10 flex items-center justify-center gap-2 text-base sm:text-sm"
                     >
-                      <ChevronLeft className="h-4 w-4" />
-                      <span className="hidden xs:inline">Previous</span>
-                      <span className="xs:hidden">Prev</span>
+                      <ChevronLeft className="h-5 w-5 sm:h-4 sm:w-4" />
+                      <span className="hidden sm:inline">Previous</span>
+                      <span className="sm:hidden">Prev</span>
                     </Button>
 
                     <Button
                       variant="outline"
                       onClick={goToNextPage}
                       disabled={currentPage === totalPages}
-                      className="h-10 sm:h-auto flex items-center justify-center gap-2"
+                      className="h-12 sm:h-10 flex items-center justify-center gap-2 text-base sm:text-sm"
                     >
-                      <span className="hidden xs:inline">Next</span>
-                      <span className="xs:hidden">Next</span>
-                      <ChevronRight className="h-4 w-4" />
+                      <span className="hidden sm:inline">Next</span>
+                      <span className="sm:hidden">Next</span>
+                      <ChevronRight className="h-5 w-5 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 </div>
