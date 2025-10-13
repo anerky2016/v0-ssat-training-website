@@ -67,7 +67,7 @@ export default function AddingSubtractingIntegersPage() {
               <p className="text-base text-muted-foreground mb-6">
                 {integersData.summary}
               </p>
-              <CompleteStudyButton topicTitle={integersData.topic} />
+              <CompleteStudyButton category="math" topicTitle={integersData.topic} />
             </div>
           </div>
         </section>
@@ -265,7 +265,7 @@ export default function AddingSubtractingIntegersPage() {
                   <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                     Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                   </p>
-                  <CompleteStudyButton topicTitle={integersData.topic} centered size="lg" />
+                  <CompleteStudyButton category="math" topicTitle={integersData.topic} centered size="lg" />
                 </CardContent>
               </Card>
             </div>

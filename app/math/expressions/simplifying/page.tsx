@@ -69,7 +69,7 @@ export default function SimplifyingExpressionsPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {simplifyingData.audience}
                 </p>
-                <CompleteStudyButton topicTitle={simplifyingData.title} />
+                <CompleteStudyButton category="math" topicTitle={simplifyingData.title} />
               </div>
             </div>
           </section>
@@ -389,7 +389,7 @@ export default function SimplifyingExpressionsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={simplifyingData.title} centered size="lg" />
+                    <CompleteStudyButton category="math" topicTitle={simplifyingData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

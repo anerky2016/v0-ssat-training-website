@@ -48,6 +48,10 @@ export default function ProgressPage() {
   const [sessionsByDay, setSessionsByDay] = useState<Map<string, StudySession[]>>(new Map())
   const [lessonsDue, setLessonsDue] = useState<LessonCompletion[]>([])
   const [upcomingLessons, setUpcomingLessons] = useState<LessonCompletion[]>([])
+  const [mathLessonsDue, setMathLessonsDue] = useState<LessonCompletion[]>([])
+  const [mathUpcomingLessons, setMathUpcomingLessons] = useState<LessonCompletion[]>([])
+  const [vocabLessonsDue, setVocabLessonsDue] = useState<LessonCompletion[]>([])
+  const [vocabUpcomingLessons, setVocabUpcomingLessons] = useState<LessonCompletion[]>([])
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -62,8 +66,14 @@ export default function ProgressPage() {
     const mathTopicsData = getMostStudiedTopicsByCategory('math', 5)
     const vocabularyTopicsData = getMostStudiedTopicsByCategory('vocabulary', 5)
     const byDay = getSessionsByDay(7)
-    const due = getLessonsDueForReview()
-    const upcoming = getUpcomingReviews(10)
+    const allDue = getLessonsDueForReview()
+    const allUpcoming = getUpcomingReviews(10)
+
+    // Separate math and vocabulary lessons
+    const mathDue = allDue.filter(lesson => lesson.topicPath.startsWith('/math'))
+    const vocabDue = allDue.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
+    const mathUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/math'))
+    const vocabUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
 
     setStats(studyStats)
     setMathStats(mathStudyStats)
@@ -73,8 +83,12 @@ export default function ProgressPage() {
     setMathTopics(mathTopicsData)
     setVocabularyTopics(vocabularyTopicsData)
     setSessionsByDay(byDay)
-    setLessonsDue(due)
-    setUpcomingLessons(upcoming)
+    setLessonsDue(allDue)
+    setUpcomingLessons(allUpcoming)
+    setMathLessonsDue(mathDue)
+    setMathUpcomingLessons(mathUpcoming)
+    setVocabLessonsDue(vocabDue)
+    setVocabUpcomingLessons(vocabUpcoming)
   }, [])
 
   const handleExport = () => {
@@ -344,29 +358,29 @@ export default function ProgressPage() {
                     </Card>
                   )}
 
-                  {/* Spaced Repetition Review */}
-                  {(lessonsDue.length > 0 || upcomingLessons.length > 0) && (
+                  {/* Math Spaced Repetition Review */}
+                  {(mathLessonsDue.length > 0 || mathUpcomingLessons.length > 0) && (
                     <Card className="mb-12">
                       <CardHeader>
                         <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                            <RefreshCcw className="h-6 w-6 text-purple-500" />
+                          <div className="h-12 w-12 rounded-xl bg-chart-1/10 flex items-center justify-center">
+                            <RefreshCcw className="h-6 w-6 text-chart-1" />
                           </div>
                           <div>
-                            <CardTitle>Spaced Repetition Review</CardTitle>
-                            <CardDescription>Optimize your learning with strategic review</CardDescription>
+                            <CardTitle>Math Spaced Repetition Review</CardTitle>
+                            <CardDescription>Optimize your math learning with strategic review</CardDescription>
                           </div>
                         </div>
                       </CardHeader>
                       <CardContent>
-                        {lessonsDue.length > 0 && (
+                        {mathLessonsDue.length > 0 && (
                           <div className="mb-6">
                             <div className="flex items-center gap-2 mb-4">
                               <AlertCircle className="h-5 w-5 text-orange-500" />
-                              <h3 className="font-semibold text-foreground">Ready to Review ({lessonsDue.length})</h3>
+                              <h3 className="font-semibold text-foreground">Ready to Review ({mathLessonsDue.length})</h3>
                             </div>
                             <div className="space-y-3">
-                              {lessonsDue.map((lesson) => (
+                              {mathLessonsDue.map((lesson) => (
                                 <Link
                                   key={lesson.topicPath}
                                   href={lesson.topicPath}
@@ -392,11 +406,11 @@ export default function ProgressPage() {
                           </div>
                         )}
 
-                        {upcomingLessons.length > 0 && (
+                        {mathUpcomingLessons.length > 0 && (
                           <div>
                             <h3 className="font-semibold text-foreground mb-4">Upcoming Reviews</h3>
                             <div className="space-y-2">
-                              {upcomingLessons.map((lesson) => (
+                              {mathUpcomingLessons.map((lesson) => (
                                 <Link
                                   key={lesson.topicPath}
                                   href={lesson.topicPath}
@@ -419,11 +433,136 @@ export default function ProgressPage() {
                           </div>
                         )}
 
-                        {lessonsDue.length === 0 && upcomingLessons.length === 0 && (
+                        {mathLessonsDue.length === 0 && mathUpcomingLessons.length === 0 && (
                           <div className="text-center py-8">
                             <RefreshCcw className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
                             <p className="text-muted-foreground">
-                              Complete lessons and mark them as done to start using spaced repetition!
+                              Complete math lessons and mark them as done to start using spaced repetition!
+                            </p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Vocabulary Spaced Repetition Review */}
+                  {(vocabLessonsDue.length > 0 || vocabUpcomingLessons.length > 0) && (
+                    <Card className="mb-12">
+                      <CardHeader>
+                        <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
+                            <RefreshCcw className="h-6 w-6 text-chart-5" />
+                          </div>
+                          <div>
+                            <CardTitle>Vocabulary Spaced Repetition Review</CardTitle>
+                            <CardDescription>Optimize your vocabulary mastery with strategic review</CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        {vocabLessonsDue.length > 0 && (
+                          <div className="mb-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <AlertCircle className="h-5 w-5 text-orange-500" />
+                              <h3 className="font-semibold text-foreground">Ready to Review ({vocabLessonsDue.length})</h3>
+                            </div>
+                            <div className="space-y-4">
+                              {(() => {
+                                // Group by date
+                                const grouped = vocabLessonsDue.reduce((acc, lesson) => {
+                                  const dateKey = formatReviewDate(lesson.nextReviewDate)
+                                  if (!acc[dateKey]) acc[dateKey] = []
+                                  acc[dateKey].push(lesson)
+                                  return acc
+                                }, {} as Record<string, typeof vocabLessonsDue>)
+
+                                return Object.entries(grouped).map(([date, lessons]) => (
+                                  <div key={date} className="space-y-2">
+                                    <div className="flex items-center gap-2">
+                                      <div className="h-2 w-2 rounded-full bg-orange-500" />
+                                      <h4 className="font-medium text-sm text-orange-600 dark:text-orange-400">
+                                        {date} ({lessons.length} word{lessons.length !== 1 ? 's' : ''})
+                                      </h4>
+                                    </div>
+                                    <div className="pl-4 border-l-2 border-orange-500/20 space-y-2">
+                                      {lessons.map((lesson) => (
+                                        <Link
+                                          key={lesson.topicPath}
+                                          href={lesson.topicPath}
+                                          className="block p-3 rounded-lg border border-orange-500/20 bg-orange-500/5 hover:bg-orange-500/10 transition-colors"
+                                        >
+                                          <div className="flex items-center justify-between gap-4">
+                                            <div className="flex-1">
+                                              <h4 className="font-medium text-foreground hover:underline">{lesson.topicTitle}</h4>
+                                              <p className="text-sm text-muted-foreground mt-1">
+                                                {lesson.reviewCount === 0 ? 'First review' : `Review #${lesson.reviewCount + 1}`}
+                                              </p>
+                                            </div>
+                                            <Button variant="outline" size="sm" className="border-orange-500/20">
+                                              Review
+                                            </Button>
+                                          </div>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))
+                              })()}
+                            </div>
+                          </div>
+                        )}
+
+                        {vocabUpcomingLessons.length > 0 && (
+                          <div>
+                            <h3 className="font-semibold text-foreground mb-4">Upcoming Reviews</h3>
+                            <div className="space-y-4">
+                              {(() => {
+                                // Group by date
+                                const grouped = vocabUpcomingLessons.reduce((acc, lesson) => {
+                                  const dateKey = formatReviewDate(lesson.nextReviewDate)
+                                  if (!acc[dateKey]) acc[dateKey] = []
+                                  acc[dateKey].push(lesson)
+                                  return acc
+                                }, {} as Record<string, typeof vocabUpcomingLessons>)
+
+                                return Object.entries(grouped).map(([date, lessons]) => (
+                                  <div key={date} className="space-y-2">
+                                    <div className="flex items-center gap-2">
+                                      <div className="h-2 w-2 rounded-full bg-muted-foreground" />
+                                      <h4 className="font-medium text-sm text-muted-foreground">
+                                        {date} ({lessons.length} word{lessons.length !== 1 ? 's' : ''})
+                                      </h4>
+                                    </div>
+                                    <div className="pl-4 border-l-2 border-border space-y-2">
+                                      {lessons.map((lesson) => (
+                                        <Link
+                                          key={lesson.topicPath}
+                                          href={lesson.topicPath}
+                                          className="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                                        >
+                                          <div className="flex items-center justify-between gap-4">
+                                            <div className="flex-1">
+                                              <h4 className="font-medium text-foreground hover:underline text-sm">{lesson.topicTitle}</h4>
+                                              <p className="text-xs text-muted-foreground mt-1">
+                                                {lesson.reviewCount === 0 ? 'First review' : `Review #${lesson.reviewCount + 1}`}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))
+                              })()}
+                            </div>
+                          </div>
+                        )}
+
+                        {vocabLessonsDue.length === 0 && vocabUpcomingLessons.length === 0 && (
+                          <div className="text-center py-8">
+                            <RefreshCcw className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+                            <p className="text-muted-foreground">
+                              Complete vocabulary words and mark them as done to start using spaced repetition!
                             </p>
                           </div>
                         )}

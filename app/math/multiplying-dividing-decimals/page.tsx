@@ -69,7 +69,7 @@ export default function MultiplyingDividingDecimalsPage() {
               <p className="text-base text-muted-foreground mb-6">
                 {decimalsData.summary}
               </p>
-              <CompleteStudyButton topicTitle={decimalsData.topic} />
+              <CompleteStudyButton category="math" topicTitle={decimalsData.topic} />
             </div>
           </div>
         </section>
@@ -306,7 +306,7 @@ export default function MultiplyingDividingDecimalsPage() {
                   <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                     Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                   </p>
-                  <CompleteStudyButton topicTitle={decimalsData.topic} centered size="lg" />
+                  <CompleteStudyButton category="math" topicTitle={decimalsData.topic} centered size="lg" />
                 </CardContent>
               </Card>
             </div>

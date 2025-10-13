@@ -72,7 +72,7 @@ export default function ZeroNegativeExponentsPage() {
                 <p className="text-base text-muted-foreground mb-6">
                   <MathJax>{exponentsData.summary}</MathJax>
                 </p>
-                <CompleteStudyButton topicTitle={exponentsData.title} />
+                <CompleteStudyButton category="math" topicTitle={exponentsData.title} />
               </div>
             </div>
           </section>
@@ -338,7 +338,7 @@ export default function ZeroNegativeExponentsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={exponentsData.title} centered size="lg" />
+                    <CompleteStudyButton category="math" topicTitle={exponentsData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

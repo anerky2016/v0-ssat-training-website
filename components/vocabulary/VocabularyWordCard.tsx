@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Volume2, Info } from "lucide-react"
+import { CompleteStudyButton } from "@/components/complete-study-button"
+import Link from "next/link"
 
 export interface VocabularyWord {
   word: string
@@ -71,18 +73,25 @@ export function VocabularyWordCard({
   return (
     <Card className="border-l-4 border-l-chart-5 bg-card">
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-2 flex-wrap">
               <div className="relative">
-                <CardTitle
-                  className={`text-2xl font-bold text-foreground ${
-                    showTooltip ? 'cursor-pointer hover:text-chart-5 transition-colors border-b-2 border-dashed border-transparent hover:border-chart-5' : ''
-                  }`}
-                  onClick={() => showTooltip && setActiveTooltip(!activeTooltip)}
-                >
-                  {word.word}
-                </CardTitle>
+                <Link href={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}>
+                  <CardTitle
+                    className={`text-2xl font-bold text-foreground hover:text-chart-5 transition-colors cursor-pointer ${
+                      showTooltip ? 'border-b-2 border-dashed border-transparent hover:border-chart-5' : ''
+                    }`}
+                    onClick={(e) => {
+                      if (showTooltip) {
+                        e.preventDefault()
+                        setActiveTooltip(!activeTooltip)
+                      }
+                    }}
+                  >
+                    {word.word}
+                  </CardTitle>
+                </Link>
                 {showTooltip && activeTooltip && (
                   <div className="absolute z-10 mt-2 p-3 bg-chart-5 text-white rounded-lg shadow-xl max-w-xs text-sm leading-relaxed">
                     <div className="font-semibold mb-1">{word.meanings[0]}</div>
@@ -114,6 +123,13 @@ export function VocabularyWordCard({
             <CardDescription className="text-sm italic">
               {word.part_of_speech}
             </CardDescription>
+          </div>
+          <div className="flex-shrink-0">
+            <CompleteStudyButton
+              topicTitle={word.word}
+              customPath={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}
+              category="vocabulary"
+            />
           </div>
         </div>
       </CardHeader>

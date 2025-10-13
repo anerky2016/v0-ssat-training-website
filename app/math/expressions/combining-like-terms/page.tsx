@@ -69,7 +69,7 @@ export default function CombiningLikeTermsPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {combiningData.audience}
                 </p>
-                <CompleteStudyButton topicTitle={combiningData.title} />
+                <CompleteStudyButton category="math" topicTitle={combiningData.title} />
               </div>
             </div>
           </section>
@@ -388,7 +388,7 @@ export default function CombiningLikeTermsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={combiningData.title} centered size="lg" />
+                    <CompleteStudyButton category="math" topicTitle={combiningData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

@@ -69,7 +69,7 @@ export default function PolynomialExpressionsPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {polynomialData.audience}
                 </p>
-                <CompleteStudyButton topicTitle={polynomialData.title} />
+                <CompleteStudyButton category="math" topicTitle={polynomialData.title} />
               </div>
             </div>
           </section>
@@ -365,7 +365,7 @@ export default function PolynomialExpressionsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={polynomialData.title} centered size="lg" />
+                    <CompleteStudyButton category="math" topicTitle={polynomialData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

@@ -67,7 +67,7 @@ export default function MixedNumbersSubtractPage() {
               <div className="text-base text-muted-foreground mb-6">
                 <MathJax>{fractionsData.summary}</MathJax>
               </div>
-              <CompleteStudyButton topicTitle={fractionsData.title} />
+              <CompleteStudyButton category="math" topicTitle={fractionsData.title} />
             </div>
           </div>
         </section>
@@ -290,7 +290,7 @@ export default function MixedNumbersSubtractPage() {
                   <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                     Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                   </p>
-                  <CompleteStudyButton topicTitle={fractionsData.title} centered size="lg" />
+                  <CompleteStudyButton category="math" topicTitle={fractionsData.title} centered size="lg" />
                 </CardContent>
               </Card>
             </div>

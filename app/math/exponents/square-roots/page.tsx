@@ -65,7 +65,7 @@ export default function SquareRootsPage() {
                 <p className="text-lg text-muted-foreground mb-6">
                   <strong>Audience:</strong> {squareRootsData.audience}
                 </p>
-                <CompleteStudyButton topicTitle={squareRootsData.title} />
+                <CompleteStudyButton category="math" topicTitle={squareRootsData.title} />
               </div>
             </div>
           </section>
@@ -295,7 +295,7 @@ export default function SquareRootsPage() {
                     <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                       Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                     </p>
-                    <CompleteStudyButton topicTitle={squareRootsData.title} centered size="lg" />
+                    <CompleteStudyButton category="math" topicTitle={squareRootsData.title} centered size="lg" />
                   </CardContent>
                 </Card>
               </div>

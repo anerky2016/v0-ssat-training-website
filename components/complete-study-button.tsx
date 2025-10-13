@@ -3,30 +3,46 @@
 import { useState, useEffect } from 'react'
 import { Button } from './ui/button'
 import { CheckCircle2, Calendar, X } from 'lucide-react'
-import { markLessonComplete, getLessonCompletion, formatReviewDate, uncompletLesson } from '@/lib/study-history'
+import { markLessonComplete, getLessonCompletion, formatReviewDate, uncompletLesson, addStudySession } from '@/lib/study-history'
 import { usePathname } from 'next/navigation'
 
 interface CompleteStudyButtonProps {
   topicTitle: string
   centered?: boolean
   size?: 'default' | 'lg'
+  customPath?: string // Optional custom path for unique identification (e.g., for vocabulary words)
+  category?: string // Optional category for study tracking (e.g., 'math', 'vocabulary')
 }
 
-export function CompleteStudyButton({ topicTitle, centered = false, size = 'default' }: CompleteStudyButtonProps) {
+export function CompleteStudyButton({ topicTitle, centered = false, size = 'default', customPath, category }: CompleteStudyButtonProps) {
   const pathname = usePathname()
+  const topicPath = customPath || pathname
   const [completion, setCompletion] = useState<ReturnType<typeof getLessonCompletion>>(null)
   const [justCompleted, setJustCompleted] = useState(false)
   const [justUncompleted, setJustUncompleted] = useState(false)
 
   useEffect(() => {
     // Load completion status
-    const current = getLessonCompletion(pathname)
+    const current = getLessonCompletion(topicPath)
     setCompletion(current)
-  }, [pathname])
+  }, [topicPath])
 
   const handleComplete = () => {
-    markLessonComplete(pathname, topicTitle)
-    const updated = getLessonCompletion(pathname)
+    markLessonComplete(topicPath, topicTitle)
+
+    // Also add a study session if category is provided
+    if (category) {
+      addStudySession({
+        topicPath,
+        topicTitle,
+        category,
+        timestamp: Date.now(),
+        duration: 0, // Duration not tracked for completion button
+        problemsViewed: 0
+      })
+    }
+
+    const updated = getLessonCompletion(topicPath)
     setCompletion(updated)
     setJustCompleted(true)
 
@@ -35,7 +51,7 @@ export function CompleteStudyButton({ topicTitle, centered = false, size = 'defa
   }
 
   const handleUncomplete = () => {
-    uncompletLesson(pathname)
+    uncompletLesson(topicPath)
     setCompletion(null)
     setJustUncompleted(true)
 

@@ -67,7 +67,7 @@ export default function OrderingIntegersNumbersPage() {
               <p className="text-base text-muted-foreground mb-6">
                 {orderingData.summary}
               </p>
-              <CompleteStudyButton topicTitle={orderingData.topic} />
+              <CompleteStudyButton category="math" topicTitle={orderingData.topic} />
             </div>
           </div>
         </section>
@@ -265,7 +265,7 @@ export default function OrderingIntegersNumbersPage() {
                   <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                     Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
                   </p>
-                  <CompleteStudyButton topicTitle={orderingData.topic} centered size="lg" />
+                  <CompleteStudyButton category="math" topicTitle={orderingData.topic} centered size="lg" />
                 </CardContent>
               </Card>
             </div>
