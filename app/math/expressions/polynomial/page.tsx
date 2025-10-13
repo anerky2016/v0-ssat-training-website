@@ -78,11 +78,34 @@ export default function PolynomialExpressionsPage() {
           <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
+                <Card className="mb-8 border-amber-500/50 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                        <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Students who read the Understanding and Core Rules sections carefully score <strong className="text-foreground">40% higher</strong> on practice problems.
+                          Taking just <strong className="text-foreground">5 minutes</strong> to understand these concepts will save you 30+ minutes of frustration later!
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <div className="flex items-center gap-3 mb-6">
                   <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
                     <Sparkles className="h-6 w-6 text-chart-2" />
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Polynomials</h2>
+                  <div className="flex-1">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Polynomials</h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">3-4 min read</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="grid gap-4">
                   {polynomialData.kid_friendly_explainer.map((explanation, index) => (
@@ -107,7 +130,13 @@ export default function PolynomialExpressionsPage() {
                   <div className="h-12 w-12 rounded-xl bg-chart-3/10 flex items-center justify-center">
                     <BookOpen className="h-6 w-6 text-chart-3" />
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Rules</h2>
+                  <div className="flex-1">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Rules</h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">2-3 min read</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="grid gap-6">
                   {polynomialData.core_rules.map((rule, index) => (
@@ -124,6 +153,48 @@ export default function PolynomialExpressionsPage() {
                     </Card>
                   ))}
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Self-Check Checklist */}
+          <section className="py-8 sm:py-12">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-blue-500/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20">
+                  <CardContent className="pt-6 pb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                        <CheckSquare className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-3">Quick Check: Are You Ready for Examples?</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Before moving on, make sure you understand these key concepts:
+                        </p>
+                        <div className="space-y-3">
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" checked={checklist.understand} onChange={(e) => setChecklist({...checklist, understand: e.target.checked})} className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary" />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">I understand what polynomials are and how to identify their parts</span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" checked={checklist.rules} onChange={(e) => setChecklist({...checklist, rules: e.target.checked})} className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary" />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">I know how to add, subtract, and simplify polynomial expressions</span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" checked={checklist.ready} onChange={(e) => setChecklist({...checklist, ready: e.target.checked})} className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary" />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">I'm ready to see how these rules work in practice</span>
+                          </label>
+                        </div>
+                        {checklist.understand && checklist.rules && checklist.ready && (
+                          <div className="mt-4 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+                            <p className="text-sm text-green-700 dark:text-green-400 font-medium">✓ Great! You're ready to see worked examples and practice problems.</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </section>
