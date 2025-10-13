@@ -39,6 +39,23 @@ export default function WordListsPage() {
     }
   }
 
+  // Highlight the target word in example sentences
+  const highlightWord = (text: string, targetWord: string) => {
+    const regex = new RegExp(`\\b(${targetWord})\\b`, 'gi')
+    const parts = text.split(regex)
+
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === targetWord.toLowerCase()) {
+        return (
+          <span key={index} className="font-bold text-chart-5 bg-chart-5/10 px-1 rounded">
+            {part}
+          </span>
+        )
+      }
+      return part
+    })
+  }
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -150,7 +167,7 @@ export default function WordListsPage() {
                           <div className="space-y-2">
                             {word.examples.map((example, idx) => (
                               <p key={idx} className="text-sm text-muted-foreground italic pl-4 border-l-2 border-chart-5 leading-relaxed">
-                                "{example}"
+                                "{highlightWord(example, word.word)}"
                               </p>
                             ))}
                           </div>
