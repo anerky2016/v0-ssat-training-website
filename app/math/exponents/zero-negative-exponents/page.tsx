@@ -4,7 +4,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Lightbulb, Target, BookOpen } from "lucide-react"
+import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import exponentsData from "@/data/exponents-zero-negative.json"
@@ -16,6 +16,14 @@ export default function ZeroNegativeExponentsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
   const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
   const [mounted, setMounted] = useState(false)
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, boolean>>({})
+
+  const mathJaxConfig = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -34,12 +42,16 @@ export default function ZeroNegativeExponentsPage() {
     })
   }
 
+  const toggleQuizAnswer = (id: string) => {
+    setQuizAnswers(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
   if (!mounted) {
     return null
   }
 
   return (
-    <MathJaxContext>
+    <MathJaxContext config={mathJaxConfig}>
       <div className="min-h-screen">
         <Header />
         <main>
@@ -54,10 +66,38 @@ export default function ZeroNegativeExponentsPage() {
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
                   {exponentsData.title}
                 </h1>
-                <p className="text-lg text-muted-foreground mb-6">
+                <p className="text-lg text-muted-foreground mb-4">
                   <strong>Audience:</strong> {exponentsData.audience}
                 </p>
+                <p className="text-base text-muted-foreground mb-6">
+                  {exponentsData.summary}
+                </p>
                 <CompleteStudyButton topicTitle={exponentsData.title} />
+              </div>
+            </div>
+          </section>
+
+          {/* Kid-Friendly Explainer */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-chart-2" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Negative Exponents</h2>
+                </div>
+                <div className="grid gap-4">
+                  {exponentsData.kid_friendly_explainer.map((explanation, index) => (
+                    <Card key={index} className="border-chart-2/20">
+                      <CardContent className="pt-6">
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          <MathJax>{explanation}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -91,8 +131,43 @@ export default function ZeroNegativeExponentsPage() {
             </div>
           </section>
 
-          {/* Step-by-Step Examples */}
+          {/* Common Pitfalls */}
           <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                    <AlertTriangle className="h-6 w-6 text-orange-500" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Common Pitfalls</h2>
+                </div>
+                <div className="grid gap-6">
+                  {exponentsData.common_pitfalls.map((pitfall, index) => (
+                    <Card key={index} className="border-orange-500/20">
+                      <CardHeader>
+                        <CardTitle className="text-lg text-orange-600 dark:text-orange-400">{pitfall.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4 overflow-x-auto">
+                            <p className="text-xs font-semibold text-red-600 dark:text-red-400 mb-2">❌ Wrong:</p>
+                            <MathJax>{"\\[" + pitfall.bad_latex + "\\]"}</MathJax>
+                          </div>
+                          <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-4 overflow-x-auto">
+                            <p className="text-xs font-semibold text-green-600 dark:text-green-400 mb-2">✓ Correct:</p>
+                            <MathJax>{"\\[" + pitfall.fix_latex + "\\]"}</MathJax>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Step-by-Step Examples */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -117,11 +192,12 @@ export default function ZeroNegativeExponentsPage() {
                             {example.walkthrough.map((step, idx) => (
                               <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
                                 <span className="font-semibold text-primary">{idx + 1}.</span>
-                                <span>{step}</span>
+                                <span><MathJax>{step}</MathJax></span>
                               </li>
                             ))}
                           </ol>
                           <div className="bg-chart-4/10 rounded-lg p-4 overflow-x-auto">
+                            <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
                             <MathJax>{"\\[" + example.answer_latex + "\\]"}</MathJax>
                           </div>
                         </div>
@@ -129,6 +205,46 @@ export default function ZeroNegativeExponentsPage() {
                     </Card>
                   ))}
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Mini Quiz */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-purple-500/20 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20">
+                  <CardHeader>
+                    <CardTitle className="text-xl">Quick Check: {exponentsData.mini_quiz.prompt}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4 mb-6">
+                      {exponentsData.mini_quiz.items.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between p-4 bg-white/50 dark:bg-black/20 rounded-lg">
+                          <div className="flex items-center gap-4">
+                            <input
+                              type="checkbox"
+                              id={item.id}
+                              checked={quizAnswers[item.id] || false}
+                              onChange={() => toggleQuizAnswer(item.id)}
+                              className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <label htmlFor={item.id} className="text-base cursor-pointer">
+                              <MathJax>{item.latex}</MathJax>
+                            </label>
+                          </div>
+                          <span className="text-sm text-muted-foreground">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                      <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-2">💡 Explanation:</p>
+                      <p className="text-sm text-blue-600 dark:text-blue-300">
+                        <MathJax>{exponentsData.mini_quiz.explanation}</MathJax>
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </section>
@@ -149,7 +265,7 @@ export default function ZeroNegativeExponentsPage() {
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-3">
                           <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-muted-foreground">{note}</p>
+                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
                         </div>
                       </CardContent>
                     </Card>
@@ -165,7 +281,7 @@ export default function ZeroNegativeExponentsPage() {
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
                 <p className="text-muted-foreground mb-6">
-                  Master zero and negative exponents with practice problems at different difficulty levels.
+                  Master negative exponents with practice problems at different difficulty levels.
                 </p>
 
                 {/* Difficulty Selector and Print Button */}
@@ -211,11 +327,6 @@ export default function ZeroNegativeExponentsPage() {
                                 <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
                               </div>
                             </div>
-                            {item.hint && (
-                              <CardDescription className="text-sm text-muted-foreground italic">
-                                💡 <MathJax inline>{item.hint.replace(/([xy]\^[{]?-?\d+[}]?)/g, '\\($1\\)')}</MathJax>
-                              </CardDescription>
-                            )}
                           </CardHeader>
                           <CardContent>
                             <div className="flex flex-wrap gap-2">

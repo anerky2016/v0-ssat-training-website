@@ -1,197 +1,235 @@
 {
-  "title": "Zero and Negative Exponents",
-  "audience": "Ages 10–13",
-  "topic_id": "exponents_zero_negative_v1",
+  "sectionId": "neg-exp-negative-bases",
+  "title": "Negative Exponents and Negative Bases",
+  "audience": "Ages 11–13",
+  "summary": "A negative exponent means 'flip' to the denominator (take a reciprocal) and then make the exponent positive. Parentheses decide whether the minus sign is part of the base or just out front.",
   "kid_friendly_explainer": [
-    "An exponent tells us how many times to multiply a number by itself. But what happens when the exponent is zero or negative?",
-    "A zero exponent means the value becomes 1 — as long as the base isn't zero.",
-    "A negative exponent doesn't mean the number is negative. It means the base is on the wrong side of the fraction line, so we FLIP it!",
-    "Example: \\(x^{-2}\\) means the same as \\(\\frac{1}{x^2}\\)."
+    "A negative exponent doesn't make a number negative — it means FLIP! Move the base to the other side of the fraction bar and drop the minus.",
+    "For example, $x^{-3}$ means \"flip $x$ to the bottom and cube it,\" giving you $\\dfrac{1}{x^{3}}$.",
+    "If you have a fraction with a negative exponent like $\\left(\\dfrac{a}{b}\\right)^{-n}$, just flip the fraction to $\\left(\\dfrac{b}{a}\\right)^{n}$ and make the power positive.",
+    "Parentheses are super important! $(-5)^{-2}$ means the base is negative five, but $-5^{-2}$ means only the 5 has the exponent — the minus stays out front."
   ],
   "core_rules": [
     {
-      "name": "Zero Exponent Rule",
-      "plain_english": "Any nonzero number raised to the power of 0 equals 1.",
-      "latex": "x^0 = 1, \\quad x \\neq 0"
+      "name": "What does a negative exponent mean?",
+      "plain_english": "Think of the little minus as a 'flip' switch: move the base to the other side of the fraction bar and drop the minus on the exponent.",
+      "latex": "x^{-n}=\\dfrac{1}{x^{\\,n}}\\quad (x\\neq 0,\\; n>0)"
     },
     {
-      "name": "Negative Exponent Rule",
-      "plain_english": "A negative exponent means 'flip it' — move the base across the fraction line and make the exponent positive.",
-      "latex": "x^{-a} = \\frac{1}{x^a}"
+      "name": "Fractions with negative exponents",
+      "plain_english": "Flip the fraction and make the power positive.",
+      "latex": "\\left(\\dfrac{a}{b}\\right)^{-n}=\\left(\\dfrac{b}{a}\\right)^{n}=\\dfrac{b^{\\,n}}{a^{\\,n}}\\quad (a,b\\neq 0)"
     },
     {
-      "name": "Fraction with Negative Exponent",
-      "plain_english": "If a fraction has a negative exponent, flip the fraction before applying the exponent.",
-      "latex": "\\left(\\frac{a}{b}\\right)^{-n} = \\left(\\frac{b}{a}\\right)^n"
+      "name": "Parentheses matter!",
+      "plain_english": "If the minus is INSIDE parentheses, it belongs to the base. If it's outside, it's just a separate negative sign.",
+      "latex": "-5^{-2}=-(5^{-2})=-\\dfrac{1}{25}\\qquad (-5)^{-2}=\\dfrac{1}{(-5)^2}=\\dfrac{1}{25}"
+    },
+    {
+      "name": "Handy exponent rules (still true with negatives)",
+      "plain_english": "Same-base multiply: add exponents; same-base divide: subtract; power of a power: multiply exponents.",
+      "latex": "x^{a}\\cdot x^{b}=x^{a+b}\\qquad \\dfrac{x^{a}}{x^{b}}=x^{a-b}\\qquad (x^{a})^{b}=x^{ab}"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "title": "Forgetting to flip",
+      "bad_latex": "x^{-3}=x^{3}\\;\\text{(wrong)}",
+      "fix_latex": "x^{-3}=\\dfrac{1}{x^{3}}\\;\\text{(right)}"
+    },
+    {
+      "title": "Missing parentheses",
+      "bad_latex": "-5^{-2}=\\dfrac{1}{25}\\;\\text{(wrong)}",
+      "fix_latex": "-5^{-2}=-\\dfrac{1}{25},\\quad (-5)^{-2}=\\dfrac{1}{25}"
+    },
+    {
+      "title": "Only flipping part of a product",
+      "bad_latex": "(3x)^{-2}=\\dfrac{1}{3}x^{-2}\\;\\text{(wrong)}",
+      "fix_latex": "(3x)^{-2}=\\dfrac{1}{(3x)^{2}}=\\dfrac{1}{9x^{2}}"
     }
   ],
   "step_by_step_examples": [
     {
       "id": "ex1",
-      "problem_latex": "\\left(\\frac{2}{3}\\right)^{-2}",
+      "problem_latex": "\\left(\\dfrac{5a}{6c}\\right)^{-2}",
       "walkthrough": [
-        "Step 1: A negative exponent means 'flip' the fraction: (3/2)^2.",
-        "Step 2: Now square both numerator and denominator: 3^2 / 2^2.",
-        "Step 3: Simplify: 9 / 4."
+        "$\\left(\\dfrac{5a}{6c}\\right)^{-2}=\\left(\\dfrac{6c}{5a}\\right)^{2}$ — Flip the fraction and make the exponent positive",
+        "$=\\dfrac{(6c)^2}{(5a)^2}=\\dfrac{36c^{2}}{25a^{2}}$ — Square both numerator and denominator"
       ],
-      "answer_latex": "\\frac{9}{4}"
+      "answer_latex": "\\dfrac{36c^{2}}{25a^{2}}"
     },
     {
       "id": "ex2",
-      "problem_latex": "\\left(\\frac{4}{5}\\right)^{-3}",
+      "problem_latex": "\\left(\\dfrac{2x}{3yz}\\right)^{-3}",
       "walkthrough": [
-        "Step 1: Flip the fraction: (5/4)^3.",
-        "Step 2: Cube top and bottom: 5^3 / 4^3.",
-        "Step 3: Simplify: 125 / 64."
+        "$\\left(\\dfrac{2x}{3yz}\\right)^{-3}=\\left(\\dfrac{3yz}{2x}\\right)^{3}$ — Flip the fraction",
+        "$=\\dfrac{(3yz)^3}{(2x)^3}=\\dfrac{27y^{3}z^{3}}{8x^{3}}$ — Cube everything"
       ],
-      "answer_latex": "\\frac{125}{64}"
+      "answer_latex": "\\dfrac{27y^{3}z^{3}}{8x^{3}}"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "(-2)^{-3}",
+      "walkthrough": [
+        "$(-2)^{-3}=\\dfrac{1}{(-2)^{3}}=\\dfrac{1}{-8}=-\\dfrac{1}{8}$ — Flip and cube the negative base"
+      ],
+      "answer_latex": "-\\dfrac{1}{8}"
     }
   ],
+  "mini_quiz": {
+    "prompt": "Which are equal? Choose all that match.",
+    "items": [
+      { "id": "Q1", "latex": "(-3)^{-2}", "value": "1/9" },
+      { "id": "Q2", "latex": "-3^{-2}", "value": "-1/9" },
+      { "id": "Q3", "latex": "(3)^{-2}", "value": "1/9" }
+    ],
+    "explanation": "Q1 and Q3 both equal $\\tfrac{1}{9}$. Q2 equals $-\\tfrac{1}{9}$ because the minus is not grouped with the base."
+  },
   "exercises": {
     "easy": {
-      "directions": "Use the zero and negative exponent rules to simplify each expression.",
+      "directions": "Simplify each expression. Write answers with positive exponents only. Use parentheses carefully.",
       "items": [
         {
-          "id": "e1",
-          "question_latex": "x^0",
-          "hint": "Anything to the zero power equals 1.",
-          "answer_latex": "1"
+          "id": "E1",
+          "question_latex": "x^{-2}",
+          "answer_latex": "\\dfrac{1}{x^{2}}"
         },
         {
-          "id": "e2",
-          "question_latex": "5^{-1}",
-          "hint": "Flip 5 over the fraction line.",
-          "answer_latex": "\\frac{1}{5}"
+          "id": "E2",
+          "question_latex": "\\left(\\dfrac{a}{b}\\right)^{-1}",
+          "answer_latex": "\\dfrac{b}{a}"
         },
         {
-          "id": "e3",
-          "question_latex": "2^{-3}",
-          "hint": "Flip 2, then cube it.",
-          "answer_latex": "\\frac{1}{8}"
+          "id": "E3",
+          "question_latex": "(-3)^{-2}",
+          "answer_latex": "\\dfrac{1}{9}"
         },
         {
-          "id": "e4",
-          "question_latex": "\\left(\\frac{3}{4}\\right)^{-1}",
-          "hint": "Flip the fraction once.",
-          "answer_latex": "\\frac{4}{3}"
+          "id": "E4",
+          "question_latex": "-2^{-3}",
+          "answer_latex": "-\\dfrac{1}{8}"
         },
         {
-          "id": "e5",
-          "question_latex": "a^{-2}",
-          "hint": "Flip a and square it.",
-          "answer_latex": "\\frac{1}{a^2}"
+          "id": "E5",
+          "question_latex": "(5y)^{-1}",
+          "answer_latex": "\\dfrac{1}{5y}"
+        },
+        {
+          "id": "E6",
+          "question_latex": "\\dfrac{x^{-1}}{x^{2}}",
+          "answer_latex": "x^{-3}=\\dfrac{1}{x^{3}}"
         }
       ]
     },
     "medium": {
-      "directions": "Simplify negative exponents in both numbers and variables.",
+      "directions": "Use exponent rules to simplify. Show your work with positive exponents.",
       "items": [
         {
-          "id": "m1",
-          "question_latex": "\\frac{1}{x^{-3}}",
-          "hint": "A negative exponent in the denominator moves the base up.",
-          "answer_latex": "x^3"
+          "id": "M1",
+          "question_latex": "\\left(\\dfrac{2m}{5n}\\right)^{-2}",
+          "answer_latex": "\\dfrac{25n^{2}}{4m^{2}}"
         },
         {
-          "id": "m2",
-          "question_latex": "3x^{-2}",
-          "hint": "Only x has a negative exponent, so move x to the bottom.",
-          "answer_latex": "\\frac{3}{x^2}"
+          "id": "M2",
+          "question_latex": "\\dfrac{a^{-3}b}{a^{-1}}",
+          "answer_latex": "a^{-2}b=\\dfrac{b}{a^{2}}"
         },
         {
-          "id": "m3",
-          "question_latex": "(ab)^{-1}",
-          "hint": "Flip both a and b together.",
-          "answer_latex": "\\frac{1}{ab}"
+          "id": "M3",
+          "question_latex": "(x^{-2})^{3}",
+          "answer_latex": "x^{-6}=\\dfrac{1}{x^{6}}"
         },
         {
-          "id": "m4",
-          "question_latex": "\\left(\\frac{2}{x}\\right)^{-2}",
-          "hint": "Flip the fraction, then square it.",
-          "answer_latex": "\\frac{x^2}{4}"
+          "id": "M4",
+          "question_latex": "(-4x)^{-2}",
+          "answer_latex": "\\dfrac{1}{16x^{2}}"
         },
         {
-          "id": "m5",
-          "question_latex": "(x^{-1}y^{-2})^{-1}",
-          "hint": "Multiply exponents by −1 and simplify.",
-          "answer_latex": "xy^2"
+          "id": "M5",
+          "question_latex": "\\dfrac{3x^{-1}y^{-2}}{\\,x^{-3}}",
+          "answer_latex": "3x^{2}y^{-2}=\\dfrac{3x^{2}}{y^{2}}"
+        },
+        {
+          "id": "M6",
+          "question_latex": "\\left(\\dfrac{a^{2}b^{-1}}{c^{-2}}\\right)^{-1}",
+          "answer_latex": "\\dfrac{c^{-2}}{a^{2}b^{-1}}=\\dfrac{b}{a^{2}c^{2}}"
         }
       ]
     },
     "challenge": {
-      "directions": "Use both zero and negative exponent rules together.",
+      "directions": "Simplify complex expressions with multiple negative exponents. Write all final answers with positive exponents only.",
       "items": [
         {
-          "id": "c1",
-          "question_latex": "x^0y^{-3}",
-          "hint": "x^0 = 1. Then simplify y^{-3}.",
-          "answer_latex": "\\frac{1}{y^3}"
+          "id": "C1",
+          "question_latex": "\\left(\\dfrac{3x^{2}}{2y^{-1}}\\right)^{-2}",
+          "answer_latex": "\\left(\\dfrac{2y^{-1}}{3x^{2}}\\right)^{2}=\\dfrac{4y^{-2}}{9x^{4}}=\\dfrac{4}{9x^{4}y^{2}}"
         },
         {
-          "id": "c2",
-          "question_latex": "(2x^{-2})^{-2}",
-          "hint": "Apply exponent −2 to both 2 and x^{-2}.",
-          "answer_latex": "\\frac{x^4}{4}"
+          "id": "C2",
+          "question_latex": "\\dfrac{(-2)^{-3}x^{-2}}{(\\, -2x\\,)^{-1}}",
+          "answer_latex": "\\dfrac{-\\tfrac{1}{8}x^{-2}}{-\\tfrac{1}{2}x^{-1}}=\\dfrac{\\tfrac{1}{8}x^{-2}}{\\tfrac{1}{2}x^{-1}}=\\dfrac{1}{4}x^{-1}=\\dfrac{1}{4x}"
         },
         {
-          "id": "c3",
-          "question_latex": "\\frac{x^{-2}y^3}{x^{-5}y^{-1}}",
-          "hint": "Subtract exponents for each base.",
-          "answer_latex": "x^3y^4"
+          "id": "C3",
+          "question_latex": "(ab^{-1})^{-3}\\cdot a^{-2}b",
+          "answer_latex": "a^{-3}b^{3}\\cdot a^{-2}b=a^{-5}b^{4}=\\dfrac{b^{4}}{a^{5}}"
         },
         {
-          "id": "c4",
-          "question_latex": "\\left(\\frac{a^{-1}}{b^2}\\right)^{-2}",
-          "hint": "Flip and apply exponent 2 to both parts.",
-          "answer_latex": "a^2b^4"
+          "id": "C4",
+          "question_latex": "\\dfrac{(5x^{-1}y)^{-2}}{(xy^{-1})^{-1}}",
+          "answer_latex": "\\dfrac{25^{-1}x^{2}y^{-2}}{x^{-1}y}=\\dfrac{x^{2}y^{-2}}{25x^{-1}y}=\\dfrac{x^{3}}{25y^{3}}"
         },
         {
-          "id": "c5",
-          "question_latex": "\\left(\\frac{3x^{-1}}{2y^2}\\right)^{-2}",
-          "hint": "Flip first, then square each factor.",
-          "answer_latex": "\\frac{4y^4}{9x^2}"
+          "id": "C5",
+          "question_latex": "\\left(\\dfrac{-a^{2}b^{-3}}{2c}\\right)^{-2}",
+          "answer_latex": "\\left(\\dfrac{2c}{-a^{2}b^{-3}}\\right)^{2}=\\dfrac{4c^{2}}{a^{4}b^{-6}}=\\dfrac{4c^{2}b^{6}}{a^{4}}"
+        },
+        {
+          "id": "C6",
+          "question_latex": "-\\;\\big(-5x^{2}\\big)^{-3}",
+          "answer_latex": "-\\;\\dfrac{1}{(-5)^{3}x^{6}}=-\\;\\left(-\\dfrac{1}{125x^{6}}\\right)=\\dfrac{1}{125x^{6}}"
         }
       ]
     },
     "extreme": {
-      "directions": "Combine multiple exponent rules — zero, negative, and power of a power. Simplify step by step.",
+      "directions": "Master-level problems combining all exponent rules. Simplify completely and write with positive exponents only.",
       "items": [
         {
-          "id": "x1",
-          "question_latex": "\\left(\\frac{x^{-2}y^0}{z^{-3}}\\right)^{-2}",
-          "hint": "Remove y^0, flip, and multiply exponents.",
-          "answer_latex": "\\frac{z^6}{x^4}"
+          "id": "X1",
+          "question_latex": "\\left(\\dfrac{2x^{-1}y^{2}}{-3z^{-3}}\\right)^{-3}",
+          "answer_latex": "\\left(\\dfrac{-3z^{-3}}{2x^{-1}y^{2}}\\right)^{3}=\\dfrac{-27z^{-9}}{8x^{-3}y^{6}}=-\\dfrac{27x^{3}}{8y^{6}z^{9}}"
         },
         {
-          "id": "x2",
-          "question_latex": "(a^{-3}b^2c^{-1})^{-2}",
-          "hint": "Multiply all exponents by −2.",
-          "answer_latex": "a^6b^{-4}c^2=\\frac{a^6c^2}{b^4}"
+          "id": "X2",
+          "question_latex": "\\dfrac{(a^{-1}b^{2})^{-2}\\,(ab^{-1})^{3}}{(-a^{2}b)^{-1}}",
+          "answer_latex": "\\dfrac{a^{2}b^{-4}\\cdot a^{3}b^{-3}}{-a^{-2}b^{-1}}=\\dfrac{a^{5}b^{-7}}{-a^{-2}b^{-1}}=-a^{7}b^{-6}=-\\dfrac{a^{7}}{b^{6}}"
         },
         {
-          "id": "x3",
-          "question_latex": "\\frac{(2x^{-3})^{-2}}{(x^2y^{-1})^{-3}}",
-          "hint": "Simplify each group first, then divide.",
-          "answer_latex": "\\frac{x^2y^3}{4}"
+          "id": "X3",
+          "question_latex": "\\left(\\dfrac{-4x^{3}}{y^{-2}}\\right)^{-2}\\cdot\\left(\\dfrac{xy}{-2}\\right)^{-1}",
+          "answer_latex": "\\left(\\dfrac{y^{-2}}{-4x^{3}}\\right)^{2}\\cdot\\left(\\dfrac{-2}{xy}\\right)=\\dfrac{y^{-4}}{16x^{6}}\\cdot\\left(\\dfrac{-2}{xy}\\right)=-\\dfrac{2}{16x^{7}y^{5}}=-\\dfrac{1}{8x^{7}y^{5}}"
         },
         {
-          "id": "x4",
-          "question_latex": "\\left(\\frac{3a^{-2}b}{2c^{-3}}\\right)^{-2}",
-          "hint": "Flip, then square numerator and denominator.",
-          "answer_latex": "\\frac{4c^6}{9a^4b^2}"
+          "id": "X4",
+          "question_latex": "\\dfrac{(-5)^{-2}-(-5)^{-3}}{\\;5^{-2}\\;}",
+          "answer_latex": "\\dfrac{\\tfrac{1}{25}-\\left(-\\tfrac{1}{125}\\right)}{\\tfrac{1}{25}}=\\dfrac{\\tfrac{1}{25}+\\tfrac{1}{125}}{\\tfrac{1}{25}}=\\dfrac{\\tfrac{6}{125}}{\\tfrac{5}{125}}=\\dfrac{6}{5}"
         },
         {
-          "id": "x5",
-          "question_latex": "\\left(\\frac{(x^{-1}y^2)^{-2}}{(xy^{-3})^{-1}}\\right)^{-1}",
-          "hint": "Simplify inner parentheses first, then the outer exponent.",
-          "answer_latex": "\\frac{y^{10}}{x^3}"
+          "id": "X5",
+          "question_latex": "\\big(2^{-1}x^{-1}y\\big)^{-2}\\;\\big(4x^{2}y^{-1}\\big)^{-1}",
+          "answer_latex": "\\big(2x y^{-1}\\big)^{2}\\cdot\\dfrac{1}{4x^{2}y^{-1}}=\\dfrac{4x^{2}}{y^{2}}\\cdot\\dfrac{y}{4x^{2}}=\\dfrac{1}{y}"
+        },
+        {
+          "id": "X6",
+          "question_latex": "\\left(\\dfrac{a^{-1}b}{c^{-2}}\\right)^{-3}\\cdot\\left(\\dfrac{c}{ab^{-1}}\\right)^{-2}",
+          "answer_latex": "\\left(\\dfrac{c^{-2}}{a^{-1}b}\\right)^{3}\\cdot\\left(\\dfrac{ab^{-1}}{c}\\right)^{2}=\\dfrac{c^{-6}}{a^{-3}b^{3}}\\cdot\\dfrac{a^{2}b^{-2}}{c^{2}}=a^{5}b^{-5}c^{-8}=\\dfrac{a^{5}}{b^{5}c^{8}}"
         }
       ]
     }
   },
   "teacher_notes": [
-    "Explain that negative exponents are a 'flip signal' — they tell students to move the base across the fraction line.",
-    "Zero exponents are special — emphasize that only nonzero bases work with this rule.",
-    "Encourage kids to say 'flip and switch the sign of the exponent' aloud to remember the concept."
+    "Have students read expressions out loud: \"negative two EXPONENT means flip,\" and \"minus five to the NEGATIVE second with parentheses.\"",
+    "Use a 'flip card' prop: one side says RECIPROCAL, the other side shows a denominator bar, to reinforce the action of a negative exponent.",
+    "Emphasize that parentheses are critical — practice with pairs like $-3^{-2}$ vs. $(-3)^{-2}$ to show the difference."
   ]
 }
