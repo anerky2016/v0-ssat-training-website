@@ -34,7 +34,13 @@ export default function WordListsPage() {
   // Pagination handlers
   const goToPage = (page: number) => {
     setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Scroll to the word list section
+    const wordListElement = document.getElementById('word-list')
+    if (wordListElement) {
+      wordListElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   const goToPreviousPage = () => {
@@ -132,7 +138,7 @@ export default function WordListsPage() {
                 )}
               </div>
 
-              <div className="space-y-6">
+              <div id="word-list" className="space-y-6">
                 {currentWords.map((word, index) => (
                   <VocabularyWordCard key={startIndex + index} word={word} />
                 ))}
