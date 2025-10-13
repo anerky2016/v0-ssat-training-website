@@ -29,6 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/how-to`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/progress`,
+      lastModified: new Date('2025-01-10'),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/privacy`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -72,9 +84,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/verbal/exercises`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-01-12'),
       changeFrequency: 'daily',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/verbal/tests`,
@@ -87,6 +99,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/vocabulary`,
+      lastModified: new Date('2025-01-12'),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/vocabulary/word-lists`,
+      lastModified: new Date('2025-01-12'),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/vocabulary/flashcards`,
+      lastModified: new Date('2025-01-12'),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/math/fractions`,
