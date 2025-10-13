@@ -47,7 +47,7 @@ export default function WordListsPage() {
     return parts.map((part, index) => {
       if (part.toLowerCase() === targetWord.toLowerCase()) {
         return (
-          <span key={index} className="font-bold text-chart-5 bg-chart-5/10 px-1 rounded">
+          <span key={index} className="font-bold italic">
             {part}
           </span>
         )
