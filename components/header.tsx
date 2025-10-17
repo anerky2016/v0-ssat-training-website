@@ -19,6 +19,7 @@ import {
 import { SignInDialog } from "@/components/sign-in-dialog"
 import { ResumeButton } from "@/components/resume-button"
 import { StudyReminder } from "@/components/study-reminder"
+import { NotesButton } from "@/components/notes-button"
 import { useState } from "react"
 
 export function Header() {
@@ -52,6 +53,12 @@ export function Header() {
             How To
           </Link>
           <Link
+            href="/notes"
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Notes
+          </Link>
+          <Link
             href="/about"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -68,6 +75,7 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <ResumeButton />
           <StudyReminder compact />
+          <NotesButton />
           <ThemeToggle />
 
           {status === "loading" ? (
@@ -144,6 +152,12 @@ export function Header() {
                 >
                   <BookOpen className="h-5 w-5" />
                   How To
+                </Link>
+                <Link
+                  href="/notes"
+                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                >
+                  Notes
                 </Link>
                 <Link
                   href="/about"
