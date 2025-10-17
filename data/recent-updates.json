@@ -1,6 +1,111 @@
 {
   "updates": [
     {
+      "id": "update-008",
+      "date": "2025-01-16",
+      "lesson_path": "/notes",
+      "lesson_title": "Notes & Screenshot Annotation System",
+      "chapter": "Study Features",
+      "update_type": "major_feature",
+      "summary": "Comprehensive note-taking system with screenshot capture and powerful annotation tools including touch/pen support, zoom, and drawing capabilities for enhanced studying",
+      "features": [
+        {
+          "title": "Screenshot Capture & Annotation",
+          "description": "Capture any lesson page and annotate with touch pen, mouse, or finger with full zoom support for precise markups",
+          "examples": [
+            "Capture screenshots of lessons with one click",
+            "Draw, highlight, and mark up screenshots with pen tool",
+            "Zoom 50-300% to annotate small details precisely",
+            "Touch pen support for tablets and 2-in-1 devices",
+            "Eraser tool to fix mistakes while annotating"
+          ]
+        },
+        {
+          "title": "Advanced Drawing Tools",
+          "description": "Professional annotation toolkit with customizable pen colors, adjustable sizes, and smooth canvas rendering",
+          "examples": [
+            "Color picker with any color selection",
+            "Pen size adjustment from 1-10 pixels",
+            "Smooth stroke rendering for natural writing",
+            "Undo functionality to revert changes",
+            "Clear all annotations to start fresh"
+          ]
+        },
+        {
+          "title": "Notes Management",
+          "description": "Organize notes with titles, text content, and screenshots with localStorage persistence",
+          "examples": [
+            "Create notes with title and text content",
+            "Attach annotated screenshots to notes",
+            "Edit existing notes and update screenshots",
+            "Delete notes when no longer needed",
+            "All notes saved locally in browser storage"
+          ]
+        },
+        {
+          "title": "Dual Access Points",
+          "description": "Access notes from both dedicated page and convenient sidebar for seamless workflow",
+          "examples": [
+            "Dedicated /notes page for full note management",
+            "Sidebar dialog accessible from any page via header button",
+            "Quick note creation while studying lessons",
+            "View all notes in one organized location"
+          ]
+        },
+        {
+          "title": "Screenshot Zoom Viewer",
+          "description": "Interactive zoom viewer for reviewing screenshots with pan and zoom controls",
+          "examples": [
+            "Click any screenshot to open zoom viewer",
+            "Zoom 50-300% to see fine details",
+            "Pan around zoomed screenshots",
+            "Reset zoom with one click"
+          ]
+        },
+        {
+          "title": "Smart Unsaved Changes Dialog",
+          "description": "Custom confirmation dialog with auto-focus prevents accidental loss of annotations",
+          "examples": [
+            "Warns before closing with unsaved annotations",
+            "OK button auto-focused for quick save",
+            "Cancel returns to annotation mode",
+            "ESC key triggers save confirmation"
+          ]
+        },
+        {
+          "title": "Lesson Path Tracking",
+          "description": "Each note links back to the lesson where it was created for easy reference",
+          "examples": [
+            "Notes tagged with lesson path automatically",
+            "Click lesson link to return to specific page",
+            "Timestamp shows when note was created/updated",
+            "Filter notes by lesson (future enhancement)"
+          ]
+        },
+        {
+          "title": "Mobile & Touch Optimized",
+          "description": "Full touch support with proper event handling and mobile-friendly interface",
+          "examples": [
+            "Touch pen support for iPad and Surface devices",
+            "Finger drawing on touchscreens",
+            "Responsive layout for all screen sizes",
+            "Proper pointer events to prevent page interference"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Screenshot capture allows students to save key lesson moments for later review",
+        "Annotation tools enable active learning through visual markup and highlighting",
+        "Zoom capability ensures precision when annotating complex diagrams or formulas",
+        "Notes organization helps build personalized study materials",
+        "Lesson path linking connects notes to original context for better retention",
+        "Touch pen support accommodates different learning styles and devices",
+        "Local storage ensures privacy - notes stay on student's device",
+        "Sidebar access enables note-taking without interrupting lesson flow"
+      ],
+      "tags": ["notes", "screenshots", "annotation", "drawing", "touch-pen", "zoom", "study-tools", "organization", "localStorage", "canvas"]
+    },
+    {
       "id": "update-007",
       "date": "2025-01-12",
       "lesson_path": "/verbal/exercises",
@@ -515,7 +620,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-01-12",
-    "total_updates": 7
+    "last_updated": "2025-01-16",
+    "total_updates": 8
   }
 }
