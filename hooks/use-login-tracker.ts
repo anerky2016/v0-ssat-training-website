@@ -16,13 +16,19 @@ export function useLoginTracker() {
       // Get user agent
       const userAgent = typeof window !== 'undefined' ? window.navigator.userAgent : undefined
 
+      // Determine provider from session (Google, credentials, etc.)
+      const provider = (session as any)?.provider || 'credentials'
+      const providerId = session.user.id || session.user.email || 'unknown'
+
       // Log the login
       logUserLogin({
-        user_id: session.user.email || 'unknown', // Using email as user_id since we don't have a unique ID
+        user_id: session.user.email || 'unknown',
         email: session.user.email || '',
         name: session.user.name || '',
         image: session.user.image || undefined,
         user_agent: userAgent,
+        provider,
+        provider_id: providerId,
       })
     }
   }, [session, status])

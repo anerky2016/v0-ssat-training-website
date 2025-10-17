@@ -2,7 +2,6 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-provider"
 import { GoogleAnalytics } from "@/components/google-analytics"
@@ -11,6 +10,7 @@ import { StudyHistoryProvider } from "@/components/study-history-provider"
 import { FeedbackButton } from "@/components/feedback-button"
 import { StructuredData } from "@/components/structured-data"
 import { LoginTracker } from "@/components/login-tracker"
+import { Toaster } from "sonner"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -118,9 +118,9 @@ export default function RootLayout({
             <BookmarkProvider>
               <StudyHistoryProvider>
                 <LoginTracker />
+                <Toaster position="top-center" richColors />
                 <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
                 <FeedbackButton />
-                <Analytics />
               </StudyHistoryProvider>
             </BookmarkProvider>
           </ThemeProvider>

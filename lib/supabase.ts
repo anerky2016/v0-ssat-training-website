@@ -17,6 +17,8 @@ export interface UserLoginLog {
   login_at: string
   user_agent?: string
   ip_address?: string
+  provider?: string
+  provider_id?: string
 }
 
 export async function logUserLogin(loginData: Omit<UserLoginLog, 'id' | 'login_at'>) {
