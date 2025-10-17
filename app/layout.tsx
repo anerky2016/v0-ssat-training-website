@@ -10,6 +10,7 @@ import { BookmarkProvider } from "@/components/bookmark-provider"
 import { StudyHistoryProvider } from "@/components/study-history-provider"
 import { FeedbackButton } from "@/components/feedback-button"
 import { StructuredData } from "@/components/structured-data"
+import { LoginTracker } from "@/components/login-tracker"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -116,6 +117,7 @@ export default function RootLayout({
           >
             <BookmarkProvider>
               <StudyHistoryProvider>
+                <LoginTracker />
                 <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
                 <FeedbackButton />
                 <Analytics />
