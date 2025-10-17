@@ -1,4 +1,12 @@
-// Client-side study history functionality using localStorage
+// Client-side study history functionality using Supabase
+import { auth } from './firebase'
+import {
+  saveStudySession as saveStudySessionToSupabase,
+  getUserStudySessions,
+  saveLessonCompletion as saveLessonCompletionToSupabase,
+  getUserLessonCompletions,
+  deleteLessonCompletion as deleteLessonCompletionFromSupabase,
+} from './supabase'
 
 export interface StudySession {
   topicPath: string // e.g., "/math/exponents/multiplication-division-properties"
@@ -8,6 +16,11 @@ export interface StudySession {
   duration: number // Time spent in seconds
   problemsViewed: number // Number of problems where answers were revealed
   difficulty?: string // e.g., "easy", "medium", "hard"
+}
+
+// Helper to get current user ID
+function getCurrentUserId(): string | null {
+  return auth?.currentUser?.uid || null
 }
 
 export interface StudyStats {
@@ -22,43 +35,61 @@ export interface StudyStats {
 const STUDY_HISTORY_KEY = 'ssat-study-history'
 const MAX_SESSIONS = 500 // Keep last 500 sessions
 
-// Get all study sessions
-export function getStudyHistory(): StudySession[] {
+// Get all study sessions from Supabase
+export async function getStudyHistory(): Promise<StudySession[]> {
   if (typeof window === 'undefined') return []
 
-  try {
-    const stored = localStorage.getItem(STUDY_HISTORY_KEY)
-    if (!stored) return []
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in')
+    return []
+  }
 
-    return JSON.parse(stored) as StudySession[]
+  try {
+    const sessions = await getUserStudySessions(userId, MAX_SESSIONS)
+    return sessions.map(s => ({
+      topicPath: s.topic_path,
+      topicTitle: s.topic_title,
+      category: s.category,
+      timestamp: new Date(s.timestamp).getTime(),
+      duration: s.duration,
+      problemsViewed: s.problems_viewed,
+      difficulty: s.difficulty,
+    }))
   } catch (error) {
     console.error('Failed to retrieve study history:', error)
     return []
   }
 }
 
-// Add a new study session
-export function addStudySession(session: StudySession) {
+// Add a new study session to Supabase
+export async function addStudySession(session: StudySession) {
   if (typeof window === 'undefined') return
 
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot save study session')
+    return
+  }
+
   try {
-    const history = getStudyHistory()
-
-    // Add new session at the beginning
-    history.unshift(session)
-
-    // Keep only the most recent sessions
-    const trimmedHistory = history.slice(0, MAX_SESSIONS)
-
-    localStorage.setItem(STUDY_HISTORY_KEY, JSON.stringify(trimmedHistory))
+    await saveStudySessionToSupabase(userId, {
+      topic_path: session.topicPath,
+      topic_title: session.topicTitle,
+      category: session.category,
+      timestamp: new Date(session.timestamp).toISOString(),
+      duration: session.duration,
+      problems_viewed: session.problemsViewed,
+      difficulty: session.difficulty,
+    })
   } catch (error) {
     console.error('Failed to save study session:', error)
   }
 }
 
 // Get study statistics
-export function getStudyStats(): StudyStats {
-  const history = getStudyHistory()
+export async function getStudyStats(): Promise<StudyStats> {
+  const history = await getStudyHistory()
 
   if (history.length === 0) {
     return {
@@ -94,8 +125,8 @@ export function getStudyStats(): StudyStats {
 }
 
 // Get study statistics for a specific category
-export function getStudyStatsByCategory(category: string): StudyStats {
-  const history = getStudyHistory().filter(s => s.category === category)
+export async function getStudyStatsByCategory(category: string): Promise<StudyStats> {
+  const history = (await getStudyHistory()).filter(s => s.category === category)
 
   if (history.length === 0) {
     return {
@@ -172,22 +203,22 @@ function calculateStreak(history: StudySession[]): number {
 }
 
 // Get sessions for a specific date range
-export function getSessionsByDateRange(startDate: number, endDate: number): StudySession[] {
-  const history = getStudyHistory()
+export async function getSessionsByDateRange(startDate: number, endDate: number): Promise<StudySession[]> {
+  const history = await getStudyHistory()
   return history.filter(
     session => session.timestamp >= startDate && session.timestamp <= endDate
   )
 }
 
 // Get sessions for a specific topic
-export function getSessionsByTopic(topicPath: string): StudySession[] {
-  const history = getStudyHistory()
+export async function getSessionsByTopic(topicPath: string): Promise<StudySession[]> {
+  const history = await getStudyHistory()
   return history.filter(session => session.topicPath === topicPath)
 }
 
 // Get sessions grouped by day (last N days)
-export function getSessionsByDay(days: number = 7): Map<string, StudySession[]> {
-  const history = getStudyHistory()
+export async function getSessionsByDay(days: number = 7): Promise<Map<string, StudySession[]>> {
+  const history = await getStudyHistory()
   const now = Date.now()
   const daysAgo = now - days * 24 * 60 * 60 * 1000
 
@@ -209,8 +240,8 @@ export function getSessionsByDay(days: number = 7): Map<string, StudySession[]> 
 }
 
 // Get most studied topics
-export function getMostStudiedTopics(limit: number = 5): Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }> {
-  const history = getStudyHistory()
+export async function getMostStudiedTopics(limit: number = 5): Promise<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>> {
+  const history = await getStudyHistory()
   const topicMap = new Map<string, { title: string; count: number; totalTime: number }>()
 
   history.forEach(session => {
@@ -239,8 +270,8 @@ export function getMostStudiedTopics(limit: number = 5): Array<{ topicPath: stri
 }
 
 // Get most studied topics for a specific category
-export function getMostStudiedTopicsByCategory(category: string, limit: number = 5): Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }> {
-  const history = getStudyHistory().filter(s => s.category === category)
+export async function getMostStudiedTopicsByCategory(category: string, limit: number = 5): Promise<Array<{ topicPath: string; topicTitle: string; count: number; totalTime: number }>> {
+  const history = (await getStudyHistory()).filter(s => s.category === category)
   const topicMap = new Map<string, { title: string; count: number; totalTime: number }>()
 
   history.forEach(session => {
@@ -268,20 +299,21 @@ export function getMostStudiedTopicsByCategory(category: string, limit: number =
     .slice(0, limit)
 }
 
-// Clear all study history
+// Clear all study history (localStorage only - Supabase data persists)
 export function clearStudyHistory() {
   if (typeof window === 'undefined') return
 
   try {
     localStorage.removeItem(STUDY_HISTORY_KEY)
+    localStorage.removeItem(LESSON_COMPLETIONS_KEY)
   } catch (error) {
     console.error('Failed to clear study history:', error)
   }
 }
 
 // Export study history as JSON (for download/backup)
-export function exportStudyHistory(): string {
-  const history = getStudyHistory()
+export async function exportStudyHistory(): Promise<string> {
+  const history = await getStudyHistory()
   return JSON.stringify(history, null, 2)
 }
 
@@ -321,15 +353,25 @@ function calculateNextReviewDate(completionTimestamp: number, reviewCount: numbe
   return completionTimestamp + (daysUntilReview * 24 * 60 * 60 * 1000)
 }
 
-// Get all lesson completions
-export function getLessonCompletions(): LessonCompletion[] {
+// Get all lesson completions from Supabase
+export async function getLessonCompletions(): Promise<LessonCompletion[]> {
   if (typeof window === 'undefined') return []
 
-  try {
-    const stored = localStorage.getItem(LESSON_COMPLETIONS_KEY)
-    if (!stored) return []
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in')
+    return []
+  }
 
-    return JSON.parse(stored) as LessonCompletion[]
+  try {
+    const completions = await getUserLessonCompletions(userId)
+    return completions.map(c => ({
+      topicPath: c.topic_path,
+      topicTitle: c.topic_title,
+      completionTimestamp: new Date(c.completion_timestamp).getTime(),
+      reviewCount: c.review_count,
+      nextReviewDate: new Date(c.next_review_date).getTime(),
+    }))
   } catch (error) {
     console.error('Failed to retrieve lesson completions:', error)
     return []
@@ -337,56 +379,69 @@ export function getLessonCompletions(): LessonCompletion[] {
 }
 
 // Mark a lesson as completed (or reviewed)
-export function markLessonComplete(topicPath: string, topicTitle: string) {
+export async function markLessonComplete(topicPath: string, topicTitle: string) {
   if (typeof window === 'undefined') return
 
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot save lesson completion')
+    return
+  }
+
   try {
-    const completions = getLessonCompletions()
-    const existingIndex = completions.findIndex(c => c.topicPath === topicPath)
+    const completions = await getLessonCompletions()
+    const existing = completions.find(c => c.topicPath === topicPath)
     const now = Date.now()
 
-    if (existingIndex >= 0) {
+    if (existing) {
       // This is a review - increment review count
-      const existing = completions[existingIndex]
-      completions[existingIndex] = {
-        ...existing,
-        completionTimestamp: now,
-        reviewCount: existing.reviewCount + 1,
-        nextReviewDate: calculateNextReviewDate(now, existing.reviewCount + 1)
-      }
+      const newReviewCount = existing.reviewCount + 1
+      const nextReviewDate = calculateNextReviewDate(now, newReviewCount)
+
+      await saveLessonCompletionToSupabase(userId, {
+        topic_path: topicPath,
+        topic_title: topicTitle,
+        completion_timestamp: new Date(now).toISOString(),
+        review_count: newReviewCount,
+        next_review_date: new Date(nextReviewDate).toISOString(),
+      })
     } else {
       // This is a new completion
-      completions.push({
-        topicPath,
-        topicTitle,
-        completionTimestamp: now,
-        reviewCount: 0,
-        nextReviewDate: calculateNextReviewDate(now, 0)
+      const nextReviewDate = calculateNextReviewDate(now, 0)
+
+      await saveLessonCompletionToSupabase(userId, {
+        topic_path: topicPath,
+        topic_title: topicTitle,
+        completion_timestamp: new Date(now).toISOString(),
+        review_count: 0,
+        next_review_date: new Date(nextReviewDate).toISOString(),
       })
     }
-
-    localStorage.setItem(LESSON_COMPLETIONS_KEY, JSON.stringify(completions))
   } catch (error) {
     console.error('Failed to mark lesson complete:', error)
   }
 }
 
 // Uncomplete a lesson (remove it from completions)
-export function uncompletLesson(topicPath: string) {
+export async function uncompletLesson(topicPath: string) {
   if (typeof window === 'undefined') return
 
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot delete lesson completion')
+    return
+  }
+
   try {
-    const completions = getLessonCompletions()
-    const filtered = completions.filter(c => c.topicPath !== topicPath)
-    localStorage.setItem(LESSON_COMPLETIONS_KEY, JSON.stringify(filtered))
+    await deleteLessonCompletionFromSupabase(userId, topicPath)
   } catch (error) {
     console.error('Failed to uncomplete lesson:', error)
   }
 }
 
 // Get lessons due for review (sorted by urgency)
-export function getLessonsDueForReview(): LessonCompletion[] {
-  const completions = getLessonCompletions()
+export async function getLessonsDueForReview(): Promise<LessonCompletion[]> {
+  const completions = await getLessonCompletions()
   const now = Date.now()
 
   return completions
@@ -395,8 +450,8 @@ export function getLessonsDueForReview(): LessonCompletion[] {
 }
 
 // Get upcoming reviews (sorted by date)
-export function getUpcomingReviews(limit: number = 10): LessonCompletion[] {
-  const completions = getLessonCompletions()
+export async function getUpcomingReviews(limit: number = 10): Promise<LessonCompletion[]> {
+  const completions = await getLessonCompletions()
   const now = Date.now()
 
   return completions
@@ -406,8 +461,8 @@ export function getUpcomingReviews(limit: number = 10): LessonCompletion[] {
 }
 
 // Get completion info for a specific lesson
-export function getLessonCompletion(topicPath: string): LessonCompletion | null {
-  const completions = getLessonCompletions()
+export async function getLessonCompletion(topicPath: string): Promise<LessonCompletion | null> {
+  const completions = await getLessonCompletions()
   return completions.find(c => c.topicPath === topicPath) || null
 }
 

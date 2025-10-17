@@ -6,7 +6,7 @@ import { BookOpen, Menu, LogOut, TrendingUp } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { AcademicCap, BookOpen as BookOpenIcon } from "@/components/ui/icon"
-import { useSession, signOut } from "next-auth/react"
+import { useAuth } from "@/contexts/firebase-auth-context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -23,7 +23,7 @@ import { NotesButton } from "@/components/notes-button"
 import { useState } from "react"
 
 export function Header() {
-  const { data: session, status } = useSession()
+  const { user, loading, signOut: handleSignOut } = useAuth()
   const [showSignInDialog, setShowSignInDialog] = useState(false)
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -78,27 +78,27 @@ export function Header() {
           <NotesButton />
           <ThemeToggle />
 
-          {status === "loading" ? (
+          {loading ? (
             <div className="h-8 w-8 rounded-full bg-muted animate-pulse hidden sm:block" />
-          ) : session ? (
+          ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="hidden sm:flex">
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={session.user?.image || ""} alt={session.user?.name || ""} />
-                    <AvatarFallback>{session.user?.name?.[0] || "U"}</AvatarFallback>
+                    <AvatarImage src={user.photoURL || ""} alt={user.displayName || ""} />
+                    <AvatarFallback>{user.displayName?.[0] || user.email?.[0] || "U"}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{session.user?.name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
+                    <p className="text-sm font-medium leading-none">{user.displayName || "User"}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email || user.phoneNumber}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
+                <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>
@@ -175,16 +175,16 @@ export function Header() {
                   <div className="flex justify-center">
                     <ThemeToggle />
                   </div>
-                  {session ? (
+                  {user ? (
                     <>
                       <div className="px-4 py-2 text-center">
-                        <p className="text-sm font-medium">{session.user?.name}</p>
-                        <p className="text-xs text-muted-foreground">{session.user?.email}</p>
+                        <p className="text-sm font-medium">{user.displayName || "User"}</p>
+                        <p className="text-xs text-muted-foreground">{user.email || user.phoneNumber}</p>
                       </div>
                       <Button
                         variant="outline"
                         className="w-full bg-transparent"
-                        onClick={() => signOut()}
+                        onClick={handleSignOut}
                       >
                         <LogOut className="mr-2 h-4 w-4" />
                         Sign Out

@@ -57,42 +57,46 @@ export default function ProgressPage() {
   useEffect(() => {
     setMounted(true)
 
-    // Load all data
-    const studyStats = getStudyStats()
-    const mathStudyStats = getStudyStatsByCategory('math')
-    const vocabularyStudyStats = getStudyStatsByCategory('vocabulary')
-    const history = getStudyHistory()
-    const topics = getMostStudiedTopics(5)
-    const mathTopicsData = getMostStudiedTopicsByCategory('math', 5)
-    const vocabularyTopicsData = getMostStudiedTopicsByCategory('vocabulary', 5)
-    const byDay = getSessionsByDay(7)
-    const allDue = getLessonsDueForReview()
-    const allUpcoming = getUpcomingReviews(10)
+    // Load all data asynchronously
+    async function loadData() {
+      const studyStats = await getStudyStats()
+      const mathStudyStats = await getStudyStatsByCategory('math')
+      const vocabularyStudyStats = await getStudyStatsByCategory('vocabulary')
+      const history = await getStudyHistory()
+      const topics = await getMostStudiedTopics(5)
+      const mathTopicsData = await getMostStudiedTopicsByCategory('math', 5)
+      const vocabularyTopicsData = await getMostStudiedTopicsByCategory('vocabulary', 5)
+      const byDay = await getSessionsByDay(7)
+      const allDue = await getLessonsDueForReview()
+      const allUpcoming = await getUpcomingReviews(10)
 
-    // Separate math and vocabulary lessons
-    const mathDue = allDue.filter(lesson => lesson.topicPath.startsWith('/math'))
-    const vocabDue = allDue.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
-    const mathUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/math'))
-    const vocabUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
+      // Separate math and vocabulary lessons
+      const mathDue = allDue.filter(lesson => lesson.topicPath.startsWith('/math'))
+      const vocabDue = allDue.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
+      const mathUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/math'))
+      const vocabUpcoming = allUpcoming.filter(lesson => lesson.topicPath.startsWith('/vocabulary'))
 
-    setStats(studyStats)
-    setMathStats(mathStudyStats)
-    setVocabularyStats(vocabularyStudyStats)
-    setRecentSessions(history.slice(0, 10)) // Last 10 sessions
-    setTopTopics(topics)
-    setMathTopics(mathTopicsData)
-    setVocabularyTopics(vocabularyTopicsData)
-    setSessionsByDay(byDay)
-    setLessonsDue(allDue)
-    setUpcomingLessons(allUpcoming)
-    setMathLessonsDue(mathDue)
-    setMathUpcomingLessons(mathUpcoming)
-    setVocabLessonsDue(vocabDue)
-    setVocabUpcomingLessons(vocabUpcoming)
+      setStats(studyStats)
+      setMathStats(mathStudyStats)
+      setVocabularyStats(vocabularyStudyStats)
+      setRecentSessions(history.slice(0, 10)) // Last 10 sessions
+      setTopTopics(topics)
+      setMathTopics(mathTopicsData)
+      setVocabularyTopics(vocabularyTopicsData)
+      setSessionsByDay(byDay)
+      setLessonsDue(allDue)
+      setUpcomingLessons(allUpcoming)
+      setMathLessonsDue(mathDue)
+      setMathUpcomingLessons(mathUpcoming)
+      setVocabLessonsDue(vocabDue)
+      setVocabUpcomingLessons(vocabUpcoming)
+    }
+
+    loadData()
   }, [])
 
-  const handleExport = () => {
-    const data = exportStudyHistory()
+  const handleExport = async () => {
+    const data = await exportStudyHistory()
     const blob = new Blob([data], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')

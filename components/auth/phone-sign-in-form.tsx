@@ -13,7 +13,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 
-export function PhoneSignInForm() {
+interface PhoneSignInFormProps {
+  onSuccess?: () => void
+}
+
+export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
@@ -25,10 +29,10 @@ export function PhoneSignInForm() {
   const recaptchaVerifierRef = useRef<any>(null)
 
   useEffect(() => {
-    // Initialize reCAPTCHA when component mounts
+    // Initialize reCAPTCHA when component mounts (visible version)
     if (recaptchaContainerRef.current && !recaptchaVerifierRef.current) {
       try {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container')
+        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
       } catch (error) {
         console.error('Error initializing reCAPTCHA:', error)
       }
@@ -60,7 +64,7 @@ export function PhoneSignInForm() {
 
       // Reinitialize reCAPTCHA if needed
       if (!recaptchaVerifierRef.current) {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container')
+        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
       }
 
       await sendPhoneVerificationCode(formattedPhone, recaptchaVerifierRef.current)
@@ -83,7 +87,7 @@ export function PhoneSignInForm() {
       if (recaptchaVerifierRef.current) {
         try {
           recaptchaVerifierRef.current.clear()
-          recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container')
+          recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
         } catch (e) {
           console.error('Error reinitializing reCAPTCHA:', e)
         }
@@ -105,13 +109,16 @@ export function PhoneSignInForm() {
         description: 'You have been signed in successfully.',
       })
 
-      // The user is now signed in with Firebase
-      // The session will be picked up by NextAuth via Firebase Auth state
-      // Wait a moment for the session to sync, then refresh
+      // Close the dialog if callback provided
+      if (onSuccess) {
+        onSuccess()
+      }
+
+      // Redirect to home page
       setTimeout(() => {
         router.push('/')
         router.refresh()
-      }, 500)
+      }, 300)
     } catch (error: any) {
       toast({
         title: 'Verification failed',
@@ -130,9 +137,6 @@ export function PhoneSignInForm() {
 
   return (
     <>
-      {/* reCAPTCHA container (invisible) */}
-      <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
-
       {step === 'phone' ? (
         <form onSubmit={handleSendCode} className="space-y-4">
           <div className="space-y-2">
@@ -161,6 +165,11 @@ export function PhoneSignInForm() {
             <p className="text-xs text-muted-foreground">
               Include country code (e.g., +1 for US)
             </p>
+          </div>
+
+          {/* reCAPTCHA container - visible */}
+          <div className="flex justify-center py-2">
+            <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>

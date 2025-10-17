@@ -1,35 +1,35 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useSession } from 'next-auth/react'
-import { logUserLogin } from '@/lib/supabase'
+import { useAuth } from '@/contexts/firebase-auth-context'
 
 export function useLoginTracker() {
-  const { data: session, status } = useSession()
+  const { user, loading } = useAuth()
   const hasTrackedRef = useRef(false)
 
   useEffect(() => {
-    // Only track once per session and only when authenticated
-    if (status === 'authenticated' && session?.user && !hasTrackedRef.current) {
+    // Login tracking disabled - no longer using Supabase for login logs
+    // If you want to re-enable, uncomment the code below and create the user_login_logs table
+
+    /*
+    if (!loading && user && !hasTrackedRef.current) {
       hasTrackedRef.current = true
 
-      // Get user agent
       const userAgent = typeof window !== 'undefined' ? window.navigator.userAgent : undefined
+      const providerData = user.providerData[0]
+      const provider = providerData?.providerId || 'phone'
+      const providerId = user.uid
 
-      // Determine provider from session (Google, credentials, etc.)
-      const provider = (session as any)?.provider || 'credentials'
-      const providerId = session.user.id || session.user.email || 'unknown'
-
-      // Log the login
       logUserLogin({
-        user_id: session.user.email || 'unknown',
-        email: session.user.email || '',
-        name: session.user.name || '',
-        image: session.user.image || undefined,
+        user_id: user.email || user.phoneNumber || user.uid,
+        email: user.email || '',
+        name: user.displayName || '',
+        image: user.photoURL || undefined,
         user_agent: userAgent,
         provider,
         provider_id: providerId,
       })
     }
-  }, [session, status])
+    */
+  }, [user, loading])
 }

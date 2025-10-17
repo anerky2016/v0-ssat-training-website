@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { ThemeProvider } from "@/components/theme-provider"
-import { AuthProvider } from "@/components/auth-provider"
+import { FirebaseAuthProvider } from "@/contexts/firebase-auth-context"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { BookmarkProvider } from "@/components/bookmark-provider"
 import { StudyHistoryProvider } from "@/components/study-history-provider"
@@ -108,7 +108,7 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <StructuredData />
         <GoogleAnalytics />
-        <AuthProvider>
+        <FirebaseAuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -124,7 +124,7 @@ export default function RootLayout({
               </StudyHistoryProvider>
             </BookmarkProvider>
           </ThemeProvider>
-        </AuthProvider>
+        </FirebaseAuthProvider>
       </body>
     </html>
   )

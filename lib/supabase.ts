@@ -94,3 +94,186 @@ export async function getRecentLogins(limit = 50) {
     return []
   }
 }
+
+// ===== STUDY SESSIONS =====
+
+export interface StudySession {
+  id?: string
+  user_id: string
+  topic_path: string
+  topic_title: string
+  category: string
+  timestamp: string
+  duration: number
+  problems_viewed: number
+  difficulty?: string
+}
+
+export async function saveStudySession(userId: string, session: Omit<StudySession, 'id' | 'user_id'>) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping study session save')
+    return null
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('study_sessions')
+      .insert({
+        user_id: userId,
+        ...session,
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error saving study session:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to save study session:', error)
+    return null
+  }
+}
+
+export async function getUserStudySessions(userId: string, limit = 500) {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('study_sessions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('timestamp', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      console.error('Error fetching study sessions:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch study sessions:', error)
+    return []
+  }
+}
+
+// ===== LESSON COMPLETIONS =====
+
+export interface LessonCompletion {
+  id?: string
+  user_id: string
+  topic_path: string
+  topic_title: string
+  completion_timestamp: string
+  review_count: number
+  next_review_date: string
+}
+
+export async function saveLessonCompletion(userId: string, completion: Omit<LessonCompletion, 'id' | 'user_id'>) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping lesson completion save')
+    return null
+  }
+
+  try {
+    // Check if lesson already exists (use maybeSingle to avoid error when no rows)
+    const { data: existing, error: fetchError } = await supabase
+      .from('lesson_completions')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('topic_path', completion.topic_path)
+      .maybeSingle()
+
+    if (fetchError) {
+      console.error('Error checking lesson completion:', fetchError)
+      return null
+    }
+
+    if (existing) {
+      // Update existing completion
+      const { data, error } = await supabase
+        .from('lesson_completions')
+        .update(completion)
+        .eq('id', existing.id)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error updating lesson completion:', error)
+        return null
+      }
+
+      return data
+    } else {
+      // Insert new completion
+      const { data, error } = await supabase
+        .from('lesson_completions')
+        .insert({
+          user_id: userId,
+          ...completion,
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error saving lesson completion:', error)
+        return null
+      }
+
+      return data
+    }
+  } catch (error) {
+    console.error('Failed to save lesson completion:', error)
+    return null
+  }
+}
+
+export async function getUserLessonCompletions(userId: string) {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('lesson_completions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('completion_timestamp', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching lesson completions:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch lesson completions:', error)
+    return []
+  }
+}
+
+export async function deleteLessonCompletion(userId: string, topicPath: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping lesson completion delete')
+    return null
+  }
+
+  try {
+    const { error } = await supabase
+      .from('lesson_completions')
+      .delete()
+      .eq('user_id', userId)
+      .eq('topic_path', topicPath)
+
+    if (error) {
+      console.error('Error deleting lesson completion:', error)
+      return null
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete lesson completion:', error)
+    return null
+  }
+}

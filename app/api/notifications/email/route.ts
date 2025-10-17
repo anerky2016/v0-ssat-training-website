@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import nodemailer from 'nodemailer'
 
 /**
@@ -12,18 +10,15 @@ import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions)
+    const body = await request.json()
+    const { lessonsDue, upcomingReviews, userEmail, userName } = body
 
-    if (!session || !session.user?.email) {
+    if (!userEmail) {
       return NextResponse.json(
-        { error: 'Unauthorized - Please sign in' },
-        { status: 401 }
+        { error: 'User email is required' },
+        { status: 400 }
       )
     }
-
-    const body = await request.json()
-    const { lessonsDue, upcomingReviews } = body
 
     if (!lessonsDue || !Array.isArray(lessonsDue)) {
       return NextResponse.json(
@@ -37,7 +32,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         message: 'No lessons due, email not sent',
-        recipient: session.user.email,
+        recipient: userEmail,
         lessonCount: 0
       })
     }
@@ -56,9 +51,9 @@ export async function POST(request: NextRequest) {
     // Send email
     const info = await transporter.sendMail({
       from: `"SSAT Prep" <${process.env.SMTP_FROM}>`,
-      to: session.user.email,
+      to: userEmail,
       subject: `${lessonsDue.length} Lesson${lessonsDue.length === 1 ? '' : 's'} Ready for Review`,
-      html: generateEmailHTML(session.user.name, lessonsDue, upcomingReviews),
+      html: generateEmailHTML(userName, lessonsDue, upcomingReviews),
     })
 
     console.log('Email sent:', info.messageId)
@@ -66,7 +61,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Email notification sent',
-      recipient: session.user.email,
+      recipient: userEmail,
       lessonCount: lessonsDue.length,
       messageId: info.messageId
     })

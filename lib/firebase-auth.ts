@@ -3,12 +3,18 @@
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   updateProfile,
   User,
   ConfirmationResult,
   PhoneAuthProvider,
   signInWithCredential,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
 } from 'firebase/auth'
 import { auth } from './firebase'
 
@@ -23,13 +29,13 @@ let confirmationResult: ConfirmationResult | null = null
 /**
  * Initialize reCAPTCHA verifier for phone authentication
  */
-export function initializeRecaptcha(containerId: string): RecaptchaVerifier {
+export function initializeRecaptcha(containerId: string, size: 'invisible' | 'normal' = 'normal'): RecaptchaVerifier {
   if (!auth) {
     throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
   }
 
   const recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    size: 'invisible',
+    size: size,
     callback: () => {
       // reCAPTCHA solved, allow signInWithPhoneNumber
     },
@@ -135,8 +141,140 @@ function getAuthErrorMessage(errorCode: string): string {
 }
 
 /**
+ * Get user-friendly error messages for OAuth errors
+ */
+function getOAuthErrorMessage(errorCode: string): string {
+  switch (errorCode) {
+    case 'auth/popup-closed-by-user':
+      return 'Sign-in was cancelled. Please try again.'
+    case 'auth/popup-blocked':
+      return 'Pop-up was blocked by your browser. Please allow pop-ups and try again.'
+    case 'auth/cancelled-popup-request':
+      return 'Sign-in was cancelled. Please try again.'
+    case 'auth/account-exists-with-different-credential':
+      return 'An account already exists with the same email address but different sign-in credentials. Please use your original sign-in method.'
+    case 'auth/operation-not-allowed':
+      return 'This sign-in method is not enabled.'
+    case 'auth/user-disabled':
+      return 'This account has been disabled.'
+    case 'auth/too-many-requests':
+      return 'Too many requests. Please try again later.'
+    default:
+      return 'An error occurred during sign-in. Please try again.'
+  }
+}
+
+/**
  * Get the current user
  */
 export function getCurrentUser(): User | null {
   return auth?.currentUser || null
+}
+
+/**
+ * Sign in with Google OAuth
+ */
+export async function signInWithGoogle(): Promise<User> {
+  if (!auth) {
+    throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
+  }
+
+  try {
+    const provider = new GoogleAuthProvider()
+    const result = await signInWithPopup(auth, provider)
+    return result.user
+  } catch (error: any) {
+    console.error('Error signing in with Google:', error)
+    throw new Error(getOAuthErrorMessage(error.code))
+  }
+}
+
+/**
+ * Create a new user with email and password
+ */
+export async function signUpWithEmail(email: string, password: string, name?: string): Promise<User> {
+  if (!auth) {
+    throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
+  }
+
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email, password)
+    const user = result.user
+
+    // Update user profile with display name if provided
+    if (user && name) {
+      await updateProfile(user, {
+        displayName: name,
+      })
+    }
+
+    // Send email verification
+    await sendEmailVerification(user)
+
+    return user
+  } catch (error: any) {
+    console.error('Error signing up with email:', error)
+    throw new Error(getEmailAuthErrorMessage(error.code))
+  }
+}
+
+/**
+ * Sign in with email and password
+ */
+export async function signInWithEmail(email: string, password: string): Promise<User> {
+  if (!auth) {
+    throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
+  }
+
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, password)
+    return result.user
+  } catch (error: any) {
+    console.error('Error signing in with email:', error)
+    throw new Error(getEmailAuthErrorMessage(error.code))
+  }
+}
+
+/**
+ * Send password reset email
+ */
+export async function resetPassword(email: string): Promise<void> {
+  if (!auth) {
+    throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email)
+  } catch (error: any) {
+    console.error('Error sending password reset email:', error)
+    throw new Error(getEmailAuthErrorMessage(error.code))
+  }
+}
+
+/**
+ * Get user-friendly error messages for email/password auth errors
+ */
+function getEmailAuthErrorMessage(errorCode: string): string {
+  switch (errorCode) {
+    case 'auth/email-already-in-use':
+      return 'This email is already registered. Please sign in instead.'
+    case 'auth/invalid-email':
+      return 'Invalid email address.'
+    case 'auth/operation-not-allowed':
+      return 'Email/password authentication is not enabled.'
+    case 'auth/weak-password':
+      return 'Password is too weak. Please use at least 6 characters.'
+    case 'auth/user-disabled':
+      return 'This account has been disabled.'
+    case 'auth/user-not-found':
+      return 'No account found with this email. Please sign up first.'
+    case 'auth/wrong-password':
+      return 'Incorrect password. Please try again.'
+    case 'auth/invalid-credential':
+      return 'Invalid email or password. Please check your credentials.'
+    case 'auth/too-many-requests':
+      return 'Too many failed attempts. Please try again later.'
+    default:
+      return 'An error occurred. Please try again.'
+  }
 }
