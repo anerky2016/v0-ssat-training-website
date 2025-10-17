@@ -34,10 +34,12 @@ import {
   type StudyStats,
   type LessonCompletion
 } from "@/lib/study-history"
+import { useAuth } from "@/contexts/firebase-auth-context"
 import { NotificationSettings } from "@/components/notification-settings"
 import Link from "next/link"
 
 export default function ProgressPage() {
+  const { user, loading: authLoading } = useAuth()
   const [stats, setStats] = useState<StudyStats | null>(null)
   const [mathStats, setMathStats] = useState<StudyStats | null>(null)
   const [vocabularyStats, setVocabularyStats] = useState<StudyStats | null>(null)
@@ -56,6 +58,11 @@ export default function ProgressPage() {
 
   useEffect(() => {
     setMounted(true)
+
+    // Wait for auth to finish loading before fetching data
+    if (authLoading) {
+      return
+    }
 
     // Load all data asynchronously
     async function loadData() {
@@ -93,7 +100,7 @@ export default function ProgressPage() {
     }
 
     loadData()
-  }, [])
+  }, [authLoading])
 
   const handleExport = async () => {
     const data = await exportStudyHistory()
