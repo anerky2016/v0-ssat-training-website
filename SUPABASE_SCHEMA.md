@@ -1,6 +1,6 @@
-# Supabase Schema for User Progress
+# Supabase Schema for User Data
 
-This document contains the SQL schema needed to store user progress data in Supabase.
+This document contains the SQL schema needed to store user data in Supabase.
 
 ## Tables Required
 
@@ -102,22 +102,80 @@ CREATE TRIGGER update_lesson_completions_updated_at
   EXECUTE FUNCTION update_updated_at_column();
 ```
 
+### 3. notes
+
+Stores user notes with optional screenshots.
+
+```sql
+CREATE TABLE notes (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  screenshot TEXT, -- Base64 encoded image
+  path TEXT NOT NULL, -- Page path when note was created
+  timestamp TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes for faster queries
+CREATE INDEX idx_notes_user_id ON notes(user_id);
+CREATE INDEX idx_notes_timestamp ON notes(timestamp DESC);
+CREATE INDEX idx_notes_user_timestamp ON notes(user_id, timestamp DESC);
+CREATE INDEX idx_notes_path ON notes(path);
+
+-- Enable Row Level Security
+ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to view their own notes
+CREATE POLICY "Users can view their own notes"
+  ON notes FOR SELECT
+  USING (true);
+
+-- Create policy to allow users to insert their own notes
+CREATE POLICY "Users can insert their own notes"
+  ON notes FOR INSERT
+  WITH CHECK (true);
+
+-- Create policy to allow users to update their own notes
+CREATE POLICY "Users can update their own notes"
+  ON notes FOR UPDATE
+  USING (true);
+
+-- Create policy to allow users to delete their own notes
+CREATE POLICY "Users can delete their own notes"
+  ON notes FOR DELETE
+  USING (true);
+
+-- Create trigger to update updated_at timestamp
+CREATE TRIGGER update_notes_updated_at
+  BEFORE UPDATE ON notes
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+```
+
 ## How to Apply This Schema
 
 1. Go to your Supabase project dashboard
 2. Navigate to the SQL Editor
-3. Copy and paste the SQL for `study_sessions` table
-4. Click "Run" to execute
-5. Copy and paste the SQL for `lesson_completions` table
-6. Click "Run" to execute
+3. Copy and paste the entire SQL from `supabase-schema.sql`
+4. Click "Run" to execute all table creation statements at once
 
-## Data Migration
+Or run each table individually:
+- `study_sessions` table
+- `lesson_completions` table
+- `notes` table
 
-The application will continue to work with localStorage for users who are not logged in. When a user logs in:
+## Data Storage
 
-1. Their existing localStorage data remains accessible
-2. New study sessions and lesson completions will be saved to both localStorage AND Supabase
-3. When they view their progress, data will be loaded from Supabase (if logged in) or localStorage (if not logged in)
+The application now uses Supabase for all user data storage:
+
+1. **Study Sessions**: Automatically tracked when users complete study sessions
+2. **Lesson Completions**: Tracked when users mark lessons as complete (spaced repetition system)
+3. **Notes**: User-created notes with optional screenshots
+
+All data requires user authentication via Firebase.
 
 ## Future Enhancements
 

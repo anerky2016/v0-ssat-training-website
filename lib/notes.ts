@@ -1,5 +1,12 @@
-// Client-side notes functionality using localStorage
+// Client-side notes functionality using Supabase
 import { domToPng } from 'modern-screenshot'
+import { auth } from './firebase'
+import {
+  saveNote as saveNoteToSupabase,
+  getUserNotes,
+  updateNote as updateNoteInSupabase,
+  deleteNote as deleteNoteFromSupabase,
+} from './supabase'
 
 export interface Note {
   id: string
@@ -11,74 +18,116 @@ export interface Note {
   updatedAt: number
 }
 
-const NOTES_KEY = 'ssat-notes'
+// Helper to get current user ID
+function getCurrentUserId(): string | null {
+  return auth?.currentUser?.uid || null
+}
 
-export function getNotes(): Note[] {
-  if (typeof window === 'undefined') return []
+export async function getNotes(): Promise<Note[]> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot fetch notes')
+    return []
+  }
 
   try {
-    const stored = localStorage.getItem(NOTES_KEY)
-    if (!stored) return []
-
-    return JSON.parse(stored) as Note[]
+    const notesData = await getUserNotes(userId)
+    return notesData.map(n => ({
+      id: n.id || '',
+      title: n.title,
+      content: n.content,
+      screenshot: n.screenshot,
+      path: n.path,
+      timestamp: new Date(n.timestamp).getTime(),
+      updatedAt: new Date(n.updated_at).getTime(),
+    }))
   } catch (error) {
     console.error('Failed to retrieve notes:', error)
     return []
   }
 }
 
-export function saveNote(note: Omit<Note, 'id' | 'timestamp' | 'updatedAt'>): Note {
-  if (typeof window === 'undefined') throw new Error('Cannot save note on server')
-
-  const newNote: Note = {
-    ...note,
-    id: generateId(),
-    timestamp: Date.now(),
-    updatedAt: Date.now(),
+export async function saveNote(note: Omit<Note, 'id' | 'timestamp' | 'updatedAt'>): Promise<Note> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    throw new Error('No user logged in - cannot save note')
   }
 
+  const now = new Date().toISOString()
+
   try {
-    const notes = getNotes()
-    notes.unshift(newNote) // Add to beginning
-    localStorage.setItem(NOTES_KEY, JSON.stringify(notes))
-    return newNote
+    const savedNote = await saveNoteToSupabase(userId, {
+      title: note.title,
+      content: note.content,
+      screenshot: note.screenshot,
+      path: note.path,
+      timestamp: now,
+      updated_at: now,
+    })
+
+    if (!savedNote) {
+      throw new Error('Failed to save note')
+    }
+
+    return {
+      id: savedNote.id || '',
+      title: savedNote.title,
+      content: savedNote.content,
+      screenshot: savedNote.screenshot,
+      path: savedNote.path,
+      timestamp: new Date(savedNote.timestamp).getTime(),
+      updatedAt: new Date(savedNote.updated_at).getTime(),
+    }
   } catch (error) {
     console.error('Failed to save note:', error)
     throw error
   }
 }
 
-export function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 'timestamp'>>): Note | null {
-  if (typeof window === 'undefined') return null
+export async function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 'timestamp'>>): Promise<Note | null> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot update note')
+    return null
+  }
 
   try {
-    const notes = getNotes()
-    const index = notes.findIndex(n => n.id === id)
+    const supabaseUpdates: any = {}
 
-    if (index === -1) return null
+    if (updates.title !== undefined) supabaseUpdates.title = updates.title
+    if (updates.content !== undefined) supabaseUpdates.content = updates.content
+    if (updates.screenshot !== undefined) supabaseUpdates.screenshot = updates.screenshot
+    if (updates.path !== undefined) supabaseUpdates.path = updates.path
 
-    notes[index] = {
-      ...notes[index],
-      ...updates,
-      updatedAt: Date.now(),
+    const updatedNote = await updateNoteInSupabase(id, userId, supabaseUpdates)
+
+    if (!updatedNote) return null
+
+    return {
+      id: updatedNote.id || '',
+      title: updatedNote.title,
+      content: updatedNote.content,
+      screenshot: updatedNote.screenshot,
+      path: updatedNote.path,
+      timestamp: new Date(updatedNote.timestamp).getTime(),
+      updatedAt: new Date(updatedNote.updated_at).getTime(),
     }
-
-    localStorage.setItem(NOTES_KEY, JSON.stringify(notes))
-    return notes[index]
   } catch (error) {
     console.error('Failed to update note:', error)
     return null
   }
 }
 
-export function deleteNote(id: string): boolean {
-  if (typeof window === 'undefined') return false
+export async function deleteNote(id: string): Promise<boolean> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot delete note')
+    return false
+  }
 
   try {
-    const notes = getNotes()
-    const filtered = notes.filter(n => n.id !== id)
-    localStorage.setItem(NOTES_KEY, JSON.stringify(filtered))
-    return true
+    const result = await deleteNoteFromSupabase(id, userId)
+    return result === true
   } catch (error) {
     console.error('Failed to delete note:', error)
     return false
@@ -86,15 +135,9 @@ export function deleteNote(id: string): boolean {
 }
 
 export function clearAllNotes(): boolean {
-  if (typeof window === 'undefined') return false
-
-  try {
-    localStorage.removeItem(NOTES_KEY)
-    return true
-  } catch (error) {
-    console.error('Failed to clear notes:', error)
-    return false
-  }
+  // No longer needed with Supabase - notes are stored per user
+  console.log('clearAllNotes is deprecated - notes are stored in Supabase per user')
+  return true
 }
 
 // Screenshot utility - captures only the visible viewport
@@ -152,9 +195,4 @@ export async function captureScreenshot(hideElements: string[] = []): Promise<st
 
     return null
   }
-}
-
-// Helper to generate unique IDs
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 }

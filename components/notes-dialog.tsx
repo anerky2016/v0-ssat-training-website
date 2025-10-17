@@ -45,8 +45,9 @@ export function NotesDialog({ open, onOpenChange }: NotesDialogProps) {
     }
   }, [open])
 
-  const loadNotes = () => {
-    setNotes(getNotes())
+  const loadNotes = async () => {
+    const fetchedNotes = await getNotes()
+    setNotes(fetchedNotes)
   }
 
   const handleCreateNew = () => {
@@ -84,7 +85,7 @@ export function NotesDialog({ open, onOpenChange }: NotesDialogProps) {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.title.trim()) {
       alert('Please enter a title')
       return
@@ -95,9 +96,9 @@ export function NotesDialog({ open, onOpenChange }: NotesDialogProps) {
 
     try {
       if (editingId) {
-        updateNote(editingId, formData)
+        await updateNote(editingId, formData)
       } else {
-        saveNote({
+        await saveNote({
           title: formData.title,
           content: formData.content,
           screenshot: formData.screenshot,
@@ -108,17 +109,17 @@ export function NotesDialog({ open, onOpenChange }: NotesDialogProps) {
       setIsCreating(false)
       setEditingId(null)
       setFormData({ title: '', content: '', screenshot: undefined })
-      loadNotes()
+      await loadNotes()
     } catch (error) {
       console.error('Failed to save note:', error)
       alert('Failed to save note. Please try again.')
     }
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this note?')) {
-      deleteNote(id)
-      loadNotes()
+      await deleteNote(id)
+      await loadNotes()
     }
   }
 

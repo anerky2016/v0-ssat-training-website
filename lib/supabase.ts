@@ -277,3 +277,122 @@ export async function deleteLessonCompletion(userId: string, topicPath: string) 
     return null
   }
 }
+
+// ===== NOTES =====
+
+export interface NoteData {
+  id?: string
+  user_id: string
+  title: string
+  content: string
+  screenshot?: string
+  path: string
+  timestamp: string
+  updated_at: string
+}
+
+export async function saveNote(userId: string, note: Omit<NoteData, 'id' | 'user_id'>) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping note save')
+    return null
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('notes')
+      .insert({
+        user_id: userId,
+        ...note,
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error saving note:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to save note:', error)
+    return null
+  }
+}
+
+export async function getUserNotes(userId: string, limit = 1000) {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('notes')
+      .select('*')
+      .eq('user_id', userId)
+      .order('timestamp', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      console.error('Error fetching notes:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch notes:', error)
+    return []
+  }
+}
+
+export async function updateNote(noteId: string, userId: string, updates: Partial<Omit<NoteData, 'id' | 'user_id' | 'timestamp'>>) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping note update')
+    return null
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('notes')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', noteId)
+      .eq('user_id', userId)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error updating note:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to update note:', error)
+    return null
+  }
+}
+
+export async function deleteNote(noteId: string, userId: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping note delete')
+    return null
+  }
+
+  try {
+    const { error } = await supabase
+      .from('notes')
+      .delete()
+      .eq('id', noteId)
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error deleting note:', error)
+      return null
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete note:', error)
+    return null
+  }
+}

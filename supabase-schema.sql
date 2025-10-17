@@ -93,3 +93,54 @@ CREATE TRIGGER update_lesson_completions_updated_at
   BEFORE UPDATE ON lesson_completions
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
+
+
+-- ===== NOTES TABLE =====
+-- Stores user notes with optional screenshots
+
+CREATE TABLE notes (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  screenshot TEXT, -- Base64 encoded image
+  path TEXT NOT NULL, -- Page path when note was created
+  timestamp TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes for faster queries
+CREATE INDEX idx_notes_user_id ON notes(user_id);
+CREATE INDEX idx_notes_timestamp ON notes(timestamp DESC);
+CREATE INDEX idx_notes_user_timestamp ON notes(user_id, timestamp DESC);
+CREATE INDEX idx_notes_path ON notes(path);
+
+-- Enable Row Level Security
+ALTER TABLE notes ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to view their own notes
+CREATE POLICY "Users can view their own notes"
+  ON notes FOR SELECT
+  USING (true);
+
+-- Create policy to allow users to insert their own notes
+CREATE POLICY "Users can insert their own notes"
+  ON notes FOR INSERT
+  WITH CHECK (true);
+
+-- Create policy to allow users to update their own notes
+CREATE POLICY "Users can update their own notes"
+  ON notes FOR UPDATE
+  USING (true);
+
+-- Create policy to allow users to delete their own notes
+CREATE POLICY "Users can delete their own notes"
+  ON notes FOR DELETE
+  USING (true);
+
+-- Create trigger to update updated_at timestamp
+CREATE TRIGGER update_notes_updated_at
+  BEFORE UPDATE ON notes
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
