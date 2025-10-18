@@ -12,6 +12,9 @@ import {
 import { PhoneSignInForm } from './phone-sign-in-form'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { signInWithGoogle, signInWithApple } from '@/lib/firebase-auth'
+import { useToast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
 
 interface AuthDialogProps {
   children?: React.ReactNode
@@ -19,6 +22,53 @@ interface AuthDialogProps {
 
 export function AuthDialog({ children }: AuthDialogProps) {
   const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
+  const router = useRouter()
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true)
+    try {
+      await signInWithGoogle()
+      toast({
+        title: 'Welcome!',
+        description: 'You have been signed in with Google.',
+      })
+      setOpen(false)
+      router.push('/')
+      router.refresh()
+    } catch (error: any) {
+      toast({
+        title: 'Sign-in failed',
+        description: error.message || 'Failed to sign in with Google. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleAppleSignIn = async () => {
+    setIsLoading(true)
+    try {
+      await signInWithApple()
+      toast({
+        title: 'Welcome!',
+        description: 'You have been signed in with Apple.',
+      })
+      setOpen(false)
+      router.push('/')
+      router.refresh()
+    } catch (error: any) {
+      toast({
+        title: 'Sign-in failed',
+        description: error.message || 'Failed to sign in with Apple. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -34,7 +84,7 @@ export function AuthDialog({ children }: AuthDialogProps) {
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          <PhoneSignInForm />
+          <PhoneSignInForm onSuccess={() => setOpen(false)} />
         </div>
 
         <div className="relative my-4">
@@ -48,10 +98,8 @@ export function AuthDialog({ children }: AuthDialogProps) {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => {
-              // This will be handled by NextAuth Google provider
-              window.location.href = '/api/auth/signin/google'
-            }}
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -72,6 +120,18 @@ export function AuthDialog({ children }: AuthDialogProps) {
               />
             </svg>
             Continue with Google
+          </Button>
+
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleAppleSignIn}
+            disabled={isLoading}
+          >
+            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+            </svg>
+            Continue with Apple
           </Button>
         </div>
       </DialogContent>

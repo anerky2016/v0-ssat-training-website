@@ -5,6 +5,7 @@ import {
   signInWithPhoneNumber,
   signInWithPopup,
   GoogleAuthProvider,
+  OAuthProvider,
   signOut,
   updateProfile,
   User,
@@ -402,6 +403,28 @@ export async function signInWithGoogle(): Promise<User> {
     return result.user
   } catch (error: any) {
     console.error('Error signing in with Google:', error)
+    throw new Error(getOAuthErrorMessage(error.code))
+  }
+}
+
+/**
+ * Sign in with Apple OAuth
+ */
+export async function signInWithApple(): Promise<User> {
+  if (!auth) {
+    throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
+  }
+
+  try {
+    const provider = new OAuthProvider('apple.com')
+    // Request additional scopes
+    provider.addScope('email')
+    provider.addScope('name')
+
+    const result = await signInWithPopup(auth, provider)
+    return result.user
+  } catch (error: any) {
+    console.error('Error signing in with Apple:', error)
     throw new Error(getOAuthErrorMessage(error.code))
   }
 }
