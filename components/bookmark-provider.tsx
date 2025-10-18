@@ -30,6 +30,7 @@ const BOOKMARKABLE_PATHS = [
   '/math/equations/one-step',
   '/math/equations/multi-step',
   '/math/equations/graphing-inequalities',
+  '/math/equations/multi-step-inequalities',
 ]
 
 // Generate page title from path

@@ -40,7 +40,7 @@ export default function EquationsPage() {
                   { title: "Multi-Step Equations", href: "/math/equations/multi-step" },
                   { title: "Graphing Single-Variable Inequalities", href: "/math/equations/graphing-inequalities" },
                   { title: "One-Step Inequalities", href: null },
-                  { title: "Multi-Step Inequalities", href: null }
+                  { title: "Multi-Step Inequalities", href: "/math/equations/multi-step-inequalities" }
                 ].map((topic, index) => (
                   topic.href ? (
                     <Link key={topic.title} href={topic.href}>

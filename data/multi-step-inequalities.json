@@ -1,0 +1,248 @@
+{
+  "title": "Multi-Step Inequalities",
+  "audience": "Ages 11–13",
+  "latex_display": true,
+  "concept": {
+    "what_is_it": "A multi-step inequality is like a multi-step equation — except instead of an equal sign, it uses inequality symbols to show a range of possible answers.",
+    "symbols": [
+      "$<\\;\\text{less than}$",
+      "$>\\;\\text{greater than}$",
+      "$\\le\\;\\text{less than or equal to}$",
+      "$\\ge\\;\\text{greater than or equal to}$"
+    ],
+    "kid_friendly_explanation": "Think of inequalities as 'math sentences' that tell you what numbers make a statement true — not just one answer, but a whole zone of possible answers!"
+  },
+  "key_points": [
+    "Use the same steps as equations to isolate the variable.",
+    "Add or subtract to move constants to the other side.",
+    "Multiply or divide to get the variable alone.",
+    "Important: When multiplying or dividing by a negative number, flip the inequality sign.",
+    "Your answer can be shown with a number line or interval notation."
+  ],
+  "kid_friendly_explainer": [
+    "Multi-step inequalities are just like multi-step equations, but instead of finding ONE answer, you're finding a whole range of answers! For example, if $x > 3$, that means $x$ could be 4, 5, 100, or even 3.5 — any number greater than 3 works!",
+    "The solving process is almost identical to equations: combine like terms, move variables to one side, and isolate the variable. But there's ONE super important rule to remember...",
+    "When you multiply or divide BOTH sides by a negative number, you must FLIP the inequality sign! Why? Think of it like this: 5 is greater than 3, but when you multiply both by -1, you get -5 and -3. Now -5 is LESS than -3! The relationship flips when you go negative.",
+    "Once you solve, you can show your answer on a number line (with arrows and circles) or use interval notation like $(-\\infty, 5]$ to show all numbers less than or equal to 5."
+  ],
+  "step_by_step": [
+    "Simplify both sides if needed (combine like terms, distribute).",
+    "Move constants to the opposite side using inverse operations.",
+    "Move coefficients away from the variable by dividing or multiplying.",
+    "Flip the inequality sign if you divide/multiply by a negative number."
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "2x - 3 < 11",
+      "walkthrough": [
+        "Add 3 to both sides",
+        "$2x - 3 + 3 < 11 + 3$",
+        "$2x < 14$",
+        "Divide both sides by 2",
+        "$x < 7$"
+      ],
+      "answer_latex": "x < 7 \\quad (-\\infty, 7)"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "4 - 2x \\le 8",
+      "walkthrough": [
+        "Subtract 4 from both sides",
+        "$-2x \\le 4$",
+        "Divide by $-2$ and FLIP the inequality",
+        "$x \\ge -2$"
+      ],
+      "answer_latex": "x \\ge -2 \\quad [-2, \\infty)"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "2(x - 3) \\le 8",
+      "walkthrough": [
+        "Distribute the 2",
+        "$2x - 6 \\le 8$",
+        "Add 6 to both sides",
+        "$2x \\le 14$",
+        "Divide by 2",
+        "$x \\le 7$"
+      ],
+      "answer_latex": "x \\le 7 \\quad (-\\infty, 7]"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "-4(x + 2) \\ge 8",
+      "walkthrough": [
+        "Divide both sides by $-4$ and FLIP",
+        "$x + 2 \\le -2$",
+        "Subtract 2 from both sides",
+        "$x \\le -4$"
+      ],
+      "answer_latex": "x \\le -4 \\quad (-\\infty, -4]"
+    }
+  ],
+  "mini_examples": [
+    {
+      "problem": "$x-2\\le4$",
+      "work": "$x-2+2\\le4+2\\Rightarrow x\\le6$",
+      "explanation": "We added 2 to both sides to isolate $x$."
+    },
+    {
+      "problem": "$2x+6\\le10$",
+      "work": "$2x\\le4\\Rightarrow x\\le2$",
+      "explanation": "We subtracted 6, then divided by 2."
+    },
+    {
+      "problem": "$-3x>9$",
+      "work": "$x<-3$ (flipped sign after dividing by -3)",
+      "explanation": "When dividing by a negative, the inequality flips!"
+    }
+  ],
+  "tips": [
+    "Treat inequalities like equations, but watch the sign when multiplying or dividing by negatives.",
+    "Draw a number line — it helps you visualize what values work.",
+    "Always test one number from your solution range to double-check."
+  ],
+  "teacher_notes": [
+    "Treat inequalities like equations, but watch the sign when multiplying or dividing by negatives.",
+    "Draw a number line — it helps you visualize what values work.",
+    "Always test one number from your solution range to double-check.",
+    "Remember: Open circle for $<$ or $>$; filled circle for $\\le$ or $\\ge$.",
+    "The critical rule: FLIP the inequality when multiplying or dividing by a negative number.",
+    "Interval notation uses parentheses $()$ for open circles and brackets $[]$ for filled circles.",
+    "Use $\\infty$ for infinity and always pair it with a parenthesis, never a bracket."
+  ],
+  "common_mistakes": [
+    "Forgetting to flip the inequality when multiplying/dividing by a negative.",
+    "Combining unlike terms (like adding $x$ and a constant).",
+    "Thinking inequalities only have one solution — they have infinitely many!"
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Solve each inequality. Write your answer in inequality form and interval notation.",
+      "items": [
+        {
+          "id": "E1",
+          "question_latex": "x-5\\le4",
+          "answer_latex": "x\\le9",
+          "solution": "$x\\le9$ → Add 5 to both sides. Interval: $(-\\infty,9]$"
+        },
+        {
+          "id": "E2",
+          "question_latex": "x+3>10",
+          "answer_latex": "x>7",
+          "solution": "$x>7$ → Subtract 3 from both sides. Interval: $(7,\\infty)$"
+        },
+        {
+          "id": "E3",
+          "question_latex": "2x\\le12",
+          "answer_latex": "x\\le6",
+          "solution": "$x\\le6$ → Divide both sides by 2. Interval: $(-\\infty,6]$"
+        },
+        {
+          "id": "E4",
+          "question_latex": "\\dfrac{x}{4}+1<3",
+          "answer_latex": "x<8",
+          "solution": "$x<8$ → Subtract 1 and multiply by 4. Interval: $(-\\infty,8)$"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Solve each inequality. Show all steps clearly.",
+      "items": [
+        {
+          "id": "M1",
+          "question_latex": "2x-3<11",
+          "answer_latex": "x<7",
+          "solution": "$2x<14\\Rightarrow x<7$ → Add 3, then divide by 2. Interval: $(-\\infty,7)$"
+        },
+        {
+          "id": "M2",
+          "question_latex": "3x+9\\ge0",
+          "answer_latex": "x\\ge-3",
+          "solution": "$x\\ge-3$ → Subtract 9, then divide by 3. Interval: $[-3,\\infty)$"
+        },
+        {
+          "id": "M3",
+          "question_latex": "4-2x\\le8",
+          "answer_latex": "x\\ge-2",
+          "solution": "$-2x\\le4\\Rightarrow x\\ge-2$ → Subtract 4, divide by -2, flip the sign. Interval: $[-2,\\infty)$"
+        },
+        {
+          "id": "M4",
+          "question_latex": "5x+15>0",
+          "answer_latex": "x>-3",
+          "solution": "$x>-3$ → Subtract 15, divide by 5. Interval: $(-3,\\infty)$"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Watch for distribution and negative coefficients!",
+      "items": [
+        {
+          "id": "C1",
+          "question_latex": "6-3x>0",
+          "answer_latex": "x<2",
+          "solution": "$-3x>-6\\Rightarrow x<2$ → Subtract 6, divide by -3 (flip!). Interval: $(-\\infty,2)$"
+        },
+        {
+          "id": "C2",
+          "question_latex": "2(x-3)\\le8",
+          "answer_latex": "x\\le7",
+          "solution": "$2x-6\\le8\\Rightarrow2x\\le14\\Rightarrow x\\le7$ → Distribute, add 6, divide by 2. Interval: $(-\\infty,7]$"
+        },
+        {
+          "id": "C3",
+          "question_latex": "-4(x+2)\\ge8",
+          "answer_latex": "x\\le-4",
+          "solution": "$x+2\\le-2\\Rightarrow x\\le-4$ → Divide by -4 and flip. Interval: $(-\\infty,-4]$"
+        },
+        {
+          "id": "C4",
+          "question_latex": "\\dfrac{x-5}{3}<2",
+          "answer_latex": "x<11",
+          "solution": "$x-5<6\\Rightarrow x<11$ → Multiply by 3, add 5. Interval: $(-\\infty,11)$"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Advanced problems with distribution and variables on both sides.",
+      "items": [
+        {
+          "id": "X1",
+          "question_latex": "5(2x-1)\\ge3x+7",
+          "answer_latex": "x\\ge\\dfrac{12}{7}",
+          "solution": "$10x-5\\ge3x+7\\Rightarrow7x\\ge12\\Rightarrow x\\ge\\dfrac{12}{7}$ → Distribute, combine, divide. Interval: $[\\frac{12}{7},\\infty)$"
+        },
+        {
+          "id": "X2",
+          "question_latex": "-2(3x-4)<8",
+          "answer_latex": "x>0",
+          "solution": "$-6x+8<8\\Rightarrow-6x<0\\Rightarrow x>0$ → Distribute, subtract 8, divide by -6 (flip!). Interval: $(0,\\infty)$"
+        },
+        {
+          "id": "X3",
+          "question_latex": "\\dfrac{4x+2}{-3}\\le2",
+          "answer_latex": "x\\ge-2",
+          "solution": "$4x+2\\ge-6\\Rightarrow4x\\ge-8\\Rightarrow x\\ge-2$ → Multiply by -3 (flip!), subtract 2, divide by 4. Interval: $[-2,\\infty)$"
+        },
+        {
+          "id": "X4",
+          "question_latex": "3(x-5)\\le2x-7",
+          "answer_latex": "x\\le8",
+          "solution": "$3x-15\\le2x-7\\Rightarrow x\\le8$ → Distribute, combine $x$-terms. Interval: $(-\\infty,8]$"
+        }
+      ]
+    }
+  },
+  "self_check": [
+    {
+      "question": "What happens if you divide both sides by a negative number?",
+      "choices": ["Nothing changes", "You flip the inequality sign", "You add a negative"],
+      "answer": "You flip the inequality sign."
+    },
+    {
+      "question": "Solve quickly: $-4x>12$",
+      "answer": "$x<-3$ (flip the sign)"
+    }
+  ]
+}
