@@ -46,6 +46,22 @@ export default function PythagoreanTheoremPage() {
     })
   }
 
+  // Helper function to render SVG from template
+  const renderSVG = (svgId: string) => {
+    const template = (pythagoreanData.svg_assets as any)[svgId]
+    if (!template) return null
+
+    const svgContent = template.replace('{{styles}}', `<style>${pythagoreanData.svg_assets.styles}</style>`)
+
+    return (
+      <div className="flex justify-center my-4">
+        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+          dangerouslySetInnerHTML={{ __html: svgContent }}
+        />
+      </div>
+    )
+  }
+
   if (!mounted) {
     return null
   }
@@ -145,7 +161,7 @@ export default function PythagoreanTheoremPage() {
             </div>
           </section>
 
-          {/* Kid-Friendly Explainer */}
+          {/* Step-by-Step Process */}
           <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
@@ -159,8 +175,8 @@ export default function PythagoreanTheoremPage() {
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          Students who read the Understanding section carefully score <strong className="text-foreground">40% higher</strong> on practice problems.
-                          Taking just <strong className="text-foreground">5 minutes</strong> to understand these concepts will save you 30+ minutes of frustration later!
+                          Students who follow these step-by-step instructions score <strong className="text-foreground">40% higher</strong> on practice problems.
+                          Taking just <strong className="text-foreground">5 minutes</strong> to understand these steps will save you 30+ minutes of frustration later!
                         </p>
                       </div>
                     </div>
@@ -172,20 +188,25 @@ export default function PythagoreanTheoremPage() {
                     <Sparkles className="h-6 w-6 text-chart-3" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding the Pythagorean Theorem</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Step-by-Step Method</h2>
                     <div className="flex items-center gap-2 mt-1">
                       <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">3-4 min read</span>
+                      <span className="text-sm text-muted-foreground">2-3 min read</span>
                     </div>
                   </div>
                 </div>
                 <div className="grid gap-4">
-                  {pythagoreanData.kid_friendly_explainer.map((explanation, index) => (
+                  {pythagoreanData.step_by_step.map((step, index) => (
                     <Card key={index} className="border-chart-3/20">
                       <CardContent className="pt-6">
-                        <p className="text-base text-muted-foreground leading-relaxed">
-                          <MathJax>{explanation}</MathJax>
-                        </p>
+                        <div className="flex items-start gap-3">
+                          <div className="h-8 w-8 rounded-full bg-chart-3/10 flex items-center justify-center flex-shrink-0">
+                            <span className="text-sm font-bold text-chart-3">{index + 1}</span>
+                          </div>
+                          <p className="text-base text-muted-foreground leading-relaxed mt-1">
+                            <MathJax>{step}</MathJax>
+                          </p>
+                        </div>
                       </CardContent>
                     </Card>
                   ))}
@@ -195,7 +216,7 @@ export default function PythagoreanTheoremPage() {
           </section>
 
           {/* Self-Check Checklist */}
-          <section className="py-8 sm:py-12">
+          <section className="py-8 sm:py-12 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Card className="border-blue-500/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20">
@@ -259,8 +280,8 @@ export default function PythagoreanTheoremPage() {
             </div>
           </section>
 
-          {/* Step-by-Step Examples */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          {/* Mini Examples */}
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -270,27 +291,24 @@ export default function PythagoreanTheoremPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Worked Examples</h2>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {pythagoreanData.step_by_step_examples.map((example) => (
-                    <Card key={example.id} className="border-chart-4/20">
+                  {pythagoreanData.mini_examples.map((example, index) => (
+                    <Card key={index} className="border-chart-4/20">
                       <CardHeader>
-                        <CardTitle className="text-lg">Example {example.id.replace('ex', '')}</CardTitle>
-                        <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
-                          <MathJax>{"\\[" + example.problem_latex + "\\]"}</MathJax>
-                        </div>
+                        <CardTitle className="text-lg">Example {index + 1}</CardTitle>
+                        <CardDescription className="text-base">
+                          <MathJax>{example.problem}</MathJax>
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-3">
-                          <p className="text-sm font-semibold text-foreground">Solution:</p>
-                          <ol className="space-y-2">
-                            {example.walkthrough.map((step, idx) => (
-                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                                <span className="font-semibold text-primary">{idx + 1}.</span>
-                                <span><MathJax>{step}</MathJax></span>
-                              </li>
-                            ))}
-                          </ol>
+                        {renderSVG(example.svg_id)}
+                        <div className="space-y-3 mt-4">
+                          <p className="text-sm font-semibold text-foreground">Work:</p>
+                          <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
+                            <MathJax>{example.work}</MathJax>
+                          </div>
                           <div className="bg-chart-4/10 rounded-lg p-4 overflow-x-auto">
-                            <MathJax>{"\\[" + example.answer_latex + "\\]"}</MathJax>
+                            <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
+                            <MathJax>{example.answer}</MathJax>
                           </div>
                         </div>
                       </CardContent>
@@ -301,8 +319,8 @@ export default function PythagoreanTheoremPage() {
             </div>
           </section>
 
-          {/* Teacher Notes */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          {/* Tips */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -312,12 +330,12 @@ export default function PythagoreanTheoremPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Pro Tips</h2>
                 </div>
                 <div className="grid gap-4">
-                  {pythagoreanData.teacher_notes.map((note, index) => (
+                  {pythagoreanData.tips.map((tip, index) => (
                     <Card key={index} className="border-chart-5/20">
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-3">
                           <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
+                          <p className="text-sm text-muted-foreground"><MathJax>{tip}</MathJax></p>
                         </div>
                       </CardContent>
                     </Card>
@@ -328,7 +346,7 @@ export default function PythagoreanTheoremPage() {
           </section>
 
           {/* Common Mistakes */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -354,7 +372,7 @@ export default function PythagoreanTheoremPage() {
           </section>
 
           {/* Practice Exercises */}
-          <section className="py-12 sm:py-16 lg:py-20">
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
@@ -362,7 +380,7 @@ export default function PythagoreanTheoremPage() {
                   Master the Pythagorean Theorem with practice problems at different difficulty levels.
                 </p>
 
-                {/* Difficulty Selector and Print Button */}
+                {/* Difficulty Selector */}
                 <div className="flex flex-wrap items-center gap-2 mb-8">
                   {Object.keys(pythagoreanData.exercises).map((difficulty) => (
                     <Button
@@ -374,81 +392,46 @@ export default function PythagoreanTheoremPage() {
                       {difficulty}
                     </Button>
                   ))}
-                  {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises] && (
-                    <PrintExercisesButton
-                      exercises={pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].items}
-                      topicTitle={pythagoreanData.title}
-                      difficulty={selectedDifficulty}
-                    />
-                  )}
                 </div>
 
-                {/* Current Set Info */}
-                {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises] && (
-                  <>
-                    <Card className="mb-6 border-primary/20">
-                      <CardContent className="pt-6">
-                        <p className="text-sm text-muted-foreground">
-                          <strong>Directions:</strong> <MathJax>{pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].directions}</MathJax>
-                        </p>
+                {/* Practice Items */}
+                <div className="space-y-4">
+                  {(pythagoreanData.exercises as any)[selectedDifficulty]?.map((item: any) => (
+                    <Card key={item.id} className="border-border">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Problem {item.id}</CardTitle>
+                        <CardDescription className="text-base">
+                          <MathJax>{item.prompt}</MathJax>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        {renderSVG(item.svg_id)}
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => toggleAnswer(item.id)}
+                          >
+                            {showAnswers[item.id] ? "Hide" : "Show"} Solution
+                          </Button>
+                        </div>
+
+                        {showAnswers[item.id] && (
+                          <div className="mt-4 p-4 bg-chart-10/10 rounded-lg overflow-x-auto">
+                            <p className="text-sm font-semibold text-foreground mb-2">Solution:</p>
+                            <MathJax>{item.solution}</MathJax>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
-
-                    {/* Practice Items */}
-                    <div className="space-y-4">
-                      {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].items.map((item) => (
-                        <Card key={item.id} className="border-border">
-                          <CardHeader>
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                              <CardTitle className="text-lg">Problem {item.id.replace(/[a-z]/g, '')}</CardTitle>
-                              <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto flex-1 sm:flex-initial">
-                                <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
-                              </div>
-                            </div>
-                            {item.hint && (
-                              <CardDescription className="text-sm text-muted-foreground italic flex items-baseline gap-1">
-                                <span>💡</span>
-                                <span><MathJax>{item.hint}</MathJax></span>
-                              </CardDescription>
-                            )}
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex flex-wrap gap-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => toggleAnswer(item.id)}
-                              >
-                                {showAnswers[item.id] ? "Hide" : "Show"} Answer
-                              </Button>
-                            </div>
-
-                            {showAnswers[item.id] && (
-                              <div className="mt-4 space-y-3">
-                                <div className="p-4 bg-chart-10/10 rounded-lg overflow-x-auto">
-                                  <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
-                                  <MathJax>{"\\[" + item.answer_latex + "\\]"}</MathJax>
-                                </div>
-                                {item.solution && (
-                                  <div className="p-4 bg-muted/50 rounded-lg overflow-x-auto">
-                                    <p className="text-sm font-semibold text-foreground mb-2">Solution:</p>
-                                    <p className="text-sm text-muted-foreground"><MathJax>{item.solution}</MathJax></p>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </>
-                )}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
 
           {/* Complete Study Button */}
-          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
                 <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-10/5">
@@ -467,7 +450,7 @@ export default function PythagoreanTheoremPage() {
           </section>
 
           {/* Navigation */}
-          <section className="py-8">
+          <section className="py-8 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="flex justify-center">
                 <Link href="/math/geometry">
