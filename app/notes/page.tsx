@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Camera, Plus, Trash2, Edit2, Save, X, ArrowLeft, Pencil } from 'lucide-react'
+import { Camera, Plus, Trash2, Edit2, Save, X, ArrowLeft, Pencil, Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -16,6 +16,7 @@ import { ScreenshotAnnotator } from '@/components/screenshot-annotator'
 export default function NotesPage() {
   const pathname = usePathname()
   const [notes, setNotes] = useState<Note[]>([])
+  const [loading, setLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [isCapturing, setIsCapturing] = useState(false)
@@ -32,8 +33,13 @@ export default function NotesPage() {
   }, [])
 
   const loadNotes = async () => {
-    const fetchedNotes = await getNotes()
-    setNotes(fetchedNotes)
+    setLoading(true)
+    try {
+      const fetchedNotes = await getNotes()
+      setNotes(fetchedNotes)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleCreateNew = () => {
@@ -234,7 +240,16 @@ export default function NotesPage() {
             </Card>
           )}
 
-          {!showingForm && notes.length === 0 && (
+          {!showingForm && loading && (
+            <Card>
+              <CardContent className="text-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+                <p className="text-muted-foreground">Loading your notes...</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {!showingForm && !loading && notes.length === 0 && (
             <Card>
               <CardContent className="text-center py-12">
                 <p className="text-muted-foreground">No notes yet. Create your first note!</p>
@@ -242,7 +257,7 @@ export default function NotesPage() {
             </Card>
           )}
 
-          {!showingForm && notes.length > 0 && (
+          {!showingForm && !loading && notes.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">All Notes ({notes.length})</h2>
               {notes.map((note) => {
