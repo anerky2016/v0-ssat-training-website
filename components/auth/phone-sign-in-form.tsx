@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import {
-  initializeRecaptcha,
   sendPhoneVerificationCode,
   verifyPhoneCode,
+  clearRecaptchaVerifier,
 } from '@/lib/firebase-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,20 +24,11 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [verificationCode, setVerificationCode] = useState('')
   const [name, setName] = useState('')
-  const recaptchaContainerRef = useRef<HTMLDivElement>(null)
-  const recaptchaVerifierRef = useRef<any>(null)
 
   useEffect(() => {
     // Cleanup on unmount
     return () => {
-      if (recaptchaVerifierRef.current) {
-        try {
-          recaptchaVerifierRef.current.clear()
-          recaptchaVerifierRef.current = null
-        } catch (error) {
-          console.error('Error clearing reCAPTCHA:', error)
-        }
-      }
+      clearRecaptchaVerifier()
     }
   }, [])
 
@@ -54,19 +44,18 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
         formattedPhone = '+1' + formattedPhone.replace(/\D/g, '')
       }
 
-      // Clear any existing reCAPTCHA instance
-      if (recaptchaVerifierRef.current) {
-        try {
-          recaptchaVerifierRef.current.clear()
-        } catch (e) {
-          console.error('Error clearing existing reCAPTCHA:', e)
-        }
+      // Validate phone number format
+      if (!/^\+\d{10,15}$/.test(formattedPhone)) {
+        toast({
+          title: 'Invalid phone number',
+          description: 'Please enter a valid phone number with country code (e.g., +1234567890)',
+          variant: 'destructive',
+        })
+        return
       }
 
-      // Initialize fresh reCAPTCHA instance
-      recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
-
-      await sendPhoneVerificationCode(formattedPhone, recaptchaVerifierRef.current)
+      // Send verification code
+      await sendPhoneVerificationCode(formattedPhone)
 
       toast({
         title: 'Code sent!',
@@ -76,21 +65,12 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
       setPhoneNumber(formattedPhone)
       setStep('code')
     } catch (error: any) {
+      console.error('Send code error:', error)
       toast({
         title: 'Error sending code',
-        description: error.message,
+        description: error.message || 'Failed to send verification code. Please try again.',
         variant: 'destructive',
       })
-
-      // Clear the failed reCAPTCHA instance
-      if (recaptchaVerifierRef.current) {
-        try {
-          recaptchaVerifierRef.current.clear()
-          recaptchaVerifierRef.current = null
-        } catch (e) {
-          console.error('Error clearing reCAPTCHA after failure:', e)
-        }
-      }
     } finally {
       setIsLoading(false)
     }
@@ -119,9 +99,10 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
         router.refresh()
       }, 300)
     } catch (error: any) {
+      console.error('Verification error:', error)
       toast({
         title: 'Verification failed',
-        description: error.message,
+        description: error.message || 'Invalid verification code. Please try again.',
         variant: 'destructive',
       })
     } finally {
@@ -132,6 +113,7 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const handleBackToPhone = () => {
     setStep('phone')
     setVerificationCode('')
+    clearRecaptchaVerifier()
   }
 
   return (
@@ -166,8 +148,8 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
             </p>
           </div>
 
-          {/* reCAPTCHA container - invisible (auto-verifies without user interaction) */}
-          <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
+          {/* reCAPTCHA container - managed by firebase-auth.ts */}
+          <div id="recaptcha-container"></div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? 'Sending code...' : 'Send Verification Code'}

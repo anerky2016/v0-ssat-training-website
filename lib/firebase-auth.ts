@@ -9,8 +9,6 @@ import {
   updateProfile,
   User,
   ConfirmationResult,
-  PhoneAuthProvider,
-  signInWithCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -23,46 +21,93 @@ export interface PhoneSignInData {
   name?: string
 }
 
-// Store the confirmation result globally for the verification step
+// Store the confirmation result and recaptcha verifier globally
 let confirmationResult: ConfirmationResult | null = null
+let recaptchaVerifier: RecaptchaVerifier | null = null
+let recaptchaWidgetId: number | null = null
 
 /**
- * Initialize reCAPTCHA verifier for phone authentication
+ * Initialize or get existing reCAPTCHA verifier for phone authentication
  */
-export function initializeRecaptcha(containerId: string, size: 'invisible' | 'normal' = 'normal'): RecaptchaVerifier {
+export function getRecaptchaVerifier(containerId: string = 'recaptcha-container'): RecaptchaVerifier {
   if (!auth) {
     throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
   }
 
-  const recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    size: size,
-    callback: () => {
-      // reCAPTCHA solved, allow signInWithPhoneNumber
-    },
-  })
+  // Return existing verifier if it exists and hasn't been cleared
+  if (recaptchaVerifier) {
+    return recaptchaVerifier
+  }
 
-  return recaptchaVerifier
+  try {
+    // Create new invisible reCAPTCHA verifier
+    recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+      size: 'invisible',
+      callback: (response: any) => {
+        console.log('reCAPTCHA solved')
+      },
+      'error-callback': (error: any) => {
+        console.error('reCAPTCHA error:', error)
+      }
+    })
+
+    console.log('reCAPTCHA verifier initialized')
+    return recaptchaVerifier
+  } catch (error) {
+    console.error('Failed to initialize reCAPTCHA:', error)
+    throw error
+  }
+}
+
+/**
+ * Clear the reCAPTCHA verifier
+ */
+export function clearRecaptchaVerifier(): void {
+  if (recaptchaVerifier) {
+    try {
+      recaptchaVerifier.clear()
+      console.log('reCAPTCHA verifier cleared')
+    } catch (error) {
+      console.error('Error clearing reCAPTCHA:', error)
+    }
+    recaptchaVerifier = null
+    recaptchaWidgetId = null
+  }
 }
 
 /**
  * Send SMS verification code to phone number
  */
 export async function sendPhoneVerificationCode(
-  phoneNumber: string,
-  recaptchaVerifier: RecaptchaVerifier
+  phoneNumber: string
 ): Promise<void> {
   if (!auth) {
     throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
   }
 
   try {
-    // Store the confirmation result for later verification
-    confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+    // Clear any existing confirmation result
+    confirmationResult = null
+
+    // Get or create reCAPTCHA verifier
+    const verifier = getRecaptchaVerifier()
+
+    console.log('Sending verification code to:', phoneNumber)
+
+    // Send verification code
+    confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, verifier)
+
+    console.log('Verification code sent successfully')
   } catch (error: any) {
     console.error('Error sending verification code:', error)
     console.error('Error code:', error.code)
-    console.error('Error details:', error)
-    throw new Error(getAuthErrorMessage(error.code))
+    console.error('Error message:', error.message)
+
+    // Clear reCAPTCHA on error to allow retry
+    clearRecaptchaVerifier()
+
+    // Throw user-friendly error
+    throw new Error(getAuthErrorMessage(error.code || 'unknown'))
   }
 }
 
@@ -85,8 +130,9 @@ export async function verifyPhoneCode(code: string, name?: string): Promise<User
       })
     }
 
-    // Clear the confirmation result
+    // Clear the confirmation result and recaptcha after successful sign-in
     confirmationResult = null
+    clearRecaptchaVerifier()
 
     return user
   } catch (error: any) {
@@ -105,12 +151,14 @@ export async function signOutUser(): Promise<void> {
 
   try {
     await signOut(auth)
+    // Clear any pending authentication state
+    confirmationResult = null
+    clearRecaptchaVerifier()
   } catch (error) {
     console.error('Error signing out:', error)
     throw error
   }
 }
-
 
 /**
  * Get user-friendly error messages for Firebase auth errors
@@ -118,7 +166,7 @@ export async function signOutUser(): Promise<void> {
 function getAuthErrorMessage(errorCode: string): string {
   switch (errorCode) {
     case 'auth/invalid-phone-number':
-      return 'Invalid phone number. Please enter a valid phone number with country code.'
+      return 'Invalid phone number. Please enter a valid phone number with country code (e.g., +1234567890).'
     case 'auth/missing-phone-number':
       return 'Please enter a phone number.'
     case 'auth/quota-exceeded':
@@ -126,9 +174,9 @@ function getAuthErrorMessage(errorCode: string): string {
     case 'auth/user-disabled':
       return 'This account has been disabled.'
     case 'auth/operation-not-allowed':
-      return 'Phone authentication is not enabled.'
+      return 'Phone authentication is not enabled. Please contact support.'
     case 'auth/too-many-requests':
-      return 'Too many requests. Please try again later.'
+      return 'Too many requests. Please try again in a few minutes.'
     case 'auth/invalid-verification-code':
       return 'Invalid verification code. Please check the code and try again.'
     case 'auth/code-expired':
@@ -136,13 +184,17 @@ function getAuthErrorMessage(errorCode: string): string {
     case 'auth/missing-verification-code':
       return 'Please enter the verification code.'
     case 'auth/captcha-check-failed':
-      return 'reCAPTCHA verification failed. Please try again.'
+      return 'reCAPTCHA verification failed. Please ensure you are on an authorized domain and try again.'
     case 'auth/internal-error':
-      return 'Authentication service error. Please ensure your domain is authorized in Firebase Console and try again.'
+      return 'Authentication service error. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/invalid-app-credential':
-      return 'Firebase project configuration error. Please set up reCAPTCHA in Firebase Console (Authentication → Settings → Phone number sign-in).'
+      return 'Invalid credentials. Please ensure reCAPTCHA is properly configured in Firebase Console.'
+    case 'auth/missing-app-credential':
+      return 'Missing app credentials. Please ensure phone authentication is enabled in Firebase Console.'
+    case 'auth/unauthorized-domain':
+      return 'This domain is not authorized. Please add it to Firebase authorized domains.'
     default:
-      return 'An error occurred. Please try again.'
+      return `Authentication error${errorCode !== 'unknown' ? ` (${errorCode})` : ''}. Please try again or contact support.`
   }
 }
 
