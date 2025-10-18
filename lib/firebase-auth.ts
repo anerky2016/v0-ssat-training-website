@@ -153,6 +153,21 @@ export function getFirebaseConsoleUrl(): string {
 }
 
 /**
+ * Get current domain information for debugging
+ */
+export function getCurrentDomainInfo(): { hostname: string; origin: string; isLocalhost: boolean } {
+  if (typeof window === 'undefined') {
+    return { hostname: 'unknown', origin: 'unknown', isLocalhost: false }
+  }
+  
+  return {
+    hostname: window.location.hostname,
+    origin: window.location.origin,
+    isLocalhost: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  }
+}
+
+/**
  * Wait for reCAPTCHA to be ready
  */
 export async function waitForRecaptcha(): Promise<void> {
@@ -229,6 +244,20 @@ export async function sendPhoneVerificationCode(
       } else {
         console.error(`6. Add "${currentDomain}" to authorized domains`)
       }
+    }
+
+    // Provide specific guidance for hostname match issues
+    if (error.code === 'auth/captcha-check-failed' || error.message?.includes('Hostname match not found')) {
+      const currentDomain = typeof window !== 'undefined' ? window.location.hostname : 'unknown'
+      const currentUrl = typeof window !== 'undefined' ? window.location.origin : 'unknown'
+      
+      console.error('🔧 Domain Authorization Required:')
+      console.error('1. Go to Firebase Console → Authentication → Settings')
+      console.error('2. Scroll down to "Authorized domains"')
+      console.error('3. Click "Add domain"')
+      console.error(`4. Add "${currentDomain}" to authorized domains`)
+      console.error(`5. Current URL: ${currentUrl}`)
+      console.error('6. For localhost development, also add "127.0.0.1" if needed')
     }
 
     // Throw user-friendly error
@@ -309,7 +338,7 @@ function getAuthErrorMessage(errorCode: string): string {
     case 'auth/missing-verification-code':
       return 'Please enter the verification code.'
     case 'auth/captcha-check-failed':
-      return 'reCAPTCHA verification failed. Please ensure you are on an authorized domain and try again.'
+      return 'Domain not authorized. Please add your domain to Firebase Console → Authentication → Settings → Authorized domains.'
     case 'auth/internal-error':
       return 'Authentication service error. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/invalid-app-credential':

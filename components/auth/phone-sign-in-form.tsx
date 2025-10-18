@@ -9,6 +9,7 @@ import {
   isRecaptchaConfigured,
   waitForRecaptcha,
   getFirebaseConsoleUrl,
+  getCurrentDomainInfo,
 } from '@/lib/firebase-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -125,6 +126,14 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
         toast({
           title: 'reCAPTCHA Configuration Required',
           description: `Please configure reCAPTCHA in Firebase Console. Go to: ${consoleUrl}`,
+          variant: 'destructive',
+        })
+      } else if (error.message.includes('Domain not authorized') || error.message.includes('Hostname match not found')) {
+        const consoleUrl = getFirebaseConsoleUrl()
+        const domainInfo = getCurrentDomainInfo()
+        toast({
+          title: 'Domain Authorization Required',
+          description: `Please add "${domainInfo.hostname}" to authorized domains in Firebase Console. Go to: ${consoleUrl}`,
           variant: 'destructive',
         })
       } else {
