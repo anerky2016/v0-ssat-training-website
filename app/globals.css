@@ -124,3 +124,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Fix reCAPTCHA z-index to appear above dialogs/modals */
+/* Google reCAPTCHA container */
+iframe[title="reCAPTCHA"],
+iframe[src*="google.com/recaptcha"] {
+  z-index: 9999 !important;
+}
+
+/* reCAPTCHA challenge popup */
+.grecaptcha-badge {
+  z-index: 9999 !important;
+}
+
+/* Ensure reCAPTCHA container allows pointer events */
+#recaptcha-container {
+  position: relative;
+  z-index: 100;
+  pointer-events: auto !important;
+}
+
+/* Ensure all reCAPTCHA divs are clickable */
+div[class*="recaptcha"] {
+  pointer-events: auto !important;
+}
