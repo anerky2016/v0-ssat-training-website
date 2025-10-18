@@ -12,12 +12,16 @@ export function ResumeButton() {
   const router = useRouter()
 
   useEffect(() => {
-    const stored = getBookmark()
-    if (stored && stored.path !== pathname) {
-      setBookmark({ path: stored.path, title: stored.title })
-    } else {
-      setBookmark(null)
+    async function loadBookmark() {
+      const stored = await getBookmark()
+      if (stored && stored.path !== pathname) {
+        setBookmark({ path: stored.path, title: stored.title })
+      } else {
+        setBookmark(null)
+      }
     }
+
+    loadBookmark()
   }, [pathname])
 
   const handleResume = () => {

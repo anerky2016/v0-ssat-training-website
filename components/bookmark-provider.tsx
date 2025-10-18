@@ -55,7 +55,10 @@ export function BookmarkProvider({ children }: { children: React.ReactNode }) {
 
     if (shouldBookmark) {
       const title = getPageTitle(pathname)
-      saveBookmark(pathname, title)
+      // Call async function without awaiting (fire and forget)
+      saveBookmark(pathname, title).catch(error => {
+        console.error('Failed to save bookmark:', error)
+      })
     }
   }, [pathname])
 

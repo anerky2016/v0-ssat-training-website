@@ -144,3 +144,49 @@ CREATE TRIGGER update_notes_updated_at
   BEFORE UPDATE ON notes
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
+
+
+-- ===== BOOKMARKS TABLE =====
+-- Stores user's most recent bookmark (one per user)
+
+CREATE TABLE bookmarks (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL UNIQUE,
+  path TEXT NOT NULL,
+  title TEXT NOT NULL,
+  timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create index for faster queries
+CREATE INDEX idx_bookmarks_user_id ON bookmarks(user_id);
+
+-- Enable Row Level Security
+ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to view their own bookmark
+CREATE POLICY "Users can view their own bookmark"
+  ON bookmarks FOR SELECT
+  USING (true);
+
+-- Create policy to allow users to insert their own bookmark
+CREATE POLICY "Users can insert their own bookmark"
+  ON bookmarks FOR INSERT
+  WITH CHECK (true);
+
+-- Create policy to allow users to update their own bookmark
+CREATE POLICY "Users can update their own bookmark"
+  ON bookmarks FOR UPDATE
+  USING (true);
+
+-- Create policy to allow users to delete their own bookmark
+CREATE POLICY "Users can delete their own bookmark"
+  ON bookmarks FOR DELETE
+  USING (true);
+
+-- Create trigger to update updated_at timestamp
+CREATE TRIGGER update_bookmarks_updated_at
+  BEFORE UPDATE ON bookmarks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();

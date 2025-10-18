@@ -106,6 +106,8 @@ CREATE TRIGGER update_lesson_completions_updated_at
 
 Stores user notes with optional screenshots.
 
+**Note:** Each user can have multiple notes.
+
 ```sql
 CREATE TABLE notes (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -155,6 +157,56 @@ CREATE TRIGGER update_notes_updated_at
   EXECUTE FUNCTION update_updated_at_column();
 ```
 
+### 4. bookmarks
+
+Stores user's most recent bookmark for resume functionality.
+
+**Note:** Each user can have only ONE bookmark (most recent page visited).
+
+```sql
+CREATE TABLE bookmarks (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL UNIQUE,
+  path TEXT NOT NULL,
+  title TEXT NOT NULL,
+  timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create index for faster queries
+CREATE INDEX idx_bookmarks_user_id ON bookmarks(user_id);
+
+-- Enable Row Level Security
+ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to view their own bookmark
+CREATE POLICY "Users can view their own bookmark"
+  ON bookmarks FOR SELECT
+  USING (true);
+
+-- Create policy to allow users to insert their own bookmark
+CREATE POLICY "Users can insert their own bookmark"
+  ON bookmarks FOR INSERT
+  WITH CHECK (true);
+
+-- Create policy to allow users to update their own bookmark
+CREATE POLICY "Users can update their own bookmark"
+  ON bookmarks FOR UPDATE
+  USING (true);
+
+-- Create policy to allow users to delete their own bookmark
+CREATE POLICY "Users can delete their own bookmark"
+  ON bookmarks FOR DELETE
+  USING (true);
+
+-- Create trigger to update updated_at timestamp
+CREATE TRIGGER update_bookmarks_updated_at
+  BEFORE UPDATE ON bookmarks
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+```
+
 ## How to Apply This Schema
 
 1. Go to your Supabase project dashboard
@@ -166,6 +218,7 @@ Or run each table individually:
 - `study_sessions` table
 - `lesson_completions` table
 - `notes` table
+- `bookmarks` table
 
 ## Data Storage
 
@@ -174,6 +227,7 @@ The application now uses Supabase for all user data storage:
 1. **Study Sessions**: Automatically tracked when users complete study sessions
 2. **Lesson Completions**: Tracked when users mark lessons as complete (spaced repetition system)
 3. **Notes**: User-created notes with optional screenshots
+4. **Bookmarks**: Stores user's most recent page for "Resume" functionality (one per user)
 
 All data requires user authentication via Firebase.
 

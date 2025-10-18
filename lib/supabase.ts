@@ -396,3 +396,126 @@ export async function deleteNote(noteId: string, userId: string) {
     return null
   }
 }
+
+// ===== BOOKMARKS =====
+
+export interface BookmarkData {
+  id?: string
+  user_id: string
+  path: string
+  title: string
+  timestamp: string
+}
+
+export async function saveBookmark(userId: string, path: string, title: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping bookmark save')
+    return null
+  }
+
+  try {
+    const now = new Date().toISOString()
+
+    // Check if user already has a bookmark
+    const { data: existing, error: fetchError } = await supabase
+      .from('bookmarks')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (fetchError) {
+      console.error('Error checking bookmark:', fetchError)
+      return null
+    }
+
+    if (existing) {
+      // Update existing bookmark
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .update({
+          path,
+          title,
+          timestamp: now,
+          updated_at: now,
+        })
+        .eq('user_id', userId)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error updating bookmark:', error)
+        return null
+      }
+
+      return data
+    } else {
+      // Insert new bookmark
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .insert({
+          user_id: userId,
+          path,
+          title,
+          timestamp: now,
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error saving bookmark:', error)
+        return null
+      }
+
+      return data
+    }
+  } catch (error) {
+    console.error('Failed to save bookmark:', error)
+    return null
+  }
+}
+
+export async function getUserBookmark(userId: string) {
+  if (!supabase) return null
+
+  try {
+    const { data, error } = await supabase
+      .from('bookmarks')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (error) {
+      console.error('Error fetching bookmark:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to fetch bookmark:', error)
+    return null
+  }
+}
+
+export async function deleteBookmark(userId: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping bookmark delete')
+    return null
+  }
+
+  try {
+    const { error } = await supabase
+      .from('bookmarks')
+      .delete()
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error deleting bookmark:', error)
+      return null
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete bookmark:', error)
+    return null
+  }
+}

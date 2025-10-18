@@ -1,4 +1,10 @@
-// Client-side bookmark functionality using localStorage
+// Client-side bookmark functionality using Supabase
+import { auth } from './firebase'
+import {
+  saveBookmark as saveBookmarkToSupabase,
+  getUserBookmark,
+  deleteBookmark as deleteBookmarkFromSupabase,
+} from './supabase'
 
 export interface Bookmark {
   path: string
@@ -6,48 +12,62 @@ export interface Bookmark {
   timestamp: number
 }
 
-const BOOKMARK_KEY = 'ssat-bookmark'
+// Helper to get current user ID
+function getCurrentUserId(): string | null {
+  return auth?.currentUser?.uid || null
+}
 
-export function saveBookmark(path: string, title: string) {
-  if (typeof window === 'undefined') return
-
-  const bookmark: Bookmark = {
-    path,
-    title,
-    timestamp: Date.now(),
+export async function saveBookmark(path: string, title: string): Promise<void> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot save bookmark')
+    return
   }
 
   try {
-    localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bookmark))
+    await saveBookmarkToSupabase(userId, path, title)
   } catch (error) {
     console.error('Failed to save bookmark:', error)
   }
 }
 
-export function getBookmark(): Bookmark | null {
-  if (typeof window === 'undefined') return null
+export async function getBookmark(): Promise<Bookmark | null> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot fetch bookmark')
+    return null
+  }
 
   try {
-    const stored = localStorage.getItem(BOOKMARK_KEY)
-    if (!stored) return null
+    const data = await getUserBookmark(userId)
+    if (!data) return null
 
-    return JSON.parse(stored) as Bookmark
+    return {
+      path: data.path,
+      title: data.title,
+      timestamp: new Date(data.timestamp).getTime(),
+    }
   } catch (error) {
     console.error('Failed to retrieve bookmark:', error)
     return null
   }
 }
 
-export function clearBookmark() {
-  if (typeof window === 'undefined') return
+export async function clearBookmark(): Promise<void> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('No user logged in - cannot clear bookmark')
+    return
+  }
 
   try {
-    localStorage.removeItem(BOOKMARK_KEY)
+    await deleteBookmarkFromSupabase(userId)
   } catch (error) {
     console.error('Failed to clear bookmark:', error)
   }
 }
 
-export function hasBookmark(): boolean {
-  return getBookmark() !== null
+export async function hasBookmark(): Promise<boolean> {
+  const bookmark = await getBookmark()
+  return bookmark !== null
 }
