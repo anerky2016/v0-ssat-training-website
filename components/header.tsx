@@ -105,23 +105,14 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hidden sm:inline-flex"
-                onClick={() => setShowSignInDialog(true)}
-              >
-                Sign In
-              </Button>
-              <Button
-                size="sm"
-                className="hidden sm:inline-flex"
-                onClick={() => setShowSignInDialog(true)}
-              >
-                Get Started
-              </Button>
-            </>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hidden sm:inline-flex"
+              onClick={() => setShowSignInDialog(true)}
+            >
+              Sign In
+            </Button>
           )}
 
           <Sheet>
@@ -191,18 +182,13 @@ export function Header() {
                       </Button>
                     </>
                   ) : (
-                    <>
-                      <Button
-                        variant="outline"
-                        className="w-full bg-transparent"
-                        onClick={() => setShowSignInDialog(true)}
-                      >
-                        Sign In with Google
-                      </Button>
-                      <Button className="w-full" onClick={() => setShowSignInDialog(true)}>
-                        Get Started
-                      </Button>
-                    </>
+                    <Button
+                      variant="outline"
+                      className="w-full bg-transparent"
+                      onClick={() => setShowSignInDialog(true)}
+                    >
+                      Sign In with Google
+                    </Button>
                   )}
                 </div>
               </nav>
