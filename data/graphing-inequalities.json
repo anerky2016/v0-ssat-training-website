@@ -1,0 +1,248 @@
+{
+  "title": "Graphing Single-Variable Inequalities",
+  "audience": "Ages 11–13",
+  "latex_display": true,
+  "concept": {
+    "what_is_it": "An inequality tells us where a variable can live on the number line (not just one value).",
+    "symbols": [
+      "$<\\;\\text{less than}$",
+      "$>\\;\\text{greater than}$",
+      "$\\le\\;\\text{less than or equal to}$",
+      "$\\ge\\;\\text{greater than or equal to}$"
+    ],
+    "kid_friendly_explanation": "Imagine the number line is a road. The circle shows the 'starting spot' and the arrow shows which way you're allowed to travel."
+  },
+  "key_points": [
+    "First, isolate the variable like an equation.",
+    "When you multiply or divide by a negative, flip the inequality sign.",
+    "Open circle for $<$ or $>$; filled circle for $\\le$ or $\\ge$.",
+    "Shade (draw an arrow) to the right for "greater than," to the left for "less than."",
+    "You can also write answers in interval notation."
+  ],
+  "kid_friendly_explainer": [
+    "Think of an inequality like $x > 3$ as a rule for where you can be on a number line road. The number 3 is a checkpoint, and the inequality tells you which direction you're allowed to go.",
+    "When you see $x > 3$, it means you can be anywhere to the RIGHT of 3 (but NOT exactly at 3). We draw an open circle at 3 to show 'you can't stop here' and an arrow to the right to show 'keep going this way!'",
+    "But if you see $x \\ge 3$, now you CAN stop at 3! We use a filled circle to show 'this spot is allowed' and still point right for all the other allowed spots.",
+    "The tricky part: when you multiply or divide BOTH sides by a negative number, the inequality sign flips! It's like turning around on the road—greater becomes less, and less becomes greater."
+  ],
+  "step_by_step": [
+    "Solve (isolate) the variable if needed.",
+    "Place an open/closed circle at the boundary number.",
+    "Draw an arrow in the correct direction.",
+    "Optionally write the solution set in interval notation."
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "x > 4",
+      "walkthrough": [
+        "The inequality is already solved",
+        "Place an open circle at 4 (because it's $>$, not $\\ge$)",
+        "Draw an arrow to the right (greater means bigger numbers)",
+        "Solution: all numbers greater than 4"
+      ],
+      "answer_latex": "\\text{Open circle at 4, arrow right} \\quad (4, \\infty)"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "x \\le 5",
+      "walkthrough": [
+        "The inequality is already solved",
+        "Place a filled circle at 5 (because of $\\le$)",
+        "Draw an arrow to the left (less than means smaller numbers)",
+        "Solution: all numbers less than or equal to 5"
+      ],
+      "answer_latex": "\\text{Filled circle at 5, arrow left} \\quad (-\\infty, 5]"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "2x < 10",
+      "walkthrough": [
+        "Divide both sides by 2",
+        "$x < 5$",
+        "Place an open circle at 5",
+        "Draw an arrow to the left"
+      ],
+      "answer_latex": "\\text{Open circle at 5, arrow left} \\quad (-\\infty, 5)"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "-2x \\ge 6",
+      "walkthrough": [
+        "Divide both sides by $-2$",
+        "FLIP the inequality sign when dividing by negative!",
+        "$x \\le -3$",
+        "Place a filled circle at $-3$",
+        "Draw an arrow to the left"
+      ],
+      "answer_latex": "\\text{Filled circle at -3, arrow left} \\quad (-\\infty, -3]"
+    }
+  ],
+  "mini_examples": [
+    {
+      "problem": "$x>4$",
+      "work": "Open circle at $4$, arrow to the right.",
+      "interval": "$(4,\\infty)$"
+    },
+    {
+      "problem": "$x\\le 5$",
+      "work": "Filled circle at $5$, arrow to the left.",
+      "interval": "$(-\\infty,5]$"
+    },
+    {
+      "problem": "$-2x\\ge 6$",
+      "work": "Divide by $-2$ and flip: $x\\le -3$ Filled circle at $-3$, arrow left.",
+      "interval": "$(-\\infty,-3]$"
+    }
+  ],
+  "tips": [
+    "Greater = right; Less = left (think Go Right for Greater).",
+    "Check a test point (like $0$) to confirm the shading direction.",
+    "Keep fractions and decimals carefully—boundary placement matters!"
+  ],
+  "teacher_notes": [
+    "Greater = right; Less = left (think 'Go Right for Greater').",
+    "Check a test point (like $0$) to confirm the shading direction.",
+    "Keep fractions and decimals carefully—boundary placement matters!",
+    "Remember: Open circle for strict inequalities ($<$ or $>$), filled circle for inclusive ($\\le$ or $\\ge$).",
+    "When multiplying or dividing by a negative number, ALWAYS flip the inequality sign.",
+    "Interval notation: Use parentheses $()$ for open circles, brackets $[]$ for filled circles.",
+    "For compound inequalities, you may need to show multiple regions on the number line."
+  ],
+  "common_mistakes": [
+    "Forgetting to flip the sign when multiplying/dividing by a negative.",
+    "Using a filled circle for $>$ or $<$ (should be open).",
+    "Shading the wrong direction because the boundary is negative."
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Graph each inequality on a number line and write in interval notation.",
+      "items": [
+        {
+          "id": "E1",
+          "question_latex": "x>2",
+          "answer_latex": "\\text{Open circle at 2, arrow right}",
+          "solution": "Open circle at $2$, arrow right. Interval: $(2,\\infty)$"
+        },
+        {
+          "id": "E2",
+          "question_latex": "x\\le -1",
+          "answer_latex": "\\text{Filled circle at -1, arrow left}",
+          "solution": "Filled circle at $-1$, arrow left. Interval: $(-\\infty,-1]$"
+        },
+        {
+          "id": "E3",
+          "question_latex": "x<5",
+          "answer_latex": "\\text{Open circle at 5, arrow left}",
+          "solution": "Open circle at $5$, arrow left. Interval: $(-\\infty,5)$"
+        },
+        {
+          "id": "E4",
+          "question_latex": "x\\ge 0",
+          "answer_latex": "\\text{Filled circle at 0, arrow right}",
+          "solution": "Filled circle at $0$, arrow right. Interval: $[0,\\infty)$"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Solve the inequality, then graph and write in interval notation.",
+      "items": [
+        {
+          "id": "M1",
+          "question_latex": "x-3\\ge 4",
+          "answer_latex": "x\\ge 7",
+          "solution": "$x\\ge 7$ → Filled circle at $7$, arrow right. Interval: $[7,\\infty)$"
+        },
+        {
+          "id": "M2",
+          "question_latex": "2x<10",
+          "answer_latex": "x<5",
+          "solution": "$x<5$ → Open circle at $5$, arrow left. Interval: $(-\\infty,5)$"
+        },
+        {
+          "id": "M3",
+          "question_latex": "\\dfrac{x}{4}\\le -2",
+          "answer_latex": "x\\le -8",
+          "solution": "$x\\le -8$ → Filled circle at $-8$, arrow left. Interval: $(-\\infty,-8]$"
+        },
+        {
+          "id": "M4",
+          "question_latex": "x+1.5> -0.5",
+          "answer_latex": "x> -2",
+          "solution": "$x> -2$ → Open circle at $-2$, arrow right. Interval: $(-2,\\infty)$"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Watch for negative coefficients! Remember to flip the inequality.",
+      "items": [
+        {
+          "id": "C1",
+          "question_latex": "-3x\\le 12",
+          "answer_latex": "x\\ge -4",
+          "solution": "Divide by $-3$ and flip: $x\\ge -4$ → Filled circle at $-4$, arrow right. Interval: $[-4,\\infty)$"
+        },
+        {
+          "id": "C2",
+          "question_latex": "5-2x>1",
+          "answer_latex": "x<2",
+          "solution": "$-2x>-4\\Rightarrow x<2$ (flip!) → Open circle at $2$, arrow left. Interval: $(-\\infty,2)$"
+        },
+        {
+          "id": "C3",
+          "question_latex": "\\dfrac{1}{2}x-3\\ge -1",
+          "answer_latex": "x\\ge 4",
+          "solution": "$\\dfrac{1}{2}x\\ge 2\\Rightarrow x\\ge 4$ → Filled circle at $4$, arrow right. Interval: $[4,\\infty)$"
+        },
+        {
+          "id": "C4",
+          "question_latex": "-0.2x<0.6",
+          "answer_latex": "x> -3",
+          "solution": "Divide by $-0.2$ and flip: $x> -3$ → Open circle at $-3$, arrow right. Interval: $(-3,\\infty)$"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Advanced problems with fractions, absolute values, and word problems.",
+      "items": [
+        {
+          "id": "X1",
+          "question_latex": "\\dfrac{3-2x}{5}\\le -1",
+          "answer_latex": "x\\ge 4",
+          "solution": "$3-2x\\le -5\\Rightarrow -2x\\le -8\\Rightarrow x\\ge 4$ (flip!) → Filled circle at $4$, arrow right. Interval: $[4,\\infty)$"
+        },
+        {
+          "id": "X2",
+          "question_latex": "|x-3|>2",
+          "hint": "Absolute value inequality",
+          "answer_latex": "x<1 \\text{ or } x>5",
+          "solution": "$x-3>2\\;\\text{ or }\\;x-3<-2\\Rightarrow x>5\\;\\text{ or }\\;x<1$ → Open circles at $1$ and $5$. Interval: $(-\\infty,1)\\cup(5,\\infty)$"
+        },
+        {
+          "id": "X3",
+          "question_latex": "-2\\le t<6",
+          "hint": "A temperature $t$ is 'safe' if it is at least $-2^\\circ$C but below $6^\\circ$C.",
+          "answer_latex": "[-2,6)",
+          "solution": "Filled circle at $-2$, open circle at $6$, shade between. Interval: $[-2,6)$"
+        },
+        {
+          "id": "X4",
+          "question_latex": "\\dfrac{x+4}{-3}\\ge 2.5",
+          "answer_latex": "x\\le -11.5",
+          "solution": "$x+4\\le -7.5\\Rightarrow x\\le -11.5$ (flip!) → Filled circle at $-11.5$, arrow left. Interval: $(-\\infty,-11.5]$"
+        }
+      ]
+    }
+  },
+  "self_check": [
+    {
+      "question": "When must you flip $<$/$>$/$\\le$/$\\ge$?",
+      "choices": ["When you add a number", "When you subtract a number", "When you multiply or divide by a negative number"],
+      "answer": "When you multiply or divide by a negative number."
+    },
+    {
+      "question": "Graph quickly: $-4x>12$",
+      "answer": "$x< -3$ → open circle at $-3$, arrow left"
+    }
+  ]
+}

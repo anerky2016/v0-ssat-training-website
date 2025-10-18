@@ -29,6 +29,7 @@ const BOOKMARKABLE_PATHS = [
   '/math/expressions/distributive',
   '/math/equations/one-step',
   '/math/equations/multi-step',
+  '/math/equations/graphing-inequalities',
 ]
 
 // Generate page title from path

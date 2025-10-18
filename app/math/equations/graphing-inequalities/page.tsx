@@ -1,0 +1,467 @@
+"use client"
+
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen, AlertCircle, Clock, CheckSquare } from "lucide-react"
+import Link from "next/link"
+import { useState, useEffect } from "react"
+import graphingData from "@/data/graphing-inequalities.json"
+import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
+
+export default function GraphingInequalitiesPage() {
+  const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
+  const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
+  const [mounted, setMounted] = useState(false)
+  const [checklist, setChecklist] = useState({
+    understand: false,
+    rules: false,
+    ready: false
+  })
+
+  const mathJaxConfig = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const toggleAnswer = (id: string) => {
+    setShowAnswers(prev => {
+      const newState = { ...prev, [id]: !prev[id] }
+
+      // Dispatch custom event when answer is revealed for tracking
+      if (newState[id] && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('answer-revealed'))
+      }
+
+      return newState
+    })
+  }
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <MathJaxContext config={mathJaxConfig}>
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          {/* Hero Section */}
+          <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-9/5 to-background">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Link href="/math/equations" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Equations Chapter
+                </Link>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
+                  {graphingData.title}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  <strong>Audience:</strong> {graphingData.audience}
+                </p>
+                <CompleteStudyButton category="math" topicTitle={graphingData.title} />
+              </div>
+            </div>
+          </section>
+
+          {/* Kid-Friendly Explainer */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                {/* Why This Matters Banner */}
+                <Card className="mb-8 border-amber-500/50 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                        <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Students who read the Understanding and Core Concepts sections carefully score <strong className="text-foreground">40% higher</strong> on practice problems.
+                          Taking just <strong className="text-foreground">5 minutes</strong> to understand these concepts will save you 30+ minutes of frustration later!
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-chart-2" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding Inequalities</h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">3-4 min read</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid gap-4">
+                  {graphingData.kid_friendly_explainer.map((explanation, index) => (
+                    <Card key={index} className="border-chart-2/20">
+                      <CardContent className="pt-6">
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          <MathJax>{explanation}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Core Concepts */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-3/10 flex items-center justify-center">
+                    <BookOpen className="h-6 w-6 text-chart-3" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Core Concepts</h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">2-3 min read</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid gap-6">
+                  <Card className="border-chart-3/20">
+                    <CardHeader>
+                      <CardTitle className="text-xl text-primary">What Are Inequalities?</CardTitle>
+                      <CardDescription className="text-base">
+                        <MathJax>{graphingData.concept.what_is_it}</MathJax>
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-sm font-semibold text-foreground mb-3">Inequality Symbols:</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {graphingData.concept.symbols.map((symbol, idx) => (
+                              <div key={idx} className="bg-muted/50 rounded-lg p-3 text-center">
+                                <MathJax>{symbol}</MathJax>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                          <p className="text-sm text-blue-900 dark:text-blue-200">
+                            <MathJax>{graphingData.concept.kid_friendly_explanation}</MathJax>
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-chart-3/20">
+                    <CardHeader>
+                      <CardTitle className="text-xl text-primary">Key Points to Remember</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-3">
+                        {graphingData.key_points.map((point, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-3 flex-shrink-0" />
+                            <span className="text-sm text-muted-foreground">
+                              <MathJax>{point}</MathJax>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="border-chart-3/20">
+                    <CardHeader>
+                      <CardTitle className="text-xl text-primary">Step-by-Step Process</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ol className="space-y-3">
+                        {graphingData.step_by_step.map((step, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <span className="font-semibold text-primary">{idx + 1}.</span>
+                            <span className="text-sm text-muted-foreground">
+                              <MathJax>{step}</MathJax>
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Self-Check Checklist */}
+          <section className="py-8 sm:py-12">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-blue-500/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20">
+                  <CardContent className="pt-6 pb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                        <CheckSquare className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-3">Quick Check: Are You Ready for Examples?</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Before moving on, make sure you understand these key concepts:
+                        </p>
+                        <div className="space-y-3">
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.understand}
+                              onChange={(e) => setChecklist({...checklist, understand: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I understand the difference between open and filled circles on a number line
+                            </span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.rules}
+                              onChange={(e) => setChecklist({...checklist, rules: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I know that multiplying or dividing by a negative flips the inequality sign
+                            </span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.ready}
+                              onChange={(e) => setChecklist({...checklist, ready: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I'm ready to see how to graph inequalities step by step
+                            </span>
+                          </label>
+                        </div>
+                        {checklist.understand && checklist.rules && checklist.ready && (
+                          <div className="mt-4 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+                            <p className="text-sm text-green-700 dark:text-green-400 font-medium">
+                              ✓ Great! You're ready to see worked examples and practice problems.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Step-by-Step Examples */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-4/10 flex items-center justify-center">
+                    <Target className="h-6 w-6 text-chart-4" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Worked Examples</h2>
+                </div>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {graphingData.step_by_step_examples.map((example) => (
+                    <Card key={example.id} className="border-chart-4/20">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Example {example.id.replace('ex', '')}</CardTitle>
+                        <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
+                          <MathJax>{"\\[" + example.problem_latex + "\\]"}</MathJax>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <p className="text-sm font-semibold text-foreground">Solution:</p>
+                          <ol className="space-y-2">
+                            {example.walkthrough.map((step, idx) => (
+                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
+                                <span className="font-semibold text-primary">{idx + 1}.</span>
+                                <span><MathJax>{step}</MathJax></span>
+                              </li>
+                            ))}
+                          </ol>
+                          <div className="bg-chart-4/10 rounded-lg p-4 overflow-x-auto">
+                            <MathJax>{"\\[" + example.answer_latex + "\\]"}</MathJax>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Teacher Notes */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
+                    <Lightbulb className="h-6 w-6 text-chart-5" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Pro Tips</h2>
+                </div>
+                <div className="grid gap-4">
+                  {graphingData.teacher_notes.map((note, index) => (
+                    <Card key={index} className="border-chart-5/20">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Practice Exercises */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
+                <p className="text-muted-foreground mb-6">
+                  Master graphing inequalities with practice problems at different difficulty levels.
+                </p>
+
+                {/* Difficulty Selector and Print Button */}
+                <div className="flex flex-wrap items-center gap-2 mb-8">
+                  {Object.keys(graphingData.exercises).map((difficulty) => (
+                    <Button
+                      key={difficulty}
+                      variant={selectedDifficulty === difficulty ? "default" : "outline"}
+                      onClick={() => setSelectedDifficulty(difficulty)}
+                      className="capitalize"
+                    >
+                      {difficulty}
+                    </Button>
+                  ))}
+                  {graphingData.exercises[selectedDifficulty as keyof typeof graphingData.exercises] && (
+                    <PrintExercisesButton
+                      exercises={graphingData.exercises[selectedDifficulty as keyof typeof graphingData.exercises].items}
+                      topicTitle={graphingData.title}
+                      difficulty={selectedDifficulty}
+                    />
+                  )}
+                </div>
+
+                {/* Current Set Info */}
+                {graphingData.exercises[selectedDifficulty as keyof typeof graphingData.exercises] && (
+                  <>
+                    <Card className="mb-6 border-primary/20">
+                      <CardContent className="pt-6">
+                        <p className="text-sm text-muted-foreground">
+                          <strong>Directions:</strong> <MathJax>{graphingData.exercises[selectedDifficulty as keyof typeof graphingData.exercises].directions}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    {/* Practice Items */}
+                    <div className="space-y-4">
+                      {graphingData.exercises[selectedDifficulty as keyof typeof graphingData.exercises].items.map((item) => (
+                        <Card key={item.id} className="border-border">
+                          <CardHeader>
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                              <CardTitle className="text-lg">Problem {item.id.replace(/[a-z]/gi, '')}</CardTitle>
+                              <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto flex-1 sm:flex-initial">
+                                <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
+                              </div>
+                            </div>
+                            {item.hint && (
+                              <CardDescription className="text-sm text-muted-foreground italic flex items-baseline gap-1">
+                                <span>💡</span>
+                                <span><MathJax>{item.hint}</MathJax></span>
+                              </CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex flex-wrap gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => toggleAnswer(item.id)}
+                              >
+                                {showAnswers[item.id] ? "Hide" : "Show"} Answer
+                              </Button>
+                            </div>
+
+                            {showAnswers[item.id] && (
+                              <div className="mt-4 p-4 bg-chart-8/10 rounded-lg overflow-x-auto">
+                                <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
+                                <MathJax>{"\\[" + item.answer_latex + "\\]"}</MathJax>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Complete Study Button */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-8/5">
+                  <CardContent className="pt-8 pb-8 text-center">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                      Finished This Lesson?
+                    </h3>
+                    <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                      Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                    </p>
+                    <CompleteStudyButton category="math" topicTitle={graphingData.title} centered size="lg" />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Navigation */}
+          <section className="py-8">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="flex justify-center">
+                <Link href="/math/equations">
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Equations Chapter
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    </MathJaxContext>
+  )
+}
