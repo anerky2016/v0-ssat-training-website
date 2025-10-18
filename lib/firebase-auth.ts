@@ -308,6 +308,11 @@ export async function signOutUser(): Promise<void> {
     // Clear any pending authentication state
     confirmationResult = null
     clearRecaptchaVerifier()
+
+    // Redirect to home page after successful sign out
+    if (typeof window !== 'undefined') {
+      window.location.href = '/'
+    }
   } catch (error) {
     console.error('Error signing out:', error)
     throw error
