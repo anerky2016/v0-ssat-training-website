@@ -35,12 +35,6 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-6">
           <Link
-            href="/#sections"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Test Sections
-          </Link>
-          <Link
             href="/progress"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -124,12 +118,6 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  href="/#sections"
-                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                >
-                  Test Sections
-                </Link>
                 <Link
                   href="/progress"
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-2"
