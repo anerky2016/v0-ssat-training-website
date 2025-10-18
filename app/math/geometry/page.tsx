@@ -36,7 +36,7 @@ export default function GeometryPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { title: "Pythagorean Theorem", href: null },
+                  { title: "Pythagorean Theorem", href: "/math/geometry/pythagorean-theorem" },
                   { title: "Triangles", href: null },
                   { title: "Polygons", href: null },
                   { title: "Circles", href: null },

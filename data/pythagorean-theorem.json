@@ -1,0 +1,243 @@
+{
+  "title": "The Pythagorean Theorem",
+  "audience": "Ages 11–13",
+  "latex_display": true,
+  "concept": {
+    "what_is_it": "The Pythagorean Theorem is a rule that connects the three sides of any right triangle (a triangle with one 90° angle).",
+    "formula": "$a^2 + b^2 = c^2$",
+    "explanation": "In a right triangle, the two shorter sides are called legs (a and b), and the longest side (opposite the right angle) is called the hypotenuse (c). The square of the hypotenuse equals the sum of the squares of the other two sides.",
+    "kid_friendly_story": "Think of a right triangle like a ramp. The ramp's length (c) is made up of the two shorter sides (the base and height). If you square each of them and add them up, you get the square of the ramp's length!"
+  },
+  "key_points": [
+    "Use the Pythagorean Theorem only for right triangles.",
+    "Identify which side is the hypotenuse — it's always opposite the right angle.",
+    "To find the missing side:",
+    "• If the hypotenuse (c) is missing: $c = \\sqrt{a^2 + b^2}$",
+    "• If a leg is missing: $a = \\sqrt{c^2 - b^2}$ or $b = \\sqrt{c^2 - a^2}$",
+    "Always take the positive square root, since side lengths are positive."
+  ],
+  "kid_friendly_explainer": [
+    "Imagine you're standing at one corner of a rectangular park. You can walk along the edges (going right, then up), or you can cut straight across diagonally. The Pythagorean Theorem helps you figure out how far that diagonal path is!",
+    "The formula is $a^2 + b^2 = c^2$, where $a$ and $b$ are the two sides that meet at the right angle (the legs), and $c$ is the longest side opposite the right angle (the hypotenuse).",
+    "Here's the cool part: if you know ANY two sides of a right triangle, you can find the third! Square the sides you know, add or subtract them (depending on what you're finding), then take the square root. That's it!",
+    "Real-world example: If you have a 3-foot ladder base and need to reach 4 feet high on a wall, your ladder needs to be 5 feet long. That's because $3^2 + 4^2 = 9 + 16 = 25$, and $\\sqrt{25} = 5$!"
+  ],
+  "step_by_step": [
+    "Label the sides: a, b (legs) and c (hypotenuse).",
+    "Plug the known values into $a^2 + b^2 = c^2$.",
+    "Simplify and solve for the missing side.",
+    "Take the square root of both sides."
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "\\text{Find } c \\text{ when } a = 3 \\text{ and } b = 4",
+      "walkthrough": [
+        "Use the formula: $a^2 + b^2 = c^2$",
+        "Substitute: $3^2 + 4^2 = c^2$",
+        "Calculate: $9 + 16 = c^2$",
+        "$25 = c^2$",
+        "Take the square root: $c = 5$"
+      ],
+      "answer_latex": "c = 5"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "\\text{Find } b \\text{ when } a = 6 \\text{ and } c = 10",
+      "walkthrough": [
+        "Use the formula: $a^2 + b^2 = c^2$",
+        "Substitute: $6^2 + b^2 = 10^2$",
+        "Calculate: $36 + b^2 = 100$",
+        "Subtract 36: $b^2 = 64$",
+        "Take the square root: $b = 8$"
+      ],
+      "answer_latex": "b = 8"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "\\text{Find } c \\text{ when } a = 5 \\text{ and } b = 12",
+      "walkthrough": [
+        "Use the formula: $a^2 + b^2 = c^2$",
+        "Substitute: $5^2 + 12^2 = c^2$",
+        "Calculate: $25 + 144 = c^2$",
+        "$169 = c^2$",
+        "Take the square root: $c = 13$"
+      ],
+      "answer_latex": "c = 13"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\text{Find } a \\text{ when } b = 9 \\text{ and } c = 15",
+      "walkthrough": [
+        "Use the formula: $a^2 + b^2 = c^2$",
+        "Substitute: $a^2 + 9^2 = 15^2$",
+        "Calculate: $a^2 + 81 = 225$",
+        "Subtract 81: $a^2 = 144$",
+        "Take the square root: $a = 12$"
+      ],
+      "answer_latex": "a = 12"
+    }
+  ],
+  "mini_examples": [
+    {
+      "problem": "Find the hypotenuse when $a=9$ and $b=12$.",
+      "work": "$a^2 + b^2 = c^2 \\Rightarrow 9^2 + 12^2 = c^2 \\Rightarrow 81 + 144 = 225 \\Rightarrow c = 15$",
+      "answer": "$c = 15$"
+    },
+    {
+      "problem": "Find the missing side when $c=10$ and $a=6$.",
+      "work": "$a^2 + b^2 = c^2 \\Rightarrow 6^2 + b^2 = 10^2 \\Rightarrow 36 + b^2 = 100 \\Rightarrow b^2 = 64 \\Rightarrow b = 8$",
+      "answer": "$b = 8$"
+    }
+  ],
+  "tips": [
+    "Draw a quick sketch and label sides clearly.",
+    "Double-check which side is the hypotenuse before plugging into the formula.",
+    "If your square root isn't a perfect number, leave it as a root (like $\\sqrt{17}$).",
+    "This formula works only in right triangles!"
+  ],
+  "teacher_notes": [
+    "Draw a quick sketch and label sides clearly.",
+    "Double-check which side is the hypotenuse before plugging into the formula.",
+    "If your square root isn't a perfect number, leave it as a root (like $\\sqrt{17}$) or use a calculator.",
+    "This formula works ONLY in right triangles!",
+    "Common Pythagorean triples to know: (3,4,5), (5,12,13), (8,15,17), (7,24,25)",
+    "Multiples of these triples also work: (6,8,10), (9,12,15), etc.",
+    "Always check that the hypotenuse (c) is the longest side."
+  ],
+  "common_mistakes": [
+    "Using the theorem on non-right triangles.",
+    "Forgetting to square the sides before adding or subtracting.",
+    "Mixing up which side is the hypotenuse.",
+    "Forgetting to take the square root at the end."
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Find the missing side of each right triangle. Show your work.",
+      "items": [
+        {
+          "id": "E1",
+          "question_latex": "\\text{Find } c \\text{ if } a=3 \\text{ and } b=4",
+          "answer_latex": "c = 5",
+          "solution": "$c = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$"
+        },
+        {
+          "id": "E2",
+          "question_latex": "\\text{Find } c \\text{ if } a=5 \\text{ and } b=12",
+          "answer_latex": "c = 13",
+          "solution": "$c = \\sqrt{5^2 + 12^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$"
+        },
+        {
+          "id": "E3",
+          "question_latex": "\\text{Find } b \\text{ if } a=6 \\text{ and } c=10",
+          "answer_latex": "b = 8",
+          "solution": "$b = \\sqrt{10^2 - 6^2} = \\sqrt{100 - 36} = \\sqrt{64} = 8$"
+        },
+        {
+          "id": "E4",
+          "question_latex": "\\text{Find } a \\text{ if } b=9 \\text{ and } c=15",
+          "answer_latex": "a = 12",
+          "solution": "$a = \\sqrt{15^2 - 9^2} = \\sqrt{225 - 81} = \\sqrt{144} = 12$"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Solve for the missing side. Remember to check which side is the hypotenuse!",
+      "items": [
+        {
+          "id": "M1",
+          "question_latex": "\\text{Find } c \\text{ if } a=7 \\text{ and } b=24",
+          "answer_latex": "c = 25",
+          "solution": "$c = \\sqrt{7^2 + 24^2} = \\sqrt{49 + 576} = \\sqrt{625} = 25$"
+        },
+        {
+          "id": "M2",
+          "question_latex": "\\text{Find } b \\text{ if } a=9 \\text{ and } c=15",
+          "answer_latex": "b = 12",
+          "solution": "$b = \\sqrt{15^2 - 9^2} = \\sqrt{225 - 81} = \\sqrt{144} = 12$"
+        },
+        {
+          "id": "M3",
+          "question_latex": "\\text{Find } c \\text{ if } a=8 \\text{ and } b=15",
+          "answer_latex": "c = 17",
+          "solution": "$c = \\sqrt{8^2 + 15^2} = \\sqrt{64 + 225} = \\sqrt{289} = 17$"
+        },
+        {
+          "id": "M4",
+          "question_latex": "\\text{Find } a \\text{ if } b=5 \\text{ and } c=13",
+          "answer_latex": "a = 12",
+          "solution": "$a = \\sqrt{13^2 - 5^2} = \\sqrt{169 - 25} = \\sqrt{144} = 12$"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Real-world problems using the Pythagorean Theorem.",
+      "items": [
+        {
+          "id": "C1",
+          "question_latex": "\\text{A ladder leans against a wall. The bottom is 6 ft from the wall,}\\\\\\text{and the ladder reaches 8 ft high. How long is the ladder?}",
+          "answer_latex": "c = 10\\text{ ft}",
+          "solution": "$c = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10\\text{ ft}$"
+        },
+        {
+          "id": "C2",
+          "question_latex": "\\text{Find the diagonal of a rectangle with sides 9 cm and 40 cm.}",
+          "answer_latex": "c = 41\\text{ cm}",
+          "solution": "$c = \\sqrt{9^2 + 40^2} = \\sqrt{81 + 1600} = \\sqrt{1681} = 41\\text{ cm}$"
+        },
+        {
+          "id": "C3",
+          "question_latex": "\\text{Find } b \\text{ if } a=5 \\text{ and } c=13",
+          "answer_latex": "b = 12",
+          "solution": "$b = \\sqrt{13^2 - 5^2} = \\sqrt{169 - 25} = \\sqrt{144} = 12$"
+        },
+        {
+          "id": "C4",
+          "question_latex": "\\text{Find } a \\text{ if } b=20 \\text{ and } c=29",
+          "answer_latex": "a = 21",
+          "solution": "$a = \\sqrt{29^2 - 20^2} = \\sqrt{841 - 400} = \\sqrt{441} = 21$"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Advanced problems with non-perfect square roots and applications.",
+      "items": [
+        {
+          "id": "X1",
+          "question_latex": "\\text{A 26 ft ladder leans on a building, touching it 24 ft above the ground.}\\\\\\text{How far is the ladder's base from the wall?}",
+          "answer_latex": "b = 10\\text{ ft}",
+          "solution": "$b = \\sqrt{26^2 - 24^2} = \\sqrt{676 - 576} = \\sqrt{100} = 10\\text{ ft}$"
+        },
+        {
+          "id": "X2",
+          "question_latex": "\\text{Find the diagonal of a square with side length 9 cm.}",
+          "answer_latex": "c = 9\\sqrt{2}\\text{ cm}",
+          "solution": "$c = \\sqrt{9^2 + 9^2} = \\sqrt{81 + 81} = \\sqrt{162} = 9\\sqrt{2}\\text{ cm}$"
+        },
+        {
+          "id": "X3",
+          "question_latex": "\\text{Find } a \\text{ if } b=11 \\text{ and } c=61",
+          "answer_latex": "a = 60",
+          "solution": "$a = \\sqrt{61^2 - 11^2} = \\sqrt{3721 - 121} = \\sqrt{3600} = 60$"
+        },
+        {
+          "id": "X4",
+          "question_latex": "\\text{A drone flies 80 m east, then 150 m north.}\\\\\\text{What is its straight-line distance from the start?}",
+          "answer_latex": "c = 170\\text{ m}",
+          "solution": "$c = \\sqrt{80^2 + 150^2} = \\sqrt{6400 + 22500} = \\sqrt{28900} = 170\\text{ m}$"
+        }
+      ]
+    }
+  },
+  "self_check": [
+    {
+      "question": "What side is always opposite the right angle?",
+      "choices": ["a", "b", "c (the hypotenuse)"],
+      "answer": "c (the hypotenuse)"
+    },
+    {
+      "question": "If a right triangle has sides 8 and 15, what is the hypotenuse?",
+      "answer": "$c = 17$"
+    }
+  ]
+}

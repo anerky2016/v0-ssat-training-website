@@ -32,6 +32,7 @@ const BOOKMARKABLE_PATHS = [
   '/math/equations/graphing-inequalities',
   '/math/equations/one-step-inequalities',
   '/math/equations/multi-step-inequalities',
+  '/math/geometry/pythagorean-theorem',
 ]
 
 // Generate page title from path

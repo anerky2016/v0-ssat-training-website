@@ -1,0 +1,487 @@
+"use client"
+
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowLeft, Lightbulb, Target, Sparkles, BookOpen, AlertCircle, Clock, CheckSquare } from "lucide-react"
+import Link from "next/link"
+import { useState, useEffect } from "react"
+import pythagoreanData from "@/data/pythagorean-theorem.json"
+import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { PrintExercisesButton } from "@/components/print-exercises-button"
+import { CompleteStudyButton } from "@/components/complete-study-button"
+
+export default function PythagoreanTheoremPage() {
+  const [selectedDifficulty, setSelectedDifficulty] = useState("easy")
+  const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({})
+  const [mounted, setMounted] = useState(false)
+  const [checklist, setChecklist] = useState({
+    understand: false,
+    rules: false,
+    ready: false
+  })
+
+  const mathJaxConfig = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const toggleAnswer = (id: string) => {
+    setShowAnswers(prev => {
+      const newState = { ...prev, [id]: !prev[id] }
+
+      // Dispatch custom event when answer is revealed for tracking
+      if (newState[id] && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('answer-revealed'))
+      }
+
+      return newState
+    })
+  }
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <MathJaxContext config={mathJaxConfig}>
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          {/* Hero Section */}
+          <section className="py-4 sm:py-6 lg:py-8 bg-gradient-to-b from-chart-10/5 to-background">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Link href="/math/geometry" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Geometry Chapter
+                </Link>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
+                  {pythagoreanData.title}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  <strong>Audience:</strong> {pythagoreanData.audience}
+                </p>
+                <CompleteStudyButton category="math" topicTitle={pythagoreanData.title} />
+              </div>
+            </div>
+          </section>
+
+          {/* Concept Section */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-1/10 flex items-center justify-center">
+                    <BookOpen className="h-6 w-6 text-chart-1" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">What is it?</h2>
+                </div>
+                <Card className="border-chart-1/20 mb-6">
+                  <CardContent className="pt-6">
+                    <p className="text-base text-muted-foreground leading-relaxed mb-4">
+                      <MathJax>{pythagoreanData.concept.what_is_it}</MathJax>
+                    </p>
+                    <div className="bg-muted/50 rounded-lg p-6 overflow-x-auto">
+                      <p className="text-sm text-muted-foreground mb-3 text-center font-semibold">The Formula:</p>
+                      <MathJax>{"\\[" + pythagoreanData.concept.formula + "\\]"}</MathJax>
+                    </div>
+                    <p className="text-base text-muted-foreground leading-relaxed mt-4">
+                      <MathJax>{pythagoreanData.concept.explanation}</MathJax>
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-blue-500/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Kid-Friendly Story</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          <MathJax>{pythagoreanData.concept.kid_friendly_story}</MathJax>
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Key Points */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-2/10 flex items-center justify-center">
+                    <Target className="h-6 w-6 text-chart-2" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Key Points</h2>
+                </div>
+                <div className="grid gap-4">
+                  {pythagoreanData.key_points.map((point, index) => (
+                    <Card key={index} className="border-chart-2/20">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <div className="h-6 w-6 rounded-full bg-chart-2/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span className="text-xs font-bold text-chart-2">{index + 1}</span>
+                          </div>
+                          <p className="text-sm text-muted-foreground"><MathJax>{point}</MathJax></p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Kid-Friendly Explainer */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                {/* Why This Matters Banner */}
+                <Card className="mb-8 border-amber-500/50 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                        <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Why This Matters</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Students who read the Understanding section carefully score <strong className="text-foreground">40% higher</strong> on practice problems.
+                          Taking just <strong className="text-foreground">5 minutes</strong> to understand these concepts will save you 30+ minutes of frustration later!
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-3/10 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-chart-3" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Understanding the Pythagorean Theorem</h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">3-4 min read</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid gap-4">
+                  {pythagoreanData.kid_friendly_explainer.map((explanation, index) => (
+                    <Card key={index} className="border-chart-3/20">
+                      <CardContent className="pt-6">
+                        <p className="text-base text-muted-foreground leading-relaxed">
+                          <MathJax>{explanation}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Self-Check Checklist */}
+          <section className="py-8 sm:py-12">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-blue-500/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20">
+                  <CardContent className="pt-6 pb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                        <CheckSquare className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground mb-3">Quick Check: Are You Ready for Examples?</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Before moving on, make sure you understand these key concepts:
+                        </p>
+                        <div className="space-y-3">
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.understand}
+                              onChange={(e) => setChecklist({...checklist, understand: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I understand what a right triangle is and can identify the hypotenuse
+                            </span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.rules}
+                              onChange={(e) => setChecklist({...checklist, rules: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I know the Pythagorean Theorem formula and when to use it
+                            </span>
+                          </label>
+                          <label className="flex items-start gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={checklist.ready}
+                              onChange={(e) => setChecklist({...checklist, ready: e.target.checked})}
+                              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
+                            />
+                            <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                              I'm ready to see how this formula works in practice
+                            </span>
+                          </label>
+                        </div>
+                        {checklist.understand && checklist.rules && checklist.ready && (
+                          <div className="mt-4 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+                            <p className="text-sm text-green-700 dark:text-green-400 font-medium">
+                              ✓ Great! You're ready to see worked examples and practice problems.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Step-by-Step Examples */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-4/10 flex items-center justify-center">
+                    <Target className="h-6 w-6 text-chart-4" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Worked Examples</h2>
+                </div>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {pythagoreanData.step_by_step_examples.map((example) => (
+                    <Card key={example.id} className="border-chart-4/20">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Example {example.id.replace('ex', '')}</CardTitle>
+                        <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
+                          <MathJax>{"\\[" + example.problem_latex + "\\]"}</MathJax>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <p className="text-sm font-semibold text-foreground">Solution:</p>
+                          <ol className="space-y-2">
+                            {example.walkthrough.map((step, idx) => (
+                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
+                                <span className="font-semibold text-primary">{idx + 1}.</span>
+                                <span><MathJax>{step}</MathJax></span>
+                              </li>
+                            ))}
+                          </ol>
+                          <div className="bg-chart-4/10 rounded-lg p-4 overflow-x-auto">
+                            <MathJax>{"\\[" + example.answer_latex + "\\]"}</MathJax>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Teacher Notes */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-chart-5/10 flex items-center justify-center">
+                    <Lightbulb className="h-6 w-6 text-chart-5" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Pro Tips</h2>
+                </div>
+                <div className="grid gap-4">
+                  {pythagoreanData.teacher_notes.map((note, index) => (
+                    <Card key={index} className="border-chart-5/20">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <Lightbulb className="h-5 w-5 text-chart-5 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-muted-foreground"><MathJax>{note}</MathJax></p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Common Mistakes */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center">
+                    <AlertCircle className="h-6 w-6 text-red-500" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Common Mistakes to Avoid</h2>
+                </div>
+                <div className="grid gap-4">
+                  {pythagoreanData.common_mistakes.map((mistake, index) => (
+                    <Card key={index} className="border-red-500/20">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-muted-foreground"><MathJax>{mistake}</MathJax></p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Practice Exercises */}
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">Practice Problems</h2>
+                <p className="text-muted-foreground mb-6">
+                  Master the Pythagorean Theorem with practice problems at different difficulty levels.
+                </p>
+
+                {/* Difficulty Selector and Print Button */}
+                <div className="flex flex-wrap items-center gap-2 mb-8">
+                  {Object.keys(pythagoreanData.exercises).map((difficulty) => (
+                    <Button
+                      key={difficulty}
+                      variant={selectedDifficulty === difficulty ? "default" : "outline"}
+                      onClick={() => setSelectedDifficulty(difficulty)}
+                      className="capitalize"
+                    >
+                      {difficulty}
+                    </Button>
+                  ))}
+                  {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises] && (
+                    <PrintExercisesButton
+                      exercises={pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].items}
+                      topicTitle={pythagoreanData.title}
+                      difficulty={selectedDifficulty}
+                    />
+                  )}
+                </div>
+
+                {/* Current Set Info */}
+                {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises] && (
+                  <>
+                    <Card className="mb-6 border-primary/20">
+                      <CardContent className="pt-6">
+                        <p className="text-sm text-muted-foreground">
+                          <strong>Directions:</strong> <MathJax>{pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].directions}</MathJax>
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    {/* Practice Items */}
+                    <div className="space-y-4">
+                      {pythagoreanData.exercises[selectedDifficulty as keyof typeof pythagoreanData.exercises].items.map((item) => (
+                        <Card key={item.id} className="border-border">
+                          <CardHeader>
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                              <CardTitle className="text-lg">Problem {item.id.replace(/[a-z]/g, '')}</CardTitle>
+                              <div className="bg-muted/50 rounded-lg p-4 overflow-x-auto flex-1 sm:flex-initial">
+                                <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
+                              </div>
+                            </div>
+                            {item.hint && (
+                              <CardDescription className="text-sm text-muted-foreground italic flex items-baseline gap-1">
+                                <span>💡</span>
+                                <span><MathJax>{item.hint}</MathJax></span>
+                              </CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex flex-wrap gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => toggleAnswer(item.id)}
+                              >
+                                {showAnswers[item.id] ? "Hide" : "Show"} Answer
+                              </Button>
+                            </div>
+
+                            {showAnswers[item.id] && (
+                              <div className="mt-4 space-y-3">
+                                <div className="p-4 bg-chart-10/10 rounded-lg overflow-x-auto">
+                                  <p className="text-sm font-semibold text-foreground mb-2">Answer:</p>
+                                  <MathJax>{"\\[" + item.answer_latex + "\\]"}</MathJax>
+                                </div>
+                                {item.solution && (
+                                  <div className="p-4 bg-muted/50 rounded-lg overflow-x-auto">
+                                    <p className="text-sm font-semibold text-foreground mb-2">Solution:</p>
+                                    <p className="text-sm text-muted-foreground"><MathJax>{item.solution}</MathJax></p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Complete Study Button */}
+          <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-chart-10/5">
+                  <CardContent className="pt-8 pb-8 text-center">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">
+                      Finished This Lesson?
+                    </h3>
+                    <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                      Mark this lesson as complete to track your progress and schedule spaced repetition reviews.
+                    </p>
+                    <CompleteStudyButton category="math" topicTitle={pythagoreanData.title} centered size="lg" />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* Navigation */}
+          <section className="py-8">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="flex justify-center">
+                <Link href="/math/geometry">
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Geometry Chapter
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    </MathJaxContext>
+  )
+}
