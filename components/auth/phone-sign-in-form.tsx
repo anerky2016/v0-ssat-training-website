@@ -29,20 +29,12 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const recaptchaVerifierRef = useRef<any>(null)
 
   useEffect(() => {
-    // Initialize reCAPTCHA when component mounts (invisible version to avoid modal conflicts)
-    if (recaptchaContainerRef.current && !recaptchaVerifierRef.current) {
-      try {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
-      } catch (error) {
-        console.error('Error initializing reCAPTCHA:', error)
-      }
-    }
-
-    // Cleanup
+    // Cleanup on unmount
     return () => {
       if (recaptchaVerifierRef.current) {
         try {
           recaptchaVerifierRef.current.clear()
+          recaptchaVerifierRef.current = null
         } catch (error) {
           console.error('Error clearing reCAPTCHA:', error)
         }
@@ -62,10 +54,17 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
         formattedPhone = '+1' + formattedPhone.replace(/\D/g, '')
       }
 
-      // Reinitialize reCAPTCHA if needed
-      if (!recaptchaVerifierRef.current) {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
+      // Clear any existing reCAPTCHA instance
+      if (recaptchaVerifierRef.current) {
+        try {
+          recaptchaVerifierRef.current.clear()
+        } catch (e) {
+          console.error('Error clearing existing reCAPTCHA:', e)
+        }
       }
+
+      // Initialize fresh reCAPTCHA instance
+      recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
 
       await sendPhoneVerificationCode(formattedPhone, recaptchaVerifierRef.current)
 
@@ -83,13 +82,13 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
         variant: 'destructive',
       })
 
-      // Reinitialize reCAPTCHA on error
+      // Clear the failed reCAPTCHA instance
       if (recaptchaVerifierRef.current) {
         try {
           recaptchaVerifierRef.current.clear()
-          recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
+          recaptchaVerifierRef.current = null
         } catch (e) {
-          console.error('Error reinitializing reCAPTCHA:', e)
+          console.error('Error clearing reCAPTCHA after failure:', e)
         }
       }
     } finally {
@@ -168,9 +167,7 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
           </div>
 
           {/* reCAPTCHA container - invisible (auto-verifies without user interaction) */}
-          <div className="hidden">
-            <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
-          </div>
+          <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? 'Sending code...' : 'Send Verification Code'}

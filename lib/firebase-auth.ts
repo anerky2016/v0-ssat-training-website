@@ -60,6 +60,8 @@ export async function sendPhoneVerificationCode(
     confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
   } catch (error: any) {
     console.error('Error sending verification code:', error)
+    console.error('Error code:', error.code)
+    console.error('Error details:', error)
     throw new Error(getAuthErrorMessage(error.code))
   }
 }
@@ -135,6 +137,10 @@ function getAuthErrorMessage(errorCode: string): string {
       return 'Please enter the verification code.'
     case 'auth/captcha-check-failed':
       return 'reCAPTCHA verification failed. Please try again.'
+    case 'auth/internal-error':
+      return 'Authentication service error. Please ensure your domain is authorized in Firebase Console and try again.'
+    case 'auth/invalid-app-credential':
+      return 'Firebase project configuration error. Please set up reCAPTCHA in Firebase Console (Authentication → Settings → Phone number sign-in).'
     default:
       return 'An error occurred. Please try again.'
   }
