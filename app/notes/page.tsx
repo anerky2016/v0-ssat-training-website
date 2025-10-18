@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { getNotes, deleteNote, updateNote, captureScreenshot, type Note } from '@/lib/notes'
+import { useAuth } from '@/contexts/firebase-auth-context'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -14,6 +15,7 @@ import { ScreenshotZoom } from '@/components/screenshot-zoom'
 import { ScreenshotAnnotator } from '@/components/screenshot-annotator'
 
 export default function NotesPage() {
+  const { user, loading: authLoading } = useAuth()
   const pathname = usePathname()
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
@@ -29,8 +31,13 @@ export default function NotesPage() {
   })
 
   useEffect(() => {
+    // Wait for auth to finish loading before fetching data
+    if (authLoading) {
+      return
+    }
+
     loadNotes()
-  }, [])
+  }, [authLoading])
 
   const loadNotes = async () => {
     setLoading(true)
@@ -121,6 +128,7 @@ export default function NotesPage() {
   }
 
   const showingForm = isCreating || editingId !== null
+  const isLoading = authLoading || loading
 
   return (
     <div className="min-h-screen bg-background">
@@ -240,7 +248,7 @@ export default function NotesPage() {
             </Card>
           )}
 
-          {!showingForm && loading && (
+          {!showingForm && isLoading && (
             <Card>
               <CardContent className="text-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
@@ -249,7 +257,7 @@ export default function NotesPage() {
             </Card>
           )}
 
-          {!showingForm && !loading && notes.length === 0 && (
+          {!showingForm && !isLoading && notes.length === 0 && (
             <Card>
               <CardContent className="text-center py-12">
                 <p className="text-muted-foreground">No notes yet. Create your first note!</p>
@@ -257,7 +265,7 @@ export default function NotesPage() {
             </Card>
           )}
 
-          {!showingForm && !loading && notes.length > 0 && (
+          {!showingForm && !isLoading && notes.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">All Notes ({notes.length})</h2>
               {notes.map((note) => {

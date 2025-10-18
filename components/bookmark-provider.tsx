@@ -27,6 +27,8 @@ const BOOKMARKABLE_PATHS = [
   '/math/expressions/polynomial',
   '/math/expressions/translating',
   '/math/expressions/distributive',
+  '/math/equations/one-step',
+  '/math/equations/multi-step',
 ]
 
 // Generate page title from path

@@ -36,8 +36,8 @@ export default function EquationsPage() {
               </h2>
               <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { title: "One-Step Equations", href: null },
-                  { title: "Multi-Step Equations", href: null },
+                  { title: "One-Step Equations", href: "/math/equations/one-step" },
+                  { title: "Multi-Step Equations", href: "/math/equations/multi-step" },
                   { title: "Graphing Single-Variable Inequalities", href: null },
                   { title: "One-Step Inequalities", href: null },
                   { title: "Multi-Step Inequalities", href: null }

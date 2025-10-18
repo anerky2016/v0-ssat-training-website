@@ -1,0 +1,242 @@
+{
+  "title": "Multi-Step Equations",
+  "audience": "Ages 11–13",
+  "latex_display": true,
+  "concept": {
+    "what_is_it": "A multi-step equation needs MORE THAN ONE move to get the variable alone.",
+    "big_idea": "Keep the balance! Combine like terms, move all the x's to one side, then use inverse operations to isolate x.",
+    "why_it_works_kid_friendly": "An equation is a balance scale. Before you 'undo' with dividing or subtracting, first tidy up each side (combine and distribute) so it's easier to keep things fair."
+  },
+  "key_points": [
+    "Combine like terms on each side first.",
+    "Use the Distributive Property to remove parentheses: $a(b+c)=ab+ac$",
+    "Bring all variables to ONE side (usually the left).",
+    "Then use inverse operations (add/subtract, multiply/divide) to isolate the variable.",
+    "Do the same operation to both sides to keep the equation balanced."
+  ],
+  "kid_friendly_explainer": [
+    "Think of solving $2x + 5 = 15 - x$ like organizing a messy room. First, you gather all the toys ($x$ terms) on one side and all the books (numbers) on the other side. So we move $-x$ to the left (it becomes $+x$) and move $+5$ to the right (it becomes $-5$).",
+    "Now we have $2x + x = 15 - 5$, which simplifies to $3x = 10$. Just like a one-step equation, we divide both sides by 3 to find $x = \\frac{10}{3}$!",
+    "When you see parentheses like $3(x+4) = 21$, think of it as 3 bags with $(x+4)$ items each. To count everything, you need to distribute: $3 \\cdot x + 3 \\cdot 4 = 3x + 12 = 21$. Then solve normally!"
+  ],
+  "step_by_step": [
+    "Simplify each side: distribute and combine like terms.",
+    "Move the variable terms to one side and constants to the other.",
+    "Use inverse operations to solve for the variable.",
+    "Check by substituting your answer back into the original equation."
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "3x + 4 = 19",
+      "walkthrough": [
+        "Subtract 4 from both sides",
+        "$3x + 4 - 4 = 19 - 4$",
+        "$3x = 15$",
+        "Divide both sides by 3",
+        "$x = 5$"
+      ],
+      "answer_latex": "x = 5"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "2(x + 3) = 20",
+      "walkthrough": [
+        "Distribute the 2",
+        "$2x + 6 = 20$",
+        "Subtract 6 from both sides",
+        "$2x = 14$",
+        "Divide by 2",
+        "$x = 7$"
+      ],
+      "answer_latex": "x = 7"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "5x - 9 = 2x + 12",
+      "walkthrough": [
+        "Subtract $2x$ from both sides",
+        "$5x - 2x - 9 = 12$",
+        "$3x - 9 = 12$",
+        "Add 9 to both sides",
+        "$3x = 21$",
+        "Divide by 3",
+        "$x = 7$"
+      ],
+      "answer_latex": "x = 7"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "-(8 - x) = 6",
+      "walkthrough": [
+        "Distribute the negative sign",
+        "$-8 + x = 6$",
+        "Add 8 to both sides",
+        "$x = 14$"
+      ],
+      "answer_latex": "x = 14"
+    }
+  ],
+  "mini_examples": [
+    {
+      "problem": "$-(8-x)=6$",
+      "work": "$-(8-x)=-8+x\\Rightarrow -8+x=6\\\\ -8+x+8=6+8\\Rightarrow x=14$",
+      "check": "$-(8-14)=-(-6)=6\\;\\checkmark$"
+    },
+    {
+      "problem": "$2x+5=15-x$",
+      "work": "$2x+x=15-5\\Rightarrow 3x=10\\Rightarrow x=\\dfrac{10}{3}$",
+      "check": "$2\\cdot\\dfrac{10}{3}+5=\\dfrac{20}{3}+5=\\dfrac{35}{3}=15-\\dfrac{10}{3}\\;\\checkmark$"
+    }
+  ],
+  "tips": [
+    "Distribute BEFORE moving terms: $3(x+4)=3x+12$",
+    "To move a term across the equal sign, add its opposite on BOTH sides.",
+    "Keep fractions neat by multiplying through by a common denominator at the end (or the start)."
+  ],
+  "teacher_notes": [
+    "Distribute BEFORE moving terms: $3(x+4)=3x+12$",
+    "To move a term across the equal sign, add its opposite on BOTH sides.",
+    "Keep fractions neat by multiplying through by a common denominator at the start or end.",
+    "Watch out for negative signs when distributing: $-(x+3) = -x-3$, not $-x+3$",
+    "Always check your answer by substituting it back into the original equation.",
+    "If you get a false statement like $0 = 5$, the equation has no solution.",
+    "If you get a true statement like $0 = 0$, the equation has infinitely many solutions."
+  ],
+  "common_mistakes": [
+    "Forgetting to distribute the negative sign: $-(x+3)\\neq -x+3\\;(\\text{it's }-x-3)$",
+    "Moving a term to the other side without changing its sign.",
+    "Combining unlike terms (e.g., mixing constants with $x$-terms)."
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Solve each equation. Show all steps.",
+      "items": [
+        {
+          "id": "E1",
+          "question_latex": "3x+4=19",
+          "answer_latex": "x=5",
+          "solution": "$3x=19-4=15\\Rightarrow x=\\dfrac{15}{3}=5$"
+        },
+        {
+          "id": "E2",
+          "question_latex": "7=x+12",
+          "answer_latex": "x=-5",
+          "solution": "$x=7-12=-5$"
+        },
+        {
+          "id": "E3",
+          "question_latex": "2(x+3)=20",
+          "answer_latex": "x=7",
+          "solution": "$2x+6=20\\Rightarrow 2x=14\\Rightarrow x=7$"
+        },
+        {
+          "id": "E4",
+          "question_latex": "5x-9=2x+12",
+          "answer_latex": "x=7",
+          "solution": "$(5x-2x)=12+9\\Rightarrow 3x=21\\Rightarrow x=7$"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Solve each equation. Watch for distribution and combining like terms.",
+      "items": [
+        {
+          "id": "M1",
+          "question_latex": "3(x+2)=21-x",
+          "answer_latex": "x=\\dfrac{15}{4}",
+          "solution": "$3x+6=21-x\\Rightarrow 3x+x=21-6\\Rightarrow 4x=15\\Rightarrow x=\\dfrac{15}{4}$"
+        },
+        {
+          "id": "M2",
+          "question_latex": "4x-5=3x+11",
+          "answer_latex": "x=16",
+          "solution": "$(4x-3x)=11+5\\Rightarrow x=16$"
+        },
+        {
+          "id": "M3",
+          "question_latex": "\\dfrac{x}{3}+5=\\dfrac{2x}{3}+1",
+          "answer_latex": "x=12",
+          "solution": "$\\dfrac{x}{3}-\\dfrac{2x}{3}=1-5\\Rightarrow -\\dfrac{x}{3}=-4\\Rightarrow x=12$"
+        },
+        {
+          "id": "M4",
+          "question_latex": "0.5x+6=2x-3",
+          "answer_latex": "x=6",
+          "solution": "$(2x-0.5x)=6+3\\Rightarrow 1.5x=9\\Rightarrow x=6$"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Advanced problems requiring careful distribution and fraction handling.",
+      "items": [
+        {
+          "id": "C1",
+          "question_latex": "\\dfrac{2}{3}(x-6)+4=\\dfrac{x}{2}",
+          "answer_latex": "x=0",
+          "solution": "$\\dfrac{2}{3}x-4+4=\\dfrac{x}{2}\\Rightarrow \\dfrac{2}{3}x=\\dfrac{x}{2}\\\\ \\text{Multiply by 6: }4x=3x\\Rightarrow x=0$"
+        },
+        {
+          "id": "C2",
+          "question_latex": "-(4-2x)+\\dfrac{1}{2}(x+6)=7",
+          "answer_latex": "x=\\dfrac{16}{5}",
+          "solution": "$-4+2x+\\dfrac{1}{2}x+3=7\\Rightarrow \\dfrac{5}{2}x-1=7\\\\ \\dfrac{5}{2}x=8\\Rightarrow x=\\dfrac{16}{5}$"
+        },
+        {
+          "id": "C3",
+          "question_latex": "5(x-1)-2(x+4)=3x+1",
+          "answer_latex": "\\text{No solution}",
+          "solution": "$5x-5-2x-8=3x+1\\Rightarrow 3x-13=3x+1\\\\ -13=1\\;\\text{(false)}\\Rightarrow \\text{No solution}$",
+          "hint": "This equation has no solution because it simplifies to a false statement."
+        },
+        {
+          "id": "C4",
+          "question_latex": "7-3(2-x)=4x-2",
+          "answer_latex": "x=3",
+          "solution": "$7-6+3x=4x-2\\Rightarrow 1+3x=4x-2\\\\ 1+2=4x-3x\\Rightarrow x=3$"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Expert-level problems mixing fractions, decimals, and complex distributions.",
+      "items": [
+        {
+          "id": "X1",
+          "question_latex": "0.4(5x-3)-\\dfrac{x}{4}=2-\\dfrac{3}{2}(x-1)",
+          "answer_latex": "x=\\dfrac{94}{65}",
+          "solution": "$2x-1.2-\\dfrac{x}{4}=2-\\dfrac{3}{2}x+\\dfrac{3}{2}\\\\ \\dfrac{7}{4}x-1.2=\\dfrac{7}{2}-\\dfrac{3}{2}x\\\\ \\left(\\dfrac{7}{4}+\\dfrac{3}{2}\\right)x=\\dfrac{7}{2}+1.2\\\\ \\dfrac{13}{4}x=\\dfrac{47}{10}\\Rightarrow x=\\dfrac{94}{65}$"
+        },
+        {
+          "id": "X2",
+          "question_latex": "\\dfrac{5x-1}{3}-\\dfrac{x+2}{2}=\\dfrac{1}{6}",
+          "answer_latex": "x=\\dfrac{9}{7}",
+          "solution": "$\\text{Multiply by 6: }2(5x-1)-3(x+2)=1\\\\ 10x-2-3x-6=1\\Rightarrow 7x-8=1\\Rightarrow x=\\dfrac{9}{7}$"
+        },
+        {
+          "id": "X3",
+          "question_latex": "\\dfrac{3}{5}x+\\dfrac{1}{2}(x-4)=\\dfrac{7}{10}",
+          "answer_latex": "x=\\dfrac{27}{11}",
+          "solution": "$\\dfrac{3}{5}x+\\dfrac{1}{2}x-2=\\dfrac{7}{10}\\Rightarrow \\left(\\dfrac{3}{5}+\\dfrac{1}{2}\\right)x=\\dfrac{7}{10}+2\\\\ \\dfrac{11}{10}x=\\dfrac{27}{10}\\Rightarrow x=\\dfrac{27}{11}$"
+        },
+        {
+          "id": "X4",
+          "question_latex": "2x+\\dfrac{3}{4}=5x-\\dfrac{5}{6}",
+          "hint": "Adding $\\frac{3}{4}$ to twice a number equals subtracting $\\frac{5}{6}$ from 5 times the number.",
+          "answer_latex": "x=\\dfrac{19}{36}",
+          "solution": "$\\dfrac{3}{4}+\\dfrac{5}{6}=5x-2x\\Rightarrow \\dfrac{9}{12}+\\dfrac{10}{12}=3x\\\\ \\dfrac{19}{12}=3x\\Rightarrow x=\\dfrac{19}{36}$"
+        }
+      ]
+    }
+  },
+  "self_check": [
+    {
+      "question": "What should you usually do FIRST in a multi-step equation with parentheses?",
+      "choices": ["Move terms across the equal sign", "Distribute and combine like terms", "Divide both sides immediately"],
+      "answer": "Distribute and combine like terms"
+    },
+    {
+      "question": "Solve quickly: $4(x-2)-2x=10$",
+      "answer": "$x=9$"
+    }
+  ]
+}
