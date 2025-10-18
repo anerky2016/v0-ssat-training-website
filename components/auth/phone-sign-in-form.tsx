@@ -6,6 +6,9 @@ import {
   sendPhoneVerificationCode,
   verifyPhoneCode,
   clearRecaptchaVerifier,
+  isRecaptchaConfigured,
+  waitForRecaptcha,
+  getFirebaseConsoleUrl,
 } from '@/lib/firebase-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,7 +28,49 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const [verificationCode, setVerificationCode] = useState('')
   const [name, setName] = useState('')
 
+  // Format phone number for display
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-digit characters except +
+    const cleaned = value.replace(/[^\d+]/g, '')
+    
+    // If it starts with +, keep it as is
+    if (cleaned.startsWith('+')) {
+      return cleaned
+    }
+    
+    // If it's a US number (10 digits), format it nicely
+    if (cleaned.length === 10) {
+      return `+1 (${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
+    }
+    
+    // For other cases, just return the cleaned number
+    return cleaned
+  }
+
   useEffect(() => {
+    // Check if reCAPTCHA is properly configured
+    const checkRecaptcha = async () => {
+      try {
+        // Wait a bit for the script to load
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        if (!isRecaptchaConfigured()) {
+          console.warn('reCAPTCHA is not properly configured. Phone authentication may not work.')
+          // Try to wait for reCAPTCHA to be ready
+          try {
+            await waitForRecaptcha()
+            console.log('reCAPTCHA is now ready')
+          } catch (error) {
+            console.error('reCAPTCHA initialization failed:', error)
+          }
+        }
+      } catch (error) {
+        console.error('Error checking reCAPTCHA:', error)
+      }
+    }
+
+    checkRecaptcha()
+
     // Cleanup on unmount
     return () => {
       clearRecaptchaVerifier()
@@ -39,12 +84,19 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
     try {
       // Format phone number with country code if not present
       let formattedPhone = phoneNumber.trim()
-      if (!formattedPhone.startsWith('+')) {
+      
+      // Remove all non-digit characters except +
+      const digitsOnly = formattedPhone.replace(/[^\d+]/g, '')
+      
+      if (!digitsOnly.startsWith('+')) {
         // Assume US number if no country code
-        formattedPhone = '+1' + formattedPhone.replace(/\D/g, '')
+        formattedPhone = '+1' + digitsOnly
+      } else {
+        formattedPhone = digitsOnly
       }
 
-      // Validate phone number format
+      // Validate phone number format - more flexible regex
+      // Must start with + and have 10-15 digits total
       if (!/^\+\d{10,15}$/.test(formattedPhone)) {
         toast({
           title: 'Invalid phone number',
@@ -66,11 +118,22 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
       setStep('code')
     } catch (error: any) {
       console.error('Send code error:', error)
-      toast({
-        title: 'Error sending code',
-        description: error.message || 'Failed to send verification code. Please try again.',
-        variant: 'destructive',
-      })
+      
+      // Provide specific guidance for reCAPTCHA configuration issues
+      if (error.message.includes('reCAPTCHA not configured')) {
+        const consoleUrl = getFirebaseConsoleUrl()
+        toast({
+          title: 'reCAPTCHA Configuration Required',
+          description: `Please configure reCAPTCHA in Firebase Console. Go to: ${consoleUrl}`,
+          variant: 'destructive',
+        })
+      } else {
+        toast({
+          title: 'Error sending code',
+          description: error.message || 'Failed to send verification code. Please try again.',
+          variant: 'destructive',
+        })
+      }
     } finally {
       setIsLoading(false)
     }
@@ -81,6 +144,16 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
     setIsLoading(true)
 
     try {
+      // Validate verification code format
+      if (!/^\d{6}$/.test(verificationCode)) {
+        toast({
+          title: 'Invalid code format',
+          description: 'Please enter a 6-digit verification code.',
+          variant: 'destructive',
+        })
+        return
+      }
+
       const user = await verifyPhoneCode(verificationCode, name || undefined)
 
       toast({
@@ -117,9 +190,9 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   }
 
   return (
-    <>
+    <div role="main" aria-label="Phone number sign-in">
       {step === 'phone' ? (
-        <form onSubmit={handleSendCode} className="space-y-4">
+        <form onSubmit={handleSendCode} className="space-y-4" aria-label="Enter phone number">
           <div className="space-y-2">
             <Label htmlFor="name">Name (Optional)</Label>
             <Input
@@ -129,7 +202,12 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={isLoading}
+              aria-describedby="name-help"
+              className={isLoading ? 'opacity-50 cursor-not-allowed' : ''}
             />
+            <p id="name-help" className="text-xs text-muted-foreground">
+              Your name will be displayed in your profile
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -142,21 +220,40 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={isLoading}
+              aria-describedby="phone-help"
+              autoComplete="tel"
+              className={isLoading ? 'opacity-50 cursor-not-allowed' : ''}
             />
-            <p className="text-xs text-muted-foreground">
+            <p id="phone-help" className="text-xs text-muted-foreground">
               Include country code (e.g., +1 for US)
             </p>
           </div>
 
           {/* reCAPTCHA container - managed by firebase-auth.ts */}
-          <div id="recaptcha-container"></div>
+          <div id="recaptcha-container" aria-label="reCAPTCHA verification"></div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Sending code...' : 'Send Verification Code'}
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isLoading}
+            aria-describedby="submit-help"
+          >
+            {isLoading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending code...
+              </>
+            ) : 'Send Verification Code'}
           </Button>
+          <p id="submit-help" className="text-xs text-muted-foreground">
+            You will receive an SMS with a verification code
+          </p>
         </form>
       ) : (
-        <form onSubmit={handleVerifyCode} className="space-y-4">
+        <form onSubmit={handleVerifyCode} className="space-y-4" aria-label="Enter verification code">
           <div className="space-y-2">
             <Label htmlFor="code">Verification Code</Label>
             <Input
@@ -169,15 +266,34 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
               onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
               disabled={isLoading}
               autoFocus
+              aria-describedby="code-help"
+              autoComplete="one-time-code"
+              className={isLoading ? 'opacity-50 cursor-not-allowed' : ''}
             />
-            <p className="text-xs text-muted-foreground">
+            <p id="code-help" className="text-xs text-muted-foreground">
               Enter the 6-digit code sent to {phoneNumber}
             </p>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Verifying...' : 'Verify & Sign In'}
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isLoading}
+            aria-describedby="verify-help"
+          >
+            {isLoading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Verifying...
+              </>
+            ) : 'Verify & Sign In'}
           </Button>
+          <p id="verify-help" className="text-xs text-muted-foreground">
+            This will complete your sign-in process
+          </p>
 
           <Button
             type="button"
@@ -185,11 +301,12 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
             className="w-full"
             onClick={handleBackToPhone}
             disabled={isLoading}
+            aria-label="Use a different phone number"
           >
             Use Different Number
           </Button>
         </form>
       )}
-    </>
+    </div>
   )
 }

@@ -101,6 +101,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* reCAPTCHA script for Firebase phone authentication */}
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         {isProduction && (
           <script defer src="https://cloud.umami.is/script.js" data-website-id="61d8f68c-ffd1-4dd2-a1ac-68f4d4c3893f"></script>
         )}

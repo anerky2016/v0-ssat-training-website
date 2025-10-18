@@ -16,6 +16,13 @@ import {
 } from 'firebase/auth'
 import { auth } from './firebase'
 
+// Declare global grecaptcha for TypeScript
+declare global {
+  interface Window {
+    grecaptcha: any
+  }
+}
+
 export interface PhoneSignInData {
   phoneNumber: string
   name?: string
@@ -39,10 +46,21 @@ export function getRecaptchaVerifier(containerId: string = 'recaptcha-container'
     return recaptchaVerifier
   }
 
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
+    throw new Error('reCAPTCHA can only be initialized in a browser environment')
+  }
+
   // Check if container element exists
   const container = document.getElementById(containerId)
   if (!container) {
     throw new Error(`reCAPTCHA container element with id "${containerId}" not found in DOM`)
+  }
+
+  // Check if container is visible (not hidden)
+  const containerStyle = window.getComputedStyle(container)
+  if (containerStyle.display === 'none' || containerStyle.visibility === 'hidden') {
+    console.warn('reCAPTCHA container is hidden, this may cause issues')
   }
 
   try {
@@ -54,6 +72,8 @@ export function getRecaptchaVerifier(containerId: string = 'recaptcha-container'
       },
       'error-callback': (error: any) => {
         console.error('reCAPTCHA callback error:', error)
+        // Clear the verifier on error to allow retry
+        clearRecaptchaVerifier()
       }
     })
 
@@ -61,6 +81,9 @@ export function getRecaptchaVerifier(containerId: string = 'recaptcha-container'
     return recaptchaVerifier
   } catch (error: any) {
     console.error('Failed to initialize reCAPTCHA:', error)
+    // Clear any partial state on initialization failure
+    recaptchaVerifier = null
+    recaptchaWidgetId = null
     throw new Error(`reCAPTCHA initialization failed: ${error.message}`)
   }
 }
@@ -82,6 +105,80 @@ export function clearRecaptchaVerifier(): void {
 }
 
 /**
+ * Check if reCAPTCHA is properly configured and ready
+ */
+export function isRecaptchaConfigured(): boolean {
+  try {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      console.warn('reCAPTCHA check skipped: not in browser environment')
+      return false
+    }
+
+    // Check if Firebase auth is configured
+    if (!auth) {
+      console.warn('reCAPTCHA check failed: Firebase auth not configured')
+      return false
+    }
+
+    // Check if reCAPTCHA script is loaded
+    if (!window.grecaptcha) {
+      console.warn('reCAPTCHA script not loaded. Make sure to include the reCAPTCHA script in your HTML.')
+      return false
+    }
+
+    // Check if reCAPTCHA is ready
+    if (typeof window.grecaptcha.ready !== 'function') {
+      console.warn('reCAPTCHA script loaded but not ready')
+      return false
+    }
+
+    console.log('reCAPTCHA is properly configured and ready')
+    return true
+  } catch (error) {
+    console.error('Error checking reCAPTCHA configuration:', error)
+    return false
+  }
+}
+
+/**
+ * Get Firebase Console URL for reCAPTCHA configuration
+ */
+export function getFirebaseConsoleUrl(): string {
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  if (projectId) {
+    return `https://console.firebase.google.com/project/${projectId}/authentication/settings`
+  }
+  return 'https://console.firebase.google.com/'
+}
+
+/**
+ * Wait for reCAPTCHA to be ready
+ */
+export async function waitForRecaptcha(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      reject(new Error('reCAPTCHA can only be used in browser environment'))
+      return
+    }
+
+    if (!window.grecaptcha) {
+      reject(new Error('reCAPTCHA script not loaded'))
+      return
+    }
+
+    if (typeof window.grecaptcha.ready === 'function') {
+      window.grecaptcha.ready(() => {
+        console.log('reCAPTCHA is ready')
+        resolve()
+      })
+    } else {
+      reject(new Error('reCAPTCHA script not properly loaded'))
+    }
+  })
+}
+
+/**
  * Send SMS verification code to phone number
  */
 export async function sendPhoneVerificationCode(
@@ -92,6 +189,9 @@ export async function sendPhoneVerificationCode(
   }
 
   try {
+    // Wait for reCAPTCHA to be ready
+    await waitForRecaptcha()
+
     // Clear any existing confirmation result
     confirmationResult = null
 
@@ -111,6 +211,25 @@ export async function sendPhoneVerificationCode(
 
     // Clear reCAPTCHA on error to allow retry
     clearRecaptchaVerifier()
+
+    // Provide specific guidance for reCAPTCHA configuration issues
+    if (error.code === 'auth/invalid-app-credential') {
+      const isLocalhost = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+      const currentDomain = typeof window !== 'undefined' ? window.location.hostname : 'unknown'
+      
+      console.error('🔧 reCAPTCHA Configuration Required:')
+      console.error('1. Go to Firebase Console → Authentication → Settings')
+      console.error('2. Click on "Sign-in method" tab')
+      console.error('3. Enable "Phone" provider')
+      console.error('4. Click on "Phone" → "reCAPTCHA" → "Enable reCAPTCHA"')
+      console.error('5. Add your domain to "Authorized domains"')
+      if (isLocalhost) {
+        console.error('6. For localhost development, add "localhost" to authorized domains')
+        console.error(`7. Current domain: ${currentDomain}`)
+      } else {
+        console.error(`6. Add "${currentDomain}" to authorized domains`)
+      }
+    }
 
     // Throw user-friendly error
     throw new Error(getAuthErrorMessage(error.code || 'unknown'))
@@ -194,7 +313,7 @@ function getAuthErrorMessage(errorCode: string): string {
     case 'auth/internal-error':
       return 'Authentication service error. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/invalid-app-credential':
-      return 'reCAPTCHA not configured. Go to: https://console.firebase.google.com/project/midssat-6448b/appcheck and register your web app with a reCAPTCHA key.'
+      return 'reCAPTCHA not configured. Please enable reCAPTCHA in Firebase Console: 1) Go to Firebase Console → Authentication → Settings → Sign-in method → Phone → reCAPTCHA → Enable reCAPTCHA, 2) Add your domain to authorized domains.'
     case 'auth/missing-app-credential':
       return 'Missing app credentials. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/unauthorized-domain':
