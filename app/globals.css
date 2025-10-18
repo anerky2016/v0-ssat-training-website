@@ -128,13 +128,17 @@
 /* Fix reCAPTCHA z-index to appear above dialogs/modals */
 /* Google reCAPTCHA container */
 iframe[title="reCAPTCHA"],
-iframe[src*="google.com/recaptcha"] {
-  z-index: 9999 !important;
+iframe[src*="google.com/recaptcha"],
+iframe[src*="recaptcha"] {
+  z-index: 2147483647 !important;
+  position: relative !important;
+  pointer-events: auto !important;
 }
 
 /* reCAPTCHA challenge popup */
 .grecaptcha-badge {
-  z-index: 9999 !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
 }
 
 /* Ensure reCAPTCHA container allows pointer events */
@@ -145,6 +149,22 @@ iframe[src*="google.com/recaptcha"] {
 }
 
 /* Ensure all reCAPTCHA divs are clickable */
-div[class*="recaptcha"] {
+div[class*="recaptcha"],
+div[id*="recaptcha"] {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 2147483647 !important;
+}
+
+/* All reCAPTCHA children elements */
+div[class*="recaptcha"] *,
+div[id*="recaptcha"] * {
+  pointer-events: auto !important;
+}
+
+/* Google reCAPTCHA challenge window */
+.rc-anchor,
+.rc-imageselect {
+  z-index: 2147483647 !important;
   pointer-events: auto !important;
 }

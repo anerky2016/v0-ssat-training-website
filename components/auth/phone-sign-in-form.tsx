@@ -29,10 +29,10 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
   const recaptchaVerifierRef = useRef<any>(null)
 
   useEffect(() => {
-    // Initialize reCAPTCHA when component mounts (visible version)
+    // Initialize reCAPTCHA when component mounts (invisible version to avoid modal conflicts)
     if (recaptchaContainerRef.current && !recaptchaVerifierRef.current) {
       try {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
+        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
       } catch (error) {
         console.error('Error initializing reCAPTCHA:', error)
       }
@@ -64,7 +64,7 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
 
       // Reinitialize reCAPTCHA if needed
       if (!recaptchaVerifierRef.current) {
-        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
+        recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
       }
 
       await sendPhoneVerificationCode(formattedPhone, recaptchaVerifierRef.current)
@@ -87,7 +87,7 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
       if (recaptchaVerifierRef.current) {
         try {
           recaptchaVerifierRef.current.clear()
-          recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'normal')
+          recaptchaVerifierRef.current = initializeRecaptcha('recaptcha-container', 'invisible')
         } catch (e) {
           console.error('Error reinitializing reCAPTCHA:', e)
         }
@@ -167,8 +167,8 @@ export function PhoneSignInForm({ onSuccess }: PhoneSignInFormProps) {
             </p>
           </div>
 
-          {/* reCAPTCHA container - visible */}
-          <div className="flex justify-center py-2">
+          {/* reCAPTCHA container - invisible (auto-verifies without user interaction) */}
+          <div className="hidden">
             <div ref={recaptchaContainerRef} id="recaptcha-container"></div>
           </div>
 
