@@ -1,0 +1,246 @@
+{
+  "title": "One-Step Inequalities",
+  "audience": "Ages 11–13",
+  "latex_display": true,
+  "concept": {
+    "what_is_it": "A one-step inequality is like a one-step equation — except instead of showing equality, it shows how one side is greater or less than the other.",
+    "symbols": [
+      "$<\\;\\text{means less than}$",
+      "$>\\;\\text{means greater than}$",
+      "$\\le\\;\\text{means less than or equal to}$",
+      "$\\ge\\;\\text{means greater than or equal to}$"
+    ],
+    "kid_friendly_explanation": "An inequality is a math sentence that says one side is bigger or smaller. Solving it means finding all the numbers that make that sentence true — not just one answer! The trick is: treat it like an equation, but if you multiply or divide by a negative number, FLIP the inequality sign."
+  },
+  "key_points": [
+    "Isolate the variable using the inverse operation.",
+    "Use the opposite operation to undo what's happening to the variable.",
+    "If you multiply or divide both sides by a negative, flip the inequality sign.",
+    "Graph your answer on a number line:",
+    "• Open circle for $<$ or $>$",
+    "• Filled circle for $\\le$ or $\\ge$"
+  ],
+  "kid_friendly_explainer": [
+    "One-step inequalities work just like one-step equations! The difference? Instead of finding ONE answer, you're finding a whole bunch of numbers that work. For example, if $x > 5$, that means $x$ could be 6, 7, 100, or even 5.1 — anything greater than 5!",
+    "To solve a one-step inequality, you do exactly what you'd do for an equation: use inverse operations to get $x$ alone. Add to undo subtraction, multiply to undo division, and so on.",
+    "But here's the ONE SUPER IMPORTANT RULE: When you multiply or divide BOTH sides by a negative number, you must FLIP the inequality sign! $>$ becomes $<$, and $\\ge$ becomes $\\le$. This is because the relationship changes when you go into negative territory.",
+    "Once you solve it, you can show your answer on a number line. Use an open circle (○) for $<$ or $>$ (the number isn't included), and a filled circle (●) for $\\le$ or $\\ge$ (the number IS included). Then draw an arrow in the direction where all the solutions are!"
+  ],
+  "step_by_step": [
+    "Look at what operation is being done to the variable (add, subtract, multiply, or divide).",
+    "Do the opposite (inverse) operation to both sides to isolate the variable.",
+    "If you multiply or divide by a negative, flip the inequality.",
+    "Graph the final answer on a number line."
+  ],
+  "step_by_step_examples": [
+    {
+      "id": "ex1",
+      "problem_latex": "x + 5 > 8",
+      "walkthrough": [
+        "Subtract 5 from both sides",
+        "$x + 5 - 5 > 8 - 5$",
+        "$x > 3$",
+        "Graph: Open circle at 3, arrow to the right"
+      ],
+      "answer_latex": "x > 3 \\quad (3, \\infty)"
+    },
+    {
+      "id": "ex2",
+      "problem_latex": "3x \\ge 9",
+      "walkthrough": [
+        "Divide both sides by 3",
+        "$\\dfrac{3x}{3} \\ge \\dfrac{9}{3}$",
+        "$x \\ge 3$",
+        "Graph: Filled circle at 3, arrow to the right"
+      ],
+      "answer_latex": "x \\ge 3 \\quad [3, \\infty)"
+    },
+    {
+      "id": "ex3",
+      "problem_latex": "-5x > 10",
+      "walkthrough": [
+        "Divide both sides by -5",
+        "FLIP the inequality sign!",
+        "$x < -2$",
+        "Graph: Open circle at -2, arrow to the left"
+      ],
+      "answer_latex": "x < -2 \\quad (-\\infty, -2)"
+    },
+    {
+      "id": "ex4",
+      "problem_latex": "\\dfrac{x}{2} < 5",
+      "walkthrough": [
+        "Multiply both sides by 2",
+        "$\\dfrac{x}{2} \\cdot 2 < 5 \\cdot 2$",
+        "$x < 10$",
+        "Graph: Open circle at 10, arrow to the left"
+      ],
+      "answer_latex": "x < 10 \\quad (-\\infty, 10)"
+    }
+  ],
+  "mini_examples": [
+    {
+      "problem": "$x+2\\ge3$",
+      "work": "$x+2-2\\ge3-2\\Rightarrow x\\ge1$",
+      "graph_explanation": "Draw a filled circle at 1 and shade to the right for greater than or equal to."
+    },
+    {
+      "problem": "$x-1\\le2$",
+      "work": "$x-1+1\\le2+1\\Rightarrow x\\le3$",
+      "graph_explanation": "Draw a filled circle at 3 and shade to the left for less than or equal to."
+    },
+    {
+      "problem": "$-2x>6$",
+      "work": "$x<-3$ (flip the inequality when dividing by -2)",
+      "graph_explanation": "Draw an open circle at -3 and shade to the left."
+    }
+  ],
+  "tips": [
+    "Always keep your variable on the left for clarity.",
+    "If the inequality looks confusing, test a number to check your direction.",
+    "Remember: flipping only happens with multiplication or division by a negative!"
+  ],
+  "teacher_notes": [
+    "Always keep your variable on the left for clarity.",
+    "If the inequality looks confusing, test a number to check your direction.",
+    "Remember: flipping only happens with multiplication or division by a negative!",
+    "On a number line: open circle for $<$ or $>$; filled circle for $\\le$ or $\\ge$.",
+    "Arrow points right for 'greater than', left for 'less than'.",
+    "Interval notation: use parentheses $()$ for open circles, brackets $[]$ for filled circles.",
+    "The flipping rule is critical — reinforce this with examples showing why it makes sense mathematically."
+  ],
+  "common_mistakes": [
+    "Forgetting to flip the inequality sign after dividing or multiplying by a negative.",
+    "Using a filled circle for < or > (should be open).",
+    "Shading in the wrong direction on the number line."
+  ],
+  "exercises": {
+    "easy": {
+      "directions": "Solve each inequality and describe how to graph it.",
+      "items": [
+        {
+          "id": "E1",
+          "question_latex": "x+5>8",
+          "answer_latex": "x>3",
+          "solution": "$x>3$ → Open circle at 3, shade right. Interval: $(3,\\infty)$"
+        },
+        {
+          "id": "E2",
+          "question_latex": "x-4\\le6",
+          "answer_latex": "x\\le10",
+          "solution": "$x\\le10$ → Filled circle at 10, shade left. Interval: $(-\\infty,10]$"
+        },
+        {
+          "id": "E3",
+          "question_latex": "3x\\ge9",
+          "answer_latex": "x\\ge3",
+          "solution": "$x\\ge3$ → Filled circle at 3, shade right. Interval: $[3,\\infty)$"
+        },
+        {
+          "id": "E4",
+          "question_latex": "\\dfrac{x}{2}<5",
+          "answer_latex": "x<10",
+          "solution": "$x<10$ → Open circle at 10, shade left. Interval: $(-\\infty,10)$"
+        }
+      ]
+    },
+    "medium": {
+      "directions": "Watch for negative coefficients! Remember to flip the sign.",
+      "items": [
+        {
+          "id": "M1",
+          "question_latex": "2+x\\le6",
+          "answer_latex": "x\\le4",
+          "solution": "$x\\le4$ → Filled circle at 4, shade left. Interval: $(-\\infty,4]$"
+        },
+        {
+          "id": "M2",
+          "question_latex": "-5x>10",
+          "answer_latex": "x<-2",
+          "solution": "$x<-2$ → Open circle at -2, shade left (flipped!). Interval: $(-\\infty,-2)$"
+        },
+        {
+          "id": "M3",
+          "question_latex": "x-\\dfrac{3}{2}\\ge\\dfrac{1}{2}",
+          "answer_latex": "x\\ge2",
+          "solution": "$x\\ge2$ → Filled circle at 2, shade right. Interval: $[2,\\infty)$"
+        },
+        {
+          "id": "M4",
+          "question_latex": "-2x\\le12",
+          "answer_latex": "x\\ge-6",
+          "solution": "$x\\ge-6$ → Filled circle at -6, shade right (flipped!). Interval: $[-6,\\infty)$"
+        }
+      ]
+    },
+    "challenge": {
+      "directions": "Advanced problems with fractions and negative coefficients.",
+      "items": [
+        {
+          "id": "C1",
+          "question_latex": "\\dfrac{x}{-3}>-4",
+          "answer_latex": "x<12",
+          "solution": "$x<12$ → Open circle at 12, shade left (flipped!). Interval: $(-\\infty,12)$"
+        },
+        {
+          "id": "C2",
+          "question_latex": "-7x\\le14",
+          "answer_latex": "x\\ge-2",
+          "solution": "$x\\ge-2$ → Filled circle at -2, shade right (flipped!). Interval: $[-2,\\infty)$"
+        },
+        {
+          "id": "C3",
+          "question_latex": "x+\\dfrac{1}{4}<\\dfrac{3}{2}",
+          "answer_latex": "x<\\dfrac{5}{4}",
+          "solution": "$x<\\dfrac{5}{4}$ → Open circle at 1.25, shade left. Interval: $(-\\infty,\\frac{5}{4})$"
+        },
+        {
+          "id": "C4",
+          "question_latex": "-\\dfrac{1}{2}x>3",
+          "answer_latex": "x<-6",
+          "solution": "$x<-6$ → Open circle at -6, shade left (flipped!). Interval: $(-\\infty,-6)$"
+        }
+      ]
+    },
+    "extreme": {
+      "directions": "Expert-level problems with decimals and complex fractions.",
+      "items": [
+        {
+          "id": "X1",
+          "question_latex": "-0.25x\\le5",
+          "answer_latex": "x\\ge-20",
+          "solution": "$x\\ge-20$ → Filled circle at -20, shade right (flipped!). Interval: $[-20,\\infty)$"
+        },
+        {
+          "id": "X2",
+          "question_latex": "\\dfrac{5x}{-10}>-3",
+          "answer_latex": "x<6",
+          "solution": "$\\frac{5x}{-10}>-3\\Rightarrow -\\frac{x}{2}>-3\\Rightarrow x<6$ (flipped!). Interval: $(-\\infty,6)$"
+        },
+        {
+          "id": "X3",
+          "question_latex": "x+(-8)\\ge2",
+          "answer_latex": "x\\ge10",
+          "solution": "$x\\ge10$ → Filled circle at 10, shade right. Interval: $[10,\\infty)$"
+        },
+        {
+          "id": "X4",
+          "question_latex": "-4x<-16",
+          "answer_latex": "x>4",
+          "solution": "$x>4$ → Open circle at 4, shade right (flipped!). Interval: $(4,\\infty)$"
+        }
+      ]
+    }
+  },
+  "self_check": [
+    {
+      "question": "When solving inequalities, when should you flip the sign?",
+      "choices": ["When you add a number", "When you subtract a number", "When you multiply or divide by a negative number"],
+      "answer": "When you multiply or divide by a negative number."
+    },
+    {
+      "question": "Solve quickly: $-3x>9$",
+      "answer": "$x<-3$ (flip the inequality sign)"
+    }
+  ]
+}

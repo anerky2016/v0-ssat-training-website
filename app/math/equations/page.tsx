@@ -39,7 +39,7 @@ export default function EquationsPage() {
                   { title: "One-Step Equations", href: "/math/equations/one-step" },
                   { title: "Multi-Step Equations", href: "/math/equations/multi-step" },
                   { title: "Graphing Single-Variable Inequalities", href: "/math/equations/graphing-inequalities" },
-                  { title: "One-Step Inequalities", href: null },
+                  { title: "One-Step Inequalities", href: "/math/equations/one-step-inequalities" },
                   { title: "Multi-Step Inequalities", href: "/math/equations/multi-step-inequalities" }
                 ].map((topic, index) => (
                   topic.href ? (
