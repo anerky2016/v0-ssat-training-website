@@ -39,23 +39,29 @@ export function getRecaptchaVerifier(containerId: string = 'recaptcha-container'
     return recaptchaVerifier
   }
 
+  // Check if container element exists
+  const container = document.getElementById(containerId)
+  if (!container) {
+    throw new Error(`reCAPTCHA container element with id "${containerId}" not found in DOM`)
+  }
+
   try {
     // Create new invisible reCAPTCHA verifier
     recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
       size: 'invisible',
       callback: (response: any) => {
-        console.log('reCAPTCHA solved')
+        console.log('reCAPTCHA solved:', response ? 'success' : 'failed')
       },
       'error-callback': (error: any) => {
-        console.error('reCAPTCHA error:', error)
+        console.error('reCAPTCHA callback error:', error)
       }
     })
 
-    console.log('reCAPTCHA verifier initialized')
+    console.log('reCAPTCHA verifier initialized successfully')
     return recaptchaVerifier
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to initialize reCAPTCHA:', error)
-    throw error
+    throw new Error(`reCAPTCHA initialization failed: ${error.message}`)
   }
 }
 
@@ -188,7 +194,7 @@ function getAuthErrorMessage(errorCode: string): string {
     case 'auth/internal-error':
       return 'Authentication service error. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/invalid-app-credential':
-      return 'Invalid credentials. Please ensure reCAPTCHA is properly configured in Firebase Console.'
+      return 'reCAPTCHA not configured. Go to: https://console.firebase.google.com/project/midssat-6448b/appcheck and register your web app with a reCAPTCHA key.'
     case 'auth/missing-app-credential':
       return 'Missing app credentials. Please ensure phone authentication is enabled in Firebase Console.'
     case 'auth/unauthorized-domain':
