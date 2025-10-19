@@ -81,26 +81,46 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
           // Check if there's a master device set
           if (settings.master_device_id) {
             setMasterDeviceId(settings.master_device_id)
-            setIsMaster(settings.master_device_id === deviceInfo.current.deviceId)
-            console.log(`Master device: ${settings.master_device_id}, Current device: ${deviceInfo.current.deviceId}, Is master: ${settings.master_device_id === deviceInfo.current.deviceId}`)
+            const isThisMaster = settings.master_device_id === deviceInfo.current.deviceId
+            setIsMaster(isThisMaster)
+
+            // Get master device info from database
+            const devices = await getUserDevices(user.uid)
+            const masterDevice = devices.find(d => d.device_id === settings.master_device_id)
+            const masterName = masterDevice?.device_name || settings.master_device_id
+
+            console.log('🔍 DEVICE ROLE DETERMINATION:')
+            console.log(`   Current master device: ${masterName}`)
+            console.log(`   Master device ID: ${settings.master_device_id}`)
+            console.log(`   Current device: ${deviceInfo.current.deviceName}`)
+            console.log(`   Current device ID: ${deviceInfo.current.deviceId}`)
+            console.log(`   → This device is: ${isThisMaster ? '👑 MASTER' : '🔗 SLAVE'}`)
           } else {
             // No master device set - auto-select the device with most recent timestamp
+            console.log('🔍 NO MASTER DEVICE SET - AUTO-SELECTING...')
             const devices = await getUserDevices(user.uid)
+
             if (devices.length > 0) {
               // Sort by timestamp descending and pick the first one
               const mostRecentDevice = devices.sort((a, b) => b.timestamp - a.timestamp)[0]
-              console.log(`No master device set. Auto-selecting most recent device: ${mostRecentDevice.device_id}`)
+              console.log(`   Found ${devices.length} device(s)`)
+              console.log(`   Most recent device: ${mostRecentDevice.device_name || mostRecentDevice.device_id}`)
+              console.log(`   → Promoting to MASTER: ${mostRecentDevice.device_id}`)
 
               // Set this device as master
               await setMasterDevice(user.uid, mostRecentDevice.device_id)
               setMasterDeviceId(mostRecentDevice.device_id)
-              setIsMaster(mostRecentDevice.device_id === deviceInfo.current.deviceId)
+              const isThisMaster = mostRecentDevice.device_id === deviceInfo.current.deviceId
+              setIsMaster(isThisMaster)
+              console.log(`   → This device is: ${isThisMaster ? '👑 MASTER' : '🔗 SLAVE'}`)
             } else {
               // No devices yet - make this device the master
-              console.log(`No devices found. Making current device master: ${deviceInfo.current.deviceId}`)
+              console.log(`   No devices found in database`)
+              console.log(`   → Making current device MASTER: ${deviceInfo.current.deviceName || deviceInfo.current.deviceId}`)
               await setMasterDevice(user.uid, deviceInfo.current.deviceId)
               setMasterDeviceId(deviceInfo.current.deviceId)
               setIsMaster(true)
+              console.log(`   ✅ This device is now: 👑 MASTER`)
             }
           }
         }
@@ -194,7 +214,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
     // MASTER/SLAVE CHECK: Only master device can send location updates
     if (!isMaster) {
-      console.log('Location sync: This is a slave device, not sending location update')
+      console.log('🔗 SLAVE DEVICE - Location update blocked:')
+      console.log(`   This device: ${deviceInfo.current.deviceName}`)
+      console.log(`   Current master: ${masterDeviceId}`)
+      console.log(`   Path: ${path}`)
+      console.log(`   → Slaves cannot send location updates`)
+      console.log(`   → Only listening for master's updates`)
       return
     }
 
@@ -234,7 +259,10 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       }))
 
       const timestamp = new Date().toLocaleTimeString()
-      console.log(`✅ Location synced successfully at ${timestamp}:`, path)
+      console.log(`👑 MASTER - Location synced successfully at ${timestamp}:`)
+      console.log(`   Path: ${path}`)
+      console.log(`   Scroll position: ${location.scrollPosition}px`)
+      console.log(`   → Broadcasting to all slave devices`)
     } catch (error: any) {
       console.error('❌ Error syncing location:', error)
       console.error('Error message:', error.message)
@@ -305,7 +333,14 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
           // SLAVE AUTO-NAVIGATION: If this is a slave device, automatically navigate
           if (!isMaster) {
-            console.log(`Slave device auto-navigating to master's location: ${location.path}`)
+            const pageInfo = location.pageTitle || location.path
+            const masterName = location.deviceName || 'Master device'
+            console.log('🔗 SLAVE - Received update from master:')
+            console.log(`   Master device: ${masterName}`)
+            console.log(`   Page: ${pageInfo}`)
+            console.log(`   Path: ${location.path}`)
+            console.log(`   Scroll position: ${location.scrollPosition}px`)
+            console.log(`   → Auto-navigating now...`)
             navigateToSynced()
           } else {
             // Master device: Show notification (shouldn't happen, but keep as fallback)
@@ -363,9 +398,21 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    */
   useEffect(() => {
     const user = auth?.currentUser
-    if (!user || !supabase || !isEnabled || !masterDeviceId || isMaster) return
+    if (!user || !supabase || !isEnabled || isMaster) return
 
-    // Only run this check on slave devices
+    // If master is null, promote self immediately
+    if (!masterDeviceId) {
+      console.log('🚨 MASTER IS NULL - IMMEDIATE SELF PROMOTION:')
+      console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
+      setMasterDevice(user.uid, deviceInfo.current.deviceId)
+      setMasterDeviceId(deviceInfo.current.deviceId)
+      setIsMaster(true)
+      toastRef.current.info('No master device - becoming MASTER')
+      console.log(`   ✅ This device is now: 👑 MASTER`)
+      return
+    }
+
+    // Only run this check on slave devices with a master
     const checkMasterStatus = async () => {
       try {
         // Get master device's last update
@@ -382,23 +429,40 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         }
 
         if (!data) {
-          console.log('Master device not found in database, promoting self to master')
+          console.log('🚨 MASTER PROMOTION - MASTER NOT FOUND:')
+          console.log(`   Master device ID: ${masterDeviceId} not found in database`)
+          console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
           toastRef.current.info('Becoming master device - previous master not found')
           await setMasterDevice(user.uid, deviceInfo.current.deviceId)
           setMasterDeviceId(deviceInfo.current.deviceId)
           setIsMaster(true)
+          console.log(`   ✅ This device is now: 👑 MASTER`)
           return
         }
 
         // Check if master's last update is older than threshold
         const timeSinceLastUpdate = Date.now() - data.timestamp
+        const minutesSinceUpdate = Math.round(timeSinceLastUpdate / 60000)
+        const thresholdMinutes = Math.round(MASTER_OFFLINE_THRESHOLD_MS / 60000)
+
         if (timeSinceLastUpdate > MASTER_OFFLINE_THRESHOLD_MS) {
           const masterName = data.device_name || masterDeviceId
-          console.log(`Master device "${masterName}" appears offline (no update for ${Math.round(timeSinceLastUpdate / 60000)} minutes). Promoting self to master.`)
+          console.log('🚨 MASTER PROMOTION - MASTER OFFLINE:')
+          console.log(`   Master device: ${masterName}`)
+          console.log(`   Last update: ${minutesSinceUpdate} minutes ago`)
+          console.log(`   Threshold: ${thresholdMinutes} minutes`)
+          console.log(`   → Master appears OFFLINE`)
+          console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
           toastRef.current.info(`Becoming master device - "${masterName}" appears offline`)
           await setMasterDevice(user.uid, deviceInfo.current.deviceId)
           setMasterDeviceId(deviceInfo.current.deviceId)
           setIsMaster(true)
+          console.log(`   ✅ This device is now: 👑 MASTER`)
+        } else {
+          console.log(`🔍 Master status check:`)
+          console.log(`   Current master: ${masterName}`)
+          console.log(`   Status: ONLINE (last update ${minutesSinceUpdate}m ago)`)
+          console.log(`   This device: ${deviceInfo.current.deviceName} (SLAVE)`)
         }
       } catch (error) {
         console.error('Error in master status check:', error)
@@ -439,13 +503,34 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
           // Check if master device changed
           if (settings.master_device_id !== masterDeviceId) {
-            console.log(`Master device changed from ${masterDeviceId} to ${settings.master_device_id}`)
-            setMasterDeviceId(settings.master_device_id)
-            setIsMaster(settings.master_device_id === deviceInfo.current.deviceId)
+            // Handle case when master becomes null - promote self
+            if (!settings.master_device_id) {
+              console.log('🚨 MASTER IS NULL - SELF PROMOTION:')
+              console.log(`   Previous master: ${masterDeviceId}`)
+              console.log(`   New master: NULL`)
+              console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
 
-            // Show notification
-            const newRole = settings.master_device_id === deviceInfo.current.deviceId ? 'master' : 'slave'
-            toastRef.current.info(`This device is now ${newRole}`)
+              // Promote this device to master
+              setMasterDevice(user.uid, deviceInfo.current.deviceId)
+              setMasterDeviceId(deviceInfo.current.deviceId)
+              setIsMaster(true)
+              toastRef.current.info('No master device - promoting self to MASTER')
+              console.log(`   ✅ This device is now: 👑 MASTER`)
+            } else {
+              const isThisMaster = settings.master_device_id === deviceInfo.current.deviceId
+              const newRole = isThisMaster ? 'MASTER' : 'SLAVE'
+
+              console.log('🔄 MASTER DEVICE CHANGED:')
+              console.log(`   Previous master: ${masterDeviceId}`)
+              console.log(`   New master: ${settings.master_device_id}`)
+              console.log(`   → This device is now: ${isThisMaster ? '👑 MASTER' : '🔗 SLAVE'}`)
+
+              setMasterDeviceId(settings.master_device_id)
+              setIsMaster(isThisMaster)
+
+              // Show notification
+              toastRef.current.info(`This device is now ${newRole}`)
+            }
           }
 
           // Check if location sync enabled changed

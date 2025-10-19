@@ -646,21 +646,28 @@ export interface UserDevice {
 
 /**
  * Get all devices for a user from user_locations table
+ * Only returns devices that have synced in the past 90 days
  */
-export async function getUserDevices(userId: string): Promise<UserDevice[]> {
+export async function getUserDevices(userId: string, daysBack: number = 90): Promise<UserDevice[]> {
   if (!supabase) return []
 
   try {
+    // Calculate timestamp for 90 days ago
+    const ninetyDaysAgo = Date.now() - (daysBack * 24 * 60 * 60 * 1000)
+
     const { data, error } = await supabase
       .from('user_locations')
       .select('device_id, device_name, path, page_title, timestamp, updated_at')
       .eq('user_id', userId)
+      .gte('timestamp', ninetyDaysAgo) // Only devices from past 90 days
       .order('timestamp', { ascending: false })
 
     if (error) {
       console.error('Error fetching user devices:', error)
       return []
     }
+
+    console.log(`📋 Found ${data?.length || 0} devices active in the past ${daysBack} days`)
 
     return data || []
   } catch (error) {
