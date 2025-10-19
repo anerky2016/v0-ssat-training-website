@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id TEXT NOT NULL UNIQUE,
   location_sync_enabled BOOLEAN DEFAULT true,
+  master_device_id TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -79,9 +80,18 @@ ALTER TABLE user_locations
 ADD COLUMN IF NOT EXISTS scroll_position INTEGER DEFAULT 0;
 ```
 
+**If you already have the `user_settings` table** and need to add master device tracking, run this SQL:
+
+```sql
+-- Add master_device_id column to existing table
+ALTER TABLE user_settings
+ADD COLUMN IF NOT EXISTS master_device_id TEXT;
+```
+
 This will:
-- Add the `scroll_position` column if it doesn't exist
-- Set default value to 0 for all existing rows
+- Add the `scroll_position` column to user_locations if it doesn't exist
+- Add the `master_device_id` column to user_settings if it doesn't exist
+- Set default value to NULL for master_device_id (no master selected initially)
 - Not affect any existing data
 
 ## Step 4: Set Up Row Level Security (RLS)
@@ -162,9 +172,9 @@ CREATE POLICY "Users can update their own settings"
 ## Step 5: Enable Realtime
 
 1. Go to **Database** → **Replication** in Supabase
-2. Find the `user_locations` table
-3. Toggle **Enable Realtime** to ON
-4. This allows the app to receive real-time updates when location changes
+2. Find the `user_locations` table and toggle **Enable Realtime** to ON
+3. Find the `user_settings` table and toggle **Enable Realtime** to ON
+4. This allows the app to receive real-time updates when location or settings change
 
 ## Step 6: Test the Setup
 
@@ -247,18 +257,29 @@ To optimize:
 
 Once setup is complete, the location sync will provide:
 
-1. **Page Navigation Sync**: Automatically syncs when you navigate to a different page
+1. **Master/Slave Device Model**: One device controls, others follow
+   - One device is designated as the "master" device
+   - Master device controls page navigation and scroll position
+   - All other devices ("slave" devices) automatically follow the master
+   - Users can change which device is master from the settings dialog
+   - If master goes offline (no update for 5 minutes), a slave auto-promotes to master
+
+2. **Page Navigation Sync**: Master device syncs navigation
+   - Master device sends location updates when navigating to different pages
+   - Slave devices automatically navigate to follow the master
    - Debounced by 2 seconds to prevent excessive writes during rapid navigation
 
-2. **Scroll Position Sync**: Automatically syncs scroll position
-   - Tracks your scroll position on each page
+3. **Scroll Position Sync**: Master device controls scroll position
+   - Tracks scroll position on each page
    - Debounced by 1 second after scrolling stops
-   - Restores scroll position when switching devices
+   - Slave devices restore scroll position when following master
 
-3. **Real-time Notifications**: Get notified when switching devices
-   - Shows page title and device name
-   - Click to navigate to the synced location
-   - Smooth scroll to the exact position
+4. **Device Management**: Full control over device roles
+   - View all devices in the settings dialog
+   - See which device is currently the master (crown icon)
+   - See current device (highlighted)
+   - Click "Set as Master" to change master device
+   - All other devices automatically become slaves when a new master is selected
 
 ## Next Steps
 

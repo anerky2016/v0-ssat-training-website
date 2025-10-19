@@ -537,6 +537,7 @@ export interface UserSettings {
   id?: string
   user_id: string
   location_sync_enabled: boolean
+  master_device_id?: string | null
   created_at?: string
   updated_at?: string
 }
@@ -628,6 +629,98 @@ export async function saveUserSettings(userId: string, settings: Partial<Omit<Us
     }
   } catch (error) {
     console.error('Failed to save user settings:', error)
+    return null
+  }
+}
+
+// ===== DEVICE MANAGEMENT =====
+
+export interface UserDevice {
+  device_id: string
+  device_name?: string
+  path: string
+  page_title?: string
+  timestamp: number
+  updated_at: string
+}
+
+/**
+ * Get all devices for a user from user_locations table
+ */
+export async function getUserDevices(userId: string): Promise<UserDevice[]> {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('user_locations')
+      .select('device_id, device_name, path, page_title, timestamp, updated_at')
+      .eq('user_id', userId)
+      .order('timestamp', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching user devices:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch user devices:', error)
+    return []
+  }
+}
+
+/**
+ * Set a device as the master device for a user
+ */
+export async function setMasterDevice(userId: string, deviceId: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping master device update')
+    return null
+  }
+
+  try {
+    // First, ensure user settings exist
+    const existing = await getUserSettings(userId)
+
+    if (existing && existing.id) {
+      // Update existing settings
+      const { data, error } = await supabase
+        .from('user_settings')
+        .update({
+          master_device_id: deviceId,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', userId)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error setting master device:', error)
+        return null
+      }
+
+      return data
+    } else {
+      // Create new settings with master device
+      const { data, error } = await supabase
+        .from('user_settings')
+        .insert({
+          user_id: userId,
+          location_sync_enabled: true,
+          master_device_id: deviceId,
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error creating settings with master device:', error)
+        return null
+      }
+
+      return data
+    }
+  } catch (error) {
+    console.error('Failed to set master device:', error)
     return null
   }
 }

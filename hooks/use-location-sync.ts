@@ -2,12 +2,15 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
-import { supabase, getUserSettings } from '@/lib/supabase'
+import { supabase, getUserSettings, setMasterDevice, getUserDevices } from '@/lib/supabase'
 import { auth } from '@/lib/firebase'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
 import { useToast } from '@/hooks/use-toast'
 import type { RealtimeChannel } from '@supabase/supabase-js'
+
+// Master device is considered offline if no update in last 5 minutes
+const MASTER_OFFLINE_THRESHOLD_MS = 5 * 60 * 1000
 
 const DEFAULT_OPTIONS: LocationSyncOptions = {
   enabled: true,
@@ -33,6 +36,8 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     isSyncing: false,
   })
   const [userEnabledSync, setUserEnabledSync] = useState<boolean>(true)
+  const [masterDeviceId, setMasterDeviceId] = useState<string | null>(null)
+  const [isMaster, setIsMaster] = useState<boolean>(false)
 
   const opts = useMemo(() => ({ ...DEFAULT_OPTIONS, ...options }), [
     options.enabled,
@@ -56,13 +61,15 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   }, [toast])
 
   /**
-   * Load user settings to check if location sync is enabled
+   * Load user settings to check if location sync is enabled and determine master device
    */
   useEffect(() => {
     const loadUserSettings = async () => {
       const user = auth?.currentUser
-      if (!user) {
+      if (!user || !supabase) {
         setUserEnabledSync(true) // Default to enabled when not logged in
+        setMasterDeviceId(null)
+        setIsMaster(false)
         return
       }
 
@@ -70,6 +77,32 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         const settings = await getUserSettings(user.uid)
         if (settings) {
           setUserEnabledSync(settings.location_sync_enabled)
+
+          // Check if there's a master device set
+          if (settings.master_device_id) {
+            setMasterDeviceId(settings.master_device_id)
+            setIsMaster(settings.master_device_id === deviceInfo.current.deviceId)
+            console.log(`Master device: ${settings.master_device_id}, Current device: ${deviceInfo.current.deviceId}, Is master: ${settings.master_device_id === deviceInfo.current.deviceId}`)
+          } else {
+            // No master device set - auto-select the device with most recent timestamp
+            const devices = await getUserDevices(user.uid)
+            if (devices.length > 0) {
+              // Sort by timestamp descending and pick the first one
+              const mostRecentDevice = devices.sort((a, b) => b.timestamp - a.timestamp)[0]
+              console.log(`No master device set. Auto-selecting most recent device: ${mostRecentDevice.device_id}`)
+
+              // Set this device as master
+              await setMasterDevice(user.uid, mostRecentDevice.device_id)
+              setMasterDeviceId(mostRecentDevice.device_id)
+              setIsMaster(mostRecentDevice.device_id === deviceInfo.current.deviceId)
+            } else {
+              // No devices yet - make this device the master
+              console.log(`No devices found. Making current device master: ${deviceInfo.current.deviceId}`)
+              await setMasterDevice(user.uid, deviceInfo.current.deviceId)
+              setMasterDeviceId(deviceInfo.current.deviceId)
+              setIsMaster(true)
+            }
+          }
         }
       } catch (error) {
         console.error('Error loading user settings:', error)
@@ -137,7 +170,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   }, [])
 
   /**
-   * Update location in Supabase
+   * Update location in Supabase (only if this device is the master)
    */
   const updateLocation = useCallback(async (path: string) => {
     const user = auth?.currentUser
@@ -156,6 +189,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
     // Skip if disabled
     if (!isEnabled) {
+      return
+    }
+
+    // MASTER/SLAVE CHECK: Only master device can send location updates
+    if (!isMaster) {
+      console.log('Location sync: This is a slave device, not sending location update')
       return
     }
 
@@ -204,18 +243,18 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       // This prevents annoying errors during development
       setState(prev => ({ ...prev, isSyncing: false }))
     }
-  }, [isEnabled])
+  }, [isEnabled, isMaster])
 
   /**
-   * Listen to location changes from other devices
+   * Listen to location changes from master device
    */
   useEffect(() => {
     const user = auth?.currentUser
-    if (!user || !supabase || !isEnabled) return
+    if (!user || !supabase || !isEnabled || !masterDeviceId) return
 
     setState(prev => ({ ...prev, isActive: true }))
 
-    // Subscribe to real-time changes for this user's locations from other devices
+    // Subscribe to real-time changes for this user's locations
     const channel: RealtimeChannel = supabase
       .channel(`user_locations:${user.uid}`)
       .on(
@@ -233,6 +272,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
           // Ignore updates from this device
           if (remoteLocation.device_id === deviceInfo.current.deviceId) return
+
+          // MASTER/SLAVE BEHAVIOR: Only listen to updates from master device
+          if (remoteLocation.device_id !== masterDeviceId) {
+            console.log(`Ignoring update from non-master device: ${remoteLocation.device_id}`)
+            return
+          }
 
           // Ignore if we're already on this path
           if (remoteLocation.path === pathname) return
@@ -258,18 +303,24 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
           lastSyncedPath.current = location.path
 
-          // Show notification
-          if (opts.showNotification) {
-            const pageInfo = location.pageTitle || location.path
-            const deviceName = location.deviceName || 'another device'
+          // SLAVE AUTO-NAVIGATION: If this is a slave device, automatically navigate
+          if (!isMaster) {
+            console.log(`Slave device auto-navigating to master's location: ${location.path}`)
+            navigateToSynced()
+          } else {
+            // Master device: Show notification (shouldn't happen, but keep as fallback)
+            if (opts.showNotification) {
+              const pageInfo = location.pageTitle || location.path
+              const deviceName = location.deviceName || 'another device'
 
-            toastRef.current.info(
-              `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
-              {
-                duration: 10000,
-                onClick: navigateToSynced,
-              }
-            )
+              toastRef.current.info(
+                `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
+                {
+                  duration: 10000,
+                  onClick: navigateToSynced,
+                }
+              )
+            }
           }
         }
       )
@@ -280,7 +331,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       setState(prev => ({ ...prev, isActive: false }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled, opts.showNotification, pathname])
+  }, [isEnabled, opts.showNotification, pathname, masterDeviceId, isMaster])
 
   /**
    * Sync current location when pathname changes
@@ -307,9 +358,114 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     }
   }, [pathname, isEnabled, opts.debounceMs, updateLocation])
 
+  /**
+   * Monitor master device status and auto-promote if master goes offline
+   */
+  useEffect(() => {
+    const user = auth?.currentUser
+    if (!user || !supabase || !isEnabled || !masterDeviceId || isMaster) return
+
+    // Only run this check on slave devices
+    const checkMasterStatus = async () => {
+      try {
+        // Get master device's last update
+        const { data, error } = await supabase
+          .from('user_locations')
+          .select('timestamp, device_name')
+          .eq('user_id', user.uid)
+          .eq('device_id', masterDeviceId)
+          .maybeSingle()
+
+        if (error) {
+          console.error('Error checking master device status:', error)
+          return
+        }
+
+        if (!data) {
+          console.log('Master device not found in database, promoting self to master')
+          toastRef.current.info('Becoming master device - previous master not found')
+          await setMasterDevice(user.uid, deviceInfo.current.deviceId)
+          setMasterDeviceId(deviceInfo.current.deviceId)
+          setIsMaster(true)
+          return
+        }
+
+        // Check if master's last update is older than threshold
+        const timeSinceLastUpdate = Date.now() - data.timestamp
+        if (timeSinceLastUpdate > MASTER_OFFLINE_THRESHOLD_MS) {
+          const masterName = data.device_name || masterDeviceId
+          console.log(`Master device "${masterName}" appears offline (no update for ${Math.round(timeSinceLastUpdate / 60000)} minutes). Promoting self to master.`)
+          toastRef.current.info(`Becoming master device - "${masterName}" appears offline`)
+          await setMasterDevice(user.uid, deviceInfo.current.deviceId)
+          setMasterDeviceId(deviceInfo.current.deviceId)
+          setIsMaster(true)
+        }
+      } catch (error) {
+        console.error('Error in master status check:', error)
+      }
+    }
+
+    // Check master status every minute
+    const interval = setInterval(checkMasterStatus, 60000)
+
+    // Also check immediately
+    checkMasterStatus()
+
+    return () => clearInterval(interval)
+  }, [isEnabled, masterDeviceId, isMaster])
+
+  /**
+   * Subscribe to user_settings changes to detect master device changes
+   */
+  useEffect(() => {
+    const user = auth?.currentUser
+    if (!user || !supabase || !isEnabled) return
+
+    // Subscribe to real-time changes for user settings
+    const channel: RealtimeChannel = supabase
+      .channel(`user_settings:${user.uid}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'user_settings',
+          filter: `user_id=eq.${user.uid}`,
+        },
+        (payload) => {
+          const settings = payload.new as any
+
+          if (!settings) return
+
+          // Check if master device changed
+          if (settings.master_device_id !== masterDeviceId) {
+            console.log(`Master device changed from ${masterDeviceId} to ${settings.master_device_id}`)
+            setMasterDeviceId(settings.master_device_id)
+            setIsMaster(settings.master_device_id === deviceInfo.current.deviceId)
+
+            // Show notification
+            const newRole = settings.master_device_id === deviceInfo.current.deviceId ? 'master' : 'slave'
+            toastRef.current.info(`This device is now ${newRole}`)
+          }
+
+          // Check if location sync enabled changed
+          if (settings.location_sync_enabled !== undefined) {
+            setUserEnabledSync(settings.location_sync_enabled)
+          }
+        }
+      )
+      .subscribe()
+
+    return () => {
+      channel.unsubscribe()
+    }
+  }, [isEnabled, masterDeviceId])
+
   return {
     ...state,
     navigateToSynced,
     deviceInfo: deviceInfo.current,
+    isMaster,
+    masterDeviceId,
   }
 }
