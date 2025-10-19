@@ -96,7 +96,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       // Debounce scroll updates - sync 1 second after scrolling stops
       scrollDebounceTimer.current = setTimeout(() => {
         const scrollY = window.scrollY || window.pageYOffset
-        currentScrollPosition.current = scrollY
+        currentScrollPosition.current = Math.round(scrollY) // Round to integer for database
 
         // Sync the updated scroll position
         if (pathname) {

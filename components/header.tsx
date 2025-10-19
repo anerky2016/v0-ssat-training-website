@@ -20,6 +20,7 @@ import { SignInDialog } from "@/components/sign-in-dialog"
 import { ResumeButton } from "@/components/resume-button"
 import { StudyReminder } from "@/components/study-reminder"
 import { NotesButton } from "@/components/notes-button"
+import { SettingsDialog } from "@/components/settings-dialog"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -102,6 +103,7 @@ export function Header() {
           <ResumeButton />
           <StudyReminder compact />
           <NotesButton />
+          <SettingsDialog />
           <ThemeToggle />
 
           {loading ? (
