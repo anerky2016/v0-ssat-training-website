@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import { supabase, getUserSettings, setMasterDevice, getUserDevices, saveDevice, updateDeviceActivity } from '@/lib/supabase'
-import { auth } from '@/lib/firebase'
+import { useAuth } from '@/contexts/firebase-auth-context'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
 import { useToast } from '@/hooks/use-toast'
@@ -29,6 +29,7 @@ const DEFAULT_OPTIONS: LocationSyncOptions = {
 export function useLocationSync(options: LocationSyncOptions = {}) {
   const pathname = usePathname()
   const { toast } = useToast()
+  const { user } = useAuth() // Use auth context instead of auth.currentUser
   const [state, setState] = useState<LocationSyncState>({
     currentLocation: null,
     syncedLocation: null,
@@ -65,7 +66,6 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    */
   useEffect(() => {
     const loadUserSettings = async () => {
-      const user = auth?.currentUser
       if (!user || !supabase) {
         setUserEnabledSync(true) // Default to enabled when not logged in
         setMasterDeviceId(null)
@@ -144,18 +144,17 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     }
 
     loadUserSettings()
-  }, []) // Run once on mount
+  }, [user]) // Re-run when user changes
 
   /**
    * Register device and keep it active with heartbeat
-   * This effect watches auth.currentUser and runs when user becomes available
+   * This effect watches the user from auth context and runs when user becomes available
    */
   useEffect(() => {
-    const user = auth?.currentUser
-
     // Debug logging
     console.log('🔍 Device registration effect triggered')
     console.log(`   User authenticated: ${!!user}`)
+    console.log(`   User email: ${user?.email || 'N/A'}`)
     console.log(`   Supabase available: ${!!supabase}`)
 
     if (!user) {
@@ -217,7 +216,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       clearInterval(heartbeatInterval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, [auth?.currentUser]) // Re-run when auth state changes
+  }, [user]) // Re-run when user from auth context changes
 
   /**
    * Track scroll position with debouncing
@@ -278,8 +277,6 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    * Update location in Supabase (only if this device is the master)
    */
   const updateLocation = useCallback(async (path: string) => {
-    const user = auth?.currentUser
-
     // Skip if not authenticated
     if (!user) {
       console.log('Location sync: User not authenticated, skipping sync')
@@ -356,13 +353,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       // This prevents annoying errors during development
       setState(prev => ({ ...prev, isSyncing: false }))
     }
-  }, [isEnabled, isMaster])
+  }, [user, isEnabled, isMaster])
 
   /**
    * Listen to location changes from master device
    */
   useEffect(() => {
-    const user = auth?.currentUser
     if (!user || !supabase || !isEnabled || !masterDeviceId) return
 
     setState(prev => ({ ...prev, isActive: true }))
@@ -482,7 +478,6 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    * Monitor master device status and auto-promote if master goes offline
    */
   useEffect(() => {
-    const user = auth?.currentUser
     if (!user || !supabase || !isEnabled || isMaster) return
 
     // If master is null, promote self immediately
@@ -561,13 +556,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     checkMasterStatus()
 
     return () => clearInterval(interval)
-  }, [isEnabled, masterDeviceId, isMaster])
+  }, [user, isEnabled, masterDeviceId, isMaster])
 
   /**
    * Subscribe to user_settings changes to detect master device changes
    */
   useEffect(() => {
-    const user = auth?.currentUser
     if (!user || !supabase || !isEnabled) return
 
     // Subscribe to real-time changes for user settings
@@ -629,7 +623,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     return () => {
       channel.unsubscribe()
     }
-  }, [isEnabled, masterDeviceId])
+  }, [user, isEnabled, masterDeviceId])
 
   return {
     ...state,
