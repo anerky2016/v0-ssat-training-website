@@ -1,6 +1,16 @@
 # Firestore Security Rules for Location Sync
 
-This document outlines the Firestore security rules needed for the multi-device location sync feature.
+**⚠️ DEPRECATED: This file is no longer in use.**
+
+The location sync feature now uses **Supabase** instead of Firestore.
+
+👉 **See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for setup instructions.**
+
+---
+
+## Legacy Documentation (No Longer Used)
+
+This document outlines the Firestore security rules that were needed for the multi-device location sync feature.
 
 ## Required Rules
 

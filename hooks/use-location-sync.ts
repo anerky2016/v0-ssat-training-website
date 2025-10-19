@@ -2,11 +2,12 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { doc, setDoc, onSnapshot, serverTimestamp } from 'firebase/firestore'
-import { db, auth } from '@/lib/firebase'
+import { supabase } from '@/lib/supabase'
+import { auth } from '@/lib/firebase'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
 import { useToast } from '@/hooks/use-toast'
+import type { RealtimeChannel } from '@supabase/supabase-js'
 
 const DEFAULT_OPTIONS: LocationSyncOptions = {
   enabled: true,
@@ -48,11 +49,27 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   }, [state.syncedLocation])
 
   /**
-   * Update location in Firestore
+   * Update location in Supabase
    */
   const updateLocation = useCallback(async (path: string) => {
     const user = auth?.currentUser
-    if (!user || !db || !opts.enabled) return
+
+    // Skip if not authenticated
+    if (!user) {
+      console.log('Location sync: User not authenticated, skipping sync')
+      return
+    }
+
+    // Skip if Supabase not available
+    if (!supabase) {
+      console.log('Location sync: Supabase not initialized, skipping sync')
+      return
+    }
+
+    // Skip if disabled
+    if (!opts.enabled) {
+      return
+    }
 
     try {
       const location: UserLocation = {
@@ -63,14 +80,23 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         pageTitle: typeof document !== 'undefined' ? document.title : undefined,
       }
 
-      await setDoc(
-        doc(db, 'users', user.uid),
-        {
-          currentLocation: location,
-          updatedAt: serverTimestamp(),
-        },
-        { merge: true }
-      )
+      const { error } = await supabase
+        .from('user_locations')
+        .upsert({
+          user_id: user.uid,
+          path: location.path,
+          timestamp: location.timestamp,
+          device_id: location.deviceId,
+          device_name: location.deviceName || null,
+          page_title: location.pageTitle || null,
+          updated_at: new Date().toISOString(),
+        }, {
+          onConflict: 'user_id,device_id',
+        })
+
+      if (error) {
+        throw error
+      }
 
       setState(prev => ({
         ...prev,
@@ -78,9 +104,13 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         isSyncing: false,
       }))
 
-      console.log('Location synced:', path)
-    } catch (error) {
-      console.error('Error syncing location:', error)
+      console.log('✅ Location synced successfully:', path)
+    } catch (error: any) {
+      console.error('❌ Error syncing location:', error)
+      console.error('Error message:', error.message)
+
+      // Don't show errors to user if Supabase is not set up
+      // This prevents annoying errors during development
       setState(prev => ({ ...prev, isSyncing: false }))
     }
   }, [opts.enabled])
@@ -90,58 +120,71 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    */
   useEffect(() => {
     const user = auth?.currentUser
-    if (!user || !db || !opts.enabled) return
+    if (!user || !supabase || !opts.enabled) return
 
     setState(prev => ({ ...prev, isActive: true }))
 
-    const unsub = onSnapshot(
-      doc(db, 'users', user.uid),
-      (snapshot) => {
-        if (!snapshot.exists()) return
+    // Subscribe to real-time changes for this user's locations from other devices
+    const channel: RealtimeChannel = supabase
+      .channel(`user_locations:${user.uid}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'user_locations',
+          filter: `user_id=eq.${user.uid}`,
+        },
+        (payload) => {
+          const remoteLocation = payload.new as any
 
-        const data = snapshot.data()
-        const remoteLocation = data.currentLocation as UserLocation | undefined
+          if (!remoteLocation) return
 
-        if (!remoteLocation) return
+          // Ignore updates from this device
+          if (remoteLocation.device_id === deviceInfo.current.deviceId) return
 
-        // Ignore updates from this device
-        if (remoteLocation.deviceId === deviceInfo.current.deviceId) return
+          // Ignore if we're already on this path
+          if (remoteLocation.path === pathname) return
 
-        // Ignore if we're already on this path
-        if (remoteLocation.path === pathname) return
+          // Ignore if this is an old update
+          if (lastSyncedPath.current === remoteLocation.path) return
 
-        // Ignore if this is an old update
-        if (lastSyncedPath.current === remoteLocation.path) return
+          // Convert to UserLocation format
+          const location: UserLocation = {
+            path: remoteLocation.path,
+            timestamp: remoteLocation.timestamp,
+            deviceId: remoteLocation.device_id,
+            deviceName: remoteLocation.device_name,
+            pageTitle: remoteLocation.page_title,
+          }
 
-        // Update synced location
-        setState(prev => ({
-          ...prev,
-          syncedLocation: remoteLocation,
-        }))
+          // Update synced location
+          setState(prev => ({
+            ...prev,
+            syncedLocation: location,
+          }))
 
-        lastSyncedPath.current = remoteLocation.path
+          lastSyncedPath.current = location.path
 
-        // Show notification
-        if (opts.showNotification) {
-          const pageInfo = remoteLocation.pageTitle || remoteLocation.path
-          const deviceName = remoteLocation.deviceName || 'another device'
+          // Show notification
+          if (opts.showNotification) {
+            const pageInfo = location.pageTitle || location.path
+            const deviceName = location.deviceName || 'another device'
 
-          toast.info(
-            `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
-            {
-              duration: 10000,
-              onClick: navigateToSynced,
-            }
-          )
+            toast.info(
+              `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
+              {
+                duration: 10000,
+                onClick: navigateToSynced,
+              }
+            )
+          }
         }
-      },
-      (error) => {
-        console.error('Error listening to location changes:', error)
-      }
-    )
+      )
+      .subscribe()
 
     return () => {
-      unsub()
+      channel.unsubscribe()
       setState(prev => ({ ...prev, isActive: false }))
     }
   }, [opts.enabled, opts.showNotification, pathname, toast, navigateToSynced])
