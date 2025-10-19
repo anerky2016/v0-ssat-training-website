@@ -3,8 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { doc, setDoc, onSnapshot, serverTimestamp } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
-import { auth } from '@/lib/firebase-auth'
+import { db, auth } from '@/lib/firebase'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
 import { useToast } from '@/hooks/use-toast'
@@ -124,19 +123,16 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
         // Show notification
         if (opts.showNotification) {
-          toast({
-            title: 'Continue from another device?',
-            description: `You were viewing "${remoteLocation.pageTitle || remoteLocation.path}" on your ${remoteLocation.deviceName}`,
-            action: (
-              <button
-                onClick={navigateToSynced}
-                className="inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              >
-                Go there
-              </button>
-            ),
-            duration: 10000, // Show for 10 seconds
-          })
+          const pageInfo = remoteLocation.pageTitle || remoteLocation.path
+          const deviceName = remoteLocation.deviceName || 'another device'
+
+          toast.info(
+            `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
+            {
+              duration: 10000,
+              onClick: navigateToSynced,
+            }
+          )
         }
       },
       (error) => {
