@@ -116,7 +116,8 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         isSyncing: false,
       }))
 
-      console.log('✅ Location synced successfully:', path)
+      const timestamp = new Date().toLocaleTimeString()
+      console.log(`✅ Location synced successfully at ${timestamp}:`, path)
     } catch (error: any) {
       console.error('❌ Error syncing location:', error)
       console.error('Error message:', error.message)
