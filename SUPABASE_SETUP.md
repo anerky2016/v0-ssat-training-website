@@ -52,9 +52,24 @@ CREATE INDEX IF NOT EXISTS idx_user_locations_user_id
   ON user_locations(user_id);
 
 -- Create an index for timestamp queries
-CREATE INDEX IF NOT EXISTS idx_user_locations_timestamp 
+CREATE INDEX IF NOT EXISTS idx_user_locations_timestamp
   ON user_locations(timestamp DESC);
 ```
+
+### Updating an Existing Table
+
+**If you already have the `user_locations` table** from a previous setup and need to add scroll position tracking, run this SQL:
+
+```sql
+-- Add scroll_position column to existing table
+ALTER TABLE user_locations
+ADD COLUMN IF NOT EXISTS scroll_position INTEGER DEFAULT 0;
+```
+
+This will:
+- Add the `scroll_position` column if it doesn't exist
+- Set default value to 0 for all existing rows
+- Not affect any existing data
 
 ## Step 4: Set Up Row Level Security (RLS)
 
