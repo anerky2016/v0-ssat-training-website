@@ -16,8 +16,11 @@ import { useLocationSync } from '@/hooks/use-location-sync'
 export function LocationSyncProvider({ children }: { children: React.ReactNode }) {
   // Initialize location sync hook
   // The hook handles all the logic internally
+  //
+  // NOTE: Set enabled to false to disable location sync
+  // This is useful if Firestore is not set up yet
   useLocationSync({
-    enabled: true,
+    enabled: false, // Temporarily disabled - enable after setting up Firestore
     debounceMs: 2000,
     showNotification: true,
   })
