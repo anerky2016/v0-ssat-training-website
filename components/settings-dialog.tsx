@@ -51,6 +51,20 @@ export function SettingsDialog() {
   console.log('   Should show "No Master" UI:', settings?.location_sync_enabled && !settings?.master_device_id)
   console.log('   devices from DB:', devices.length)
   console.log('   allDevices (including current):', allDevices.length)
+  console.log('')
+  console.log('📋 All Devices:')
+  allDevices.forEach((device, index) => {
+    const isMaster = device.device_id === settings?.master_device_id
+    const isCurrent = device.device_id === currentDeviceId
+    const tags = []
+    if (isCurrent) tags.push('This Device')
+    if (isMaster) tags.push('👑 Master')
+    const tagStr = tags.length > 0 ? ` [${tags.join(', ')}]` : ''
+    console.log(`   ${index + 1}. ${device.device_name || 'Unknown'}${tagStr}`)
+    console.log(`      ID: ${device.device_id}`)
+    console.log(`      Last sync: ${new Date(device.timestamp).toLocaleString()}`)
+  })
+  console.log('')
 
   const handleSetMaster = async (deviceId: string) => {
     const success = await setMasterDevice(deviceId)

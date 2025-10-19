@@ -73,6 +73,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         return
       }
 
+      // Print device/machine ID
+      console.log('🖥️  DEVICE INFORMATION:')
+      console.log(`   Device ID: ${deviceInfo.current.deviceId}`)
+      console.log(`   Device Name: ${deviceInfo.current.deviceName}`)
+      console.log('')
+
       try {
         const settings = await getUserSettings(user.uid)
         if (settings) {
