@@ -41,6 +41,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   const deviceInfo = useRef(getDeviceInfo())
   const debounceTimer = useRef<NodeJS.Timeout>()
   const lastSyncedPath = useRef<string>('')
+  const toastRef = useRef(toast)
+
+  // Keep toast ref up to date
+  useEffect(() => {
+    toastRef.current = toast
+  }, [toast])
 
   /**
    * Navigate to the synced location
@@ -177,7 +183,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
             const pageInfo = location.pageTitle || location.path
             const deviceName = location.deviceName || 'another device'
 
-            toast.info(
+            toastRef.current.info(
               `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
               {
                 duration: 10000,
@@ -193,7 +199,8 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       channel.unsubscribe()
       setState(prev => ({ ...prev, isActive: false }))
     }
-  }, [opts.enabled, opts.showNotification, pathname, toast, navigateToSynced])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opts.enabled, opts.showNotification, pathname])
 
   /**
    * Sync current location when pathname changes
