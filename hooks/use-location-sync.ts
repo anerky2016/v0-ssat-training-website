@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/firebase'
@@ -33,7 +33,11 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     isSyncing: false,
   })
 
-  const opts = { ...DEFAULT_OPTIONS, ...options }
+  const opts = useMemo(() => ({ ...DEFAULT_OPTIONS, ...options }), [
+    options.enabled,
+    options.debounceMs,
+    options.showNotification,
+  ])
   const deviceInfo = useRef(getDeviceInfo())
   const debounceTimer = useRef<NodeJS.Timeout>()
   const lastSyncedPath = useRef<string>('')
@@ -42,11 +46,13 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
    * Navigate to the synced location
    */
   const navigateToSynced = useCallback(() => {
-    if (state.syncedLocation && typeof window !== 'undefined') {
-      window.location.href = state.syncedLocation.path
-      setState(prev => ({ ...prev, syncedLocation: null }))
-    }
-  }, [state.syncedLocation])
+    setState(prev => {
+      if (prev.syncedLocation && typeof window !== 'undefined') {
+        window.location.href = prev.syncedLocation.path
+      }
+      return { ...prev, syncedLocation: null }
+    })
+  }, [])
 
   /**
    * Update location in Supabase
