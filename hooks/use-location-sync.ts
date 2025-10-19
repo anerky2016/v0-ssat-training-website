@@ -148,26 +148,53 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
   /**
    * Register device and keep it active with heartbeat
+   * This effect watches auth.currentUser and runs when user becomes available
    */
   useEffect(() => {
     const user = auth?.currentUser
-    if (!user || !supabase) return
+
+    // Debug logging
+    console.log('🔍 Device registration effect triggered')
+    console.log(`   User authenticated: ${!!user}`)
+    console.log(`   Supabase available: ${!!supabase}`)
+
+    if (!user) {
+      console.log('   ⏸️  Waiting for user authentication...')
+      return
+    }
+
+    if (!supabase) {
+      console.log('   ⏸️  Waiting for Supabase initialization...')
+      return
+    }
 
     const registerDevice = async () => {
       console.log('📲 Registering device in devices table...')
-      await saveDevice(user.uid, deviceInfo.current.deviceId, deviceInfo.current.deviceName)
-      console.log('✅ Device registered successfully')
+      console.log(`   User ID: ${user.uid}`)
+      console.log(`   Device ID: ${deviceInfo.current.deviceId}`)
+      console.log(`   Device Name: ${deviceInfo.current.deviceName}`)
+
+      try {
+        await saveDevice(user.uid, deviceInfo.current.deviceId, deviceInfo.current.deviceName)
+        console.log('✅ Device registered successfully')
+      } catch (error) {
+        console.error('❌ Failed to register device:', error)
+      }
     }
 
-    // Register device immediately on mount
+    // Register device immediately
     registerDevice()
 
     // Heartbeat: Update device activity every 30 seconds
     const heartbeatInterval = setInterval(async () => {
       // Only update if page is visible
       if (document.visibilityState === 'visible') {
-        await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
-        console.log('💓 Device heartbeat sent')
+        try {
+          await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
+          console.log('💓 Device heartbeat sent')
+        } catch (error) {
+          console.error('❌ Failed to send heartbeat:', error)
+        }
       }
     }, 30000) // 30 seconds
 
@@ -175,17 +202,22 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'visible') {
         console.log('👀 Page became visible - updating device activity')
-        await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
+        try {
+          await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
+        } catch (error) {
+          console.error('❌ Failed to update device activity:', error)
+        }
       }
     }
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
+      console.log('🧹 Cleaning up device registration effect')
       clearInterval(heartbeatInterval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, []) // Run once on mount
+  }, [auth?.currentUser]) // Re-run when auth state changes
 
   /**
    * Track scroll position with debouncing
