@@ -36,9 +36,9 @@ export function SettingsDialog() {
     allDevices.unshift({
       device_id: currentDeviceId,
       device_name: currentDeviceInfo.deviceName,
-      path: typeof window !== 'undefined' ? window.location.pathname : '/',
-      page_title: typeof document !== 'undefined' ? document.title : undefined,
-      timestamp: Date.now(),
+      user_id: user.uid,
+      last_active: Date.now(),
+      is_online: true,
       updated_at: new Date().toISOString(),
     })
   }
@@ -62,7 +62,8 @@ export function SettingsDialog() {
     const tagStr = tags.length > 0 ? ` [${tags.join(', ')}]` : ''
     console.log(`   ${index + 1}. ${device.device_name || 'Unknown'}${tagStr}`)
     console.log(`      ID: ${device.device_id}`)
-    console.log(`      Last sync: ${new Date(device.timestamp).toLocaleString()}`)
+    console.log(`      Last active: ${new Date(device.last_active).toLocaleString()}`)
+    console.log(`      Online: ${device.is_online ? 'Yes' : 'No'}`)
   })
   console.log('')
 
@@ -187,7 +188,7 @@ export function SettingsDialog() {
                   {allDevices.map((device) => {
                     const isMaster = device.device_id === settings?.master_device_id
                     const isCurrent = device.device_id === currentDeviceId
-                    const timeSinceSync = Date.now() - device.timestamp
+                    const timeSinceSync = Date.now() - device.last_active
                     const daysAgo = Math.floor(timeSinceSync / (24 * 60 * 60 * 1000))
                     const isStale = daysAgo > 7 // Inactive if > 7 days old
 
@@ -226,7 +227,7 @@ export function SettingsDialog() {
                               )}
                             </div>
                             <div className="text-xs text-muted-foreground">
-                              Last sync: {formatTimestamp(device.timestamp)}
+                              Last active: {formatTimestamp(device.last_active)}
                               {daysAgo > 0 && ` (${daysAgo}d ago)`}
                             </div>
                           </div>

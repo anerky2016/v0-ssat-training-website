@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
-import { supabase, getUserSettings, setMasterDevice, getUserDevices } from '@/lib/supabase'
+import { supabase, getUserSettings, setMasterDevice, getUserDevices, saveDevice, updateDeviceActivity } from '@/lib/supabase'
 import { auth } from '@/lib/firebase'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
@@ -144,6 +144,47 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     }
 
     loadUserSettings()
+  }, []) // Run once on mount
+
+  /**
+   * Register device and keep it active with heartbeat
+   */
+  useEffect(() => {
+    const user = auth?.currentUser
+    if (!user || !supabase) return
+
+    const registerDevice = async () => {
+      console.log('📲 Registering device in devices table...')
+      await saveDevice(user.uid, deviceInfo.current.deviceId, deviceInfo.current.deviceName)
+      console.log('✅ Device registered successfully')
+    }
+
+    // Register device immediately on mount
+    registerDevice()
+
+    // Heartbeat: Update device activity every 30 seconds
+    const heartbeatInterval = setInterval(async () => {
+      // Only update if page is visible
+      if (document.visibilityState === 'visible') {
+        await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
+        console.log('💓 Device heartbeat sent')
+      }
+    }, 30000) // 30 seconds
+
+    // Listen to page visibility changes
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'visible') {
+        console.log('👀 Page became visible - updating device activity')
+        await updateDeviceActivity(user.uid, deviceInfo.current.deviceId)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      clearInterval(heartbeatInterval)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, []) // Run once on mount
 
   /**

@@ -635,6 +635,94 @@ export async function saveUserSettings(userId: string, settings: Partial<Omit<Us
 
 // ===== DEVICE MANAGEMENT =====
 
+export interface Device {
+  id?: string
+  user_id: string
+  device_id: string
+  device_name: string
+  last_active: number
+  is_online: boolean
+  created_at?: string
+  updated_at?: string
+}
+
+/**
+ * Save or update a device record
+ * Uses upsert to create if doesn't exist, or update if it does
+ */
+export async function saveDevice(userId: string, deviceId: string, deviceName: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping device save')
+    return null
+  }
+
+  try {
+    const now = Date.now()
+    const { data, error } = await supabase
+      .from('devices')
+      .upsert(
+        {
+          user_id: userId,
+          device_id: deviceId,
+          device_name: deviceName,
+          last_active: now,
+          is_online: true,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'user_id,device_id',
+        }
+      )
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error saving device:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to save device:', error)
+    return null
+  }
+}
+
+/**
+ * Update device activity timestamp
+ */
+export async function updateDeviceActivity(userId: string, deviceId: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping device activity update')
+    return null
+  }
+
+  try {
+    const now = Date.now()
+    const { data, error } = await supabase
+      .from('devices')
+      .update({
+        last_active: now,
+        is_online: true,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', userId)
+      .eq('device_id', deviceId)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error updating device activity:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to update device activity:', error)
+    return null
+  }
+}
+
 export interface UserDevice {
   device_id: string
   device_name?: string
@@ -645,22 +733,22 @@ export interface UserDevice {
 }
 
 /**
- * Get all devices for a user from user_locations table
- * Only returns devices that have synced in the past 90 days
+ * Get all active devices for a user from devices table
+ * Only returns devices that have been active in the past 90 days
  */
-export async function getUserDevices(userId: string, daysBack: number = 90): Promise<UserDevice[]> {
+export async function getUserDevices(userId: string, daysBack: number = 90): Promise<Device[]> {
   if (!supabase) return []
 
   try {
-    // Calculate timestamp for 90 days ago
-    const ninetyDaysAgo = Date.now() - (daysBack * 24 * 60 * 60 * 1000)
+    // Calculate timestamp for N days ago
+    const cutoffTime = Date.now() - (daysBack * 24 * 60 * 60 * 1000)
 
     const { data, error } = await supabase
-      .from('user_locations')
-      .select('device_id, device_name, path, page_title, timestamp, updated_at')
+      .from('devices')
+      .select('*')
       .eq('user_id', userId)
-      .gte('timestamp', ninetyDaysAgo) // Only devices from past 90 days
-      .order('timestamp', { ascending: false })
+      .gte('last_active', cutoffTime) // Only devices from past N days
+      .order('last_active', { ascending: false })
 
     if (error) {
       console.error('Error fetching user devices:', error)
@@ -673,6 +761,39 @@ export async function getUserDevices(userId: string, daysBack: number = 90): Pro
   } catch (error) {
     console.error('Failed to fetch user devices:', error)
     return []
+  }
+}
+
+/**
+ * Mark a device as offline
+ */
+export async function setDeviceOffline(userId: string, deviceId: string) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping device offline update')
+    return null
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('devices')
+      .update({
+        is_online: false,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', userId)
+      .eq('device_id', deviceId)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error setting device offline:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to set device offline:', error)
+    return null
   }
 }
 

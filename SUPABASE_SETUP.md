@@ -68,6 +68,28 @@ CREATE TABLE IF NOT EXISTS user_settings (
 -- Create an index for faster queries
 CREATE INDEX IF NOT EXISTS idx_user_settings_user_id
   ON user_settings(user_id);
+
+-- Create devices table to track all user devices
+CREATE TABLE IF NOT EXISTS devices (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT NOT NULL,
+  device_id TEXT NOT NULL,
+  device_name TEXT NOT NULL,
+  last_active BIGINT NOT NULL,
+  is_online BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  -- Unique constraint: one record per user per device
+  UNIQUE(user_id, device_id)
+);
+
+-- Create indexes for faster queries
+CREATE INDEX IF NOT EXISTS idx_devices_user_id
+  ON devices(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_devices_last_active
+  ON devices(last_active DESC);
 ```
 
 ### Updating an Existing Table
@@ -167,6 +189,40 @@ CREATE POLICY "Users can update their own settings"
   FOR UPDATE
   USING (true)
   WITH CHECK (true);
+
+-- Enable RLS for devices table
+ALTER TABLE devices ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies if any
+DROP POLICY IF EXISTS "Users can view their own devices" ON devices;
+DROP POLICY IF EXISTS "Users can insert their own devices" ON devices;
+DROP POLICY IF EXISTS "Users can update their own devices" ON devices;
+DROP POLICY IF EXISTS "Users can delete their own devices" ON devices;
+
+-- Allow users to view their own devices
+CREATE POLICY "Users can view their own devices"
+  ON devices
+  FOR SELECT
+  USING (true);
+
+-- Allow users to insert their own devices
+CREATE POLICY "Users can insert their own devices"
+  ON devices
+  FOR INSERT
+  WITH CHECK (true);
+
+-- Allow users to update their own devices
+CREATE POLICY "Users can update their own devices"
+  ON devices
+  FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Allow users to delete their own devices
+CREATE POLICY "Users can delete their own devices"
+  ON devices
+  FOR DELETE
+  USING (true);
 ```
 
 ## Step 5: Enable Realtime
@@ -174,7 +230,8 @@ CREATE POLICY "Users can update their own settings"
 1. Go to **Database** → **Replication** in Supabase
 2. Find the `user_locations` table and toggle **Enable Realtime** to ON
 3. Find the `user_settings` table and toggle **Enable Realtime** to ON
-4. This allows the app to receive real-time updates when location or settings change
+4. Find the `devices` table and toggle **Enable Realtime** to ON
+5. This allows the app to receive real-time updates when location, settings, or device status changes
 
 ## Step 6: Test the Setup
 

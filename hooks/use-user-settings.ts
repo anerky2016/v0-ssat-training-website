@@ -8,12 +8,12 @@ import {
   getUserDevices,
   setMasterDevice as setMasterDeviceDb,
   type UserSettings,
-  type UserDevice
+  type Device
 } from '@/lib/supabase'
 
 export function useUserSettings() {
   const [settings, setSettings] = useState<UserSettings | null>(null)
-  const [devices, setDevices] = useState<UserDevice[]>([])
+  const [devices, setDevices] = useState<Device[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
