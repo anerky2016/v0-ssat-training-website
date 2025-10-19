@@ -127,6 +127,12 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
               setMasterDeviceId(deviceInfo.current.deviceId)
               setIsMaster(true)
               console.log(`   ✅ This device is now: 👑 MASTER`)
+
+              // Immediately send location update so this device appears in database
+              if (pathname) {
+                console.log(`   → Sending initial location update...`)
+                await updateLocation(pathname)
+              }
             }
           }
         }
