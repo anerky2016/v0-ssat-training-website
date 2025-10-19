@@ -20,6 +20,9 @@ export interface UserLocation {
 
   /** Optional: Page title for better UX */
   pageTitle?: string
+
+  /** Optional: Scroll position (pixels from top) */
+  scrollPosition?: number
 }
 
 export interface LocationSyncState {

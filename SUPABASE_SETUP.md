@@ -39,8 +39,9 @@ CREATE TABLE IF NOT EXISTS user_locations (
   device_id TEXT NOT NULL,
   device_name TEXT,
   page_title TEXT,
+  scroll_position INTEGER DEFAULT 0,
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   -- Create a unique constraint on user_id and device_id
   -- This ensures each device has only one location record per user
   UNIQUE(user_id, device_id)
@@ -154,6 +155,7 @@ interface UserLocation {
   device_id: string        // Unique device identifier
   device_name: string      // Device name (e.g., "Chrome on Mac")
   page_title: string       // Page title
+  scroll_position: number  // Scroll position in pixels from top
   updated_at: string       // ISO timestamp
 }
 ```
@@ -186,11 +188,28 @@ To optimize:
 2. Debouncing (2 seconds) prevents excessive writes
 3. Real-time subscriptions are scoped to individual users
 
+## Features
+
+Once setup is complete, the location sync will provide:
+
+1. **Page Navigation Sync**: Automatically syncs when you navigate to a different page
+   - Debounced by 2 seconds to prevent excessive writes during rapid navigation
+
+2. **Scroll Position Sync**: Automatically syncs scroll position
+   - Tracks your scroll position on each page
+   - Debounced by 1 second after scrolling stops
+   - Restores scroll position when switching devices
+
+3. **Real-time Notifications**: Get notified when switching devices
+   - Shows page title and device name
+   - Click to navigate to the synced location
+   - Smooth scroll to the exact position
+
 ## Next Steps
 
 Once setup is complete:
 1. The location sync feature will work automatically
 2. Users will see notifications when switching devices
-3. Locations are synced in real-time across devices
+3. Both page location AND scroll position are synced in real-time across devices
 
 For issues or questions, check the Supabase documentation: https://supabase.com/docs

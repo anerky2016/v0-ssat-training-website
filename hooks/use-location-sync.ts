@@ -40,7 +40,9 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   ])
   const deviceInfo = useRef(getDeviceInfo())
   const debounceTimer = useRef<NodeJS.Timeout>()
+  const scrollDebounceTimer = useRef<NodeJS.Timeout>()
   const lastSyncedPath = useRef<string>('')
+  const currentScrollPosition = useRef<number>(0)
   const toastRef = useRef(toast)
 
   // Keep toast ref up to date
@@ -49,12 +51,55 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   }, [toast])
 
   /**
+   * Track scroll position with debouncing
+   */
+  useEffect(() => {
+    if (typeof window === 'undefined' || !opts.enabled) return
+
+    const handleScroll = () => {
+      // Clear existing timer
+      if (scrollDebounceTimer.current) {
+        clearTimeout(scrollDebounceTimer.current)
+      }
+
+      // Debounce scroll updates - sync 1 second after scrolling stops
+      scrollDebounceTimer.current = setTimeout(() => {
+        const scrollY = window.scrollY || window.pageYOffset
+        currentScrollPosition.current = scrollY
+
+        // Sync the updated scroll position
+        if (pathname) {
+          updateLocation(pathname)
+        }
+      }, 1000) // 1 second debounce for scroll
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollDebounceTimer.current) {
+        clearTimeout(scrollDebounceTimer.current)
+      }
+    }
+  }, [opts.enabled, pathname])
+
+  /**
    * Navigate to the synced location
    */
   const navigateToSynced = useCallback(() => {
     setState(prev => {
       if (prev.syncedLocation && typeof window !== 'undefined') {
+        const scrollPos = prev.syncedLocation.scrollPosition || 0
+
+        // Navigate to the path
         window.location.href = prev.syncedLocation.path
+
+        // Restore scroll position after navigation
+        // Use setTimeout to wait for page load
+        setTimeout(() => {
+          window.scrollTo({ top: scrollPos, behavior: 'smooth' })
+        }, 100)
       }
       return { ...prev, syncedLocation: null }
     })
@@ -90,6 +135,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         deviceId: deviceInfo.current.deviceId,
         deviceName: deviceInfo.current.deviceName,
         pageTitle: typeof document !== 'undefined' ? document.title : undefined,
+        scrollPosition: currentScrollPosition.current,
       }
 
       const { error } = await supabase
@@ -101,6 +147,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
           device_id: location.deviceId,
           device_name: location.deviceName || null,
           page_title: location.pageTitle || null,
+          scroll_position: location.scrollPosition || 0,
           updated_at: new Date().toISOString(),
         }, {
           onConflict: 'user_id,device_id',
@@ -169,6 +216,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
             deviceId: remoteLocation.device_id,
             deviceName: remoteLocation.device_name,
             pageTitle: remoteLocation.page_title,
+            scrollPosition: remoteLocation.scroll_position || 0,
           }
 
           // Update synced location
