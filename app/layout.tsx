@@ -10,6 +10,7 @@ import { StudyHistoryProvider } from "@/components/study-history-provider"
 import { FeedbackButton } from "@/components/feedback-button"
 import { StructuredData } from "@/components/structured-data"
 import { LoginTracker } from "@/components/login-tracker"
+import { LocationSyncProvider } from "@/components/providers/location-sync-provider"
 import { Toaster } from "sonner"
 import "./globals.css"
 import { Suspense } from "react"
@@ -119,10 +120,12 @@ export default function RootLayout({
           >
             <BookmarkProvider>
               <StudyHistoryProvider>
-                <LoginTracker />
-                <Toaster position="top-center" richColors />
-                <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-                <FeedbackButton />
+                <LocationSyncProvider>
+                  <LoginTracker />
+                  <Toaster position="top-center" richColors />
+                  <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+                  <FeedbackButton />
+                </LocationSyncProvider>
               </StudyHistoryProvider>
             </BookmarkProvider>
           </ThemeProvider>

@@ -21,10 +21,42 @@ import { ResumeButton } from "@/components/resume-button"
 import { StudyReminder } from "@/components/study-reminder"
 import { NotesButton } from "@/components/notes-button"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export function Header() {
   const { user, loading, signOut: handleSignOut } = useAuth()
   const [showSignInDialog, setShowSignInDialog] = useState(false)
+  const router = useRouter()
+
+  const handleSignOutWithRedirect = async () => {
+    console.log('Starting sign out process...')
+    try {
+      await handleSignOut()
+      console.log('Sign out completed, preparing redirect...')
+      // Wait a moment for auth state to update, then redirect
+      setTimeout(() => {
+        console.log('Attempting redirect to home page...')
+        // Try router first, then fallback to window.location
+        try {
+          router.push('/')
+          router.refresh()
+          console.log('Router redirect successful')
+        } catch (routerError) {
+          console.warn('Router redirect failed, using window.location:', routerError)
+          window.location.href = '/'
+        }
+      }, 200)
+    } catch (error) {
+      console.error('Error during sign out:', error)
+      // Still redirect even if there's an error
+      try {
+        router.push('/')
+        router.refresh()
+      } catch (routerError) {
+        window.location.href = '/'
+      }
+    }
+  }
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6">
@@ -92,7 +124,7 @@ export function Header() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
+                <DropdownMenuItem onClick={handleSignOutWithRedirect}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>
@@ -163,7 +195,7 @@ export function Header() {
                       <Button
                         variant="outline"
                         className="w-full bg-transparent"
-                        onClick={handleSignOut}
+                        onClick={handleSignOutWithRedirect}
                       >
                         <LogOut className="mr-2 h-4 w-4" />
                         Sign Out

@@ -43,8 +43,14 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const signOut = async () => {
-    if (!auth) return
+    if (!auth) {
+      console.log('No auth instance available')
+      return
+    }
+    console.log('Signing out user...')
     await firebaseSignOut(auth)
+    console.log('Firebase sign out completed')
+    // Note: Redirection should be handled by the component using this function
   }
 
   const value = {
