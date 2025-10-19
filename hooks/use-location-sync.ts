@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { supabase, getUserSettings } from '@/lib/supabase'
 import { auth } from '@/lib/firebase'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
@@ -32,12 +32,17 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     isActive: false,
     isSyncing: false,
   })
+  const [userEnabledSync, setUserEnabledSync] = useState<boolean>(true)
 
   const opts = useMemo(() => ({ ...DEFAULT_OPTIONS, ...options }), [
     options.enabled,
     options.debounceMs,
     options.showNotification,
   ])
+
+  // Combined enabled check: both provider setting AND user preference must be enabled
+  const isEnabled = useMemo(() => opts.enabled && userEnabledSync, [opts.enabled, userEnabledSync])
+
   const deviceInfo = useRef(getDeviceInfo())
   const debounceTimer = useRef<NodeJS.Timeout>()
   const scrollDebounceTimer = useRef<NodeJS.Timeout>()
@@ -51,10 +56,36 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   }, [toast])
 
   /**
+   * Load user settings to check if location sync is enabled
+   */
+  useEffect(() => {
+    const loadUserSettings = async () => {
+      const user = auth?.currentUser
+      if (!user) {
+        setUserEnabledSync(true) // Default to enabled when not logged in
+        return
+      }
+
+      try {
+        const settings = await getUserSettings(user.uid)
+        if (settings) {
+          setUserEnabledSync(settings.location_sync_enabled)
+        }
+      } catch (error) {
+        console.error('Error loading user settings:', error)
+        // Default to enabled on error
+        setUserEnabledSync(true)
+      }
+    }
+
+    loadUserSettings()
+  }, []) // Run once on mount
+
+  /**
    * Track scroll position with debouncing
    */
   useEffect(() => {
-    if (typeof window === 'undefined' || !opts.enabled) return
+    if (typeof window === 'undefined' || !isEnabled) return
 
     const handleScroll = () => {
       // Clear existing timer
@@ -82,7 +113,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         clearTimeout(scrollDebounceTimer.current)
       }
     }
-  }, [opts.enabled, pathname])
+  }, [isEnabled, pathname])
 
   /**
    * Navigate to the synced location
@@ -124,7 +155,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
     }
 
     // Skip if disabled
-    if (!opts.enabled) {
+    if (!isEnabled) {
       return
     }
 
@@ -173,14 +204,14 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       // This prevents annoying errors during development
       setState(prev => ({ ...prev, isSyncing: false }))
     }
-  }, [opts.enabled])
+  }, [isEnabled])
 
   /**
    * Listen to location changes from other devices
    */
   useEffect(() => {
     const user = auth?.currentUser
-    if (!user || !supabase || !opts.enabled) return
+    if (!user || !supabase || !isEnabled) return
 
     setState(prev => ({ ...prev, isActive: true }))
 
@@ -249,13 +280,13 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       setState(prev => ({ ...prev, isActive: false }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opts.enabled, opts.showNotification, pathname])
+  }, [isEnabled, opts.showNotification, pathname])
 
   /**
    * Sync current location when pathname changes
    */
   useEffect(() => {
-    if (!opts.enabled || !pathname) return
+    if (!isEnabled || !pathname) return
 
     // Clear existing timer
     if (debounceTimer.current) {
@@ -274,7 +305,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
         clearTimeout(debounceTimer.current)
       }
     }
-  }, [pathname, opts.enabled, opts.debounceMs, updateLocation])
+  }, [pathname, isEnabled, opts.debounceMs, updateLocation])
 
   return {
     ...state,

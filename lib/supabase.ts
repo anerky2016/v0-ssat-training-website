@@ -530,3 +530,104 @@ export async function deleteBookmark(userId: string) {
     return null
   }
 }
+
+// ===== USER SETTINGS =====
+
+export interface UserSettings {
+  id?: string
+  user_id: string
+  location_sync_enabled: boolean
+  created_at?: string
+  updated_at?: string
+}
+
+export async function getUserSettings(userId: string): Promise<UserSettings | null> {
+  if (!supabase) return null
+
+  try {
+    const { data, error } = await supabase
+      .from('user_settings')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (error) {
+      console.error('Error fetching user settings:', error)
+      return null
+    }
+
+    // Return default settings if no settings exist
+    if (!data) {
+      return {
+        user_id: userId,
+        location_sync_enabled: true, // Default to enabled
+      }
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to fetch user settings:', error)
+    return null
+  }
+}
+
+export async function saveUserSettings(userId: string, settings: Partial<Omit<UserSettings, 'id' | 'user_id' | 'created_at' | 'updated_at'>>) {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping settings save')
+    return null
+  }
+
+  try {
+    // Check if settings already exist
+    const { data: existing, error: fetchError } = await supabase
+      .from('user_settings')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (fetchError) {
+      console.error('Error checking user settings:', fetchError)
+      return null
+    }
+
+    if (existing) {
+      // Update existing settings
+      const { data, error } = await supabase
+        .from('user_settings')
+        .update({
+          ...settings,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', userId)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error updating user settings:', error)
+        return null
+      }
+
+      return data
+    } else {
+      // Insert new settings
+      const { data, error } = await supabase
+        .from('user_settings')
+        .insert({
+          user_id: userId,
+          ...settings,
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error saving user settings:', error)
+        return null
+      }
+
+      return data
+    }
+  } catch (error) {
+    console.error('Failed to save user settings:', error)
+    return null
+  }
+}

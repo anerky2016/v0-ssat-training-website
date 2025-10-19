@@ -54,6 +54,19 @@ CREATE INDEX IF NOT EXISTS idx_user_locations_user_id
 -- Create an index for timestamp queries
 CREATE INDEX IF NOT EXISTS idx_user_locations_timestamp
   ON user_locations(timestamp DESC);
+
+-- Create user_settings table for user preferences
+CREATE TABLE IF NOT EXISTS user_settings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT NOT NULL UNIQUE,
+  location_sync_enabled BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create an index for faster queries
+CREATE INDEX IF NOT EXISTS idx_user_settings_user_id
+  ON user_settings(user_id);
 ```
 
 ### Updating an Existing Table
@@ -117,6 +130,33 @@ CREATE POLICY "Users can delete their own locations"
 -- Note: Since we're using Firebase Auth (not Supabase Auth), we can't use auth.uid()
 -- The policies above allow all authenticated requests, and we rely on the application
 -- code to ensure users only access their own data by filtering on user_id
+
+-- Enable RLS for user_settings table
+ALTER TABLE user_settings ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies if any
+DROP POLICY IF EXISTS "Users can view their own settings" ON user_settings;
+DROP POLICY IF EXISTS "Users can insert their own settings" ON user_settings;
+DROP POLICY IF EXISTS "Users can update their own settings" ON user_settings;
+
+-- Allow users to view their own settings
+CREATE POLICY "Users can view their own settings"
+  ON user_settings
+  FOR SELECT
+  USING (true);
+
+-- Allow users to insert their own settings
+CREATE POLICY "Users can insert their own settings"
+  ON user_settings
+  FOR INSERT
+  WITH CHECK (true);
+
+-- Allow users to update their own settings
+CREATE POLICY "Users can update their own settings"
+  ON user_settings
+  FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
 ```
 
 ## Step 5: Enable Realtime
