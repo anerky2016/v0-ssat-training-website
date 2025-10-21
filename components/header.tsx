@@ -91,12 +91,6 @@ export function Header() {
           >
             About
           </Link>
-          <Link
-            href="#contact"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Contact
-          </Link>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -177,12 +171,6 @@ export function Header() {
                   className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
                 >
                   About
-                </Link>
-                <Link
-                  href="#contact"
-                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                >
-                  Contact
                 </Link>
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t">
                   <div className="flex justify-center">
