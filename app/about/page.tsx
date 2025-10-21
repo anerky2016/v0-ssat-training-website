@@ -1,5 +1,6 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { ContactForm } from "@/components/contact-form"
 import { ArrowLeft, Target, Users, BookOpen, Award } from "lucide-react"
 import Link from "next/link"
 
@@ -158,6 +159,15 @@ export default function AboutPage() {
                   midssat.com is an independent educational resource and is not affiliated with, endorsed by, or connected to The Enrollment Management Association or any official SSAT organization. SSAT® is a registered trademark of The Enrollment Management Association. All references to "SSAT" are used solely for descriptive purposes to indicate the subject matter of our educational materials.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Form Section */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="mx-auto max-w-4xl">
+              <ContactForm />
             </div>
           </div>
         </section>
