@@ -6,7 +6,7 @@ import { supabase, getUserSettings, setMasterDevice, getUserDevices, saveDevice,
 import { useAuth } from '@/contexts/firebase-auth-context'
 import { getDeviceInfo } from '@/lib/utils/device-id'
 import type { UserLocation, LocationSyncState, LocationSyncOptions } from '@/lib/types/location-sync'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 // Master device is considered offline if no update in last 5 minutes
@@ -28,7 +28,6 @@ const DEFAULT_OPTIONS: LocationSyncOptions = {
  */
 export function useLocationSync(options: LocationSyncOptions = {}) {
   const pathname = usePathname()
-  const { toast } = useToast()
   const { user } = useAuth() // Use auth context instead of auth.currentUser
   const [state, setState] = useState<LocationSyncState>({
     currentLocation: null,
@@ -54,12 +53,6 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
   const scrollDebounceTimer = useRef<NodeJS.Timeout>()
   const lastSyncedPath = useRef<string>('')
   const currentScrollPosition = useRef<number>(0)
-  const toastRef = useRef(toast)
-
-  // Keep toast ref up to date
-  useEffect(() => {
-    toastRef.current = toast
-  }, [toast])
 
   /**
    * Load user settings to check if location sync is enabled and determine master device
@@ -429,11 +422,14 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
               const pageInfo = location.pageTitle || location.path
               const deviceName = location.deviceName || 'another device'
 
-              toastRef.current.info(
+              toast.info(
                 `Continue from ${deviceName}? You were viewing "${pageInfo}". Click to go there.`,
                 {
                   duration: 10000,
-                  onClick: navigateToSynced,
+                  action: {
+                    label: 'Go',
+                    onClick: navigateToSynced,
+                  },
                 }
               )
             }
@@ -487,7 +483,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
       setMasterDevice(user.uid, deviceInfo.current.deviceId)
       setMasterDeviceId(deviceInfo.current.deviceId)
       setIsMaster(true)
-      toastRef.current.info('No master device - becoming MASTER')
+      toast.info('No master device - becoming MASTER')
       console.log(`   ✅ This device is now: 👑 MASTER`)
       return
     }
@@ -512,7 +508,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
           console.log('🚨 MASTER PROMOTION - MASTER NOT FOUND:')
           console.log(`   Master device ID: ${masterDeviceId} not found in database`)
           console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
-          toastRef.current.info('Becoming master device - previous master not found')
+          toast.info('Becoming master device - previous master not found')
           await setMasterDevice(user.uid, deviceInfo.current.deviceId)
           setMasterDeviceId(deviceInfo.current.deviceId)
           setIsMaster(true)
@@ -533,12 +529,13 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
           console.log(`   Threshold: ${thresholdMinutes} minutes`)
           console.log(`   → Master appears OFFLINE`)
           console.log(`   → Promoting self (${deviceInfo.current.deviceName}) to MASTER`)
-          toastRef.current.info(`Becoming master device - "${masterName}" appears offline`)
+          toast.info(`Becoming master device - "${masterName}" appears offline`)
           await setMasterDevice(user.uid, deviceInfo.current.deviceId)
           setMasterDeviceId(deviceInfo.current.deviceId)
           setIsMaster(true)
           console.log(`   ✅ This device is now: 👑 MASTER`)
         } else {
+          const masterName = data.device_name || masterDeviceId
           console.log(`🔍 Master status check:`)
           console.log(`   Current master: ${masterName}`)
           console.log(`   Status: ONLINE (last update ${minutesSinceUpdate}m ago)`)
@@ -593,7 +590,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
               setMasterDevice(user.uid, deviceInfo.current.deviceId)
               setMasterDeviceId(deviceInfo.current.deviceId)
               setIsMaster(true)
-              toastRef.current.info('No master device - promoting self to MASTER')
+              toast.info('No master device - promoting self to MASTER')
               console.log(`   ✅ This device is now: 👑 MASTER`)
             } else {
               const isThisMaster = settings.master_device_id === deviceInfo.current.deviceId
@@ -608,7 +605,7 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
               setIsMaster(isThisMaster)
 
               // Show notification
-              toastRef.current.info(`This device is now ${newRole}`)
+              toast.info(`This device is now ${newRole}`)
             }
           }
 

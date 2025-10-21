@@ -122,7 +122,17 @@ export default function RootLayout({
               <StudyHistoryProvider>
                 <LocationSyncProvider>
                   <LoginTracker />
-                  <Toaster position="top-center" richColors />
+                  <Toaster
+                    position="top-center"
+                    richColors
+                    toastOptions={{
+                      className: 'pointer-events-auto',
+                      style: {
+                        pointerEvents: 'auto',
+                      },
+                    }}
+                    className="pointer-events-none"
+                  />
                   <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
                   <FeedbackButton />
                 </LocationSyncProvider>
