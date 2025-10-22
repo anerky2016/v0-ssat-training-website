@@ -168,3 +168,13 @@ div[id*="recaptcha"] * {
   z-index: 2147483647 !important;
   pointer-events: auto !important;
 }
+
+/* Sonner toast container - ensure it doesn't block clicks */
+[data-sonner-toaster] {
+  pointer-events: none !important;
+}
+
+/* Individual toasts should be clickable */
+[data-sonner-toast] {
+  pointer-events: auto !important;
+}
