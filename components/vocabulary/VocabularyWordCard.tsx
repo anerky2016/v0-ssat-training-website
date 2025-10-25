@@ -140,10 +140,20 @@ export function VocabularyWordCard({
           <h3 className="text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">
             Definition{word.meanings.length > 1 ? 's' : ''}
           </h3>
-          <ol className="list-decimal list-inside space-y-1">
+          <ol className="list-decimal list-inside space-y-2">
             {word.meanings.map((meaning, idx) => (
-              <li key={idx} className="text-sm text-muted-foreground leading-relaxed">
-                {meaning}
+              <li key={idx} className="text-sm text-muted-foreground leading-relaxed group flex items-start gap-2">
+                <span className="flex-1">{meaning}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    pronounceWord(meaning)
+                  }}
+                  className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Click to hear definition"
+                >
+                  <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
+                </button>
               </li>
             ))}
           </ol>
