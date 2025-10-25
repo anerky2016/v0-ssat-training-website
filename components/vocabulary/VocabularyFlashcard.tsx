@@ -137,24 +137,50 @@ export function VocabularyFlashcard({
               {/* Synonyms */}
               {word.synonyms && word.synonyms.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1 uppercase tracking-wide">
+                  <h3 className="text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">
                     Synonyms
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {word.synonyms.slice(0, 4).join(", ")}
-                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {word.synonyms.slice(0, 4).map((syn, idx) => (
+                      <button
+                        key={idx}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onPronounce(syn)
+                        }}
+                        className="group px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400 hover:bg-green-500/20 transition-colors flex items-center gap-1.5"
+                        title={`Click to hear pronunciation of "${syn}"`}
+                      >
+                        <span>{syn}</span>
+                        <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* Antonyms */}
               {word.antonyms && word.antonyms.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground mb-1 uppercase tracking-wide">
+                  <h3 className="text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">
                     Antonyms
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {word.antonyms.join(", ")}
-                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {word.antonyms.map((ant, idx) => (
+                      <button
+                        key={idx}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onPronounce(ant)
+                        }}
+                        className="group px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-500/20 transition-colors flex items-center gap-1.5"
+                        title={`Click to hear pronunciation of "${ant}"`}
+                      >
+                        <span>{ant}</span>
+                        <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 

@@ -174,12 +174,15 @@ export function VocabularyWordCard({
               </h3>
               <div className="flex flex-wrap gap-2">
                 {word.synonyms.map((syn, idx) => (
-                  <span
+                  <button
                     key={idx}
-                    className="px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400"
+                    onClick={() => pronounceWord(syn)}
+                    className="group px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400 hover:bg-green-500/20 transition-colors flex items-center gap-1.5"
+                    title={`Click to hear pronunciation of "${syn}"`}
                   >
-                    {syn}
-                  </span>
+                    <span>{syn}</span>
+                    <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
                 ))}
               </div>
             </div>
@@ -192,12 +195,15 @@ export function VocabularyWordCard({
               </h3>
               <div className="flex flex-wrap gap-2">
                 {word.antonyms.map((ant, idx) => (
-                  <span
+                  <button
                     key={idx}
-                    className="px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400"
+                    onClick={() => pronounceWord(ant)}
+                    className="group px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-500/20 transition-colors flex items-center gap-1.5"
+                    title={`Click to hear pronunciation of "${ant}"`}
                   >
-                    {ant}
-                  </span>
+                    <span>{ant}</span>
+                    <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
                 ))}
               </div>
             </div>
