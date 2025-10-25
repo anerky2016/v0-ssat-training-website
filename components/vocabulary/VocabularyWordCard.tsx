@@ -39,7 +39,25 @@ export function VocabularyWordCard({
 
       setIsPlaying(true)
       const utterance = new SpeechSynthesisUtterance(wordText)
-      utterance.rate = 0.8 // Slightly slower for clarity
+
+      // Get available voices
+      const voices = window.speechSynthesis.getVoices()
+
+      // Prefer natural, premium, or high-quality voices
+      const preferredVoice = voices.find(voice =>
+        voice.lang.startsWith('en') && (
+          voice.name.includes('Natural') ||
+          voice.name.includes('Premium') ||
+          voice.name.includes('Google') ||
+          voice.name.includes('Microsoft') && voice.name.includes('Online')
+        )
+      ) || voices.find(voice => voice.lang.startsWith('en-US')) // Fallback to any US English voice
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice
+      }
+
+      utterance.rate = 0.85 // Slightly slower for clarity
       utterance.pitch = 1
       utterance.volume = 1
 
