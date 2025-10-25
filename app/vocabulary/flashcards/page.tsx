@@ -9,6 +9,7 @@ import { Brain, ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2 } 
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
+import { audioCache } from "@/lib/audio-cache"
 
 export default function FlashcardsPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -23,22 +24,35 @@ export default function FlashcardsPage() {
     try {
       setIsPlaying(true)
 
-      // Call the TTS API
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: word }),
-      })
+      let arrayBuffer: ArrayBuffer
 
-      if (!response.ok) {
-        throw new Error('Failed to generate speech')
+      // Check if audio is cached
+      const cachedAudio = audioCache.get(word)
+
+      if (cachedAudio) {
+        // Use cached audio
+        arrayBuffer = cachedAudio
+      } else {
+        // Call the TTS API
+        const response = await fetch('/api/tts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: word }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to generate speech')
+        }
+
+        // Get the audio blob
+        const audioBlob = await response.blob()
+        arrayBuffer = await audioBlob.arrayBuffer()
+
+        // Cache the audio for future use
+        audioCache.set(word, arrayBuffer)
       }
-
-      // Get the audio blob and play it with amplification
-      const audioBlob = await response.blob()
-      const audioUrl = URL.createObjectURL(audioBlob)
 
       // Use Web Audio API for better volume control and amplification
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -48,9 +62,8 @@ export default function FlashcardsPage() {
       // Amplify volume significantly (2.5x boost)
       gainNode.gain.value = 2.5
 
-      // Fetch and decode audio data
-      const arrayBuffer = await audioBlob.arrayBuffer()
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+      // Decode audio data
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0))
 
       source.buffer = audioBuffer
       source.connect(gainNode)
@@ -58,7 +71,6 @@ export default function FlashcardsPage() {
 
       source.onended = () => {
         setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
         audioContext.close()
       }
 

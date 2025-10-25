@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Volume2, Info } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
+import { audioCache } from "@/lib/audio-cache"
 
 export interface VocabularyWord {
   word: string
@@ -36,22 +37,35 @@ export function VocabularyWordCard({
     try {
       setIsPlaying(true)
 
-      // Call the TTS API
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: wordText }),
-      })
+      let arrayBuffer: ArrayBuffer
 
-      if (!response.ok) {
-        throw new Error('Failed to generate speech')
+      // Check if audio is cached
+      const cachedAudio = audioCache.get(wordText)
+
+      if (cachedAudio) {
+        // Use cached audio
+        arrayBuffer = cachedAudio
+      } else {
+        // Call the TTS API
+        const response = await fetch('/api/tts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: wordText }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to generate speech')
+        }
+
+        // Get the audio blob
+        const audioBlob = await response.blob()
+        arrayBuffer = await audioBlob.arrayBuffer()
+
+        // Cache the audio for future use
+        audioCache.set(wordText, arrayBuffer)
       }
-
-      // Get the audio blob and play it with amplification
-      const audioBlob = await response.blob()
-      const audioUrl = URL.createObjectURL(audioBlob)
 
       // Use Web Audio API for better volume control and amplification
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -61,9 +75,8 @@ export function VocabularyWordCard({
       // Amplify volume significantly (2.5x boost)
       gainNode.gain.value = 2.5
 
-      // Fetch and decode audio data
-      const arrayBuffer = await audioBlob.arrayBuffer()
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+      // Decode audio data
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0))
 
       source.buffer = audioBuffer
       source.connect(gainNode)
@@ -71,7 +84,6 @@ export function VocabularyWordCard({
 
       source.onended = () => {
         setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
         audioContext.close()
       }
 
