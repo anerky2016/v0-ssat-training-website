@@ -36,22 +36,33 @@ export default function FlashcardsPage() {
         throw new Error('Failed to generate speech')
       }
 
-      // Get the audio blob and play it
+      // Get the audio blob and play it with amplification
       const audioBlob = await response.blob()
       const audioUrl = URL.createObjectURL(audioBlob)
-      const audio = new Audio(audioUrl)
 
-      audio.onended = () => {
+      // Use Web Audio API for better volume control and amplification
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const source = audioContext.createBufferSource()
+      const gainNode = audioContext.createGain()
+
+      // Amplify volume significantly (2.5x boost)
+      gainNode.gain.value = 2.5
+
+      // Fetch and decode audio data
+      const arrayBuffer = await audioBlob.arrayBuffer()
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+
+      source.buffer = audioBuffer
+      source.connect(gainNode)
+      gainNode.connect(audioContext.destination)
+
+      source.onended = () => {
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
+        audioContext.close()
       }
 
-      audio.onerror = () => {
-        setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
-      }
-
-      await audio.play()
+      source.start(0)
     } catch (error) {
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)
