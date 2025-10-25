@@ -19,42 +19,49 @@ export default function FlashcardsPage() {
 
   const words = vocabularyData.words
 
-  const pronounceWord = (word: string) => {
-    if ('speechSynthesis' in window) {
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel()
-
+  const pronounceWord = async (word: string) => {
+    try {
       setIsPlaying(true)
-      const utterance = new SpeechSynthesisUtterance(word)
 
-      // Get available voices
-      const voices = window.speechSynthesis.getVoices()
+      // Call the TTS API
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: word }),
+      })
 
-      // Prefer natural, premium, or high-quality voices
-      const preferredVoice = voices.find(voice =>
-        voice.lang.startsWith('en') && (
-          voice.name.includes('Natural') ||
-          voice.name.includes('Premium') ||
-          voice.name.includes('Google') ||
-          voice.name.includes('Microsoft') && voice.name.includes('Online')
-        )
-      ) || voices.find(voice => voice.lang.startsWith('en-US')) // Fallback to any US English voice
-
-      if (preferredVoice) {
-        utterance.voice = preferredVoice
+      if (!response.ok) {
+        throw new Error('Failed to generate speech')
       }
 
-      utterance.rate = 0.85 // Slightly slower for clarity
-      utterance.pitch = 1
-      utterance.volume = 1
+      // Get the audio blob and play it
+      const audioBlob = await response.blob()
+      const audioUrl = URL.createObjectURL(audioBlob)
+      const audio = new Audio(audioUrl)
 
-      utterance.onend = () => {
+      audio.onended = () => {
         setIsPlaying(false)
+        URL.revokeObjectURL(audioUrl)
       }
 
-      window.speechSynthesis.speak(utterance)
-    } else {
-      alert('Sorry, your browser does not support text-to-speech.')
+      audio.onerror = () => {
+        setIsPlaying(false)
+        URL.revokeObjectURL(audioUrl)
+      }
+
+      await audio.play()
+    } catch (error) {
+      console.error('Error playing pronunciation:', error)
+      setIsPlaying(false)
+      // Fallback to browser TTS
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word)
+        utterance.rate = 0.85
+        utterance.onend = () => setIsPlaying(false)
+        window.speechSynthesis.speak(utterance)
+      }
     }
   }
 
