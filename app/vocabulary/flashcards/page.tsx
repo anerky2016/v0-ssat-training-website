@@ -161,16 +161,7 @@ export default function FlashcardsPage() {
                 </p>
               </div>
 
-              <div className="mb-6 flex items-center justify-between flex-wrap gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Progress: {progress}%</span>
-                  <Button variant="outline" size="sm" onClick={handleReset} className="h-9 px-3">
-                    <RotateCcw className="h-4 w-4 mr-1" />
-                    <span className="hidden sm:inline">Reset</span>
-                  </Button>
-                </div>
-              </div>
-
+              {/* Progress Bar */}
               <div className="mb-6 h-2 bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-chart-7 transition-all duration-300"
@@ -191,6 +182,30 @@ export default function FlashcardsPage() {
                 />
               </div>
 
+              {/* Pagination Dots */}
+              <div className="flex items-center justify-center gap-1.5 mb-4">
+                {words.slice(0, Math.min(words.length, 10)).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setIsFlipped(false)
+                      setCurrentIndex(index)
+                    }}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentIndex
+                        ? 'w-8 bg-chart-7'
+                        : 'w-2 bg-muted hover:bg-muted-foreground/30'
+                    }`}
+                    aria-label={`Go to word ${index + 1}`}
+                  />
+                ))}
+                {words.length > 10 && (
+                  <span className="text-xs text-muted-foreground ml-1">
+                    +{words.length - 10}
+                  </span>
+                )}
+              </div>
+
               <div className="flex flex-col gap-4">
                 {isFlipped && !masteredWords.has(currentIndex) && (
                   <Button
@@ -202,18 +217,20 @@ export default function FlashcardsPage() {
                   </Button>
                 )}
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 sm:gap-4">
                   <Button
                     variant="outline"
                     onClick={handlePrevious}
                     disabled={currentIndex === 0}
-                    className="flex-1 h-14 text-base font-medium"
+                    size="lg"
+                    className="flex-1 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    <ChevronLeft className="h-5 w-5 mr-1" />
-                    Previous
+                    <ChevronLeft className="h-5 w-5 mr-2" />
+                    <span className="hidden xs:inline">Previous</span>
+                    <span className="xs:hidden">Prev</span>
                   </Button>
 
-                  <div className="text-sm text-muted-foreground whitespace-nowrap">
+                  <div className="text-sm font-semibold text-foreground whitespace-nowrap px-3 py-2 rounded-md bg-muted">
                     {currentIndex + 1} / {words.length}
                   </div>
 
@@ -221,10 +238,12 @@ export default function FlashcardsPage() {
                     variant="outline"
                     onClick={handleNext}
                     disabled={currentIndex === words.length - 1}
-                    className="flex-1 h-14 text-base font-medium"
+                    size="lg"
+                    className="flex-1 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    Next
-                    <ChevronRight className="h-5 w-5 ml-1" />
+                    <span className="hidden xs:inline">Next</span>
+                    <span className="xs:hidden">Next</span>
+                    <ChevronRight className="h-5 w-5 ml-2" />
                   </Button>
                 </div>
               </div>
