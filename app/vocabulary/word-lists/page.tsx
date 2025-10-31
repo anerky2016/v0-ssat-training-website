@@ -20,6 +20,8 @@ export default function WordListsPage() {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragOffset, setDragOffset] = useState(0)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
@@ -79,22 +81,38 @@ export default function WordListsPage() {
     setTouchEnd(null)
     setTouchStart(e.targetTouches[0].clientX)
     setSwipeDirection(null)
+    setIsDragging(true)
+    setDragOffset(0)
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX)
+    if (!touchStart) return
+
+    const currentTouch = e.targetTouches[0].clientX
+    setTouchEnd(currentTouch)
+
+    // Calculate drag offset for real-time card movement
+    const offset = currentTouch - touchStart
+    setDragOffset(offset)
   }
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
+    setIsDragging(false)
+    setDragOffset(0)
+
+    if (!touchStart || !touchEnd) {
+      setTouchStart(null)
+      setTouchEnd(null)
+      return
+    }
 
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
 
-    if (isLeftSwipe) {
+    if (isLeftSwipe && currentCardIndex < filteredWords.length - 1) {
       goToNextCard()
-    } else if (isRightSwipe) {
+    } else if (isRightSwipe && currentCardIndex > 0) {
       goToPreviousCard()
     }
 
@@ -246,24 +264,83 @@ export default function WordListsPage() {
               {/* Mobile Card View with Swipe */}
               {isMobile && filteredWords.length > 0 ? (
                 <div className="mb-6">
+                  {/* Swipe Hint */}
+                  <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                    <ChevronLeft className="h-4 w-4 animate-pulse" />
+                    <span>Swipe to navigate</span>
+                    <ChevronRight className="h-4 w-4 animate-pulse" />
+                  </div>
+
                   <div
                     id="word-list"
-                    className="relative overflow-hidden"
+                    className="relative overflow-hidden touch-pan-y"
                     onTouchStart={onTouchStart}
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                   >
+                    {/* Card with real-time drag feedback */}
                     <div
-                      className={`transition-all duration-200 ${
-                        swipeDirection === 'left'
-                          ? '-translate-x-8 opacity-50'
+                      className={`${isDragging ? '' : 'transition-all duration-300 ease-out'}`}
+                      style={{
+                        transform: isDragging
+                          ? `translateX(${dragOffset}px) scale(${1 - Math.abs(dragOffset) / 2000})`
+                          : swipeDirection === 'left'
+                          ? 'translateX(-100%)'
                           : swipeDirection === 'right'
-                          ? 'translate-x-8 opacity-50'
-                          : 'translate-x-0 opacity-100'
-                      }`}
+                          ? 'translateX(100%)'
+                          : 'translateX(0)',
+                        opacity: isDragging
+                          ? Math.max(0.5, 1 - Math.abs(dragOffset) / 400)
+                          : swipeDirection
+                          ? 0
+                          : 1,
+                      }}
                     >
                       <VocabularyWordCard word={filteredWords[currentCardIndex]} />
                     </div>
+
+                    {/* Swipe direction indicators */}
+                    {isDragging && Math.abs(dragOffset) > 20 && (
+                      <div
+                        className={`absolute top-1/2 -translate-y-1/2 ${
+                          dragOffset > 0 ? 'left-4' : 'right-4'
+                        } bg-chart-5 text-white rounded-full p-3 shadow-lg transition-opacity`}
+                        style={{ opacity: Math.min(Math.abs(dragOffset) / 100, 1) }}
+                      >
+                        {dragOffset > 0 ? (
+                          <ChevronLeft className="h-6 w-6" />
+                        ) : (
+                          <ChevronRight className="h-6 w-6" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Pagination Dots */}
+                  <div className="flex items-center justify-center gap-1.5 my-4">
+                    {filteredWords.slice(0, Math.min(filteredWords.length, 10)).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setSwipeDirection(index > currentCardIndex ? 'left' : 'right')
+                          setTimeout(() => {
+                            setCurrentCardIndex(index)
+                            setSwipeDirection(null)
+                          }, 150)
+                        }}
+                        className={`h-2 rounded-full transition-all ${
+                          index === currentCardIndex
+                            ? 'w-8 bg-chart-5'
+                            : 'w-2 bg-muted hover:bg-muted-foreground/30'
+                        }`}
+                        aria-label={`Go to word ${index + 1}`}
+                      />
+                    ))}
+                    {filteredWords.length > 10 && (
+                      <span className="text-xs text-muted-foreground ml-1">
+                        +{filteredWords.length - 10}
+                      </span>
+                    )}
                   </div>
 
                   {/* Mobile Navigation Controls */}
