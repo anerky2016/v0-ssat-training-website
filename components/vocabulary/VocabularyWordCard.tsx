@@ -210,12 +210,12 @@ export function VocabularyWordCard({
                 disabled={difficulty === null || difficulty === 0}
                 variant="outline"
                 size="sm"
-                className="h-8 w-8 sm:h-7 sm:w-7 p-0 flex-shrink-0"
+                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0"
                 title="Decrease difficulty"
               >
-                <ChevronDown className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+                <ChevronDown className="h-4 w-4" />
               </Button>
-              <div className={`px-2 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
+              <div className={`px-3 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
                 difficulty !== null ? getDifficultyColor(difficulty) : 'bg-muted text-muted-foreground'
               }`}>
                 {difficulty !== null ? getDifficultyLabel(difficulty) : 'Not set'}
@@ -225,10 +225,10 @@ export function VocabularyWordCard({
                 disabled={difficulty === 3}
                 variant="outline"
                 size="sm"
-                className="h-8 w-8 sm:h-7 sm:w-7 p-0 flex-shrink-0"
+                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0"
                 title="Increase difficulty"
               >
-                <ChevronUp className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+                <ChevronUp className="h-4 w-4" />
               </Button>
             </div>
           </div>
