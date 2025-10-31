@@ -5,7 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
+import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
@@ -324,31 +324,45 @@ export default function WordListsPage() {
               {/* Mobile Card View with Swipe */}
               {isMobile && mobileLetterSelected && filteredWords.length > 0 ? (
                 <div className="mb-6">
-                  {/* Back Button and Letter Info */}
+                  {/* Header with Exit Button and Letter Info */}
                   <div className="flex items-center justify-between mb-4">
-                    <Button
-                      onClick={handleBackToAlphabet}
-                      variant="outline"
-                      size="sm"
-                      className="gap-2"
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                      Change Letter
-                    </Button>
-                    <div className="text-sm font-medium text-muted-foreground">
-                      {selectedLetter ? (
-                        <>Letter <span className="text-chart-5 font-bold text-lg">{selectedLetter}</span> • {filteredWords.length} words</>
-                      ) : (
-                        <>All Words • {filteredWords.length} total</>
-                      )}
+                    <div className="flex items-center gap-3">
+                      <Button
+                        onClick={handleBackToAlphabet}
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9"
+                        title="Exit card mode"
+                      >
+                        <X className="h-5 w-5" />
+                      </Button>
+                      <div className="text-base font-semibold">
+                        {selectedLetter ? (
+                          <>
+                            <span className="text-muted-foreground">Letter</span>{' '}
+                            <span className="text-chart-5 text-xl">{selectedLetter}</span>
+                          </>
+                        ) : (
+                          <span className="text-muted-foreground">All Words</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
                     </div>
                   </div>
 
                   {/* Swipe Hint */}
                   <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <ChevronLeft className="h-4 w-4 animate-pulse" />
-                    <span>Swipe to flip page</span>
-                    <ChevronRight className="h-4 w-4 animate-pulse" />
+                    <span className="flex items-center gap-1">
+                      <ChevronLeft className="h-4 w-4 animate-pulse" />
+                      Previous
+                    </span>
+                    <span className="mx-2">•</span>
+                    <span className="flex items-center gap-1">
+                      Next
+                      <ChevronRight className="h-4 w-4 animate-pulse" />
+                    </span>
                   </div>
 
                   <div
