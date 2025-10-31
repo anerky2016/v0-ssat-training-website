@@ -66,14 +66,14 @@ export function VocabularyFlashcard({
                   e.stopPropagation()
                   onPronounce(word.word)
                 }}
-                className={`h-14 w-14 p-0 rounded-full transition-all shadow-lg ${
+                className={`h-14 w-14 p-0 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
                   isPlaying
-                    ? 'bg-chart-1 hover:bg-chart-1/90 animate-pulse'
+                    ? 'bg-chart-1 hover:bg-chart-1/90 animate-pulse scale-110'
                     : 'bg-chart-1 hover:bg-chart-1/90 hover:scale-110'
                 }`}
                 title="Click to hear pronunciation"
               >
-                <Volume2 className="h-7 w-7 text-white" />
+                <Volume2 className={`h-7 w-7 text-white transition-transform ${isPlaying ? 'animate-bounce' : ''}`} />
               </Button>
               <span className="text-xl text-muted-foreground">
                 {word.pronunciation}
@@ -118,10 +118,10 @@ export function VocabularyFlashcard({
                           e.stopPropagation()
                           onPronounce(meaning)
                         }}
-                        className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                         title="Click to hear definition"
                       >
-                        <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
+                        <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
                       </button>
                     </li>
                   ))}
@@ -158,7 +158,7 @@ export function VocabularyFlashcard({
                           e.stopPropagation()
                           onPronounce(syn)
                         }}
-                        className="group px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400 hover:bg-green-500/20 transition-colors flex items-center gap-1.5"
+                        className="group px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400 hover:bg-green-500/20 transition-all active:scale-95 flex items-center gap-1.5"
                         title={`Click to hear pronunciation of "${syn}"`}
                       >
                         <span>{syn}</span>
@@ -183,7 +183,7 @@ export function VocabularyFlashcard({
                           e.stopPropagation()
                           onPronounce(ant)
                         }}
-                        className="group px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-500/20 transition-colors flex items-center gap-1.5"
+                        className="group px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-500/20 transition-all active:scale-95 flex items-center gap-1.5"
                         title={`Click to hear pronunciation of "${ant}"`}
                       >
                         <span>{ant}</span>
