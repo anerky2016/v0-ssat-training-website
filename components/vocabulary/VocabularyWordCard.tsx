@@ -146,8 +146,8 @@ export function VocabularyWordCard({
   return (
     <Card className="border-l-4 border-l-chart-5 bg-card">
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+          <div className="flex-1 min-w-0 w-full sm:w-auto">
             <div className="flex items-center gap-3 mb-2 flex-wrap">
               <div className="relative">
                 <Link href={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}>
@@ -197,25 +197,25 @@ export function VocabularyWordCard({
               {word.part_of_speech}
             </CardDescription>
           </div>
-          <div className="flex-shrink-0 flex flex-col gap-2">
+          <div className="flex-shrink-0 flex flex-col gap-2 w-full sm:w-auto">
             <CompleteStudyButton
               topicTitle={word.word}
               customPath={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}
               category="vocabulary"
             />
             {/* Difficulty Controls */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5 sm:gap-1">
               <Button
                 onClick={handleDecreaseDifficulty}
                 disabled={difficulty === null || difficulty === 0}
                 variant="outline"
                 size="sm"
-                className="h-7 w-7 p-0"
+                className="h-8 w-8 sm:h-7 sm:w-7 p-0 flex-shrink-0"
                 title="Decrease difficulty"
               >
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
               </Button>
-              <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+              <div className={`px-2 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
                 difficulty !== null ? getDifficultyColor(difficulty) : 'bg-muted text-muted-foreground'
               }`}>
                 {difficulty !== null ? getDifficultyLabel(difficulty) : 'Not set'}
@@ -225,10 +225,10 @@ export function VocabularyWordCard({
                 disabled={difficulty === 3}
                 variant="outline"
                 size="sm"
-                className="h-7 w-7 p-0"
+                className="h-8 w-8 sm:h-7 sm:w-7 p-0 flex-shrink-0"
                 title="Increase difficulty"
               >
-                <ChevronUp className="h-4 w-4" />
+                <ChevronUp className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
               </Button>
             </div>
           </div>
