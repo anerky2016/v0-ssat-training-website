@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,19 +9,49 @@ import { ListChecks, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
+import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
 
 export default function WordListsPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const wordsPerPage = 20
 
-  const filteredWords = vocabularyData.words.filter(word =>
-    word.word.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  // Calculate letter counts
+  const letterCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+
+    alphabet.forEach(letter => {
+      counts[letter] = 0
+    })
+
+    vocabularyData.words.forEach(word => {
+      const firstLetter = word.word.charAt(0).toUpperCase()
+      if (counts[firstLetter] !== undefined) {
+        counts[firstLetter]++
+      }
+    })
+
+    return counts
+  }, [])
+
+  const filteredWords = vocabularyData.words.filter(word => {
+    const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
+    return matchesSearch && matchesLetter
+  })
 
   // Reset to page 1 when search term changes
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
+    setSelectedLetter(null) // Clear letter filter when searching
+    setCurrentPage(1)
+  }
+
+  // Handle letter selection
+  const handleLetterClick = (letter: string) => {
+    setSelectedLetter(letter === selectedLetter ? null : letter)
     setCurrentPage(1)
   }
 
@@ -137,6 +167,13 @@ export default function WordListsPage() {
                   </div>
                 )}
               </div>
+
+              <VocabularyAlphabetNav
+                selectedLetter={selectedLetter}
+                onLetterClick={handleLetterClick}
+                letterCounts={letterCounts}
+                className="mb-6"
+              />
 
               <div id="word-list" className="space-y-6">
                 {currentWords.map((word, index) => (
