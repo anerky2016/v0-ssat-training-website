@@ -937,3 +937,148 @@ export async function setMasterDevice(userId: string, deviceId: string) {
     return null
   }
 }
+
+// ===== VOCABULARY DIFFICULTY =====
+
+export type DifficultyLevel = 0 | 1 | 2 | 3
+
+export interface VocabularyDifficultyData {
+  id?: string
+  user_id: string
+  word: string
+  difficulty: DifficultyLevel
+  updated_at: string
+}
+
+/**
+ * Save or update vocabulary word difficulty
+ * Uses upsert to create if doesn't exist, or update if it does
+ */
+export async function saveVocabularyDifficulty(
+  userId: string,
+  word: string,
+  difficulty: DifficultyLevel
+): Promise<VocabularyDifficultyData | null> {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping vocabulary difficulty save')
+    return null
+  }
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty')
+      .upsert(
+        {
+          user_id: userId,
+          word: normalizedWord,
+          difficulty,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'user_id,word',
+        }
+      )
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error saving vocabulary difficulty:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to save vocabulary difficulty:', error)
+    return null
+  }
+}
+
+/**
+ * Get all vocabulary difficulties for a user
+ */
+export async function getUserVocabularyDifficulties(
+  userId: string
+): Promise<VocabularyDifficultyData[]> {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty')
+      .select('*')
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error fetching vocabulary difficulties:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch vocabulary difficulties:', error)
+    return []
+  }
+}
+
+/**
+ * Get difficulty for a specific word
+ */
+export async function getVocabularyDifficulty(
+  userId: string,
+  word: string
+): Promise<DifficultyLevel | null> {
+  if (!supabase) return null
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty')
+      .select('difficulty')
+      .eq('user_id', userId)
+      .eq('word', normalizedWord)
+      .single()
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        // No rows returned - word not found
+        return null
+      }
+      console.error('Error fetching vocabulary difficulty:', error)
+      return null
+    }
+
+    return data?.difficulty ?? null
+  } catch (error) {
+    console.error('Failed to fetch vocabulary difficulty:', error)
+    return null
+  }
+}
+
+/**
+ * Delete vocabulary difficulty for a word
+ */
+export async function deleteVocabularyDifficulty(
+  userId: string,
+  word: string
+): Promise<boolean> {
+  if (!supabase) return false
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const { error } = await supabase
+      .from('vocabulary_difficulty')
+      .delete()
+      .eq('user_id', userId)
+      .eq('word', normalizedWord)
+
+    if (error) {
+      console.error('Error deleting vocabulary difficulty:', error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete vocabulary difficulty:', error)
+    return false
+  }
+}

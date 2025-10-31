@@ -13,6 +13,7 @@ import {
   decreaseDifficulty,
   getDifficultyLabel,
   getDifficultyColor,
+  initializeDifficulties,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 
@@ -42,19 +43,24 @@ export function VocabularyWordCard({
   const [isPlaying, setIsPlaying] = useState(false)
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
 
-  // Load difficulty on mount (defaults to Medium if not set)
+  // Initialize difficulties from Supabase and load current word difficulty
   useEffect(() => {
-    const currentDifficulty = getWordDifficulty(word.word)
-    setDifficulty(currentDifficulty)
+    const loadDifficulty = async () => {
+      await initializeDifficulties()
+      const currentDifficulty = getWordDifficulty(word.word)
+      setDifficulty(currentDifficulty)
+    }
+
+    loadDifficulty()
   }, [word.word])
 
-  const handleIncreaseDifficulty = () => {
-    const newDifficulty = increaseDifficulty(word.word)
+  const handleIncreaseDifficulty = async () => {
+    const newDifficulty = await increaseDifficulty(word.word)
     setDifficulty(newDifficulty)
   }
 
-  const handleDecreaseDifficulty = () => {
-    const newDifficulty = decreaseDifficulty(word.word)
+  const handleDecreaseDifficulty = async () => {
+    const newDifficulty = await decreaseDifficulty(word.word)
     setDifficulty(newDifficulty)
   }
 
