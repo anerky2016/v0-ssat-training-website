@@ -363,23 +363,6 @@ export default function WordListsPage() {
                     </div>
                   </div>
 
-                  {/* Swipe Hint */}
-                  <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm">
-                    <span className={`flex items-center gap-1 ${
-                      currentCardIndex === 0 ? 'text-muted-foreground/40 cursor-not-allowed' : 'text-muted-foreground'
-                    }`}>
-                      <ChevronLeft className={`h-4 w-4 ${currentCardIndex === 0 ? '' : 'animate-pulse'}`} />
-                      Previous
-                    </span>
-                    <span className="mx-2 text-muted-foreground">•</span>
-                    <span className={`flex items-center gap-1 ${
-                      currentCardIndex === filteredWords.length - 1 ? 'text-muted-foreground/40 cursor-not-allowed' : 'text-muted-foreground'
-                    }`}>
-                      Next
-                      <ChevronRight className={`h-4 w-4 ${currentCardIndex === filteredWords.length - 1 ? '' : 'animate-pulse'}`} />
-                    </span>
-                  </div>
-
                   <div
                     id="word-list"
                     className="relative overflow-visible"
