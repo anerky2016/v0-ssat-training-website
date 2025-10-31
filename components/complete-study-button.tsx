@@ -81,15 +81,20 @@ export function CompleteStudyButton({ topicTitle, centered = false, size = 'defa
 
   return (
     <div className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 ${centered ? 'sm:justify-center' : ''}`}>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full sm:w-auto">
         <Button
           onClick={handleComplete}
           variant={completion ? "outline" : "default"}
           size={size}
-          className="w-full sm:w-auto"
+          className="flex-1 sm:flex-none sm:w-auto"
         >
           <CheckCircle2 className={size === 'lg' ? 'h-5 w-5 mr-2' : 'h-4 w-4 mr-2'} />
-          {completion ? (completion.reviewCount > 0 ? 'Mark as Reviewed' : 'Mark as Reviewed Again') : 'Mark as Completed'}
+          <span className="hidden sm:inline">
+            {completion ? (completion.reviewCount > 0 ? 'Mark as Reviewed' : 'Mark as Reviewed Again') : 'Mark as Completed'}
+          </span>
+          <span className="sm:hidden">
+            {completion ? 'Review' : 'Complete'}
+          </span>
         </Button>
 
         {completion && (
@@ -97,23 +102,25 @@ export function CompleteStudyButton({ topicTitle, centered = false, size = 'defa
             onClick={handleUncomplete}
             variant="ghost"
             size="sm"
-            className="text-muted-foreground hover:text-destructive"
+            className="text-muted-foreground hover:text-destructive flex-shrink-0"
             title="Remove completion (in case of accidental click)"
           >
-            <X className="h-4 w-4 mr-1" />
-            Uncomplete
+            <X className="h-4 w-4 sm:mr-1" />
+            <span className="hidden sm:inline">Uncomplete</span>
           </Button>
         )}
       </div>
 
       {completion && (
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="h-4 w-4" />
-          <span>
-            Next review: <span className="font-medium">{formatReviewDate(completion.nextReviewDate)}</span>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground w-full sm:w-auto">
+          <Calendar className="h-4 w-4 flex-shrink-0" />
+          <span className="flex flex-wrap items-center gap-x-1">
+            <span className="hidden sm:inline">Next review:</span>
+            <span className="sm:hidden">Review:</span>
+            <span className="font-medium">{formatReviewDate(completion.nextReviewDate)}</span>
             {completion.reviewCount > 0 && (
-              <span className="ml-2 text-xs">
-                (Review #{completion.reviewCount})
+              <span className="text-xs whitespace-nowrap">
+                (#{completion.reviewCount})
               </span>
             )}
           </span>
