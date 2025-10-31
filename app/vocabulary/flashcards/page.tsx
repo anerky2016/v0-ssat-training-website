@@ -250,7 +250,8 @@ export default function FlashcardsPage() {
 
               <div className="mt-6 text-center">
                 <Link href="/vocabulary/word-lists">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="default" size="lg" className="bg-chart-5 hover:bg-chart-5/90">
+                    <ArrowLeft className="h-5 w-5 mr-2" />
                     View Full Word List
                   </Button>
                 </Link>
