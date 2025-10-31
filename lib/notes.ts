@@ -13,6 +13,7 @@ export interface Note {
   title: string
   content: string
   screenshot?: string // Base64 encoded image
+  audioUrl?: string // URL to audio file in Supabase Storage
   path: string // Current page path when note was created
   timestamp: number
   updatedAt: number
@@ -37,6 +38,7 @@ export async function getNotes(): Promise<Note[]> {
       title: n.title,
       content: n.content,
       screenshot: n.screenshot,
+      audioUrl: n.audio_url,
       path: n.path,
       timestamp: new Date(n.timestamp).getTime(),
       updatedAt: new Date(n.updated_at).getTime(),
@@ -60,6 +62,7 @@ export async function saveNote(note: Omit<Note, 'id' | 'timestamp' | 'updatedAt'
       title: note.title,
       content: note.content,
       screenshot: note.screenshot,
+      audio_url: note.audioUrl,
       path: note.path,
       timestamp: now,
       updated_at: now,
@@ -74,6 +77,7 @@ export async function saveNote(note: Omit<Note, 'id' | 'timestamp' | 'updatedAt'
       title: savedNote.title,
       content: savedNote.content,
       screenshot: savedNote.screenshot,
+      audioUrl: savedNote.audio_url,
       path: savedNote.path,
       timestamp: new Date(savedNote.timestamp).getTime(),
       updatedAt: new Date(savedNote.updated_at).getTime(),
@@ -97,6 +101,7 @@ export async function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 
     if (updates.title !== undefined) supabaseUpdates.title = updates.title
     if (updates.content !== undefined) supabaseUpdates.content = updates.content
     if (updates.screenshot !== undefined) supabaseUpdates.screenshot = updates.screenshot
+    if (updates.audioUrl !== undefined) supabaseUpdates.audio_url = updates.audioUrl
     if (updates.path !== undefined) supabaseUpdates.path = updates.path
 
     const updatedNote = await updateNoteInSupabase(id, userId, supabaseUpdates)
@@ -108,6 +113,7 @@ export async function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 
       title: updatedNote.title,
       content: updatedNote.content,
       screenshot: updatedNote.screenshot,
+      audioUrl: updatedNote.audio_url,
       path: updatedNote.path,
       timestamp: new Date(updatedNote.timestamp).getTime(),
       updatedAt: new Date(updatedNote.updated_at).getTime(),

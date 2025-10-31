@@ -297,9 +297,94 @@ export interface NoteData {
   title: string
   content: string
   screenshot?: string
+  audio_url?: string
   path: string
   timestamp: string
   updated_at: string
+}
+
+/**
+ * Upload audio file to Supabase Storage
+ * @param userId - User ID for folder organization
+ * @param audioBlob - Audio blob to upload
+ * @param noteId - Optional note ID for file naming
+ * @returns Public URL of uploaded audio file
+ */
+export async function uploadAudio(userId: string, audioBlob: Blob, noteId?: string): Promise<string | null> {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping audio upload')
+    return null
+  }
+
+  try {
+    // Create filename with timestamp and note ID
+    const timestamp = Date.now()
+    const filename = noteId
+      ? `${userId}/${noteId}_${timestamp}.webm`
+      : `${userId}/temp_${timestamp}.webm`
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from('note-audio')
+      .upload(filename, audioBlob, {
+        contentType: 'audio/webm',
+        upsert: false,
+      })
+
+    if (error) {
+      console.error('Error uploading audio:', error)
+      return null
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('note-audio')
+      .getPublicUrl(data.path)
+
+    return urlData.publicUrl
+  } catch (error) {
+    console.error('Failed to upload audio:', error)
+    return null
+  }
+}
+
+/**
+ * Delete audio file from Supabase Storage
+ * @param audioUrl - Public URL of the audio file
+ * @returns True if successful
+ */
+export async function deleteAudio(audioUrl: string): Promise<boolean> {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping audio delete')
+    return false
+  }
+
+  try {
+    // Extract path from public URL
+    const url = new URL(audioUrl)
+    const pathMatch = url.pathname.match(/\/note-audio\/(.+)/)
+
+    if (!pathMatch) {
+      console.error('Invalid audio URL format')
+      return false
+    }
+
+    const filePath = pathMatch[1]
+
+    const { error } = await supabase.storage
+      .from('note-audio')
+      .remove([filePath])
+
+    if (error) {
+      console.error('Error deleting audio:', error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete audio:', error)
+    return false
+  }
 }
 
 export async function saveNote(userId: string, note: Omit<NoteData, 'id' | 'user_id'>) {
