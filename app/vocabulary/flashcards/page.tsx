@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
+import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,13 +13,25 @@ import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard
 import { audioCache } from "@/lib/audio-cache"
 
 export default function FlashcardsPage() {
+  const searchParams = useSearchParams()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
   const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set())
   const [showDetails, setShowDetails] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const words = vocabularyData.words
+  // Filter words based on query parameter
+  const words = useMemo(() => {
+    const wordsParam = searchParams.get('words')
+    if (!wordsParam) {
+      return vocabularyData.words
+    }
+
+    const selectedWords = wordsParam.split(',').map(w => w.trim().toLowerCase())
+    return vocabularyData.words.filter(word =>
+      selectedWords.includes(word.word.toLowerCase())
+    )
+  }, [searchParams])
 
   const pronounceWord = async (word: string) => {
     try {

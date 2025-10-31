@@ -23,6 +23,7 @@ export default function WordListsPage() {
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffset, setDragOffset] = useState(0)
   const [mobileLetterSelected, setMobileLetterSelected] = useState(false)
+  const [desktopLetterSelected, setDesktopLetterSelected] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
@@ -69,9 +70,13 @@ export default function WordListsPage() {
     setCurrentPage(1)
     setCurrentCardIndex(0)
 
-    // On mobile, show cards directly when searching
-    if (isMobile && e.target.value) {
-      setMobileLetterSelected(true)
+    // Show cards directly when searching
+    if (e.target.value) {
+      if (isMobile) {
+        setMobileLetterSelected(true)
+      } else {
+        setDesktopLetterSelected(true)
+      }
     }
   }
 
@@ -82,18 +87,26 @@ export default function WordListsPage() {
     setCurrentPage(1)
     setCurrentCardIndex(0)
 
-    // On mobile, mark letter as selected to show cards
-    if (isMobile && newLetter) {
-      setMobileLetterSelected(true)
+    // Mark letter as selected to show cards
+    if (newLetter) {
+      if (isMobile) {
+        setMobileLetterSelected(true)
+      } else {
+        setDesktopLetterSelected(true)
+      }
     }
   }
 
-  // Handle "All Words" selection on mobile
+  // Handle "All Words" selection
   const handleAllWordsClick = () => {
     setSelectedLetter(null)
     setCurrentPage(1)
     setCurrentCardIndex(0)
-    setMobileLetterSelected(true)
+    if (isMobile) {
+      setMobileLetterSelected(true)
+    } else {
+      setDesktopLetterSelected(true)
+    }
   }
 
   // Return to alphabet selection on mobile
@@ -101,6 +114,14 @@ export default function WordListsPage() {
     setMobileLetterSelected(false)
     setSelectedLetter(null)
     setCurrentCardIndex(0)
+    setSearchTerm('') // Clear search when returning to alphabet
+  }
+
+  // Return to alphabet selection on desktop
+  const handleDesktopBackToAlphabet = () => {
+    setDesktopLetterSelected(false)
+    setSelectedLetter(null)
+    setCurrentPage(1)
     setSearchTerm('') // Clear search when returning to alphabet
   }
 
@@ -286,22 +307,41 @@ export default function WordListsPage() {
                   </div>
                 </div>
 
-                {!isMobile && filteredWords.length > wordsPerPage && (
+                {!isMobile && desktopLetterSelected && filteredWords.length > wordsPerPage && (
                   <div className="mt-4 text-sm text-muted-foreground">
                     Showing {startIndex + 1}-{Math.min(endIndex, filteredWords.length)} of {filteredWords.length} words
                   </div>
                 )}
               </div>
 
-              {/* Show alphabet nav on desktop or when no letter selected on mobile */}
-              {!isMobile && (
-                <VocabularyAlphabetNav
-                  selectedLetter={selectedLetter}
-                  onLetterClick={handleLetterClick}
-                  letterCounts={letterCounts}
-                  className="mb-6"
-                />
-              )}
+              {/* Desktop: Alphabet Selection Screen */}
+              {!isMobile && !desktopLetterSelected ? (
+                <div className="mb-6">
+                  <Card className="p-8 border-chart-5 bg-chart-5/5">
+                    <h2 className="text-2xl font-bold text-center mb-4">Select a Letter to Start</h2>
+                    <p className="text-base text-muted-foreground text-center mb-6">
+                      Choose a letter to study vocabulary words, or browse all words
+                    </p>
+
+                    <VocabularyAlphabetNav
+                      selectedLetter={selectedLetter}
+                      onLetterClick={handleLetterClick}
+                      letterCounts={letterCounts}
+                      className="mb-6"
+                    />
+
+                    <Button
+                      onClick={handleAllWordsClick}
+                      variant="default"
+                      size="lg"
+                      className="w-full max-w-md mx-auto block bg-chart-5 hover:bg-chart-5/90"
+                    >
+                      <ListChecks className="h-5 w-5 mr-2" />
+                      Browse All {filteredWords.length} Words
+                    </Button>
+                  </Card>
+                </div>
+              ) : null}
 
               {/* Mobile: Alphabet Selection Screen */}
               {isMobile && !mobileLetterSelected ? (
@@ -509,13 +549,38 @@ export default function WordListsPage() {
                     </Button>
                   </div>
                 </div>
-              ) : (
-                /* Desktop List View */
-                <div id="word-list" className="space-y-6">
-                  {currentWords.map((word, index) => (
-                    <VocabularyWordCard key={startIndex + index} word={word} />
-                  ))}
-                </div>
+              ) : null}
+
+              {/* Desktop List View - only show after letter selection */}
+              {!isMobile && desktopLetterSelected && filteredWords.length > 0 && (
+                <>
+                  {/* Header with Reset Button */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <Button
+                        onClick={handleDesktopBackToAlphabet}
+                        variant="outline"
+                        size="sm"
+                        className="h-9"
+                      >
+                        <X className="h-4 w-4 mr-2" />
+                        Reset Selection
+                      </Button>
+                      {selectedLetter && (
+                        <div className="text-base font-semibold">
+                          <span className="text-muted-foreground">Letter</span>{' '}
+                          <span className="text-chart-5 text-xl">{selectedLetter}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div id="word-list" className="space-y-6">
+                    {currentWords.map((word, index) => (
+                      <VocabularyWordCard key={startIndex + index} word={word} />
+                    ))}
+                  </div>
+                </>
               )}
 
               {filteredWords.length === 0 && (
@@ -526,8 +591,8 @@ export default function WordListsPage() {
                 </Card>
               )}
 
-              {/* Pagination Controls - Desktop Only */}
-              {!isMobile && filteredWords.length > wordsPerPage && (
+              {/* Pagination Controls - Desktop Only, after letter selection */}
+              {!isMobile && desktopLetterSelected && filteredWords.length > wordsPerPage && (
                 <div className="mt-8">
                   {/* Page Numbers - Centered */}
                   <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center mb-4">
@@ -589,13 +654,20 @@ export default function WordListsPage() {
                 </div>
               )}
 
-              <div className="mt-8 flex justify-center">
-                <Link href="/vocabulary/flashcards">
-                  <Button size="lg" className="bg-chart-5 hover:bg-chart-5/90">
-                    Practice with Flashcards
-                  </Button>
-                </Link>
-              </div>
+              {/* Only show flashcard button after letter selection */}
+              {((isMobile && mobileLetterSelected) || (!isMobile && desktopLetterSelected)) && filteredWords.length > 0 && (
+                <div className="mt-8 flex justify-center">
+                  <Link
+                    href={`/vocabulary/flashcards?words=${encodeURIComponent(
+                      filteredWords.map(w => w.word).join(',')
+                    )}`}
+                  >
+                    <Button size="lg" className="bg-chart-5 hover:bg-chart-5/90">
+                      Practice with Flashcards ({filteredWords.length} words)
+                    </Button>
+                  </Link>
+                </div>
+              )}
 
               <Card className="mt-8 border-chart-5 bg-chart-5/5">
                 <CardHeader>
