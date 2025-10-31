@@ -10,6 +10,7 @@ import { Brain, ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2 } 
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
+import { audioCache } from "@/lib/audio-cache"
 
 export default function FlashcardsPage() {
   const searchParams = useSearchParams()
@@ -32,19 +33,63 @@ export default function FlashcardsPage() {
     )
   }, [searchParams])
 
-  const pronounceWord = (word: string) => {
-    if ('speechSynthesis' in window) {
+  const pronounceWord = async (word: string) => {
+    try {
       setIsPlaying(true)
 
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel()
+      let arrayBuffer: ArrayBuffer
 
-      const utterance = new SpeechSynthesisUtterance(word)
-      utterance.rate = 0.85
-      utterance.onend = () => setIsPlaying(false)
-      utterance.onerror = () => setIsPlaying(false)
+      // Check if audio is cached
+      const cachedAudio = audioCache.get(word)
 
-      window.speechSynthesis.speak(utterance)
+      if (cachedAudio) {
+        arrayBuffer = cachedAudio
+      } else {
+        // Call the Google Cloud TTS API
+        const response = await fetch('/api/tts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: word }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to generate speech')
+        }
+
+        const audioBlob = await response.blob()
+        arrayBuffer = await audioBlob.arrayBuffer()
+
+        // Cache the audio for future use
+        audioCache.set(word, arrayBuffer)
+      }
+
+      // Play audio using Web Audio API
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const source = audioContext.createBufferSource()
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0))
+
+      source.buffer = audioBuffer
+      source.connect(audioContext.destination)
+
+      source.onended = () => {
+        setIsPlaying(false)
+        audioContext.close()
+      }
+
+      source.start(0)
+    } catch (error) {
+      console.error('Error playing pronunciation:', error)
+      setIsPlaying(false)
+
+      // Fallback to browser TTS
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word)
+        utterance.rate = 0.9
+        utterance.onend = () => setIsPlaying(false)
+        window.speechSynthesis.speak(utterance)
+      }
     }
   }
 
