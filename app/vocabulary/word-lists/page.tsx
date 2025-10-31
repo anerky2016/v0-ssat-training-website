@@ -358,21 +358,25 @@ export default function WordListsPage() {
                         )}
                       </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                    <div className="text-base font-semibold text-chart-5">
+                      {currentCardIndex + 1} / {filteredWords.length}
                     </div>
                   </div>
 
                   {/* Swipe Hint */}
-                  <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <ChevronLeft className="h-4 w-4 animate-pulse" />
+                  <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm">
+                    <span className={`flex items-center gap-1 ${
+                      currentCardIndex === 0 ? 'text-muted-foreground/40 cursor-not-allowed' : 'text-muted-foreground'
+                    }`}>
+                      <ChevronLeft className={`h-4 w-4 ${currentCardIndex === 0 ? '' : 'animate-pulse'}`} />
                       Previous
                     </span>
-                    <span className="mx-2">•</span>
-                    <span className="flex items-center gap-1">
+                    <span className="mx-2 text-muted-foreground">•</span>
+                    <span className={`flex items-center gap-1 ${
+                      currentCardIndex === filteredWords.length - 1 ? 'text-muted-foreground/40 cursor-not-allowed' : 'text-muted-foreground'
+                    }`}>
                       Next
-                      <ChevronRight className="h-4 w-4 animate-pulse" />
+                      <ChevronRight className={`h-4 w-4 ${currentCardIndex === filteredWords.length - 1 ? '' : 'animate-pulse'}`} />
                     </span>
                   </div>
 
@@ -500,12 +504,13 @@ export default function WordListsPage() {
                       disabled={currentCardIndex === 0}
                       variant="outline"
                       size="lg"
-                      className="flex-1 disabled:opacity-40"
+                      className="flex-1 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       <ChevronLeft className="h-5 w-5 mr-2" />
-                      Previous
+                      <span className="hidden xs:inline">Previous</span>
+                      <span className="xs:hidden">Prev</span>
                     </Button>
-                    <div className="text-sm text-muted-foreground whitespace-nowrap">
+                    <div className="text-sm font-semibold text-foreground whitespace-nowrap px-3 py-2 rounded-md bg-muted">
                       {currentCardIndex + 1} / {filteredWords.length}
                     </div>
                     <Button
@@ -513,9 +518,10 @@ export default function WordListsPage() {
                       disabled={currentCardIndex === filteredWords.length - 1}
                       variant="outline"
                       size="lg"
-                      className="flex-1 disabled:opacity-40"
+                      className="flex-1 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      Next
+                      <span className="hidden xs:inline">Next</span>
+                      <span className="xs:hidden">Next</span>
                       <ChevronRight className="h-5 w-5 ml-2" />
                     </Button>
                   </div>
