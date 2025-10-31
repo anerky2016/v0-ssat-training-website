@@ -65,20 +65,24 @@ export default function FlashcardsPage() {
         audioCache.set(word, arrayBuffer)
       }
 
-      // Play audio using Web Audio API
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-      const source = audioContext.createBufferSource()
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0))
+      // Use HTML5 Audio for better mobile compatibility
+      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
+      const audioUrl = URL.createObjectURL(blob)
+      const audio = new Audio(audioUrl)
 
-      source.buffer = audioBuffer
-      source.connect(audioContext.destination)
-
-      source.onended = () => {
+      audio.onended = () => {
         setIsPlaying(false)
-        audioContext.close()
+        URL.revokeObjectURL(audioUrl)
       }
 
-      source.start(0)
+      audio.onerror = () => {
+        setIsPlaying(false)
+        URL.revokeObjectURL(audioUrl)
+        throw new Error('Audio playback failed')
+      }
+
+      // Play audio - this works better on iOS
+      await audio.play()
     } catch (error) {
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)
@@ -88,6 +92,7 @@ export default function FlashcardsPage() {
         const utterance = new SpeechSynthesisUtterance(word)
         utterance.rate = 0.9
         utterance.onend = () => setIsPlaying(false)
+        utterance.onerror = () => setIsPlaying(false)
         window.speechSynthesis.speak(utterance)
       }
     }
