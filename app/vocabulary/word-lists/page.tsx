@@ -127,7 +127,7 @@ export default function WordListsPage() {
       setTimeout(() => {
         setCurrentCardIndex(prev => prev + 1)
         setSwipeDirection(null)
-      }, 150)
+      }, 500) // Match the flip animation duration
     }
   }
 
@@ -137,7 +137,7 @@ export default function WordListsPage() {
       setTimeout(() => {
         setCurrentCardIndex(prev => prev - 1)
         setSwipeDirection(null)
-      }, 150)
+      }, 500) // Match the flip animation duration
     }
   }
 
@@ -267,44 +267,84 @@ export default function WordListsPage() {
                   {/* Swipe Hint */}
                   <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                     <ChevronLeft className="h-4 w-4 animate-pulse" />
-                    <span>Swipe to navigate</span>
+                    <span>Swipe to flip page</span>
                     <ChevronRight className="h-4 w-4 animate-pulse" />
                   </div>
 
                   <div
                     id="word-list"
-                    className="relative overflow-hidden touch-pan-y"
+                    className="relative overflow-visible touch-pan-y"
+                    style={{ perspective: '1200px', minHeight: '600px' }}
                     onTouchStart={onTouchStart}
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                   >
-                    {/* Card with real-time drag feedback */}
+                    {/* Current card with book flip animation */}
                     <div
-                      className={`${isDragging ? '' : 'transition-all duration-300 ease-out'}`}
+                      className={`${isDragging ? '' : 'transition-all duration-500 ease-out'}`}
                       style={{
+                        transformStyle: 'preserve-3d',
                         transform: isDragging
-                          ? `translateX(${dragOffset}px) scale(${1 - Math.abs(dragOffset) / 2000})`
+                          ? `rotateY(${dragOffset / 5}deg) translateZ(0px)`
                           : swipeDirection === 'left'
-                          ? 'translateX(-100%)'
+                          ? 'rotateY(-180deg) translateZ(-50px)'
                           : swipeDirection === 'right'
-                          ? 'translateX(100%)'
-                          : 'translateX(0)',
+                          ? 'rotateY(180deg) translateZ(-50px)'
+                          : 'rotateY(0deg) translateZ(0px)',
                         opacity: isDragging
-                          ? Math.max(0.5, 1 - Math.abs(dragOffset) / 400)
+                          ? Math.max(0.7, 1 - Math.abs(dragOffset) / 600)
                           : swipeDirection
                           ? 0
                           : 1,
+                        backfaceVisibility: 'hidden',
                       }}
                     >
                       <VocabularyWordCard word={filteredWords[currentCardIndex]} />
                     </div>
 
-                    {/* Swipe direction indicators */}
+                    {/* Next card preview (behind current card) */}
+                    {!swipeDirection && (dragOffset > 50 || dragOffset < -50) && (
+                      <div
+                        className="absolute inset-0 -z-10"
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          transform: dragOffset > 0
+                            ? `rotateY(${-180 + dragOffset / 5}deg) translateZ(-50px)`
+                            : `rotateY(${180 + dragOffset / 5}deg) translateZ(-50px)`,
+                          opacity: Math.min(Math.abs(dragOffset) / 200, 1),
+                          backfaceVisibility: 'hidden',
+                        }}
+                      >
+                        <VocabularyWordCard
+                          word={filteredWords[
+                            dragOffset > 0
+                              ? Math.max(0, currentCardIndex - 1)
+                              : Math.min(filteredWords.length - 1, currentCardIndex + 1)
+                          ]}
+                        />
+                      </div>
+                    )}
+
+                    {/* Page flip edge shadow */}
                     {isDragging && Math.abs(dragOffset) > 20 && (
+                      <div
+                        className={`absolute top-0 bottom-0 w-8 pointer-events-none ${
+                          dragOffset > 0 ? 'left-0' : 'right-0'
+                        }`}
+                        style={{
+                          background: dragOffset > 0
+                            ? `linear-gradient(to right, rgba(0,0,0,${Math.min(Math.abs(dragOffset) / 300, 0.3)}), transparent)`
+                            : `linear-gradient(to left, rgba(0,0,0,${Math.min(Math.abs(dragOffset) / 300, 0.3)}), transparent)`,
+                        }}
+                      />
+                    )}
+
+                    {/* Swipe direction indicators */}
+                    {isDragging && Math.abs(dragOffset) > 30 && (
                       <div
                         className={`absolute top-1/2 -translate-y-1/2 ${
                           dragOffset > 0 ? 'left-4' : 'right-4'
-                        } bg-chart-5 text-white rounded-full p-3 shadow-lg transition-opacity`}
+                        } bg-chart-5 text-white rounded-full p-3 shadow-lg transition-opacity z-10`}
                         style={{ opacity: Math.min(Math.abs(dragOffset) / 100, 1) }}
                       >
                         {dragOffset > 0 ? (
@@ -326,7 +366,7 @@ export default function WordListsPage() {
                           setTimeout(() => {
                             setCurrentCardIndex(index)
                             setSwipeDirection(null)
-                          }, 150)
+                          }, 500)
                         }}
                         className={`h-2 rounded-full transition-all ${
                           index === currentCardIndex
