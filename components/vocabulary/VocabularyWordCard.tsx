@@ -210,7 +210,7 @@ export function VocabularyWordCard({
                 disabled={difficulty === 0}
                 variant="outline"
                 size="sm"
-                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0"
+                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
                 title="Decrease difficulty"
               >
                 <ChevronDown className="h-4 w-4" />
@@ -225,7 +225,7 @@ export function VocabularyWordCard({
                 disabled={difficulty === 3}
                 variant="outline"
                 size="sm"
-                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0"
+                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
                 title="Increase difficulty"
               >
                 <ChevronUp className="h-4 w-4" />
