@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Volume2, Info, ChevronUp, ChevronDown } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -184,7 +184,11 @@ export function VocabularyWordCard({
                   }`}
                   title="Click to hear pronunciation"
                 >
-                  <Volume2 className={`h-6 w-6 text-white transition-transform ${isPlaying ? 'animate-bounce' : ''}`} />
+                  {isPlaying ? (
+                    <AudioWaveform className="h-6 w-6 text-white animate-pulse" />
+                  ) : (
+                    <Volume2 className="h-6 w-6 text-white" />
+                  )}
                 </Button>
               )}
               <span className="text-base text-muted-foreground font-normal">
@@ -251,7 +255,11 @@ export function VocabularyWordCard({
                   className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                   title="Click to hear definition"
                 >
-                  <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
+                  {isPlaying ? (
+                    <AudioWaveform className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform animate-pulse" />
+                  ) : (
+                    <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
+                  )}
                 </button>
               </li>
             ))}
@@ -290,7 +298,11 @@ export function VocabularyWordCard({
                     title={`Click to hear pronunciation of "${syn}"`}
                   >
                     <span>{syn}</span>
-                    <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {isPlaying ? (
+                      <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
+                    ) : (
+                      <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -311,7 +323,11 @@ export function VocabularyWordCard({
                     title={`Click to hear pronunciation of "${ant}"`}
                   >
                     <span>{ant}</span>
-                    <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {isPlaying ? (
+                      <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
+                    ) : (
+                      <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
                   </button>
                 ))}
               </div>

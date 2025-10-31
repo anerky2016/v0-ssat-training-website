@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Info, Volume2 } from "lucide-react"
+import { CheckCircle2, Info, Volume2, AudioWaveform } from "lucide-react"
 
 export interface VocabularyWord {
   word: string
@@ -38,7 +38,7 @@ export function VocabularyFlashcard({
 }: VocabularyFlashcardProps) {
   return (
     <div
-      className="relative w-full min-h-[450px] cursor-pointer"
+      className="relative w-full h-[500px] cursor-pointer mb-6"
       onClick={onFlip}
       style={{ perspective: "1000px" }}
     >
@@ -51,7 +51,7 @@ export function VocabularyFlashcard({
       >
         {/* Front of card */}
         <Card
-          className="absolute w-full min-h-[450px] border-2 border-chart-7 bg-card flex items-center justify-center"
+          className="absolute w-full h-full border-2 border-chart-7 bg-card flex items-center justify-center"
           style={{
             backfaceVisibility: "hidden",
           }}
@@ -73,7 +73,11 @@ export function VocabularyFlashcard({
                 }`}
                 title="Click to hear pronunciation"
               >
-                <Volume2 className={`h-7 w-7 text-white transition-transform ${isPlaying ? 'animate-bounce' : ''}`} />
+                {isPlaying ? (
+                  <AudioWaveform className="h-7 w-7 text-white animate-pulse" />
+                ) : (
+                  <Volume2 className="h-7 w-7 text-white" />
+                )}
               </Button>
               <span className="text-xl text-muted-foreground">
                 {word.pronunciation}
@@ -96,13 +100,13 @@ export function VocabularyFlashcard({
 
         {/* Back of card */}
         <Card
-          className="absolute w-full min-h-[450px] border-2 border-chart-7 bg-card overflow-y-auto"
+          className="absolute w-full h-full border-2 border-chart-7 bg-card overflow-y-auto"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
         >
-          <CardContent className="p-6 sm:p-8">
+          <CardContent className="p-6 sm:p-8 h-full overflow-y-auto">
             <div className="space-y-4">
               {/* Meanings */}
               <div>
@@ -121,7 +125,11 @@ export function VocabularyFlashcard({
                         className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                         title="Click to hear definition"
                       >
-                        <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
+                        {isPlaying ? (
+                          <AudioWaveform className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform animate-pulse" />
+                        ) : (
+                          <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
+                        )}
                       </button>
                     </li>
                   ))}
@@ -162,7 +170,11 @@ export function VocabularyFlashcard({
                         title={`Click to hear pronunciation of "${syn}"`}
                       >
                         <span>{syn}</span>
-                        <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {isPlaying ? (
+                          <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
+                        ) : (
+                          <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -187,7 +199,11 @@ export function VocabularyFlashcard({
                         title={`Click to hear pronunciation of "${ant}"`}
                       >
                         <span>{ant}</span>
-                        <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {isPlaying ? (
+                          <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
+                        ) : (
+                          <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        )}
                       </button>
                     ))}
                   </div>
