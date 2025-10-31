@@ -10,7 +10,6 @@ import { Brain, ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2 } 
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
-import { audioCache } from "@/lib/audio-cache"
 
 export default function FlashcardsPage() {
   const searchParams = useSearchParams()
@@ -33,71 +32,19 @@ export default function FlashcardsPage() {
     )
   }, [searchParams])
 
-  const pronounceWord = async (word: string) => {
-    try {
+  const pronounceWord = (word: string) => {
+    if ('speechSynthesis' in window) {
       setIsPlaying(true)
 
-      let arrayBuffer: ArrayBuffer
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel()
 
-      // Check if audio is cached
-      const cachedAudio = audioCache.get(word)
+      const utterance = new SpeechSynthesisUtterance(word)
+      utterance.rate = 0.85
+      utterance.onend = () => setIsPlaying(false)
+      utterance.onerror = () => setIsPlaying(false)
 
-      if (cachedAudio) {
-        // Use cached audio
-        arrayBuffer = cachedAudio
-      } else {
-        // Call the TTS API
-        const response = await fetch('/api/tts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ text: word }),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to generate speech')
-        }
-
-        // Get the audio blob
-        const audioBlob = await response.blob()
-        arrayBuffer = await audioBlob.arrayBuffer()
-
-        // Cache the audio for future use
-        audioCache.set(word, arrayBuffer)
-      }
-
-      // Use Web Audio API for better volume control and amplification
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-      const source = audioContext.createBufferSource()
-      const gainNode = audioContext.createGain()
-
-      // Amplify volume significantly (2.5x boost)
-      gainNode.gain.value = 2.5
-
-      // Decode audio data
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0))
-
-      source.buffer = audioBuffer
-      source.connect(gainNode)
-      gainNode.connect(audioContext.destination)
-
-      source.onended = () => {
-        setIsPlaying(false)
-        audioContext.close()
-      }
-
-      source.start(0)
-    } catch (error) {
-      console.error('Error playing pronunciation:', error)
-      setIsPlaying(false)
-      // Fallback to browser TTS
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(word)
-        utterance.rate = 0.85
-        utterance.onend = () => setIsPlaying(false)
-        window.speechSynthesis.speak(utterance)
-      }
+      window.speechSynthesis.speak(utterance)
     }
   }
 
