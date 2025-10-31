@@ -40,9 +40,9 @@ export function VocabularyWordCard({
 }: VocabularyWordCardProps) {
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [difficulty, setDifficulty] = useState<DifficultyLevel | null>(null)
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
 
-  // Load difficulty on mount
+  // Load difficulty on mount (defaults to Medium if not set)
   useEffect(() => {
     const currentDifficulty = getWordDifficulty(word.word)
     setDifficulty(currentDifficulty)
@@ -207,7 +207,7 @@ export function VocabularyWordCard({
             <div className="flex items-center gap-1.5 sm:gap-1">
               <Button
                 onClick={handleDecreaseDifficulty}
-                disabled={difficulty === null || difficulty === 0}
+                disabled={difficulty === 0}
                 variant="outline"
                 size="sm"
                 className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0"
@@ -216,9 +216,9 @@ export function VocabularyWordCard({
                 <ChevronDown className="h-4 w-4" />
               </Button>
               <div className={`px-3 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
-                difficulty !== null ? getDifficultyColor(difficulty) : 'bg-muted text-muted-foreground'
+                getDifficultyColor(difficulty)
               }`}>
-                {difficulty !== null ? getDifficultyLabel(difficulty) : 'Not set'}
+                {getDifficultyLabel(difficulty)}
               </div>
               <Button
                 onClick={handleIncreaseDifficulty}

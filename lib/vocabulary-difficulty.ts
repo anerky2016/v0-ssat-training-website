@@ -24,11 +24,11 @@ export function getAllDifficulties(): Record<string, VocabularyDifficulty> {
   }
 }
 
-// Get difficulty for a specific word
-export function getWordDifficulty(word: string): DifficultyLevel | null {
+// Get difficulty for a specific word (defaults to Medium if not set)
+export function getWordDifficulty(word: string): DifficultyLevel {
   const difficulties = getAllDifficulties()
   const normalizedWord = word.toLowerCase()
-  return difficulties[normalizedWord]?.difficulty ?? null
+  return difficulties[normalizedWord]?.difficulty ?? 1 // Default to Medium
 }
 
 // Set difficulty for a word
@@ -53,7 +53,7 @@ export function setWordDifficulty(word: string, difficulty: DifficultyLevel): vo
 
 // Increase difficulty (max 3)
 export function increaseDifficulty(word: string): DifficultyLevel {
-  const current = getWordDifficulty(word) ?? 0
+  const current = getWordDifficulty(word)
   const newDifficulty = Math.min(3, current + 1) as DifficultyLevel
   setWordDifficulty(word, newDifficulty)
   return newDifficulty
@@ -61,7 +61,7 @@ export function increaseDifficulty(word: string): DifficultyLevel {
 
 // Decrease difficulty (min 0)
 export function decreaseDifficulty(word: string): DifficultyLevel {
-  const current = getWordDifficulty(word) ?? 0
+  const current = getWordDifficulty(word)
   const newDifficulty = Math.max(0, current - 1) as DifficultyLevel
   setWordDifficulty(word, newDifficulty)
   return newDifficulty
