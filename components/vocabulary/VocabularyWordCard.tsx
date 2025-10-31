@@ -1,12 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Volume2, Info } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
+import {
+  getWordDifficulty,
+  increaseDifficulty,
+  decreaseDifficulty,
+  getDifficultyLabel,
+  getDifficultyColor,
+  type DifficultyLevel
+} from "@/lib/vocabulary-difficulty"
 
 export interface VocabularyWord {
   word: string
@@ -32,6 +40,23 @@ export function VocabularyWordCard({
 }: VocabularyWordCardProps) {
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [difficulty, setDifficulty] = useState<DifficultyLevel | null>(null)
+
+  // Load difficulty on mount
+  useEffect(() => {
+    const currentDifficulty = getWordDifficulty(word.word)
+    setDifficulty(currentDifficulty)
+  }, [word.word])
+
+  const handleIncreaseDifficulty = () => {
+    const newDifficulty = increaseDifficulty(word.word)
+    setDifficulty(newDifficulty)
+  }
+
+  const handleDecreaseDifficulty = () => {
+    const newDifficulty = decreaseDifficulty(word.word)
+    setDifficulty(newDifficulty)
+  }
 
   const pronounceWord = async (wordText: string) => {
     try {
@@ -172,12 +197,40 @@ export function VocabularyWordCard({
               {word.part_of_speech}
             </CardDescription>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex flex-col gap-2">
             <CompleteStudyButton
               topicTitle={word.word}
               customPath={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}
               category="vocabulary"
             />
+            {/* Difficulty Controls */}
+            <div className="flex items-center gap-1">
+              <Button
+                onClick={handleDecreaseDifficulty}
+                disabled={difficulty === null || difficulty === 0}
+                variant="outline"
+                size="sm"
+                className="h-7 w-7 p-0"
+                title="Decrease difficulty"
+              >
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+              <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                difficulty !== null ? getDifficultyColor(difficulty) : 'bg-muted text-muted-foreground'
+              }`}>
+                {difficulty !== null ? getDifficultyLabel(difficulty) : 'Not set'}
+              </div>
+              <Button
+                onClick={handleIncreaseDifficulty}
+                disabled={difficulty === 3}
+                variant="outline"
+                size="sm"
+                className="h-7 w-7 p-0"
+                title="Increase difficulty"
+              >
+                <ChevronUp className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </CardHeader>
