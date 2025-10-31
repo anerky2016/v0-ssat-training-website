@@ -9,9 +9,23 @@ echo "========================================="
 echo "Starting deployment..."
 echo "========================================="
 
-# Pull latest changes from git
+# Pull latest changes from git and check if anything was updated
 echo ""
-echo "📥 Pulling latest changes from git..."
+echo "📥 Checking for updates from git..."
+git fetch origin
+
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/main)
+
+if [ "$LOCAL" = "$REMOTE" ]; then
+    echo ""
+    echo "========================================="
+    echo "✅ Already up to date! No deployment needed."
+    echo "========================================="
+    exit 0
+fi
+
+echo "📥 Pulling latest changes..."
 git pull
 
 # Install dependencies
