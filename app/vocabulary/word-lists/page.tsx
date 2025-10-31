@@ -122,9 +122,15 @@ export default function WordListsPage() {
     // Calculate drag offset for real-time card movement
     const offset = currentTouch - touchStart
     setDragOffset(offset)
+
+    // Prevent browser navigation when swiping horizontally
+    // Only prevent if there's significant horizontal movement
+    if (Math.abs(offset) > 10) {
+      e.preventDefault()
+    }
   }
 
-  const onTouchEnd = () => {
+  const onTouchEnd = (e: React.TouchEvent) => {
     setIsDragging(false)
     setDragOffset(0)
 
@@ -137,6 +143,11 @@ export default function WordListsPage() {
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
+
+    // Prevent browser back/forward navigation
+    if (Math.abs(distance) > 10) {
+      e.preventDefault()
+    }
 
     if (isLeftSwipe && currentCardIndex < filteredWords.length - 1) {
       goToNextCard()
@@ -367,8 +378,13 @@ export default function WordListsPage() {
 
                   <div
                     id="word-list"
-                    className="relative overflow-visible touch-pan-y"
-                    style={{ perspective: '1200px', minHeight: '600px' }}
+                    className="relative overflow-visible"
+                    style={{
+                      perspective: '1200px',
+                      minHeight: '600px',
+                      touchAction: 'pan-y',
+                      overscrollBehavior: 'contain'
+                    }}
                     onTouchStart={onTouchStart}
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
