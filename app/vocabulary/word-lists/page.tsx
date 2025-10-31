@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ListChecks, ArrowLeft } from "lucide-react"
+import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
@@ -15,7 +15,24 @@ export default function WordListsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [currentCardIndex, setCurrentCardIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null)
   const wordsPerPage = 20
+  const minSwipeDistance = 50
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640) // sm breakpoint
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Calculate letter counts
   const letterCounts = useMemo(() => {
@@ -47,12 +64,63 @@ export default function WordListsPage() {
     setSearchTerm(e.target.value)
     setSelectedLetter(null) // Clear letter filter when searching
     setCurrentPage(1)
+    setCurrentCardIndex(0)
   }
 
   // Handle letter selection
   const handleLetterClick = (letter: string) => {
     setSelectedLetter(letter === selectedLetter ? null : letter)
     setCurrentPage(1)
+    setCurrentCardIndex(0)
+  }
+
+  // Touch event handlers for swipe
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+    setSwipeDirection(null)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      goToNextCard()
+    } else if (isRightSwipe) {
+      goToPreviousCard()
+    }
+
+    setTouchStart(null)
+    setTouchEnd(null)
+  }
+
+  // Card navigation for mobile
+  const goToNextCard = () => {
+    if (currentCardIndex < filteredWords.length - 1) {
+      setSwipeDirection('left')
+      setTimeout(() => {
+        setCurrentCardIndex(prev => prev + 1)
+        setSwipeDirection(null)
+      }, 150)
+    }
+  }
+
+  const goToPreviousCard = () => {
+    if (currentCardIndex > 0) {
+      setSwipeDirection('right')
+      setTimeout(() => {
+        setCurrentCardIndex(prev => prev - 1)
+        setSwipeDirection(null)
+      }, 150)
+    }
   }
 
   // Pagination calculations
@@ -161,7 +229,7 @@ export default function WordListsPage() {
                   </div>
                 </div>
 
-                {filteredWords.length > wordsPerPage && (
+                {!isMobile && filteredWords.length > wordsPerPage && (
                   <div className="mt-4 text-sm text-muted-foreground">
                     Showing {startIndex + 1}-{Math.min(endIndex, filteredWords.length)} of {filteredWords.length} words
                   </div>
@@ -175,11 +243,64 @@ export default function WordListsPage() {
                 className="mb-6"
               />
 
-              <div id="word-list" className="space-y-6">
-                {currentWords.map((word, index) => (
-                  <VocabularyWordCard key={startIndex + index} word={word} />
-                ))}
-              </div>
+              {/* Mobile Card View with Swipe */}
+              {isMobile && filteredWords.length > 0 ? (
+                <div className="mb-6">
+                  <div
+                    id="word-list"
+                    className="relative overflow-hidden"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                  >
+                    <div
+                      className={`transition-all duration-200 ${
+                        swipeDirection === 'left'
+                          ? '-translate-x-8 opacity-50'
+                          : swipeDirection === 'right'
+                          ? 'translate-x-8 opacity-50'
+                          : 'translate-x-0 opacity-100'
+                      }`}
+                    >
+                      <VocabularyWordCard word={filteredWords[currentCardIndex]} />
+                    </div>
+                  </div>
+
+                  {/* Mobile Navigation Controls */}
+                  <div className="flex items-center justify-between mt-4 gap-4">
+                    <Button
+                      onClick={goToPreviousCard}
+                      disabled={currentCardIndex === 0}
+                      variant="outline"
+                      size="lg"
+                      className="flex-1 disabled:opacity-40"
+                    >
+                      <ChevronLeft className="h-5 w-5 mr-2" />
+                      Previous
+                    </Button>
+                    <div className="text-sm text-muted-foreground whitespace-nowrap">
+                      {currentCardIndex + 1} / {filteredWords.length}
+                    </div>
+                    <Button
+                      onClick={goToNextCard}
+                      disabled={currentCardIndex === filteredWords.length - 1}
+                      variant="outline"
+                      size="lg"
+                      className="flex-1 disabled:opacity-40"
+                    >
+                      Next
+                      <ChevronRight className="h-5 w-5 ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                /* Desktop List View */
+                <div id="word-list" className="space-y-6">
+                  {currentWords.map((word, index) => (
+                    <VocabularyWordCard key={startIndex + index} word={word} />
+                  ))}
+                </div>
+              )}
 
               {filteredWords.length === 0 && (
                 <Card className="border-dashed">
@@ -189,8 +310,8 @@ export default function WordListsPage() {
                 </Card>
               )}
 
-              {/* Pagination Controls */}
-              {filteredWords.length > wordsPerPage && (
+              {/* Pagination Controls - Desktop Only */}
+              {!isMobile && filteredWords.length > wordsPerPage && (
                 <div className="mt-8">
                   {/* Page Numbers - Centered */}
                   <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center mb-4">
