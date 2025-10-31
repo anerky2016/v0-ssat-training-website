@@ -22,6 +22,7 @@ export default function WordListsPage() {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffset, setDragOffset] = useState(0)
+  const [mobileLetterSelected, setMobileLetterSelected] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
@@ -67,13 +68,40 @@ export default function WordListsPage() {
     setSelectedLetter(null) // Clear letter filter when searching
     setCurrentPage(1)
     setCurrentCardIndex(0)
+
+    // On mobile, show cards directly when searching
+    if (isMobile && e.target.value) {
+      setMobileLetterSelected(true)
+    }
   }
 
   // Handle letter selection
   const handleLetterClick = (letter: string) => {
-    setSelectedLetter(letter === selectedLetter ? null : letter)
+    const newLetter = letter === selectedLetter ? null : letter
+    setSelectedLetter(newLetter)
     setCurrentPage(1)
     setCurrentCardIndex(0)
+
+    // On mobile, mark letter as selected to show cards
+    if (isMobile && newLetter) {
+      setMobileLetterSelected(true)
+    }
+  }
+
+  // Handle "All Words" selection on mobile
+  const handleAllWordsClick = () => {
+    setSelectedLetter(null)
+    setCurrentPage(1)
+    setCurrentCardIndex(0)
+    setMobileLetterSelected(true)
+  }
+
+  // Return to alphabet selection on mobile
+  const handleBackToAlphabet = () => {
+    setMobileLetterSelected(false)
+    setSelectedLetter(null)
+    setCurrentCardIndex(0)
+    setSearchTerm('') // Clear search when returning to alphabet
   }
 
   // Touch event handlers for swipe
@@ -254,16 +282,68 @@ export default function WordListsPage() {
                 )}
               </div>
 
-              <VocabularyAlphabetNav
-                selectedLetter={selectedLetter}
-                onLetterClick={handleLetterClick}
-                letterCounts={letterCounts}
-                className="mb-6"
-              />
+              {/* Show alphabet nav on desktop or when no letter selected on mobile */}
+              {!isMobile && (
+                <VocabularyAlphabetNav
+                  selectedLetter={selectedLetter}
+                  onLetterClick={handleLetterClick}
+                  letterCounts={letterCounts}
+                  className="mb-6"
+                />
+              )}
+
+              {/* Mobile: Alphabet Selection Screen */}
+              {isMobile && !mobileLetterSelected ? (
+                <div className="mb-6">
+                  <Card className="p-6 border-chart-5 bg-chart-5/5">
+                    <h2 className="text-xl font-bold text-center mb-4">Select a Letter to Start</h2>
+                    <p className="text-sm text-muted-foreground text-center mb-6">
+                      Choose a letter to study vocabulary words, or browse all words
+                    </p>
+
+                    <VocabularyAlphabetNav
+                      selectedLetter={selectedLetter}
+                      onLetterClick={handleLetterClick}
+                      letterCounts={letterCounts}
+                      className="mb-4"
+                    />
+
+                    <Button
+                      onClick={handleAllWordsClick}
+                      variant="default"
+                      size="lg"
+                      className="w-full bg-chart-5 hover:bg-chart-5/90 mt-4"
+                    >
+                      <ListChecks className="h-5 w-5 mr-2" />
+                      Browse All {filteredWords.length} Words
+                    </Button>
+                  </Card>
+                </div>
+              ) : null}
 
               {/* Mobile Card View with Swipe */}
-              {isMobile && filteredWords.length > 0 ? (
+              {isMobile && mobileLetterSelected && filteredWords.length > 0 ? (
                 <div className="mb-6">
+                  {/* Back Button and Letter Info */}
+                  <div className="flex items-center justify-between mb-4">
+                    <Button
+                      onClick={handleBackToAlphabet}
+                      variant="outline"
+                      size="sm"
+                      className="gap-2"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      Change Letter
+                    </Button>
+                    <div className="text-sm font-medium text-muted-foreground">
+                      {selectedLetter ? (
+                        <>Letter <span className="text-chart-5 font-bold text-lg">{selectedLetter}</span> • {filteredWords.length} words</>
+                      ) : (
+                        <>All Words • {filteredWords.length} total</>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Swipe Hint */}
                   <div className="text-center mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
                     <ChevronLeft className="h-4 w-4 animate-pulse" />
