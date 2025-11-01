@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import ReactCardFlip from "react-card-flip"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown } from "lucide-react"
@@ -104,26 +105,16 @@ export function VocabularyFlashcard({
 
   return (
     <div
-      className="relative w-full cursor-pointer mb-6"
-      onClick={onFlip}
+      className="w-full mb-6"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
-      style={{ perspective: "1000px", minHeight: "500px" }}
     >
-      <div
-        className="w-full transition-transform duration-500"
-        style={{
-          transformStyle: "preserve-3d",
-          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-        }}
-      >
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
         {/* Front of card */}
         <Card
-          className={`w-full border-2 border-chart-7 bg-card flex items-center justify-center min-h-[500px] ${isFlipped ? 'absolute' : ''}`}
-          style={{
-            backfaceVisibility: "hidden",
-          }}
+          className="w-full border-2 border-chart-7 bg-card flex items-center justify-center min-h-[500px] cursor-pointer"
+          onClick={onFlip}
         >
           <CardContent className="text-center p-8 w-full">
             {/* Difficulty Badge - Front */}
@@ -176,11 +167,8 @@ export function VocabularyFlashcard({
 
         {/* Back of card */}
         <Card
-          className={`w-full h-auto border-2 border-chart-7 bg-card ${!isFlipped ? 'absolute' : ''}`}
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
+          className="w-full h-auto border-2 border-chart-7 bg-card cursor-pointer"
+          onClick={onFlip}
         >
           <CardContent className="p-6 sm:p-8">
             {/* Difficulty Controls - Back */}
@@ -356,7 +344,7 @@ export function VocabularyFlashcard({
             </div>
           </CardContent>
         </Card>
-      </div>
+      </ReactCardFlip>
     </div>
   )
 }
