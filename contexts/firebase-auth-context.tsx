@@ -30,16 +30,43 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     if (!auth) {
+      console.log('🔐 Auth: No Firebase auth instance available')
       setLoading(false)
       return
     }
 
+    console.log('🔐 Auth: Starting auth state check...')
+    const startTime = Date.now()
+
+    // Check if we already have a cached user synchronously
+    if (auth.currentUser) {
+      console.log('🚀 Auth: Found cached user immediately:', auth.currentUser.email)
+      setUser(auth.currentUser)
+      setLoading(false)
+      // Still set up the listener to catch any auth changes
+    } else {
+      console.log('👀 Auth: No cached user, waiting for auth state...')
+    }
+
+    // Set a timeout to prevent indefinite waiting
+    const timeout = setTimeout(() => {
+      console.warn('⚠️ Auth: Auth state check timeout after 5s, proceeding without auth')
+      setUser(null)
+      setLoading(false)
+    }, 5000)
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const elapsed = Date.now() - startTime
+      console.log(`✅ Auth: Auth state resolved in ${elapsed}ms, user: ${user ? user.email || 'anonymous' : 'none'}`)
+      clearTimeout(timeout)
       setUser(user)
       setLoading(false)
     })
 
-    return () => unsubscribe()
+    return () => {
+      clearTimeout(timeout)
+      unsubscribe()
+    }
   }, [])
 
   const signOut = async () => {
