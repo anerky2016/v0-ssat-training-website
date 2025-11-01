@@ -17,6 +17,7 @@ import {
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
+import { useAuth } from "@/contexts/firebase-auth-context"
 
 export interface VocabularyWord {
   word: string
@@ -40,6 +41,7 @@ export function VocabularyWordCard({
   showTooltip = true,
   showAudio = true
 }: VocabularyWordCardProps) {
+  const { loading: authLoading } = useAuth()
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
@@ -47,15 +49,19 @@ export function VocabularyWordCard({
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
   // Initialize difficulties from Supabase and load current word difficulty
+  // Wait for auth to be ready to ensure user session is restored
   useEffect(() => {
     const loadDifficulty = async () => {
+      // Wait for auth to finish loading before initializing
+      if (authLoading) return
+
       await initializeDifficulties()
       const currentDifficulty = getWordDifficulty(word.word)
       setDifficulty(currentDifficulty)
     }
 
     loadDifficulty()
-  }, [word.word])
+  }, [word.word, authLoading])
 
   const handleIncreaseDifficulty = async () => {
     const newDifficulty = await increaseDifficulty(word.word)
