@@ -44,6 +44,7 @@ export function VocabularyWordCard({
   const [isPlaying, setIsPlaying] = useState(false)
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
   const [showHistory, setShowHistory] = useState(false)
+  const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
   // Initialize difficulties from Supabase and load current word difficulty
   useEffect(() => {
@@ -59,11 +60,13 @@ export function VocabularyWordCard({
   const handleIncreaseDifficulty = async () => {
     const newDifficulty = await increaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
   }
 
   const handleDecreaseDifficulty = async () => {
     const newDifficulty = await decreaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
   }
 
   const pronounceWord = async (wordText: string) => {
@@ -397,7 +400,7 @@ export function VocabularyWordCard({
 
           {showHistory && (
             <div className="mt-3">
-              <DifficultyHistoryTimeline word={word.word} />
+              <DifficultyHistoryTimeline word={word.word} refreshTrigger={historyRefreshTrigger} />
             </div>
           )}
         </div>

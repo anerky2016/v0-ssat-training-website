@@ -11,9 +11,10 @@ import type { VocabularyDifficultyHistoryData } from "@/lib/supabase"
 interface DifficultyHistoryTimelineProps {
   word: string
   className?: string
+  refreshTrigger?: number // Optional trigger to force refresh
 }
 
-export function DifficultyHistoryTimeline({ word, className = "" }: DifficultyHistoryTimelineProps) {
+export function DifficultyHistoryTimeline({ word, className = "", refreshTrigger }: DifficultyHistoryTimelineProps) {
   const [history, setHistory] = useState<VocabularyDifficultyHistoryData[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -26,7 +27,7 @@ export function DifficultyHistoryTimeline({ word, className = "" }: DifficultyHi
     }
 
     loadHistory()
-  }, [word])
+  }, [word, refreshTrigger])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
