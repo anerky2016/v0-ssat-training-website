@@ -38,33 +38,52 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     console.log('🔐 Auth: Starting auth state check...')
     const startTime = Date.now()
 
-    // Check if we already have a cached user synchronously
-    if (auth.currentUser) {
-      console.log('🚀 Auth: Found cached user immediately:', auth.currentUser.email)
-      setUser(auth.currentUser)
-      setLoading(false)
-      // Still set up the listener to catch any auth changes
-    } else {
-      console.log('👀 Auth: No cached user, waiting for auth state...')
+    let cancelled = false
+
+    // Use authStateReady() for faster initial auth state
+    const initAuth = async () => {
+      try {
+        // Wait for auth state to be ready with a timeout
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('timeout')), 2000)
+        )
+
+        await Promise.race([
+          auth.authStateReady(),
+          timeoutPromise
+        ])
+
+        if (!cancelled) {
+          const elapsed = Date.now() - startTime
+          const user = auth.currentUser
+          console.log(`✅ Auth: Auth ready in ${elapsed}ms, user: ${user ? user.email || user.uid : 'none'}`)
+          setUser(user)
+          setLoading(false)
+        }
+      } catch (error) {
+        if (!cancelled) {
+          const elapsed = Date.now() - startTime
+          console.warn(`⚠️ Auth: Auth check timeout after ${elapsed}ms, using current state`)
+          // Use whatever state we have now
+          setUser(auth.currentUser)
+          setLoading(false)
+        }
+      }
     }
 
-    // Set a timeout to prevent indefinite waiting
-    const timeout = setTimeout(() => {
-      console.warn('⚠️ Auth: Auth state check timeout after 5s, proceeding without auth')
-      setUser(null)
-      setLoading(false)
-    }, 5000)
+    initAuth()
 
+    // Also set up listener for future auth changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const elapsed = Date.now() - startTime
-      console.log(`✅ Auth: Auth state resolved in ${elapsed}ms, user: ${user ? user.email || 'anonymous' : 'none'}`)
-      clearTimeout(timeout)
-      setUser(user)
-      setLoading(false)
+      if (!cancelled) {
+        console.log(`🔄 Auth: State changed, user: ${user ? user.email || user.uid : 'none'}`)
+        setUser(user)
+        setLoading(false)
+      }
     })
 
     return () => {
-      clearTimeout(timeout)
+      cancelled = true
       unsubscribe()
     }
   }, [])
