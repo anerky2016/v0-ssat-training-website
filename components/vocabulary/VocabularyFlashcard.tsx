@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import ReactCardFlip from "react-card-flip"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown } from "lucide-react"
+import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown, MousePointerClick, RotateCcw } from "lucide-react"
 import {
   getWordDifficulty,
   increaseDifficulty,
@@ -159,8 +159,9 @@ export function VocabularyFlashcard({
                 <span className="text-sm font-medium">Mastered</span>
               </div>
             )}
-            <div className="mt-12 text-sm text-muted-foreground">
-              Click to reveal definition
+            <div className="mt-12 flex items-center justify-center gap-3 text-base text-muted-foreground font-medium">
+              <MousePointerClick className="h-6 w-6 text-chart-7" />
+              <span>Click to reveal definition</span>
             </div>
           </CardContent>
         </Card>
@@ -339,8 +340,9 @@ export function VocabularyFlashcard({
                 </div>
               )}
             </div>
-            <div className="mt-6 text-sm text-muted-foreground text-center">
-              Click to flip back
+            <div className="mt-6 flex items-center justify-center gap-3 text-base text-muted-foreground font-medium">
+              <RotateCcw className="h-6 w-6 text-chart-7" />
+              <span>Click to flip back</span>
             </div>
           </CardContent>
         </Card>

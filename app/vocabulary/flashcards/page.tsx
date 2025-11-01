@@ -20,6 +20,15 @@ export default function FlashcardsPage() {
   const [showDetails, setShowDetails] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
+  // Get source page parameter
+  const fromPage = searchParams.get('from') || 'vocabulary'
+  const selectedLetter = searchParams.get('letter')
+
+  // Determine back link based on source
+  const backLink = fromPage === 'word-lists'
+    ? `/vocabulary/word-lists${selectedLetter ? `?letter=${selectedLetter}` : ''}`
+    : '/vocabulary'
+
   // Filter words based on query parameter
   const words = useMemo(() => {
     const wordsParam = searchParams.get('words')
@@ -256,10 +265,10 @@ export default function FlashcardsPage() {
               </div>
 
               <div className="mt-6 text-center">
-                <Link href="/vocabulary/word-lists">
+                <Link href={backLink}>
                   <Button variant="default" size="lg" className="bg-chart-5 hover:bg-chart-5/90">
                     <ArrowLeft className="h-5 w-5 mr-2" />
-                    View Full Word List
+                    {fromPage === 'word-lists' ? 'Back to Word List' : 'View Full Word List'}
                   </Button>
                 </Link>
               </div>

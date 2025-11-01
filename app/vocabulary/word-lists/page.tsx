@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,6 +13,7 @@ import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
 import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
 
 export default function WordListsPage() {
+  const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -37,6 +39,16 @@ export default function WordListsPage() {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Initialize from URL parameters
+  useEffect(() => {
+    const letter = searchParams.get('letter')
+    if (letter) {
+      setSelectedLetter(letter.toUpperCase())
+      setMobileLetterSelected(true)
+      setDesktopLetterSelected(true)
+    }
+  }, [searchParams])
 
   // Calculate letter counts
   const letterCounts = useMemo(() => {
@@ -660,7 +672,7 @@ export default function WordListsPage() {
                   <Link
                     href={`/vocabulary/flashcards?words=${encodeURIComponent(
                       filteredWords.map(w => w.word).join(',')
-                    )}`}
+                    )}&from=word-lists${selectedLetter ? `&letter=${selectedLetter}` : ''}`}
                   >
                     <Button size="lg" className="bg-chart-5 hover:bg-chart-5/90">
                       Practice with Flashcards ({filteredWords.length} words)
