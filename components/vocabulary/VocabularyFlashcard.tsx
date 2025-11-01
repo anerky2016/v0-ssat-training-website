@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import ReactCardFlip from "react-card-flip"
+import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown, MousePointerClick, RotateCcw } from "lucide-react"
@@ -109,12 +109,19 @@ export function VocabularyFlashcard({
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      style={{ perspective: "1000px" }}
     >
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+      <motion.div
+        className="relative w-full"
+        style={{ transformStyle: "preserve-3d" }}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+      >
         {/* Front of card */}
         <Card
           className="w-full border-2 border-chart-7 bg-card flex items-center justify-center min-h-[500px] cursor-pointer"
           onClick={onFlip}
+          style={{ backfaceVisibility: "hidden" }}
         >
           <CardContent className="text-center p-8 w-full">
             {/* Difficulty Badge - Front */}
@@ -168,8 +175,9 @@ export function VocabularyFlashcard({
 
         {/* Back of card */}
         <Card
-          className="w-full h-auto border-2 border-chart-7 bg-card cursor-pointer"
+          className="absolute top-0 left-0 w-full h-auto border-2 border-chart-7 bg-card cursor-pointer"
           onClick={onFlip}
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <CardContent className="p-6 sm:p-8">
             {/* Difficulty Controls - Back */}
@@ -346,7 +354,7 @@ export function VocabularyFlashcard({
             </div>
           </CardContent>
         </Card>
-      </ReactCardFlip>
+      </motion.div>
     </div>
   )
 }
