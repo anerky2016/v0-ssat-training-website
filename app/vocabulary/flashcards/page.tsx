@@ -19,6 +19,12 @@ export default function FlashcardsPage() {
   const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set())
   const [showDetails, setShowDetails] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [debugLogs, setDebugLogs] = useState<string[]>([])
+
+  const addDebugLog = (message: string) => {
+    const timestamp = new Date().toLocaleTimeString()
+    setDebugLogs(prev => [...prev, `[${timestamp}] ${message}`].slice(-10)) // Keep last 10 logs
+  }
 
   // Get source page parameter
   const fromPage = searchParams.get('from') || 'vocabulary'
@@ -49,6 +55,7 @@ export default function FlashcardsPage() {
 
   const pronounceWord = async (word: string) => {
     try {
+      addDebugLog(`🔊 Pronunciation requested for: "${word}"`)
       setIsPlaying(true)
 
       let arrayBuffer: ArrayBuffer
@@ -57,8 +64,10 @@ export default function FlashcardsPage() {
       const cachedAudio = audioCache.get(word)
 
       if (cachedAudio) {
+        addDebugLog(`✅ Audio found in cache`)
         arrayBuffer = cachedAudio
       } else {
+        addDebugLog(`📡 Fetching audio from TTS API...`)
         // Call the Google Cloud TTS API
         const response = await fetch('/api/tts', {
           method: 'POST',
@@ -69,33 +78,42 @@ export default function FlashcardsPage() {
         })
 
         if (!response.ok) {
+          addDebugLog(`❌ TTS API failed: ${response.status}`)
           throw new Error('Failed to generate speech')
         }
 
+        addDebugLog(`✅ Audio received from TTS API`)
         const audioBlob = await response.blob()
         arrayBuffer = await audioBlob.arrayBuffer()
+        addDebugLog(`📦 Audio size: ${arrayBuffer.byteLength} bytes`)
 
         // Cache the audio for future use
         audioCache.set(word, arrayBuffer)
+        addDebugLog(`💾 Audio cached`)
       }
 
       // Use HTML5 Audio for better mobile compatibility
+      addDebugLog(`🎵 Creating audio element...`)
       const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
       const audioUrl = URL.createObjectURL(blob)
       const audio = new Audio(audioUrl)
 
       // Set volume to maximum for iOS
       audio.volume = 1.0
+      addDebugLog(`🔊 Volume set to: ${audio.volume}`)
 
       // Load the audio first (important for iOS)
       audio.load()
+      addDebugLog(`⏳ Loading audio...`)
 
       audio.onended = () => {
+        addDebugLog(`✅ Audio playback completed`)
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
       }
 
       audio.onerror = (e) => {
+        addDebugLog(`❌ Audio error: ${e}`)
         console.error('Audio error:', e)
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
@@ -103,10 +121,13 @@ export default function FlashcardsPage() {
       }
 
       audio.onloadeddata = async () => {
+        addDebugLog(`✅ Audio loaded, attempting to play...`)
         try {
           // Play audio after it's loaded - this works better on iOS
           await audio.play()
+          addDebugLog(`▶️ Playback started successfully`)
         } catch (playError) {
+          addDebugLog(`❌ Play error: ${playError}`)
           console.error('Play error:', playError)
           setIsPlaying(false)
           URL.revokeObjectURL(audioUrl)
@@ -114,16 +135,25 @@ export default function FlashcardsPage() {
         }
       }
     } catch (error) {
+      addDebugLog(`❌ Error: ${error}`)
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)
 
       // Fallback to browser TTS
+      addDebugLog(`🔄 Falling back to browser TTS...`)
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(word)
         utterance.rate = 0.9
-        utterance.onend = () => setIsPlaying(false)
-        utterance.onerror = () => setIsPlaying(false)
+        utterance.onend = () => {
+          addDebugLog(`✅ Browser TTS completed`)
+          setIsPlaying(false)
+        }
+        utterance.onerror = () => {
+          addDebugLog(`❌ Browser TTS error`)
+          setIsPlaying(false)
+        }
         window.speechSynthesis.speak(utterance)
+        addDebugLog(`🗣️ Browser TTS started`)
       }
     }
   }
@@ -315,6 +345,34 @@ export default function FlashcardsPage() {
                   <p>• Notice patterns in synonyms to build your vocabulary network</p>
                 </CardContent>
               </Card>
+
+              {/* Debug Console */}
+              {debugLogs.length > 0 && (
+                <Card className="mt-8 border-orange-500 bg-orange-50 dark:bg-orange-950/20">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-orange-700 dark:text-orange-400">Audio Debug Console</CardTitle>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setDebugLogs([])}
+                        className="text-orange-600 hover:text-orange-700"
+                      >
+                        Clear
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-black/80 text-green-400 p-4 rounded font-mono text-xs sm:text-sm max-h-64 overflow-y-auto">
+                      {debugLogs.map((log, idx) => (
+                        <div key={idx} className="mb-1">
+                          {log}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         </section>
