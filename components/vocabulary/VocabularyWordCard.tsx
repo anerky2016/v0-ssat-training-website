@@ -101,19 +101,35 @@ export function VocabularyWordCard({
       const audioUrl = URL.createObjectURL(blob)
       const audio = new Audio(audioUrl)
 
+      // Set volume to maximum for iOS
+      audio.volume = 1.0
+
+      // Load the audio first (important for iOS)
+      audio.load()
+
       audio.onended = () => {
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
       }
 
-      audio.onerror = () => {
+      audio.onerror = (e) => {
+        console.error('Audio error:', e)
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
         throw new Error('Audio playback failed')
       }
 
-      // Play audio - this works better on iOS
-      await audio.play()
+      audio.onloadeddata = async () => {
+        try {
+          // Play audio after it's loaded - this works better on iOS
+          await audio.play()
+        } catch (playError) {
+          console.error('Play error:', playError)
+          setIsPlaying(false)
+          URL.revokeObjectURL(audioUrl)
+          throw playError
+        }
+      }
     } catch (error) {
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)
