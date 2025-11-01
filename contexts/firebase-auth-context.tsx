@@ -39,12 +39,18 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     const startTime = Date.now()
 
     // Use onAuthStateChanged - it fires immediately when auth state is first known
+    const setupStart = Date.now()
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const elapsed = Date.now() - startTime
-      console.log(`✅ Auth: State resolved in ${elapsed}ms, user: ${user ? user.email || user.uid : 'none'}`)
+      const totalElapsed = Date.now() - startTime
+      const callbackDelay = Date.now() - setupStart
+      console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms (total: ${totalElapsed}ms)`)
+      console.log(`   User: ${user ? user.email || user.uid : 'none'}`)
+      console.log(`   This delay suggests: ${callbackDelay > 10000 ? '🐌 SLOW FIREBASE AUTH SERVER RESPONSE or IndexedDB issue' : callbackDelay > 1000 ? '⚠️ Slow network or token validation' : '✅ Normal performance'}`)
       setUser(user)
       setLoading(false)
     })
+    const setupEnd = Date.now()
+    console.log(`🔐 Auth: Observer setup completed in ${setupEnd - setupStart}ms, waiting for callback...`)
 
     return () => unsubscribe()
   }, [])
