@@ -34,6 +34,8 @@ interface VocabularyFlashcardProps {
   onFlip: () => void
   onPronounce: (word: string) => void
   onToggleDetails: () => void
+  onNext?: () => void
+  onPrevious?: () => void
 }
 
 export function VocabularyFlashcard({
@@ -45,8 +47,12 @@ export function VocabularyFlashcard({
   onFlip,
   onPronounce,
   onToggleDetails,
+  onNext,
+  onPrevious,
 }: VocabularyFlashcardProps) {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   // Initialize difficulty from storage
   useEffect(() => {
@@ -70,10 +76,39 @@ export function VocabularyFlashcard({
     setDifficulty(newDifficulty)
   }
 
+  // Minimum swipe distance (in px) to trigger navigation
+  const minSwipeDistance = 50
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe && onNext) {
+      onNext()
+    } else if (isRightSwipe && onPrevious) {
+      onPrevious()
+    }
+  }
+
   return (
     <div
       className="relative w-full cursor-pointer mb-6"
       onClick={onFlip}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
       style={{ perspective: "1000px", minHeight: "500px" }}
     >
       <div

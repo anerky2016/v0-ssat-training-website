@@ -184,6 +184,8 @@ export default function FlashcardsPage() {
                   onFlip={handleFlip}
                   onPronounce={pronounceWord}
                   onToggleDetails={() => setShowDetails(!showDetails)}
+                  onNext={handleNext}
+                  onPrevious={handlePrevious}
                 />
               </div>
 
