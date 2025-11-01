@@ -1,8 +1,18 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Info, Volume2, AudioWaveform } from "lucide-react"
+import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown } from "lucide-react"
+import {
+  getWordDifficulty,
+  increaseDifficulty,
+  decreaseDifficulty,
+  getDifficultyLabel,
+  getDifficultyColor,
+  initializeDifficulties,
+  type DifficultyLevel
+} from "@/lib/vocabulary-difficulty"
 
 export interface VocabularyWord {
   word: string
@@ -36,14 +46,38 @@ export function VocabularyFlashcard({
   onPronounce,
   onToggleDetails,
 }: VocabularyFlashcardProps) {
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
+
+  // Initialize difficulty from storage
+  useEffect(() => {
+    const loadDifficulty = async () => {
+      await initializeDifficulties()
+      const currentDifficulty = getWordDifficulty(word.word)
+      setDifficulty(currentDifficulty)
+    }
+    loadDifficulty()
+  }, [word.word])
+
+  const handleIncreaseDifficulty = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newDifficulty = await increaseDifficulty(word.word)
+    setDifficulty(newDifficulty)
+  }
+
+  const handleDecreaseDifficulty = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newDifficulty = await decreaseDifficulty(word.word)
+    setDifficulty(newDifficulty)
+  }
+
   return (
     <div
-      className="relative w-full h-[500px] cursor-pointer mb-6"
+      className="relative w-full cursor-pointer mb-6"
       onClick={onFlip}
-      style={{ perspective: "1000px" }}
+      style={{ perspective: "1000px", minHeight: "500px" }}
     >
       <div
-        className="absolute w-full h-full transition-transform duration-500"
+        className="w-full transition-transform duration-500"
         style={{
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -51,12 +85,19 @@ export function VocabularyFlashcard({
       >
         {/* Front of card */}
         <Card
-          className="absolute w-full h-full border-2 border-chart-7 bg-card flex items-center justify-center"
+          className={`w-full border-2 border-chart-7 bg-card flex items-center justify-center min-h-[500px] ${isFlipped ? 'absolute' : ''}`}
           style={{
             backfaceVisibility: "hidden",
           }}
         >
           <CardContent className="text-center p-8 w-full">
+            {/* Difficulty Badge - Front */}
+            <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
+              <div className={`px-3 py-1 rounded text-xs font-medium ${getDifficultyColor(difficulty)}`}>
+                {getDifficultyLabel(difficulty)}
+              </div>
+            </div>
+
             <div className="text-5xl font-bold text-foreground mb-3">
               {word.word}
             </div>
@@ -100,13 +141,47 @@ export function VocabularyFlashcard({
 
         {/* Back of card */}
         <Card
-          className="absolute w-full h-full border-2 border-chart-7 bg-card overflow-y-auto"
+          className={`w-full h-auto border-2 border-chart-7 bg-card ${!isFlipped ? 'absolute' : ''}`}
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
         >
-          <CardContent className="p-6 sm:p-8 h-full overflow-y-auto">
+          <CardContent className="p-6 sm:p-8">
+            {/* Difficulty Controls - Back */}
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
+                Difficulty Level
+              </h3>
+              <div className="flex items-center gap-1.5">
+                <Button
+                  onClick={handleDecreaseDifficulty}
+                  disabled={difficulty === 0}
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                  title="Decrease difficulty"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+                <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                  getDifficultyColor(difficulty)
+                }`}>
+                  {getDifficultyLabel(difficulty)}
+                </div>
+                <Button
+                  onClick={handleIncreaseDifficulty}
+                  disabled={difficulty === 3}
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                  title="Increase difficulty"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
             <div className="space-y-4">
               {/* Meanings */}
               <div>
