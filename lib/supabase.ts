@@ -1082,3 +1082,115 @@ export async function deleteVocabularyDifficulty(
     return false
   }
 }
+
+// ===== VOCABULARY DIFFICULTY HISTORY =====
+
+export interface VocabularyDifficultyHistoryData {
+  id?: string
+  user_id: string
+  word: string
+  old_difficulty: DifficultyLevel | null
+  new_difficulty: DifficultyLevel
+  changed_at: string
+}
+
+/**
+ * Save a vocabulary difficulty change to history
+ */
+export async function saveVocabularyDifficultyHistory(
+  userId: string,
+  word: string,
+  oldDifficulty: DifficultyLevel | null,
+  newDifficulty: DifficultyLevel
+): Promise<VocabularyDifficultyHistoryData | null> {
+  if (!supabase) {
+    console.log('Supabase not configured - skipping vocabulary difficulty history save')
+    return null
+  }
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty_history')
+      .insert({
+        user_id: userId,
+        word: normalizedWord,
+        old_difficulty: oldDifficulty,
+        new_difficulty: newDifficulty,
+        changed_at: new Date().toISOString(),
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error saving vocabulary difficulty history:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Failed to save vocabulary difficulty history:', error)
+    return null
+  }
+}
+
+/**
+ * Get difficulty history for a specific word
+ */
+export async function getWordDifficultyHistory(
+  userId: string,
+  word: string,
+  limit = 50
+): Promise<VocabularyDifficultyHistoryData[]> {
+  if (!supabase) return []
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty_history')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('word', normalizedWord)
+      .order('changed_at', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      console.error('Error fetching word difficulty history:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch word difficulty history:', error)
+    return []
+  }
+}
+
+/**
+ * Get all difficulty history for a user
+ */
+export async function getUserDifficultyHistory(
+  userId: string,
+  limit = 100
+): Promise<VocabularyDifficultyHistoryData[]> {
+  if (!supabase) return []
+
+  try {
+    const { data, error } = await supabase
+      .from('vocabulary_difficulty_history')
+      .select('*')
+      .eq('user_id', userId)
+      .order('changed_at', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      console.error('Error fetching user difficulty history:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch user difficulty history:', error)
+    return []
+  }
+}

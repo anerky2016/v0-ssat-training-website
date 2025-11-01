@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -16,6 +16,7 @@ import {
   initializeDifficulties,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
+import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 
 export interface VocabularyWord {
   word: string
@@ -42,6 +43,7 @@ export function VocabularyWordCard({
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
+  const [showHistory, setShowHistory] = useState(false)
 
   // Initialize difficulties from Supabase and load current word difficulty
   useEffect(() => {
@@ -375,6 +377,30 @@ export function VocabularyWordCard({
             </ul>
           </div>
         )}
+
+        {/* Difficulty History */}
+        <div className="pt-4 border-t border-border">
+          <Button
+            onClick={() => setShowHistory(!showHistory)}
+            variant="ghost"
+            size="sm"
+            className="w-full flex items-center justify-between hover:bg-muted/50 mb-2"
+          >
+            <div className="flex items-center gap-2">
+              <History className="h-4 w-4 text-chart-5" />
+              <span className="text-sm font-semibold uppercase tracking-wide">
+                Difficulty History
+              </span>
+            </div>
+            <ChevronDown className={`h-4 w-4 transition-transform ${showHistory ? 'rotate-180' : ''}`} />
+          </Button>
+
+          {showHistory && (
+            <div className="mt-3">
+              <DifficultyHistoryTimeline word={word.word} />
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

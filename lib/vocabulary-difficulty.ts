@@ -7,6 +7,8 @@ import {
   getUserVocabularyDifficulties,
   getVocabularyDifficulty as getFromSupabase,
   deleteVocabularyDifficulty as deleteFromSupabase,
+  saveVocabularyDifficultyHistory,
+  getWordDifficultyHistory as getHistoryFromSupabase,
   type DifficultyLevel,
 } from './supabase'
 
@@ -115,6 +117,9 @@ export async function setWordDifficulty(word: string, difficulty: DifficultyLeve
   const normalizedWord = word.toLowerCase()
   const userId = getCurrentUserId()
 
+  // Get old difficulty for history tracking
+  const oldDifficulty = getWordDifficulty(normalizedWord)
+
   // Update cache immediately for UI responsiveness
   if (!difficultyCache) {
     difficultyCache = loadLocalDifficulties()
@@ -133,6 +138,11 @@ export async function setWordDifficulty(word: string, difficulty: DifficultyLeve
   if (userId) {
     try {
       await saveToSupabase(userId, normalizedWord, difficulty)
+
+      // Save to history (only if difficulty actually changed)
+      if (oldDifficulty !== difficulty) {
+        await saveVocabularyDifficultyHistory(userId, normalizedWord, oldDifficulty, difficulty)
+      }
     } catch (error) {
       console.error('Failed to save vocabulary difficulty to Supabase:', error)
     }
@@ -213,4 +223,20 @@ export function getDifficultyStats(): Record<DifficultyLevel, number> {
   })
 
   return stats
+}
+
+// Get difficulty history for a word
+export async function getWordDifficultyHistory(word: string, limit = 50) {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    return []
+  }
+
+  try {
+    const history = await getHistoryFromSupabase(userId, word, limit)
+    return history
+  } catch (error) {
+    console.error('Failed to fetch word difficulty history:', error)
+    return []
+  }
 }
