@@ -6,7 +6,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2 } from "lucide-react"
+import { Brain, ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, CheckCircle2, X } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyFlashcard } from "@/components/vocabulary/VocabularyFlashcard"
@@ -28,6 +28,11 @@ export default function FlashcardsPage() {
   const backLink = fromPage === 'word-lists'
     ? `/vocabulary/word-lists${selectedLetter ? `?letter=${selectedLetter}` : ''}`
     : '/vocabulary'
+
+  // Determine word list name
+  const wordListName = selectedLetter
+    ? `Words Starting with "${selectedLetter}"`
+    : 'All Vocabulary Words'
 
   // Filter words based on query parameter
   const words = useMemo(() => {
@@ -155,24 +160,33 @@ export default function FlashcardsPage() {
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-4xl">
-              <Link
-                href="/vocabulary"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Vocabulary
-              </Link>
-
+              {/* Word List Header with Close Button */}
               <div className="mb-8">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-7/10 text-chart-7">
-                  <Brain className="h-6 w-6" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-7/10 text-chart-7">
+                      <Brain className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                        {wordListName}
+                      </h1>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {words.length} {words.length === 1 ? 'word' : 'words'}
+                      </p>
+                    </div>
+                  </div>
+                  <Link href={backLink}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-10 w-10 rounded-full hover:bg-muted"
+                      title="Close and return to word list"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </Link>
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-                  Vocabulary Flashcards
-                </h1>
-                <p className="text-lg text-muted-foreground">
-                  Practice and master SSAT vocabulary words with interactive flashcards.
-                </p>
               </div>
 
               {/* Progress Bar */}
