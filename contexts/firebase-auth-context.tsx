@@ -35,57 +35,18 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
       return
     }
 
-    console.log('🔐 Auth: Starting auth state check...')
+    console.log('🔐 Auth: Setting up auth state observer...')
     const startTime = Date.now()
 
-    let cancelled = false
-
-    // Use authStateReady() for faster initial auth state
-    const initAuth = async () => {
-      try {
-        // Wait for auth state to be ready with a timeout
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('timeout')), 2000)
-        )
-
-        await Promise.race([
-          auth.authStateReady(),
-          timeoutPromise
-        ])
-
-        if (!cancelled) {
-          const elapsed = Date.now() - startTime
-          const user = auth.currentUser
-          console.log(`✅ Auth: Auth ready in ${elapsed}ms, user: ${user ? user.email || user.uid : 'none'}`)
-          setUser(user)
-          setLoading(false)
-        }
-      } catch (error) {
-        if (!cancelled) {
-          const elapsed = Date.now() - startTime
-          console.warn(`⚠️ Auth: Auth check timeout after ${elapsed}ms, using current state`)
-          // Use whatever state we have now
-          setUser(auth.currentUser)
-          setLoading(false)
-        }
-      }
-    }
-
-    initAuth()
-
-    // Also set up listener for future auth changes
+    // Use onAuthStateChanged - it fires immediately when auth state is first known
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!cancelled) {
-        console.log(`🔄 Auth: State changed, user: ${user ? user.email || user.uid : 'none'}`)
-        setUser(user)
-        setLoading(false)
-      }
+      const elapsed = Date.now() - startTime
+      console.log(`✅ Auth: State resolved in ${elapsed}ms, user: ${user ? user.email || user.uid : 'none'}`)
+      setUser(user)
+      setLoading(false)
     })
 
-    return () => {
-      cancelled = true
-      unsubscribe()
-    }
+    return () => unsubscribe()
   }, [])
 
   const signOut = async () => {
@@ -105,7 +66,17 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     signOut,
   }
 
-  // Don't block rendering - let components handle loading state themselves
-  // This prevents the 2-second delay on every page load
+  // Show minimal loading state while waiting for auth state observer to fire
+  // This ensures components always have correct auth state from the start
+  if (loading) {
+    return (
+      <AuthContext.Provider value={value}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100"></div>
+        </div>
+      </AuthContext.Provider>
+    )
+  }
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
