@@ -59,5 +59,20 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     signOut,
   }
 
+  // Block rendering children until auth state is loaded
+  // This ensures all child components know the correct auth state from the start
+  if (loading) {
+    return (
+      <AuthContext.Provider value={value}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100 mx-auto"></div>
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">Loading...</p>
+          </div>
+        </div>
+      </AuthContext.Provider>
+    )
+  }
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
