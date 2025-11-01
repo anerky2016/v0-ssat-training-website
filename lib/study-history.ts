@@ -41,7 +41,7 @@ export async function getStudyHistory(): Promise<StudySession[]> {
 
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in')
+    // Silent return - user may not be logged in or auth may still be loading
     return []
   }
 
@@ -68,7 +68,7 @@ export async function addStudySession(session: StudySession) {
 
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot save study session')
+    // Silent return - user may not be logged in or auth may still be loading
     return
   }
 
@@ -359,7 +359,7 @@ export async function getLessonCompletions(): Promise<LessonCompletion[]> {
 
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in')
+    // Silent return - user may not be logged in or auth may still be loading
     return []
   }
 
@@ -384,7 +384,7 @@ export async function markLessonComplete(topicPath: string, topicTitle: string) 
 
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot save lesson completion')
+    // Silent return - user may not be logged in or auth may still be loading
     return
   }
 
@@ -428,7 +428,7 @@ export async function uncompletLesson(topicPath: string) {
 
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot delete lesson completion')
+    // Silent return - user may not be logged in or auth may still be loading
     return
   }
 

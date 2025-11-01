@@ -20,7 +20,7 @@ function getCurrentUserId(): string | null {
 export async function saveBookmark(path: string, title: string): Promise<void> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot save bookmark')
+    // Silent return - user may not be logged in or auth may still be loading
     return
   }
 
@@ -34,7 +34,7 @@ export async function saveBookmark(path: string, title: string): Promise<void> {
 export async function getBookmark(): Promise<Bookmark | null> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot fetch bookmark')
+    // Silent return - user may not be logged in or auth may still be loading
     return null
   }
 
@@ -56,7 +56,7 @@ export async function getBookmark(): Promise<Bookmark | null> {
 export async function clearBookmark(): Promise<void> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot clear bookmark')
+    // Silent return - user may not be logged in or auth may still be loading
     return
   }
 

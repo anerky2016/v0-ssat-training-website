@@ -27,7 +27,7 @@ function getCurrentUserId(): string | null {
 export async function getNotes(): Promise<Note[]> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot fetch notes')
+    // Silent return - user may not be logged in or auth may still be loading
     return []
   }
 
@@ -91,7 +91,7 @@ export async function saveNote(note: Omit<Note, 'id' | 'timestamp' | 'updatedAt'
 export async function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 'timestamp'>>): Promise<Note | null> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot update note')
+    // Silent return - user may not be logged in or auth may still be loading
     return null
   }
 
@@ -127,7 +127,7 @@ export async function updateNote(id: string, updates: Partial<Omit<Note, 'id' | 
 export async function deleteNote(id: string): Promise<boolean> {
   const userId = getCurrentUserId()
   if (!userId) {
-    console.log('No user logged in - cannot delete note')
+    // Silent return - user may not be logged in or auth may still be loading
     return false
   }
 
