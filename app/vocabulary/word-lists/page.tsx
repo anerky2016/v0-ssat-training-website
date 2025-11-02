@@ -721,7 +721,21 @@ export default function WordListsPage() {
               {filteredWords.length === 0 && (
                 <Card className="border-dashed">
                   <CardContent className="py-12 text-center">
-                    <p className="text-muted-foreground">No words found matching "{searchTerm}"</p>
+                    <p className="text-muted-foreground">
+                      {searchTerm ? (
+                        `No words found matching "${searchTerm}"`
+                      ) : selectedDifficulty !== null ? (
+                        selectedDifficulty === 'unreviewed' ? (
+                          `No words with "${getDifficultyLabel(1, false)}" status found${selectedLetter ? ` in letter "${selectedLetter}"` : ''}`
+                        ) : (
+                          `No words with "${getDifficultyLabel(selectedDifficulty)}" difficulty found${selectedLetter ? ` in letter "${selectedLetter}"` : ''}`
+                        )
+                      ) : selectedLetter ? (
+                        `No words found starting with "${selectedLetter}"`
+                      ) : (
+                        'No words found'
+                      )}
+                    </p>
                   </CardContent>
                 </Card>
               )}
