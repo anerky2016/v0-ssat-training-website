@@ -43,7 +43,7 @@ export function VocabularyWordCard({
 }: VocabularyWordCardProps) {
   const { loading: authLoading } = useAuth()
   const [activeTooltip, setActiveTooltip] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null) // Track which text is currently playing
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
@@ -84,7 +84,7 @@ export function VocabularyWordCard({
     // HTML5 Audio has strict user gesture requirements that break after async operations
     if (isIOS && 'speechSynthesis' in window) {
       try {
-        setIsPlaying(true)
+        setCurrentlyPlaying(wordText)
         // Cancel any ongoing speech
         window.speechSynthesis.cancel()
         
@@ -94,26 +94,26 @@ export function VocabularyWordCard({
         utterance.volume = 1.0
         
         utterance.onend = () => {
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         
         utterance.onerror = (e) => {
           console.error('SpeechSynthesis error:', e)
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         
         window.speechSynthesis.speak(utterance)
         return
       } catch (error) {
         console.error('Error with SpeechSynthesis:', error)
-        setIsPlaying(false)
+        setCurrentlyPlaying(null)
         // Fall through to try HTML5 Audio as fallback
       }
     }
 
     // For non-iOS or if SpeechSynthesis fails, use HTML5 Audio
     try {
-      setIsPlaying(true)
+      setCurrentlyPlaying(wordText)
 
       let arrayBuffer: ArrayBuffer
 
@@ -157,7 +157,7 @@ export function VocabularyWordCard({
 
       // Cleanup handlers
       const cleanup = () => {
-        setIsPlaying(false)
+        setCurrentlyPlaying(null)
         URL.revokeObjectURL(audioUrl)
       }
 
@@ -169,8 +169,8 @@ export function VocabularyWordCard({
         if ('speechSynthesis' in window) {
           const utterance = new SpeechSynthesisUtterance(wordText)
           utterance.rate = 0.9
-          utterance.onend = () => setIsPlaying(false)
-          utterance.onerror = () => setIsPlaying(false)
+          utterance.onend = () => setCurrentlyPlaying(null)
+          utterance.onerror = () => setCurrentlyPlaying(null)
           window.speechSynthesis.speak(utterance)
         } else {
           throw new Error('Audio playback failed')
@@ -192,8 +192,8 @@ export function VocabularyWordCard({
             window.speechSynthesis.cancel()
             const utterance = new SpeechSynthesisUtterance(wordText)
             utterance.rate = 0.9
-            utterance.onend = () => setIsPlaying(false)
-            utterance.onerror = () => setIsPlaying(false)
+            utterance.onend = () => setCurrentlyPlaying(null)
+            utterance.onerror = () => setCurrentlyPlaying(null)
             window.speechSynthesis.speak(utterance)
             URL.revokeObjectURL(audioUrl)
             return
@@ -214,8 +214,8 @@ export function VocabularyWordCard({
                     window.speechSynthesis.cancel()
                     const utterance = new SpeechSynthesisUtterance(wordText)
                     utterance.rate = 0.9
-                    utterance.onend = () => setIsPlaying(false)
-                    utterance.onerror = () => setIsPlaying(false)
+                    utterance.onend = () => setCurrentlyPlaying(null)
+                    utterance.onerror = () => setCurrentlyPlaying(null)
                     window.speechSynthesis.speak(utterance)
                     URL.revokeObjectURL(audioUrl)
                   }
@@ -251,15 +251,15 @@ export function VocabularyWordCard({
       await playAudio()
     } catch (error) {
       console.error('Error playing pronunciation:', error)
-      setIsPlaying(false)
+      setCurrentlyPlaying(null)
 
       // Final fallback to browser TTS
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel()
         const utterance = new SpeechSynthesisUtterance(wordText)
         utterance.rate = 0.9
-        utterance.onend = () => setIsPlaying(false)
-        utterance.onerror = () => setIsPlaying(false)
+        utterance.onend = () => setCurrentlyPlaying(null)
+        utterance.onerror = () => setCurrentlyPlaying(null)
         window.speechSynthesis.speak(utterance)
       }
     }
@@ -319,13 +319,13 @@ export function VocabularyWordCard({
                     pronounceWord(word.word)
                   }}
                   className={`h-12 w-12 p-0 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
-                    isPlaying
+                    currentlyPlaying === word.word
                       ? 'bg-chart-5 hover:bg-chart-5/90 animate-pulse scale-110'
                       : 'bg-chart-5 hover:bg-chart-5/90 hover:scale-110'
                   }`}
                   title="Click to hear pronunciation"
                 >
-                  {isPlaying ? (
+                  {currentlyPlaying === word.word ? (
                     <AudioWaveform className="h-6 w-6 text-white animate-pulse" />
                   ) : (
                     <Volume2 className="h-6 w-6 text-white" />
@@ -396,7 +396,7 @@ export function VocabularyWordCard({
                   className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                   title="Click to hear definition"
                 >
-                  {isPlaying ? (
+                  {currentlyPlaying === meaning ? (
                     <AudioWaveform className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform animate-pulse" />
                   ) : (
                     <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
@@ -439,7 +439,7 @@ export function VocabularyWordCard({
                     title={`Click to hear pronunciation of "${syn}"`}
                   >
                     <span>{syn}</span>
-                    {isPlaying ? (
+                    {currentlyPlaying === syn ? (
                       <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
                     ) : (
                       <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -464,7 +464,7 @@ export function VocabularyWordCard({
                     title={`Click to hear pronunciation of "${ant}"`}
                   >
                     <span>{ant}</span>
-                    {isPlaying ? (
+                    {currentlyPlaying === ant ? (
                       <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
                     ) : (
                       <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />

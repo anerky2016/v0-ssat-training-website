@@ -18,7 +18,7 @@ export default function FlashcardsPage() {
   const [isFlipped, setIsFlipped] = useState(false)
   const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set())
   const [showDetails, setShowDetails] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null) // Track which text is currently playing
   const [debugLogs, setDebugLogs] = useState<string[]>([])
 
   const addDebugLog = (message: string) => {
@@ -63,7 +63,7 @@ export default function FlashcardsPage() {
     if (isIOS && 'speechSynthesis' in window) {
       try {
         addDebugLog(`🍎 iOS detected, using SpeechSynthesis API`)
-        setIsPlaying(true)
+        setCurrentlyPlaying(word)
         // Cancel any ongoing speech
         window.speechSynthesis.cancel()
         
@@ -74,13 +74,13 @@ export default function FlashcardsPage() {
         
         utterance.onend = () => {
           addDebugLog(`✅ SpeechSynthesis completed`)
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         
         utterance.onerror = (e) => {
           addDebugLog(`❌ SpeechSynthesis error: ${e}`)
           console.error('SpeechSynthesis error:', e)
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         
         window.speechSynthesis.speak(utterance)
@@ -89,14 +89,14 @@ export default function FlashcardsPage() {
       } catch (error) {
         addDebugLog(`❌ Error with SpeechSynthesis: ${error}`)
         console.error('Error with SpeechSynthesis:', error)
-        setIsPlaying(false)
+        setCurrentlyPlaying(null)
         // Fall through to try HTML5 Audio as fallback
       }
     }
 
     try {
       addDebugLog(`🔊 Pronunciation requested for: "${word}"`)
-      setIsPlaying(true)
+      setCurrentlyPlaying(word)
 
       let arrayBuffer: ArrayBuffer
 
@@ -149,7 +149,7 @@ export default function FlashcardsPage() {
       // Cleanup handlers
       const cleanup = () => {
         addDebugLog(`✅ Audio cleanup`)
-        setIsPlaying(false)
+        setCurrentlyPlaying(null)
         URL.revokeObjectURL(audioUrl)
       }
 
@@ -181,8 +181,8 @@ export default function FlashcardsPage() {
             window.speechSynthesis.cancel()
             const utterance = new SpeechSynthesisUtterance(word)
             utterance.rate = 0.9
-            utterance.onend = () => setIsPlaying(false)
-            utterance.onerror = () => setIsPlaying(false)
+            utterance.onend = () => setCurrentlyPlaying(null)
+            utterance.onerror = () => setCurrentlyPlaying(null)
             window.speechSynthesis.speak(utterance)
             URL.revokeObjectURL(audioUrl)
             return
@@ -205,8 +205,8 @@ export default function FlashcardsPage() {
                     window.speechSynthesis.cancel()
                     const utterance = new SpeechSynthesisUtterance(word)
                     utterance.rate = 0.9
-                    utterance.onend = () => setIsPlaying(false)
-                    utterance.onerror = () => setIsPlaying(false)
+                    utterance.onend = () => setCurrentlyPlaying(null)
+                    utterance.onerror = () => setCurrentlyPlaying(null)
                     window.speechSynthesis.speak(utterance)
                     URL.revokeObjectURL(audioUrl)
                   }
@@ -243,7 +243,7 @@ export default function FlashcardsPage() {
     } catch (error) {
       addDebugLog(`❌ Error: ${error}`)
       console.error('Error playing pronunciation:', error)
-      setIsPlaying(false)
+      setCurrentlyPlaying(null)
 
       // Fallback to browser TTS
       addDebugLog(`🔄 Falling back to browser TTS...`)
@@ -252,11 +252,11 @@ export default function FlashcardsPage() {
         utterance.rate = 0.9
         utterance.onend = () => {
           addDebugLog(`✅ Browser TTS completed`)
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         utterance.onerror = () => {
           addDebugLog(`❌ Browser TTS error`)
-          setIsPlaying(false)
+          setCurrentlyPlaying(null)
         }
         window.speechSynthesis.speak(utterance)
         addDebugLog(`🗣️ Browser TTS started`)
@@ -269,7 +269,7 @@ export default function FlashcardsPage() {
       setCurrentIndex(currentIndex + 1)
       setIsFlipped(false)
       setShowDetails(false)
-      setIsPlaying(false)
+      setCurrentlyPlaying(null)
       window.speechSynthesis?.cancel()
     }
   }
@@ -279,7 +279,7 @@ export default function FlashcardsPage() {
       setCurrentIndex(currentIndex - 1)
       setIsFlipped(false)
       setShowDetails(false)
-      setIsPlaying(false)
+      setCurrentlyPlaying(null)
       window.speechSynthesis?.cancel()
     }
   }
@@ -354,7 +354,7 @@ export default function FlashcardsPage() {
                   word={currentWord}
                   isFlipped={isFlipped}
                   isMastered={masteredWords.has(currentIndex)}
-                  isPlaying={isPlaying}
+                  currentlyPlaying={currentlyPlaying}
                   showDetails={showDetails}
                   onFlip={handleFlip}
                   onPronounce={pronounceWord}

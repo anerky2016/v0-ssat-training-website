@@ -30,7 +30,7 @@ interface VocabularyFlashcardProps {
   word: VocabularyWord
   isFlipped: boolean
   isMastered: boolean
-  isPlaying: boolean
+  currentlyPlaying: string | null // Track which text is currently playing
   showDetails: boolean
   onFlip: () => void
   onPronounce: (word: string) => void
@@ -43,7 +43,7 @@ export function VocabularyFlashcard({
   word,
   isFlipped,
   isMastered,
-  isPlaying,
+  currentlyPlaying,
   showDetails,
   onFlip,
   onPronounce,
@@ -141,13 +141,13 @@ export function VocabularyFlashcard({
                   onPronounce(word.word)
                 }}
                 className={`h-14 w-14 p-0 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
-                  isPlaying
+                  currentlyPlaying === word.word
                     ? 'bg-chart-1 hover:bg-chart-1/90 animate-pulse scale-110'
                     : 'bg-chart-1 hover:bg-chart-1/90 hover:scale-110'
                 }`}
                 title="Click to hear pronunciation"
               >
-                {isPlaying ? (
+                {currentlyPlaying === word.word ? (
                   <AudioWaveform className="h-7 w-7 text-white animate-pulse" />
                 ) : (
                   <Volume2 className="h-7 w-7 text-white" />
@@ -232,7 +232,7 @@ export function VocabularyFlashcard({
                         className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                         title="Click to hear definition"
                       >
-                        {isPlaying ? (
+                        {currentlyPlaying === meaning ? (
                           <AudioWaveform className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform animate-pulse" />
                         ) : (
                           <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
@@ -277,7 +277,7 @@ export function VocabularyFlashcard({
                         title={`Click to hear pronunciation of "${syn}"`}
                       >
                         <span>{syn}</span>
-                        {isPlaying ? (
+                        {currentlyPlaying === syn ? (
                           <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
                         ) : (
                           <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -306,7 +306,7 @@ export function VocabularyFlashcard({
                         title={`Click to hear pronunciation of "${ant}"`}
                       >
                         <span>{ant}</span>
-                        {isPlaying ? (
+                        {currentlyPlaying === ant ? (
                           <AudioWaveform className="h-3 w-3 opacity-100 animate-pulse transition-opacity" />
                         ) : (
                           <Volume2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
