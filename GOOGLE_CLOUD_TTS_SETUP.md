@@ -1,6 +1,6 @@
 # Google Cloud Text-to-Speech Setup
 
-This guide walks you through setting up Google Cloud TTS for natural-sounding vocabulary pronunciation.
+This guide walks you through setting up Google Cloud TTS for natural-sounding vocabulary pronunciation using the REST API with an API key.
 
 ## Step 1: Create a Google Cloud Project
 
@@ -15,50 +15,32 @@ This guide walks you through setting up Google Cloud TTS for natural-sounding vo
 2. Search for "Cloud Text-to-Speech API"
 3. Click on it and press "Enable"
 
-## Step 3: Create Service Account and Key
+## Step 3: Create API Key
 
-1. Go to [IAM & Admin > Service Accounts](https://console.cloud.google.com/iam-admin/serviceaccounts)
-2. Click "Create Service Account"
-3. Fill in:
-   - **Name**: `tts-service-account`
-   - **Description**: `Service account for Text-to-Speech API`
-4. Click "Create and Continue"
-5. **Grant Role**: Select "Cloud Text-to-Speech User"
-6. Click "Continue" → "Done"
-7. Click on the newly created service account
-8. Go to the "Keys" tab
-9. Click "Add Key" → "Create new key"
-10. Choose "JSON" format
-11. Click "Create" - a JSON file will download
+1. Go to [APIs & Services > Credentials](https://console.cloud.google.com/apis/credentials)
+2. Click "Create Credentials" → "API key"
+3. Your API key will be created and displayed
+4. **Optional but recommended**: Click "Restrict Key" to limit usage:
+   - Under "API restrictions", select "Restrict key"
+   - Choose "Cloud Text-to-Speech API" from the dropdown
+   - Click "Save"
 
 ## Step 4: Configure Environment Variables
 
-You have two options:
+### For Local Development
 
-### Option A: Use JSON File Path (Recommended for local development)
-
-1. Move the downloaded JSON file to a secure location (e.g., `~/.gcloud/tts-credentials.json`)
-2. Add to your `.env.local`:
+Add to your `.env.local`:
 
 ```bash
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/credentials.json
+GOOGLE_CLOUD_TTS_API_KEY=your-api-key-here
 ```
 
-### Option B: Use Inline JSON (Recommended for deployment)
+### For Production (Vercel)
 
-1. Open the downloaded JSON file
-2. Copy its entire contents
-3. Minify it (remove all newlines and extra spaces)
-4. Add to your `.env.local`:
-
-```bash
-GOOGLE_CLOUD_CREDENTIALS_JSON='{"type":"service_account","project_id":"your-project",...}'
-```
-
-**For Vercel/Production:**
-- Go to your project settings
-- Add environment variable: `GOOGLE_CLOUD_CREDENTIALS_JSON`
-- Paste the minified JSON as the value
+1. Go to your Vercel project dashboard
+2. Settings → Environment Variables
+3. Add: `GOOGLE_CLOUD_TTS_API_KEY` with your API key value
+4. Deploy or redeploy your application
 
 ## Step 5: Enable Billing (Free Tier Available)
 

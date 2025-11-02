@@ -11,14 +11,15 @@ import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
 import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
-import { getWordDifficulty, getDifficultyLabel, getDifficultyColor, initializeDifficulties, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
+import { getWordDifficulty, getDifficultyLabel, getDifficultyColor, initializeDifficulties, hasWordBeenReviewed, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
-  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null>(null)
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null | 'unreviewed'>(null)
   const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
+  const [wordReviewStatus, setWordReviewStatus] = useState<Record<string, boolean>>({})
   const [currentPage, setCurrentPage] = useState(1)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -47,12 +48,15 @@ export default function WordListsPage() {
   useEffect(() => {
     const loadDifficulties = async () => {
       await initializeDifficulties()
-      // Load all word difficulties
+      // Load all word difficulties and review status
       const difficulties: Record<string, DifficultyLevel> = {}
+      const reviewStatus: Record<string, boolean> = {}
       vocabularyData.words.forEach(word => {
         difficulties[word.word] = getWordDifficulty(word.word)
+        reviewStatus[word.word] = hasWordBeenReviewed(word.word)
       })
       setWordDifficulties(difficulties)
+      setWordReviewStatus(reviewStatus)
     }
     loadDifficulties()
   }, [])
@@ -89,7 +93,14 @@ export default function WordListsPage() {
   const filteredWords = vocabularyData.words.filter(word => {
     const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
-    const matchesDifficulty = selectedDifficulty === null || wordDifficulties[word.word] === selectedDifficulty
+
+    let matchesDifficulty = true
+    if (selectedDifficulty === 'unreviewed') {
+      matchesDifficulty = !wordReviewStatus[word.word]
+    } else if (selectedDifficulty !== null) {
+      matchesDifficulty = wordDifficulties[word.word] === selectedDifficulty
+    }
+
     return matchesSearch && matchesLetter && matchesDifficulty
   })
 
@@ -111,7 +122,7 @@ export default function WordListsPage() {
   }
 
   // Handle difficulty filter
-  const handleDifficultyFilter = (difficulty: DifficultyLevel | null) => {
+  const handleDifficultyFilter = (difficulty: DifficultyLevel | null | 'unreviewed') => {
     setSelectedDifficulty(difficulty)
     setCurrentPage(1)
     setCurrentCardIndex(0)
@@ -358,6 +369,14 @@ export default function WordListsPage() {
                         className={selectedDifficulty === null ? "bg-chart-5 hover:bg-chart-5/90" : ""}
                       >
                         All
+                      </Button>
+                      <Button
+                        onClick={() => handleDifficultyFilter('unreviewed')}
+                        variant={selectedDifficulty === 'unreviewed' ? "default" : "outline"}
+                        size="sm"
+                        className={`${selectedDifficulty === 'unreviewed' ? getDifficultyColor(1, false) : ""}`}
+                      >
+                        {getDifficultyLabel(1, false)}
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(0)}

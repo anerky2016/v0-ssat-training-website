@@ -14,6 +14,7 @@ import {
   getDifficultyLabel,
   getDifficultyColor,
   initializeDifficulties,
+  hasWordBeenReviewed,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
@@ -47,6 +48,7 @@ export function VocabularyWordCard({
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null) // Track which text is currently playing
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
+  const [isReviewed, setIsReviewed] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
@@ -59,7 +61,9 @@ export function VocabularyWordCard({
 
       await initializeDifficulties()
       const currentDifficulty = getWordDifficulty(word.word)
+      const reviewed = hasWordBeenReviewed(word.word)
       setDifficulty(currentDifficulty)
+      setIsReviewed(reviewed)
     }
 
     loadDifficulty()
@@ -68,12 +72,14 @@ export function VocabularyWordCard({
   const handleIncreaseDifficulty = async () => {
     const newDifficulty = await increaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setIsReviewed(true) // Mark as reviewed once user interacts
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
   }
 
   const handleDecreaseDifficulty = async () => {
     const newDifficulty = await decreaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setIsReviewed(true) // Mark as reviewed once user interacts
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
   }
 
@@ -562,9 +568,9 @@ export function VocabularyWordCard({
                 <ChevronDown className="h-4 w-4" />
               </Button>
               <div className={`px-3 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
-                getDifficultyColor(difficulty)
+                getDifficultyColor(difficulty, isReviewed)
               }`}>
-                {getDifficultyLabel(difficulty)}
+                {getDifficultyLabel(difficulty, isReviewed)}
               </div>
               <Button
                 onClick={handleIncreaseDifficulty}

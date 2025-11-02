@@ -12,6 +12,7 @@ import {
   getDifficultyLabel,
   getDifficultyColor,
   initializeDifficulties,
+  hasWordBeenReviewed,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 
@@ -52,6 +53,7 @@ export function VocabularyFlashcard({
   onPrevious,
 }: VocabularyFlashcardProps) {
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
+  const [isReviewed, setIsReviewed] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
@@ -60,7 +62,9 @@ export function VocabularyFlashcard({
     const loadDifficulty = async () => {
       await initializeDifficulties()
       const currentDifficulty = getWordDifficulty(word.word)
+      const reviewed = hasWordBeenReviewed(word.word)
       setDifficulty(currentDifficulty)
+      setIsReviewed(reviewed)
     }
     loadDifficulty()
   }, [word.word])
@@ -102,12 +106,14 @@ export function VocabularyFlashcard({
     e.stopPropagation()
     const newDifficulty = await increaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setIsReviewed(true)
   }
 
   const handleDecreaseDifficulty = async (e: React.MouseEvent) => {
     e.stopPropagation()
     const newDifficulty = await decreaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setIsReviewed(true)
   }
 
   // Minimum swipe distance (in px) to trigger navigation
@@ -159,8 +165,8 @@ export function VocabularyFlashcard({
           <CardContent className="text-center p-8 w-full">
             {/* Difficulty Badge - Front */}
             <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
-              <div className={`px-3 py-1 rounded text-xs font-medium ${getDifficultyColor(difficulty)}`}>
-                {getDifficultyLabel(difficulty)}
+              <div className={`px-3 py-1 rounded text-xs font-medium ${getDifficultyColor(difficulty, isReviewed)}`}>
+                {getDifficultyLabel(difficulty, isReviewed)}
               </div>
             </div>
 
@@ -238,9 +244,9 @@ export function VocabularyFlashcard({
                   <ChevronDown className="h-4 w-4" />
                 </Button>
                 <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
-                  getDifficultyColor(difficulty)
+                  getDifficultyColor(difficulty, isReviewed)
                 }`}>
-                  {getDifficultyLabel(difficulty)}
+                  {getDifficultyLabel(difficulty, isReviewed)}
                 </div>
                 <Button
                   onClick={handleIncreaseDifficulty}

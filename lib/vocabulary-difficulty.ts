@@ -105,6 +105,13 @@ export function getAllDifficulties(): Record<string, VocabularyDifficulty> {
   return difficultyCache || {}
 }
 
+// Check if a word has been reviewed (has a difficulty set)
+export function hasWordBeenReviewed(word: string): boolean {
+  const difficulties = getAllDifficulties()
+  const normalizedWord = word.toLowerCase()
+  return normalizedWord in difficulties
+}
+
 // Get difficulty for a specific word (defaults to Medium if not set)
 export function getWordDifficulty(word: string): DifficultyLevel {
   const difficulties = getAllDifficulties()
@@ -165,14 +172,20 @@ export async function decreaseDifficulty(word: string): Promise<DifficultyLevel>
   return newDifficulty
 }
 
-// Get difficulty label
-export function getDifficultyLabel(difficulty: DifficultyLevel): string {
+// Get difficulty label (with option for unreviewed)
+export function getDifficultyLabel(difficulty: DifficultyLevel, isReviewed: boolean = true): string {
+  if (!isReviewed) {
+    return 'Wait for decision'
+  }
   const labels = ['Easy', 'Medium', 'Hard', 'Very Hard']
   return labels[difficulty]
 }
 
-// Get difficulty color
-export function getDifficultyColor(difficulty: DifficultyLevel): string {
+// Get difficulty color (with option for unreviewed)
+export function getDifficultyColor(difficulty: DifficultyLevel, isReviewed: boolean = true): string {
+  if (!isReviewed) {
+    return 'text-gray-600 dark:text-gray-400 bg-gray-500/10'
+  }
   const colors = [
     'text-green-600 dark:text-green-400 bg-green-500/10',
     'text-yellow-600 dark:text-yellow-400 bg-yellow-500/10',
