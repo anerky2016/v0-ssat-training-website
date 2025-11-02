@@ -393,13 +393,22 @@ export function getCurrentUser(): User | null {
  * Sign in with Google OAuth
  */
 export async function signInWithGoogle(): Promise<User> {
+  console.log('🔍 signInWithGoogle called')
+  console.log('🔍 auth instance:', auth)
+  console.log('🔍 auth is null?', auth === null)
+  console.log('🔍 auth is undefined?', auth === undefined)
+
   if (!auth) {
     throw new Error('Firebase authentication is not configured. Please add Firebase environment variables.')
   }
 
   try {
+    console.log('🔍 Creating GoogleAuthProvider...')
     const provider = new GoogleAuthProvider()
+    console.log('🔍 GoogleAuthProvider created:', provider)
+    console.log('🔍 Calling signInWithPopup...')
     const result = await signInWithPopup(auth, provider)
+    console.log('🔍 signInWithPopup succeeded:', result)
     return result.user
   } catch (error: any) {
     console.error('Error signing in with Google:', error)
