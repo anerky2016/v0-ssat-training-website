@@ -6,16 +6,19 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
 import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
+import { getWordDifficulty, getDifficultyLabel, getDifficultyColor, initializeDifficulties, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null>(null)
+  const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
   const [currentPage, setCurrentPage] = useState(1)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -38,6 +41,20 @@ export default function WordListsPage() {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Initialize difficulties and load word difficulties
+  useEffect(() => {
+    const loadDifficulties = async () => {
+      await initializeDifficulties()
+      // Load all word difficulties
+      const difficulties: Record<string, DifficultyLevel> = {}
+      vocabularyData.words.forEach(word => {
+        difficulties[word.word] = getWordDifficulty(word.word)
+      })
+      setWordDifficulties(difficulties)
+    }
+    loadDifficulties()
   }, [])
 
   // Initialize from URL parameters
@@ -72,7 +89,8 @@ export default function WordListsPage() {
   const filteredWords = vocabularyData.words.filter(word => {
     const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
-    return matchesSearch && matchesLetter
+    const matchesDifficulty = selectedDifficulty === null || wordDifficulties[word.word] === selectedDifficulty
+    return matchesSearch && matchesLetter && matchesDifficulty
   })
 
   // Reset to page 1 when search term changes
@@ -90,6 +108,13 @@ export default function WordListsPage() {
         setDesktopLetterSelected(true)
       }
     }
+  }
+
+  // Handle difficulty filter
+  const handleDifficultyFilter = (difficulty: DifficultyLevel | null) => {
+    setSelectedDifficulty(difficulty)
+    setCurrentPage(1)
+    setCurrentCardIndex(0)
   }
 
   // Handle letter selection
@@ -133,6 +158,7 @@ export default function WordListsPage() {
   const handleDesktopBackToAlphabet = () => {
     setDesktopLetterSelected(false)
     setSelectedLetter(null)
+    setSelectedDifficulty(null)
     setCurrentPage(1)
     setSearchTerm('') // Clear search when returning to alphabet
   }
@@ -306,17 +332,67 @@ export default function WordListsPage() {
                   Comprehensive SSAT vocabulary with pronunciations, definitions, examples, and etymology.
                 </p>
 
-                <div className="flex items-center gap-4">
-                  <input
-                    type="text"
-                    placeholder="Search words..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="flex-1 px-4 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-chart-5"
-                  />
-                  <div className="text-sm text-muted-foreground whitespace-nowrap">
-                    {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="text"
+                      placeholder="Search words..."
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      className="flex-1 px-4 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-chart-5"
+                    />
+                    <div className="text-sm text-muted-foreground whitespace-nowrap">
+                      {filteredWords.length} word{filteredWords.length !== 1 ? 's' : ''}
+                    </div>
                   </div>
+
+                  {/* Difficulty Filter */}
+                  {(desktopLetterSelected || mobileLetterSelected) && (
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Filter className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-medium text-muted-foreground">Difficulty:</span>
+                      <Button
+                        onClick={() => handleDifficultyFilter(null)}
+                        variant={selectedDifficulty === null ? "default" : "outline"}
+                        size="sm"
+                        className={selectedDifficulty === null ? "bg-chart-5 hover:bg-chart-5/90" : ""}
+                      >
+                        All
+                      </Button>
+                      <Button
+                        onClick={() => handleDifficultyFilter(0)}
+                        variant={selectedDifficulty === 0 ? "default" : "outline"}
+                        size="sm"
+                        className={`${selectedDifficulty === 0 ? getDifficultyColor(0) : ""}`}
+                      >
+                        {getDifficultyLabel(0)}
+                      </Button>
+                      <Button
+                        onClick={() => handleDifficultyFilter(1)}
+                        variant={selectedDifficulty === 1 ? "default" : "outline"}
+                        size="sm"
+                        className={`${selectedDifficulty === 1 ? getDifficultyColor(1) : ""}`}
+                      >
+                        {getDifficultyLabel(1)}
+                      </Button>
+                      <Button
+                        onClick={() => handleDifficultyFilter(2)}
+                        variant={selectedDifficulty === 2 ? "default" : "outline"}
+                        size="sm"
+                        className={`${selectedDifficulty === 2 ? getDifficultyColor(2) : ""}`}
+                      >
+                        {getDifficultyLabel(2)}
+                      </Button>
+                      <Button
+                        onClick={() => handleDifficultyFilter(3)}
+                        variant={selectedDifficulty === 3 ? "default" : "outline"}
+                        size="sm"
+                        className={`${selectedDifficulty === 3 ? getDifficultyColor(3) : ""}`}
+                      >
+                        {getDifficultyLabel(3)}
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 {!isMobile && desktopLetterSelected && filteredWords.length > wordsPerPage && (
