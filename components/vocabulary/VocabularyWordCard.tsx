@@ -112,35 +112,63 @@ export function VocabularyWordCard({
       const audioUrl = URL.createObjectURL(blob)
       const audio = new Audio(audioUrl)
 
-      // Set volume to maximum for iOS
+      // iOS-specific fixes
       audio.volume = 1.0
+      audio.preload = 'auto'
+      // Set playsInline for iOS - required for inline playback without fullscreen
+      audio.setAttribute('playsinline', 'true')
+      audio.setAttribute('webkit-playsinline', 'true')
 
-      // Load the audio first (important for iOS)
-      audio.load()
-
-      audio.onended = () => {
+      // Cleanup handlers
+      const cleanup = () => {
         setIsPlaying(false)
         URL.revokeObjectURL(audioUrl)
       }
 
+      audio.onended = cleanup
       audio.onerror = (e) => {
         console.error('Audio error:', e)
-        setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
+        cleanup()
         throw new Error('Audio playback failed')
       }
 
-      audio.onloadeddata = async () => {
+      // Load audio first
+      audio.load()
+
+      // Try to play immediately (iOS requires user gesture to be within the call stack)
+      // For cached audio, this should work. For uncached, we'll wait for loadeddata
+      const playAudio = async () => {
         try {
-          // Play audio after it's loaded - this works better on iOS
           await audio.play()
-        } catch (playError) {
-          console.error('Play error:', playError)
-          setIsPlaying(false)
-          URL.revokeObjectURL(audioUrl)
-          throw playError
+        } catch (playError: any) {
+          // If play fails (e.g., audio not loaded yet), wait for loadeddata
+          if (playError.name !== 'AbortError') {
+            await new Promise<void>((resolve, reject) => {
+              const handleLoadedData = async () => {
+                try {
+                  await audio.play()
+                  resolve()
+                } catch (retryError) {
+                  reject(retryError)
+                } finally {
+                  audio.removeEventListener('loadeddata', handleLoadedData)
+                }
+              }
+              audio.addEventListener('loadeddata', handleLoadedData)
+              // Fallback timeout
+              setTimeout(() => {
+                audio.removeEventListener('loadeddata', handleLoadedData)
+                reject(new Error('Audio load timeout'))
+              }, 5000)
+            })
+          } else {
+            throw playError
+          }
         }
       }
+
+      // Start playback attempt immediately while still in user gesture context
+      await playAudio()
     } catch (error) {
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)

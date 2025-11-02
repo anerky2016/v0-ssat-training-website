@@ -106,20 +106,58 @@ export function VoiceRecorder({ onAudioSaved, existingAudioUrl, onAudioDeleted }
     }
   }
 
-  const togglePlayback = () => {
+  const togglePlayback = async () => {
     if (!audioUrl) return
 
     if (!audioRef.current) {
       audioRef.current = new Audio(audioUrl)
+      // iOS-specific fixes
+      audioRef.current.setAttribute('playsinline', 'true')
+      audioRef.current.setAttribute('webkit-playsinline', 'true')
+      audioRef.current.preload = 'auto'
+      audioRef.current.volume = 1.0
       audioRef.current.onended = () => setIsPlaying(false)
+      audioRef.current.onerror = () => {
+        console.error('Audio playback error')
+        setIsPlaying(false)
+      }
     }
 
     if (isPlaying) {
       audioRef.current.pause()
       setIsPlaying(false)
     } else {
-      audioRef.current.play()
-      setIsPlaying(true)
+      try {
+        // Ensure audio is loaded before playing (important for iOS)
+        if (audioRef.current.readyState < 2) {
+          await new Promise<void>((resolve, reject) => {
+            const handleCanPlay = () => {
+              audioRef.current?.removeEventListener('canplay', handleCanPlay)
+              audioRef.current?.removeEventListener('error', handleError)
+              resolve()
+            }
+            const handleError = () => {
+              audioRef.current?.removeEventListener('canplay', handleCanPlay)
+              audioRef.current?.removeEventListener('error', handleError)
+              reject(new Error('Audio load failed'))
+            }
+            audioRef.current?.addEventListener('canplay', handleCanPlay)
+            audioRef.current?.addEventListener('error', handleError)
+            audioRef.current?.load()
+            // Timeout after 5 seconds
+            setTimeout(() => {
+              audioRef.current?.removeEventListener('canplay', handleCanPlay)
+              audioRef.current?.removeEventListener('error', handleError)
+              reject(new Error('Audio load timeout'))
+            }, 5000)
+          })
+        }
+        await audioRef.current.play()
+        setIsPlaying(true)
+      } catch (error) {
+        console.error('Error playing audio:', error)
+        setIsPlaying(false)
+      }
     }
   }
 

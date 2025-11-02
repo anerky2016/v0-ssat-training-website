@@ -98,42 +98,74 @@ export default function FlashcardsPage() {
       const audioUrl = URL.createObjectURL(blob)
       const audio = new Audio(audioUrl)
 
-      // Set volume to maximum for iOS
+      // iOS-specific fixes
       audio.volume = 1.0
+      audio.preload = 'auto'
+      // Set playsInline for iOS - required for inline playback without fullscreen
+      audio.setAttribute('playsinline', 'true')
+      audio.setAttribute('webkit-playsinline', 'true')
       addDebugLog(`🔊 Volume set to: ${audio.volume}`)
 
-      // Load the audio first (important for iOS)
-      audio.load()
-      addDebugLog(`⏳ Loading audio...`)
+      // Cleanup handlers
+      const cleanup = () => {
+        addDebugLog(`✅ Audio cleanup`)
+        setIsPlaying(false)
+        URL.revokeObjectURL(audioUrl)
+      }
 
       audio.onended = () => {
         addDebugLog(`✅ Audio playback completed`)
-        setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
+        cleanup()
       }
 
       audio.onerror = (e) => {
         addDebugLog(`❌ Audio error: ${e}`)
         console.error('Audio error:', e)
-        setIsPlaying(false)
-        URL.revokeObjectURL(audioUrl)
+        cleanup()
         throw new Error('Audio playback failed')
       }
 
-      audio.onloadeddata = async () => {
-        addDebugLog(`✅ Audio loaded, attempting to play...`)
+      // Load audio first
+      audio.load()
+      addDebugLog(`⏳ Loading audio...`)
+
+      // Try to play immediately (iOS requires user gesture to be within the call stack)
+      const playAudio = async () => {
         try {
-          // Play audio after it's loaded - this works better on iOS
           await audio.play()
           addDebugLog(`▶️ Playback started successfully`)
-        } catch (playError) {
-          addDebugLog(`❌ Play error: ${playError}`)
-          console.error('Play error:', playError)
-          setIsPlaying(false)
-          URL.revokeObjectURL(audioUrl)
-          throw playError
+        } catch (playError: any) {
+          // If play fails (e.g., audio not loaded yet), wait for loadeddata
+          if (playError.name !== 'AbortError') {
+            addDebugLog(`⏳ Audio not ready, waiting for loadeddata...`)
+            await new Promise<void>((resolve, reject) => {
+              const handleLoadedData = async () => {
+                try {
+                  await audio.play()
+                  addDebugLog(`▶️ Playback started after load`)
+                  resolve()
+                } catch (retryError) {
+                  addDebugLog(`❌ Retry play error: ${retryError}`)
+                  reject(retryError)
+                } finally {
+                  audio.removeEventListener('loadeddata', handleLoadedData)
+                }
+              }
+              audio.addEventListener('loadeddata', handleLoadedData)
+              // Fallback timeout
+              setTimeout(() => {
+                audio.removeEventListener('loadeddata', handleLoadedData)
+                reject(new Error('Audio load timeout'))
+              }, 5000)
+            })
+          } else {
+            throw playError
+          }
         }
       }
+
+      // Start playback attempt immediately while still in user gesture context
+      await playAudio()
     } catch (error) {
       addDebugLog(`❌ Error: ${error}`)
       console.error('Error playing pronunciation:', error)
