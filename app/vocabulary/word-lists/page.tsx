@@ -119,9 +119,14 @@ export default function WordListsPage() {
 
     let matchesDifficulty = true
     if (selectedDifficulty === 'unreviewed') {
-      matchesDifficulty = !wordReviewStatus[word.word]
+      // Show words that have NOT been reviewed (false or undefined in status)
+      const isReviewed = wordReviewStatus[word.word]
+      matchesDifficulty = !isReviewed
     } else if (selectedDifficulty !== null) {
-      matchesDifficulty = wordDifficulties[word.word] === selectedDifficulty
+      // Show words that have been reviewed AND match the selected difficulty level
+      const isReviewed = wordReviewStatus[word.word]
+      const wordDifficulty = wordDifficulties[word.word]
+      matchesDifficulty = isReviewed && wordDifficulty === selectedDifficulty
     }
 
     return matchesSearch && matchesLetter && matchesDifficulty
