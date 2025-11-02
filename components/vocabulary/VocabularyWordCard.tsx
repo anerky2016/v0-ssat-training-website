@@ -34,12 +34,14 @@ interface VocabularyWordCardProps {
   word: VocabularyWord
   showTooltip?: boolean
   showAudio?: boolean
+  index?: number
 }
 
 export function VocabularyWordCard({
   word,
   showTooltip = true,
-  showAudio = true
+  showAudio = true,
+  index
 }: VocabularyWordCardProps) {
   const { loading: authLoading } = useAuth()
   const [activeTooltip, setActiveTooltip] = useState(false)
@@ -481,6 +483,9 @@ export function VocabularyWordCard({
                       }
                     }}
                   >
+                    {index !== undefined && (
+                      <span className="text-muted-foreground font-normal mr-2">#{index}.</span>
+                    )}
                     {word.word}
                   </CardTitle>
                 </Link>

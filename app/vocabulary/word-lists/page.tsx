@@ -589,7 +589,7 @@ export default function WordListsPage() {
 
                   <div id="word-list" className="space-y-6">
                     {currentWords.map((word, index) => (
-                      <VocabularyWordCard key={startIndex + index} word={word} />
+                      <VocabularyWordCard key={startIndex + index} word={word} index={startIndex + index + 1} />
                     ))}
                   </div>
                 </>

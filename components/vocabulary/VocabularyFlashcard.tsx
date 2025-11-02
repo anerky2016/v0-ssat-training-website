@@ -68,7 +68,7 @@ export function VocabularyFlashcard({
   // Keyboard navigation support for desktop browsers
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Only handle arrow keys, ignore if user is typing in an input
+      // Only handle keys if user is not typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return
       }
@@ -86,12 +86,17 @@ export function VocabularyFlashcard({
             onNext()
           }
           break
+        case 'Enter':
+        case ' ': // Spacebar
+          e.preventDefault()
+          onFlip()
+          break
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onNext, onPrevious])
+  }, [onNext, onPrevious, onFlip])
 
   const handleIncreaseDifficulty = async (e: React.MouseEvent) => {
     e.stopPropagation()
