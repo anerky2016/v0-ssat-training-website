@@ -6,7 +6,15 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter, Lightbulb, ChevronUp, ChevronDown } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
@@ -30,6 +38,7 @@ export default function WordListsPage() {
   const [dragOffset, setDragOffset] = useState(0)
   const [mobileLetterSelected, setMobileLetterSelected] = useState(false)
   const [desktopLetterSelected, setDesktopLetterSelected] = useState(false)
+  const [showHowToDialog, setShowHowToDialog] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
@@ -60,6 +69,20 @@ export default function WordListsPage() {
     }
     loadDifficulties()
   }, [])
+
+  // Check if this is first visit and show how-to dialog
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('vocabulary-word-lists-visited')
+    if (!hasVisited) {
+      setShowHowToDialog(true)
+    }
+  }, [])
+
+  // Handle dialog close and mark as visited
+  const handleDialogClose = () => {
+    setShowHowToDialog(false)
+    localStorage.setItem('vocabulary-word-lists-visited', 'true')
+  }
 
   // Initialize from URL parameters
   useEffect(() => {
@@ -793,6 +816,149 @@ export default function WordListsPage() {
         </section>
       </main>
       <Footer />
+
+      {/* How-To Dialog for First-Time Users */}
+      <Dialog open={showHowToDialog} onOpenChange={handleDialogClose}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center gap-2 mb-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              <DialogTitle className="text-2xl">Welcome to Vocabulary Word Lists!</DialogTitle>
+            </div>
+            <DialogDescription className="text-base">
+              Learn how to use the difficulty level system to track your vocabulary progress
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 py-4">
+            {/* Difficulty System Overview */}
+            <div>
+              <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                <Filter className="h-5 w-5 text-chart-5" />
+                How the Difficulty System Works
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                Each vocabulary word can be assigned a difficulty level to help you track which words need more practice.
+                You can adjust the difficulty using the up/down buttons on each word card.
+              </p>
+            </div>
+
+            {/* Difficulty Levels */}
+            <div>
+              <h4 className="font-semibold text-base mb-3">Difficulty Levels:</h4>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(1, false)}`}>
+                    {getDifficultyLabel(1, false)}
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-1">
+                    New words you haven't evaluated yet. Click the difficulty buttons to set a level.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(0)}`}>
+                    {getDifficultyLabel(0)}
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-1">
+                    Words you know well and can use confidently in sentences.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(1)}`}>
+                    {getDifficultyLabel(1)}
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-1">
+                    Words you're familiar with but might need occasional review.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(2)}`}>
+                    {getDifficultyLabel(2)}
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-1">
+                    Challenging words that require more practice and review.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(3)}`}>
+                    {getDifficultyLabel(3)}
+                  </div>
+                  <p className="text-sm text-muted-foreground flex-1">
+                    Very difficult words that need significant study and practice.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* How to Use Controls */}
+            <div>
+              <h4 className="font-semibold text-base mb-3">Adjusting Difficulty:</h4>
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <ChevronDown className="h-5 w-5 text-green-600" />
+                  <p>Click the <strong>down arrow</strong> to make a word easier (you're getting better at it!)</p>
+                </div>
+                <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <ChevronUp className="h-5 w-5 text-orange-600" />
+                  <p>Click the <strong>up arrow</strong> to mark a word as harder (needs more practice)</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Filtering */}
+            <div>
+              <h4 className="font-semibold text-base mb-3">Filtering Words:</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Once you select a letter or view words, you'll see filter buttons at the top.
+                Use these to show only words at a specific difficulty level, helping you focus your study sessions
+                on exactly what you need to practice.
+              </p>
+            </div>
+
+            {/* Flashcard Mode */}
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+              <h4 className="font-semibold text-base mb-3 text-purple-700 dark:text-purple-400">🃏 Flashcard Mode</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                Switch to flashcard mode for interactive study sessions! Access it from the Vocabulary section.
+              </p>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-start gap-2">
+                  <span className="font-semibold min-w-[80px]">Front:</span>
+                  <span>Shows the word, pronunciation, and audio button</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-semibold min-w-[80px]">Back:</span>
+                  <span>Reveals definition, examples, synonyms, antonyms, and etymology</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-semibold min-w-[80px]">Controls:</span>
+                  <span>Click/tap to flip • Arrow keys (←/→) to navigate • Enter/Space to flip</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-semibold min-w-[80px]">Mobile:</span>
+                  <span>Swipe left for next card • Swipe right for previous card</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Study Tips */}
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+              <h4 className="font-semibold text-base mb-2 text-blue-700 dark:text-blue-400">💡 Study Tip</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Start by reviewing "Wait for decision" words to build your initial assessment.
+                Then focus on "Hard" and "Very Hard" words during study sessions, and periodically
+                review "Easy" and "Medium" words to maintain retention.
+              </p>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button onClick={handleDialogClose} className="w-full sm:w-auto">
+              Got it! Let's start learning
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
