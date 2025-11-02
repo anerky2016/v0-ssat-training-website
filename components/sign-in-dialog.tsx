@@ -82,15 +82,15 @@ export function SignInDialog({ open, onOpenChange }: SignInDialogProps) {
           {authMode === 'options' ? (
             <>
               <Button
-                onClick={() => setAuthMode('email')}
+                onClick={() => setAuthMode('phone')}
                 disabled={isLoading !== null}
                 size="lg"
                 className="w-full"
               >
                 <svg className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                Continue with Email
+                Continue with Phone Number
               </Button>
 
               <div className="relative">
@@ -101,19 +101,6 @@ export function SignInDialog({ open, onOpenChange }: SignInDialogProps) {
                   <span className="bg-background px-2 text-muted-foreground">Or</span>
                 </div>
               </div>
-
-              <Button
-                onClick={() => setAuthMode('phone')}
-                disabled={isLoading !== null}
-                size="lg"
-                className="w-full"
-                variant="outline"
-              >
-                <svg className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                Continue with Phone Number
-              </Button>
 
               <Button
                 onClick={handleGoogleSignIn}
@@ -154,6 +141,28 @@ export function SignInDialog({ open, onOpenChange }: SignInDialogProps) {
                   <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                 </svg>
                 {isLoading === "apple" ? "Signing in..." : "Continue with Apple"}
+              </Button>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              <Button
+                onClick={() => setAuthMode('email')}
+                disabled={isLoading !== null}
+                size="lg"
+                className="w-full"
+                variant="outline"
+              >
+                <svg className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Continue with Email
               </Button>
             </>
           ) : authMode === 'email' ? (
