@@ -1,6 +1,89 @@
 {
   "updates": [
     {
+      "id": "update-009",
+      "date": "2025-01-17",
+      "lesson_path": "/vocabulary/word-lists",
+      "lesson_title": "Enhanced Vocabulary System with Smart Tracking",
+      "chapter": "Vocabulary",
+      "update_type": "major_feature",
+      "summary": "Comprehensive vocabulary learning system with keyboard navigation, difficulty tracking, 'Wait for decision' status for unreviewed words, and advanced filtering capabilities",
+      "features": [
+        {
+          "title": "Keyboard Navigation for Flashcards",
+          "description": "Full keyboard control for desktop users to navigate and flip flashcards without using the mouse",
+          "examples": [
+            "Left Arrow: Navigate to previous card",
+            "Right Arrow: Navigate to next card",
+            "Enter/Spacebar: Flip card between front and back",
+            "Smart detection prevents interference when typing in input fields"
+          ]
+        },
+        {
+          "title": "'Wait for Decision' Status for Unreviewed Words",
+          "description": "New difficulty state that distinguishes between words that haven't been evaluated versus words with assigned difficulty levels",
+          "examples": [
+            "Gray badge showing 'Wait for decision' for new words",
+            "Automatically changes to difficulty level once user adjusts controls",
+            "Filter option to show only unreviewed words",
+            "Helps identify which words need initial assessment"
+          ]
+        },
+        {
+          "title": "Word Index Numbering in Lists",
+          "description": "Sequential numbering system that displays each word's position in the alphabet list for easy reference",
+          "examples": [
+            "Shows '#1. Abdicate', '#2. Aberration', etc.",
+            "Numbers displayed in muted style before word titles",
+            "Correctly accounts for pagination on desktop view",
+            "Helps track progress through word lists"
+          ]
+        },
+        {
+          "title": "Advanced Difficulty Level Filtering",
+          "description": "Comprehensive filter system to show words by specific difficulty levels or review status",
+          "examples": [
+            "Filter buttons: All, Wait for decision, Easy, Medium, Hard, Very Hard",
+            "Color-coded buttons matching difficulty system",
+            "Works in combination with letter selection and search",
+            "Automatically resets pagination when filters change"
+          ]
+        },
+        {
+          "title": "Sign-In Dialog Reorganization",
+          "description": "Optimized authentication flow prioritizing phone-based sign-in for better security and user experience",
+          "examples": [
+            "Phone Number as primary option (solid button style)",
+            "Google OAuth as second choice",
+            "Apple OAuth as third option",
+            "Email as final alternative",
+            "Removed dividers for cleaner interface"
+          ]
+        },
+        {
+          "title": "Firebase Authentication Setup",
+          "description": "Fully configured Firebase authentication system with environment variables and error handling",
+          "examples": [
+            "Firebase config properly initialized",
+            "Browser-only initialization to prevent SSR issues",
+            "Debug logging for troubleshooting",
+            "Supports Google, Apple, Phone, and Email authentication"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Keyboard shortcuts enable faster flashcard review for desktop users",
+        "'Wait for decision' status helps students systematically evaluate new vocabulary",
+        "Difficulty filtering allows focused study sessions on challenging words",
+        "Index numbering provides clear progress indicators through word lists",
+        "Combined filtering (letter + difficulty + search) creates customized study sessions",
+        "Review status tracking prevents words from being overlooked",
+        "Phone-first authentication improves security and reduces friction",
+        "Color-coded difficulty system provides quick visual assessment"
+      ],
+      "tags": ["vocabulary", "keyboard-navigation", "difficulty-tracking", "filtering", "authentication", "flashcards", "word-lists", "review-status", "firebase"]
+    },
+    {
       "id": "update-008",
       "date": "2025-01-16",
       "lesson_path": "/notes",
@@ -620,7 +703,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-01-16",
-    "total_updates": 8
+    "last_updated": "2025-01-17",
+    "total_updates": 9
   }
 }
