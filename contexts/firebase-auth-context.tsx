@@ -38,19 +38,36 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     console.log('🔐 Auth: Setting up auth state observer...')
     const startTime = Date.now()
 
-    // Use onAuthStateChanged - it fires immediately when auth state is first known
+    // Check if we have a currentUser immediately available (cached)
+    const cachedUser = auth.currentUser
+    if (cachedUser) {
+      console.log(`⚡ Auth: Using cached user immediately: ${cachedUser.email || cachedUser.uid}`)
+      setUser(cachedUser)
+      setLoading(false)
+      // Don't return - still set up the observer to catch any changes
+    } else {
+      console.log('🔐 Auth: No cached user, setting up observer...')
+    }
+
+    // Set up observer for auth state changes
     const setupStart = Date.now()
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       const totalElapsed = Date.now() - startTime
       const callbackDelay = Date.now() - setupStart
-      console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms (total: ${totalElapsed}ms)`)
-      console.log(`   User: ${user ? user.email || user.uid : 'none'}`)
-      console.log(`   This delay suggests: ${callbackDelay > 10000 ? '🐌 SLOW FIREBASE AUTH SERVER RESPONSE or IndexedDB issue' : callbackDelay > 1000 ? '⚠️ Slow network or token validation' : '✅ Normal performance'}`)
-      setUser(user)
-      setLoading(false)
+
+      // Only log and update if this is different from what we already have
+      if (cachedUser && user?.uid === cachedUser.uid) {
+        console.log(`🔄 Auth: Observer confirmed cached user after ${callbackDelay}ms (no UI update needed)`)
+      } else {
+        console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms (total: ${totalElapsed}ms)`)
+        console.log(`   User: ${user ? user.email || user.uid : 'none'}`)
+        console.log(`   Delay diagnosis: ${callbackDelay > 10000 ? '🐌 SLOW - likely Firebase Auth server validation delay' : callbackDelay > 1000 ? '⚠️ Slow network or token validation' : '✅ Normal performance'}`)
+        setUser(user)
+        setLoading(false)
+      }
     })
     const setupEnd = Date.now()
-    console.log(`🔐 Auth: Observer setup completed in ${setupEnd - setupStart}ms, waiting for callback...`)
+    console.log(`🔐 Auth: Observer setup completed in ${setupEnd - setupStart}ms, ${cachedUser ? 'already using cached user' : 'waiting for callback...'}`)
 
     return () => unsubscribe()
   }, [])
