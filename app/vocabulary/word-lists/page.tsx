@@ -831,25 +831,18 @@ export default function WordListsPage() {
           </DialogHeader>
 
           <div className="space-y-6 py-4">
-            {/* Difficulty System Overview */}
-            <div>
-              <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                <Target className="h-5 w-5 text-chart-5" />
+            {/* Difficulty Levels Section */}
+            <div className="bg-gradient-to-r from-green-500/10 to-red-500/10 border border-green-500/20 rounded-lg p-4">
+              <h3 className="font-semibold text-lg mb-3 flex items-center gap-2 text-green-700 dark:text-green-400">
+                <Target className="h-5 w-5" />
                 Track Your Progress with Levels
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 Each word has a level that shows how well you know it. You can change the level
                 anytime using the ↑ and ↓ buttons next to each word.
               </p>
-            </div>
 
-            {/* Difficulty Levels */}
-            <div>
-              <h4 className="font-semibold text-base mb-3 flex items-center gap-2">
-                <Layers className="h-4 w-4" />
-                What Each Level Means:
-              </h4>
-              <div className="space-y-3">
+              <div className="space-y-3 mt-4">
                 <div className="flex items-start gap-3">
                   <div className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ${getDifficultyColor(1, false)}`}>
                     {getDifficultyLabel(1, false)}
