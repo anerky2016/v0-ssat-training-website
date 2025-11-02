@@ -75,40 +75,220 @@ export function VocabularyWordCard({
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
   }
 
+  // Helper to call SpeechSynthesis synchronously (for iOS)
+  // Must be called within user gesture handler to work on iOS
+  const speakWithSpeechSynthesis = (text: string): boolean => {
+    try {
+      if ('speechSynthesis' in window) {
+        console.log('🍎 iOS: Attempting SpeechSynthesis for:', text)
+        console.log('🍎 iOS: speechSynthesis available:', !!window.speechSynthesis)
+        console.log('🍎 iOS: speechSynthesis.pending:', window.speechSynthesis.pending)
+        console.log('🍎 iOS: speechSynthesis.speaking:', window.speechSynthesis.speaking)
+        
+        setCurrentlyPlaying(text) // Set state first
+        window.speechSynthesis.cancel()
+        
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.rate = 0.9
+        utterance.volume = 1.0
+        utterance.lang = 'en-US'
+        
+        utterance.onstart = () => {
+          console.log('✅ SpeechSynthesis STARTED for:', text)
+        }
+        
+        utterance.onend = () => {
+          console.log('✅ SpeechSynthesis completed for:', text)
+          setCurrentlyPlaying(null)
+        }
+        
+        utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
+          console.error('❌ SpeechSynthesis error:', {
+            error: e.error,
+            type: e.type,
+            charIndex: e.charIndex,
+            charLength: e.charLength,
+            utterance: e.utterance?.text
+          })
+          setCurrentlyPlaying(null)
+        }
+        
+        window.speechSynthesis.speak(utterance)
+        console.log('🗣️ SpeechSynthesis speak() called for:', text)
+        console.log('🍎 iOS: After speak(), pending:', window.speechSynthesis.pending, 'speaking:', window.speechSynthesis.speaking)
+        return true
+      } else {
+        console.warn('⚠️ SpeechSynthesis API not available')
+      }
+    } catch (error) {
+      console.error('❌ SpeechSynthesis setup error:', error)
+      setCurrentlyPlaying(null)
+    }
+    return false
+  }
+
   const pronounceWord = async (wordText: string) => {
     // Detect iOS devices
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
-    // On iOS, use SpeechSynthesis directly as it's more reliable
-    // HTML5 Audio has strict user gesture requirements that break after async operations
+    setCurrentlyPlaying(wordText)
+
+    // Check if audio is cached FIRST - if so, we can play it immediately (iOS friendly)
+    const cachedAudio = audioCache.get(wordText)
+    
+    if (cachedAudio) {
+      // For cached audio, create and play synchronously (works on iOS)
+      try {
+        const blob = new Blob([cachedAudio], { type: 'audio/mpeg' })
+        const audioUrl = URL.createObjectURL(blob)
+        const audio = new Audio(audioUrl)
+        
+        // iOS-specific fixes
+        audio.volume = 1.0
+        audio.preload = 'auto'
+        audio.setAttribute('playsinline', 'true')
+        audio.setAttribute('webkit-playsinline', 'true')
+        
+        const cleanup = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        
+        audio.onended = cleanup
+        audio.onerror = (e) => {
+          console.error('Audio error:', e)
+          cleanup()
+        }
+        
+        // Try to play immediately - should work for cached audio on iOS
+        audio.load()
+        await audio.play().catch(async (playError) => {
+          // If immediate play fails, wait for loadeddata
+          await new Promise<void>((resolve) => {
+            const handleLoadedData = () => {
+              audio.removeEventListener('loadeddata', handleLoadedData)
+              audio.play().then(resolve).catch(() => {
+                // If still fails, try SpeechSynthesis as fallback
+                if ('speechSynthesis' in window) {
+                  window.speechSynthesis.cancel()
+                  const utterance = new SpeechSynthesisUtterance(wordText)
+                  utterance.rate = 0.9
+                  utterance.onend = () => setCurrentlyPlaying(null)
+                  utterance.onerror = () => setCurrentlyPlaying(null)
+                  window.speechSynthesis.speak(utterance)
+                }
+                resolve()
+              })
+            }
+            audio.addEventListener('loadeddata', handleLoadedData)
+          })
+        })
+        
+        return
+      } catch (error) {
+        console.error('Error playing cached audio:', error)
+        // Fall through to try other methods
+      }
+    }
+
+    // On iOS with uncached audio, use SpeechSynthesis as it's more reliable
+    // HTML5 Audio has strict user gesture requirements that break after async fetch
     if (isIOS && 'speechSynthesis' in window) {
       try {
-        setCurrentlyPlaying(wordText)
-        // Cancel any ongoing speech
+        // Cancel any ongoing speech first
         window.speechSynthesis.cancel()
         
+        // Create utterance synchronously (before any async operations)
         const utterance = new SpeechSynthesisUtterance(wordText)
         utterance.rate = 0.9
         utterance.pitch = 1.0
         utterance.volume = 1.0
+        utterance.lang = 'en-US'
+        
+        // Set up event handlers BEFORE speaking
+        utterance.onstart = () => {
+          console.log('✅ SpeechSynthesis started on iOS for:', wordText)
+        }
         
         utterance.onend = () => {
+          console.log('✅ SpeechSynthesis completed')
           setCurrentlyPlaying(null)
         }
         
-        utterance.onerror = (e) => {
-          console.error('SpeechSynthesis error:', e)
+        utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
+          console.error('❌ SpeechSynthesis error:', e.error, e)
           setCurrentlyPlaying(null)
+          
+          // If SpeechSynthesis fails, try fetching and playing audio
+          // We're already in an async context, so we can do this
+          fetchAndPlayAudio(wordText)
         }
         
-        window.speechSynthesis.speak(utterance)
+        // Call speak() immediately - iOS requires it to be in the gesture handler
+        // No setTimeout needed - iOS Safari will queue it if needed
+        try {
+          window.speechSynthesis.speak(utterance)
+          console.log('🗣️ SpeechSynthesis speak() called for:', wordText)
+        } catch (speakError) {
+          console.error('❌ Error calling speak():', speakError)
+          setCurrentlyPlaying(null)
+          // Try fetching and playing audio as fallback
+          fetchAndPlayAudio(wordText)
+        }
+        
         return
       } catch (error) {
-        console.error('Error with SpeechSynthesis:', error)
+        console.error('❌ Error setting up SpeechSynthesis:', error)
         setCurrentlyPlaying(null)
         // Fall through to try HTML5 Audio as fallback
       }
+    }
+    
+    // Helper function to fetch and play audio when SpeechSynthesis fails
+    const fetchAndPlayAudio = async (text: string) => {
+      try {
+        const response = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+        
+        if (!response.ok) throw new Error('TTS API failed')
+        
+        const audioBlob = await response.blob()
+        const arrayBuffer = await audioBlob.arrayBuffer()
+        audioCache.set(text, arrayBuffer)
+        
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
+        const audioUrl = URL.createObjectURL(blob)
+        const audio = new Audio(audioUrl)
+        
+        audio.volume = 1.0
+        audio.setAttribute('playsinline', 'true')
+        audio.setAttribute('webkit-playsinline', 'true')
+        
+        audio.onended = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        audio.onerror = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        
+        audio.load()
+        await audio.play()
+      } catch (error) {
+        console.error('❌ Error with audio fallback:', error)
+        setCurrentlyPlaying(null)
+      }
+    }
+    
+    // If we reach here and it's iOS but SpeechSynthesis failed, try audio
+    if (isIOS) {
+      await fetchAndPlayAudio(wordText)
+      return
     }
 
     // For non-iOS or if SpeechSynthesis fails, use HTML5 Audio
@@ -314,9 +494,27 @@ export function VocabularyWordCard({
               </div>
               {showAudio && (
                 <Button
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation()
-                    pronounceWord(word.word)
+                    
+                    // Check if audio is cached first
+                    const cachedAudio = audioCache.get(word.word)
+                    
+                    // On iOS with uncached audio, try SpeechSynthesis synchronously in click handler
+                    // This ensures it's called within the user gesture context
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                    
+                    if (isIOS && !cachedAudio) {
+                      // Try SpeechSynthesis synchronously in click handler (iOS requirement)
+                      if (speakWithSpeechSynthesis(word.word)) {
+                        return // Success - SpeechSynthesis called
+                      }
+                      // If SpeechSynthesis fails, fall through to pronounceWord
+                    }
+                    
+                    // For cached audio or non-iOS, use normal async flow
+                    await pronounceWord(word.word)
                   }}
                   className={`h-12 w-12 p-0 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
                     currentlyPlaying === word.word
@@ -389,9 +587,19 @@ export function VocabularyWordCard({
               <li key={idx} className="text-sm text-muted-foreground leading-relaxed group flex items-start gap-2">
                 <span className="flex-1">{meaning}</span>
                 <button
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation()
-                    pronounceWord(meaning)
+                    // On iOS with uncached audio, try SpeechSynthesis synchronously
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                    const cachedAudio = audioCache.get(meaning)
+                    
+                    if (isIOS && !cachedAudio && speakWithSpeechSynthesis(meaning)) {
+                      return // SpeechSynthesis succeeded
+                    }
+                    
+                    // Otherwise use normal flow
+                    await pronounceWord(meaning)
                   }}
                   className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                   title="Click to hear definition"
@@ -434,7 +642,19 @@ export function VocabularyWordCard({
                 {word.synonyms.map((syn, idx) => (
                   <button
                     key={idx}
-                    onClick={() => pronounceWord(syn)}
+                    onClick={async () => {
+                      // On iOS with uncached audio, try SpeechSynthesis synchronously
+                      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                      const cachedAudio = audioCache.get(syn)
+                      
+                      if (isIOS && !cachedAudio && speakWithSpeechSynthesis(syn)) {
+                        return // SpeechSynthesis succeeded
+                      }
+                      
+                      // Otherwise use normal flow
+                      await pronounceWord(syn)
+                    }}
                     className="group px-2 py-1 text-xs rounded-md bg-green-500/10 text-green-700 dark:text-green-400 hover:bg-green-500/20 transition-all active:scale-95 flex items-center gap-1.5"
                     title={`Click to hear pronunciation of "${syn}"`}
                   >
@@ -459,7 +679,19 @@ export function VocabularyWordCard({
                 {word.antonyms.map((ant, idx) => (
                   <button
                     key={idx}
-                    onClick={() => pronounceWord(ant)}
+                    onClick={async () => {
+                      // On iOS with uncached audio, try SpeechSynthesis synchronously
+                      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                      const cachedAudio = audioCache.get(ant)
+                      
+                      if (isIOS && !cachedAudio && speakWithSpeechSynthesis(ant)) {
+                        return // SpeechSynthesis succeeded
+                      }
+                      
+                      // Otherwise use normal flow
+                      await pronounceWord(ant)
+                    }}
                     className="group px-2 py-1 text-xs rounded-md bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-500/20 transition-all active:scale-95 flex items-center gap-1.5"
                     title={`Click to hear pronunciation of "${ant}"`}
                   >

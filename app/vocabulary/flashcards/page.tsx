@@ -58,40 +58,149 @@ export default function FlashcardsPage() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
-    // On iOS, use SpeechSynthesis directly as it's more reliable
-    // HTML5 Audio has strict user gesture requirements that break after async operations
+    // Check if audio is cached FIRST - if so, we can play it immediately (iOS friendly)
+    const cachedAudio = audioCache.get(word)
+    
+    if (cachedAudio) {
+      // For cached audio, create and play synchronously (works on iOS)
+      try {
+        addDebugLog(`✅ Audio found in cache, playing immediately`)
+        const blob = new Blob([cachedAudio], { type: 'audio/mpeg' })
+        const audioUrl = URL.createObjectURL(blob)
+        const audio = new Audio(audioUrl)
+        
+        audio.volume = 1.0
+        audio.setAttribute('playsinline', 'true')
+        audio.setAttribute('webkit-playsinline', 'true')
+        
+        const cleanup = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        
+        audio.onended = cleanup
+        audio.onerror = cleanup
+        
+        audio.load()
+        await audio.play().catch(async () => {
+          // If play fails, wait for loadeddata
+          await new Promise<void>((resolve) => {
+            const handleLoadedData = () => {
+              audio.removeEventListener('loadeddata', handleLoadedData)
+              audio.play().catch(() => resolve())
+              resolve()
+            }
+            audio.addEventListener('loadeddata', handleLoadedData)
+          })
+        })
+        
+        return
+      } catch (error) {
+        addDebugLog(`❌ Error playing cached audio: ${error}`)
+        // Fall through
+      }
+    }
+
+    // On iOS with uncached audio, use SpeechSynthesis as it's more reliable
+    // HTML5 Audio has strict user gesture requirements that break after async fetch
     if (isIOS && 'speechSynthesis' in window) {
       try {
         addDebugLog(`🍎 iOS detected, using SpeechSynthesis API`)
-        setCurrentlyPlaying(word)
-        // Cancel any ongoing speech
+        // Cancel any ongoing speech first
         window.speechSynthesis.cancel()
         
+        // Create utterance synchronously (before any async operations)
         const utterance = new SpeechSynthesisUtterance(word)
         utterance.rate = 0.9
         utterance.pitch = 1.0
         utterance.volume = 1.0
+        utterance.lang = 'en-US'
+        
+        // Set up event handlers BEFORE speaking
+        utterance.onstart = () => {
+          addDebugLog(`✅ SpeechSynthesis started`)
+        }
         
         utterance.onend = () => {
           addDebugLog(`✅ SpeechSynthesis completed`)
           setCurrentlyPlaying(null)
         }
         
-        utterance.onerror = (e) => {
-          addDebugLog(`❌ SpeechSynthesis error: ${e}`)
-          console.error('SpeechSynthesis error:', e)
+        utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
+          addDebugLog(`❌ SpeechSynthesis error: ${e.error}`)
+          console.error('SpeechSynthesis error:', e.error, e)
           setCurrentlyPlaying(null)
+          // Try fetching and playing audio as fallback
+          fetchAndPlayAudio(word)
         }
         
-        window.speechSynthesis.speak(utterance)
-        addDebugLog(`🗣️ SpeechSynthesis started`)
+        // Call speak() immediately - iOS requires it to be in the gesture handler
+        // No setTimeout needed - iOS Safari will queue it if needed
+        try {
+          window.speechSynthesis.speak(utterance)
+          addDebugLog(`🗣️ SpeechSynthesis speak() called`)
+        } catch (speakError) {
+          addDebugLog(`❌ Error calling speak(): ${speakError}`)
+          setCurrentlyPlaying(null)
+          // Try fetching and playing audio as fallback
+          fetchAndPlayAudio(word)
+        }
+        
         return
       } catch (error) {
-        addDebugLog(`❌ Error with SpeechSynthesis: ${error}`)
+        addDebugLog(`❌ Error setting up SpeechSynthesis: ${error}`)
         console.error('Error with SpeechSynthesis:', error)
         setCurrentlyPlaying(null)
         // Fall through to try HTML5 Audio as fallback
       }
+    }
+    
+    // Helper function to fetch and play audio when SpeechSynthesis fails
+    const fetchAndPlayAudio = async (text: string) => {
+      try {
+        addDebugLog(`🔄 Fetching audio from API...`)
+        const response = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+        
+        if (!response.ok) throw new Error('TTS API failed')
+        
+        const audioBlob = await response.blob()
+        const arrayBuffer = await audioBlob.arrayBuffer()
+        audioCache.set(text, arrayBuffer)
+        
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
+        const audioUrl = URL.createObjectURL(blob)
+        const audio = new Audio(audioUrl)
+        
+        audio.volume = 1.0
+        audio.setAttribute('playsinline', 'true')
+        audio.setAttribute('webkit-playsinline', 'true')
+        
+        audio.onended = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        audio.onerror = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        
+        audio.load()
+        await audio.play()
+        addDebugLog(`✅ Audio playback started`)
+      } catch (error) {
+        addDebugLog(`❌ Error with audio fallback: ${error}`)
+        setCurrentlyPlaying(null)
+      }
+    }
+    
+    // If we reach here and it's iOS but SpeechSynthesis failed, try audio
+    if (isIOS) {
+      await fetchAndPlayAudio(word)
+      return
     }
 
     try {
@@ -224,8 +333,8 @@ export default function FlashcardsPage() {
                   window.speechSynthesis.cancel()
                   const utterance = new SpeechSynthesisUtterance(word)
                   utterance.rate = 0.9
-                  utterance.onend = () => setIsPlaying(false)
-                  utterance.onerror = () => setIsPlaying(false)
+                  utterance.onend = () => setCurrentlyPlaying(null)
+                  utterance.onerror = () => setCurrentlyPlaying(null)
                   window.speechSynthesis.speak(utterance)
                   URL.revokeObjectURL(audioUrl)
                 }
@@ -357,7 +466,42 @@ export default function FlashcardsPage() {
                   currentlyPlaying={currentlyPlaying}
                   showDetails={showDetails}
                   onFlip={handleFlip}
-                  onPronounce={pronounceWord}
+                  onPronounce={async (word: string) => {
+                    // On iOS with uncached audio, try SpeechSynthesis synchronously in click handler
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                    const cachedAudio = audioCache.get(word)
+                    
+                    if (isIOS && !cachedAudio && 'speechSynthesis' in window) {
+                      try {
+                        setCurrentlyPlaying(word)
+                        window.speechSynthesis.cancel()
+                        const utterance = new SpeechSynthesisUtterance(word)
+                        utterance.rate = 0.9
+                        utterance.volume = 1.0
+                        utterance.lang = 'en-US'
+                        utterance.onend = () => {
+                          addDebugLog(`✅ iOS SpeechSynthesis completed`)
+                          setCurrentlyPlaying(null)
+                        }
+                        utterance.onerror = (e: SpeechSynthesisErrorEvent) => {
+                          addDebugLog(`❌ iOS SpeechSynthesis error: ${e.error}`)
+                          setCurrentlyPlaying(null)
+                          // Fallback to async pronounceWord
+                          pronounceWord(word)
+                        }
+                        window.speechSynthesis.speak(utterance)
+                        addDebugLog(`🗣️ iOS: SpeechSynthesis called synchronously`)
+                        return // Success
+                      } catch (error) {
+                        addDebugLog(`❌ iOS SpeechSynthesis setup error: ${error}`)
+                        // Fall through to pronounceWord
+                      }
+                    }
+                    
+                    // For cached audio or non-iOS, use normal async flow
+                    await pronounceWord(word)
+                  }}
                   onToggleDetails={() => setShowDetails(!showDetails)}
                   onNext={handleNext}
                   onPrevious={handlePrevious}

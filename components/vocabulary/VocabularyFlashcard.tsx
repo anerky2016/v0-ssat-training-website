@@ -136,9 +136,17 @@ export function VocabularyFlashcard({
             </div>
             <div className="flex flex-col items-center justify-center gap-3 mb-4">
               <Button
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation()
-                  onPronounce(word.word)
+                  
+                  // On iOS, try SpeechSynthesis synchronously before async operations
+                  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                  
+                  // For iOS, we need to call SpeechSynthesis synchronously in the click handler
+                  // But we can't set currentlyPlaying here (it's a prop), so let parent handle it
+                  // Just call onPronounce - parent's pronounceWord should handle iOS properly
+                  await onPronounce(word.word)
                 }}
                 className={`h-14 w-14 p-0 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
                   currentlyPlaying === word.word
