@@ -54,6 +54,46 @@ export default function FlashcardsPage() {
   }, [searchParams])
 
   const pronounceWord = async (word: string) => {
+    // Detect iOS devices
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    // On iOS, use SpeechSynthesis directly as it's more reliable
+    // HTML5 Audio has strict user gesture requirements that break after async operations
+    if (isIOS && 'speechSynthesis' in window) {
+      try {
+        addDebugLog(`🍎 iOS detected, using SpeechSynthesis API`)
+        setIsPlaying(true)
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel()
+        
+        const utterance = new SpeechSynthesisUtterance(word)
+        utterance.rate = 0.9
+        utterance.pitch = 1.0
+        utterance.volume = 1.0
+        
+        utterance.onend = () => {
+          addDebugLog(`✅ SpeechSynthesis completed`)
+          setIsPlaying(false)
+        }
+        
+        utterance.onerror = (e) => {
+          addDebugLog(`❌ SpeechSynthesis error: ${e}`)
+          console.error('SpeechSynthesis error:', e)
+          setIsPlaying(false)
+        }
+        
+        window.speechSynthesis.speak(utterance)
+        addDebugLog(`🗣️ SpeechSynthesis started`)
+        return
+      } catch (error) {
+        addDebugLog(`❌ Error with SpeechSynthesis: ${error}`)
+        console.error('Error with SpeechSynthesis:', error)
+        setIsPlaying(false)
+        // Fall through to try HTML5 Audio as fallback
+      }
+    }
+
     try {
       addDebugLog(`🔊 Pronunciation requested for: "${word}"`)
       setIsPlaying(true)
@@ -135,27 +175,61 @@ export default function FlashcardsPage() {
           await audio.play()
           addDebugLog(`▶️ Playback started successfully`)
         } catch (playError: any) {
+          // If play fails, try SpeechSynthesis as fallback
+          if ('speechSynthesis' in window) {
+            addDebugLog(`Audio.play() failed, falling back to SpeechSynthesis`)
+            window.speechSynthesis.cancel()
+            const utterance = new SpeechSynthesisUtterance(word)
+            utterance.rate = 0.9
+            utterance.onend = () => setIsPlaying(false)
+            utterance.onerror = () => setIsPlaying(false)
+            window.speechSynthesis.speak(utterance)
+            URL.revokeObjectURL(audioUrl)
+            return
+          }
+          
           // If play fails (e.g., audio not loaded yet), wait for loadeddata
           if (playError.name !== 'AbortError') {
             addDebugLog(`⏳ Audio not ready, waiting for loadeddata...`)
-            await new Promise<void>((resolve, reject) => {
+            await new Promise<void>((resolve) => {
+              let timeoutId: NodeJS.Timeout
               const handleLoadedData = async () => {
+                clearTimeout(timeoutId)
                 try {
                   await audio.play()
                   addDebugLog(`▶️ Playback started after load`)
                   resolve()
-                } catch (retryError) {
-                  addDebugLog(`❌ Retry play error: ${retryError}`)
-                  reject(retryError)
+                } catch (retryError: any) {
+                  // Final fallback to SpeechSynthesis
+                  if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel()
+                    const utterance = new SpeechSynthesisUtterance(word)
+                    utterance.rate = 0.9
+                    utterance.onend = () => setIsPlaying(false)
+                    utterance.onerror = () => setIsPlaying(false)
+                    window.speechSynthesis.speak(utterance)
+                    URL.revokeObjectURL(audioUrl)
+                  }
+                  resolve()
                 } finally {
                   audio.removeEventListener('loadeddata', handleLoadedData)
                 }
               }
               audio.addEventListener('loadeddata', handleLoadedData)
               // Fallback timeout
-              setTimeout(() => {
+              timeoutId = setTimeout(() => {
                 audio.removeEventListener('loadeddata', handleLoadedData)
-                reject(new Error('Audio load timeout'))
+                // Try SpeechSynthesis before giving up
+                if ('speechSynthesis' in window) {
+                  window.speechSynthesis.cancel()
+                  const utterance = new SpeechSynthesisUtterance(word)
+                  utterance.rate = 0.9
+                  utterance.onend = () => setIsPlaying(false)
+                  utterance.onerror = () => setIsPlaying(false)
+                  window.speechSynthesis.speak(utterance)
+                  URL.revokeObjectURL(audioUrl)
+                }
+                resolve()
               }, 5000)
             })
           } else {

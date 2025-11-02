@@ -76,6 +76,42 @@ export function VocabularyWordCard({
   }
 
   const pronounceWord = async (wordText: string) => {
+    // Detect iOS devices
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    // On iOS, use SpeechSynthesis directly as it's more reliable
+    // HTML5 Audio has strict user gesture requirements that break after async operations
+    if (isIOS && 'speechSynthesis' in window) {
+      try {
+        setIsPlaying(true)
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel()
+        
+        const utterance = new SpeechSynthesisUtterance(wordText)
+        utterance.rate = 0.9
+        utterance.pitch = 1.0
+        utterance.volume = 1.0
+        
+        utterance.onend = () => {
+          setIsPlaying(false)
+        }
+        
+        utterance.onerror = (e) => {
+          console.error('SpeechSynthesis error:', e)
+          setIsPlaying(false)
+        }
+        
+        window.speechSynthesis.speak(utterance)
+        return
+      } catch (error) {
+        console.error('Error with SpeechSynthesis:', error)
+        setIsPlaying(false)
+        // Fall through to try HTML5 Audio as fallback
+      }
+    }
+
+    // For non-iOS or if SpeechSynthesis fails, use HTML5 Audio
     try {
       setIsPlaying(true)
 
@@ -129,7 +165,16 @@ export function VocabularyWordCard({
       audio.onerror = (e) => {
         console.error('Audio error:', e)
         cleanup()
-        throw new Error('Audio playback failed')
+        // Fallback to SpeechSynthesis if available
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(wordText)
+          utterance.rate = 0.9
+          utterance.onend = () => setIsPlaying(false)
+          utterance.onerror = () => setIsPlaying(false)
+          window.speechSynthesis.speak(utterance)
+        } else {
+          throw new Error('Audio playback failed')
+        }
       }
 
       // Load audio first
@@ -141,24 +186,59 @@ export function VocabularyWordCard({
         try {
           await audio.play()
         } catch (playError: any) {
+          // If play fails, try SpeechSynthesis as fallback
+          if ('speechSynthesis' in window) {
+            console.log('Audio.play() failed, falling back to SpeechSynthesis')
+            window.speechSynthesis.cancel()
+            const utterance = new SpeechSynthesisUtterance(wordText)
+            utterance.rate = 0.9
+            utterance.onend = () => setIsPlaying(false)
+            utterance.onerror = () => setIsPlaying(false)
+            window.speechSynthesis.speak(utterance)
+            URL.revokeObjectURL(audioUrl)
+            return
+          }
+          
           // If play fails (e.g., audio not loaded yet), wait for loadeddata
           if (playError.name !== 'AbortError') {
-            await new Promise<void>((resolve, reject) => {
+            await new Promise<void>((resolve) => {
+              let timeoutId: NodeJS.Timeout
               const handleLoadedData = async () => {
+                clearTimeout(timeoutId)
                 try {
                   await audio.play()
                   resolve()
-                } catch (retryError) {
-                  reject(retryError)
+                } catch (retryError: any) {
+                  // Final fallback to SpeechSynthesis
+                  if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel()
+                    const utterance = new SpeechSynthesisUtterance(wordText)
+                    utterance.rate = 0.9
+                    utterance.onend = () => setIsPlaying(false)
+                    utterance.onerror = () => setIsPlaying(false)
+                    window.speechSynthesis.speak(utterance)
+                    URL.revokeObjectURL(audioUrl)
+                  }
+                  resolve()
                 } finally {
                   audio.removeEventListener('loadeddata', handleLoadedData)
                 }
               }
               audio.addEventListener('loadeddata', handleLoadedData)
               // Fallback timeout
-              setTimeout(() => {
+              timeoutId = setTimeout(() => {
                 audio.removeEventListener('loadeddata', handleLoadedData)
-                reject(new Error('Audio load timeout'))
+                // Try SpeechSynthesis before giving up
+                if ('speechSynthesis' in window) {
+                  window.speechSynthesis.cancel()
+                  const utterance = new SpeechSynthesisUtterance(wordText)
+                  utterance.rate = 0.9
+                  utterance.onend = () => setIsPlaying(false)
+                  utterance.onerror = () => setIsPlaying(false)
+                  window.speechSynthesis.speak(utterance)
+                  URL.revokeObjectURL(audioUrl)
+                }
+                resolve()
               }, 5000)
             })
           } else {
@@ -173,8 +253,9 @@ export function VocabularyWordCard({
       console.error('Error playing pronunciation:', error)
       setIsPlaying(false)
 
-      // Fallback to browser TTS
+      // Final fallback to browser TTS
       if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
         const utterance = new SpeechSynthesisUtterance(wordText)
         utterance.rate = 0.9
         utterance.onend = () => setIsPlaying(false)
