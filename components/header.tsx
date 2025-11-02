@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Menu, LogOut, TrendingUp } from "lucide-react"
+import { BookOpen, Menu, LogOut, TrendingUp, UserPlus } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { AcademicCap, BookOpen as BookOpenIcon } from "@/components/ui/icon"
@@ -194,10 +194,11 @@ export function Header() {
                   ) : (
                     <Button
                       variant="outline"
-                      className="w-full bg-transparent"
+                      className="w-full bg-transparent flex items-center gap-2"
                       onClick={() => setShowSignInDialog(true)}
                     >
-                      Sign In with Google
+                      <UserPlus className="h-4 w-4" />
+                      Sign up and Sign in
                     </Button>
                   )}
                 </div>
