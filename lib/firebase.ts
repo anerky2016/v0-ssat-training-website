@@ -29,15 +29,26 @@ if (isConfigured) {
   console.log('🔐 Initializing Auth with IndexedDB persistence...')
   const authStartTime = Date.now()
 
-  // Use initializeAuth to explicitly set persistence
-  if (getApps().length === 1) {
-    // First initialization
+  // Try to initialize auth with IndexedDB persistence
+  // If auth was already initialized, initializeAuth will throw, so we'll use getAuth instead
+  try {
     auth = initializeAuth(app, {
       persistence: indexedDBLocalPersistence,
     })
-  } else {
-    // Already initialized
-    auth = getAuth(app)
+    console.log('🔐 Auth initialized with IndexedDB persistence')
+  } catch (error: any) {
+    // Auth was already initialized, use existing instance
+    // getAuth will return the existing auth instance with its current persistence settings
+    if (error.code === 'auth/already-initialized') {
+      auth = getAuth(app)
+      console.log('🔐 Auth already initialized, using existing instance')
+    } else {
+      // Unexpected error
+      console.error('🔐 Error initializing auth:', error)
+      // Fall back to getAuth anyway
+      auth = getAuth(app)
+      console.log('🔐 Fallback: Using default auth instance')
+    }
   }
 
   console.log(`🔐 Auth initialized in ${Date.now() - authStartTime}ms`)

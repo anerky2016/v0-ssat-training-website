@@ -32,6 +32,7 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const observerSetupRef = useRef(false)
+  const firstCallbackReceivedRef = useRef(false)
 
   useEffect(() => {
     if (!auth) {
@@ -50,18 +51,22 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     const startTime = Date.now()
 
     // Check if we have a currentUser immediately available (cached from IndexedDB)
-    const cachedUser = auth.currentUser
-    if (cachedUser) {
-      console.log(`⚡ Auth: Using cached user immediately: ${cachedUser.email || cachedUser.uid}`)
-      setUser(cachedUser)
+    // Note: On page refresh, auth.currentUser might be null until Firebase restores from IndexedDB
+    // So we should always wait for onAuthStateChanged to fire at least once
+    const initialCachedUser = auth.currentUser
+    firstCallbackReceivedRef.current = false
+    
+    if (initialCachedUser) {
+      console.log(`⚡ Auth: Found cached user immediately: ${initialCachedUser.email || initialCachedUser.uid}`)
+      // Optimistically set user, but still wait for observer to confirm
+      setUser(initialCachedUser)
       setLoading(false)
-      // Still set up observer to catch token refresh/validation updates
     } else {
-      console.log('🔐 Auth: No cached user found')
+      console.log('🔐 Auth: No immediate cached user, waiting for IndexedDB restoration...')
       // Set a timeout to stop blocking UI if Firebase is slow
       timeoutRef.current = setTimeout(() => {
         setLoading((prevLoading) => {
-          if (prevLoading) {
+          if (prevLoading && !firstCallbackReceivedRef.current) {
             console.warn('⚠️ Auth: Timeout reached, rendering UI without auth confirmation')
             return false
           }
@@ -70,9 +75,12 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
       }, AUTH_TIMEOUT_MS)
     }
 
-    // Set up observer for auth state changes (validates token with Firebase servers)
+    // Set up observer for auth state changes
+    // This will fire immediately if there's a cached user in IndexedDB (restoration)
+    // and also fires whenever auth state changes (sign in/out, token refresh, etc.)
     const setupStart = Date.now()
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      firstCallbackReceivedRef.current = true
       const callbackDelay = Date.now() - setupStart
       const totalElapsed = Date.now() - startTime
 
@@ -82,27 +90,26 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
         timeoutRef.current = null
       }
 
-      // Update user if different from cached
-      const userChanged = cachedUser?.uid !== user?.uid
-      if (userChanged || !cachedUser) {
-        console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms (total: ${totalElapsed}ms)`)
-        console.log(`   User: ${user ? user.email || user.uid : 'none'}`)
+      // Always update user state when observer fires
+      // This handles both initial restoration and subsequent changes
+      const userChanged = initialCachedUser?.uid !== user?.uid
+      if (userChanged || !initialCachedUser) {
+        if (initialCachedUser) {
+          console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms - user state changed`)
+        } else {
+          console.log(`✅ Auth: Observer callback fired after ${callbackDelay}ms - user restored from IndexedDB`)
+        }
+        console.log(`   User: ${user ? user.email || user.uid : 'none (logged out)'}`)
         console.log(`   Performance: ${callbackDelay > 10000 ? '🐌 SLOW - likely Firebase Auth server validation delay' : callbackDelay > 1000 ? '⚠️ Slow network or token validation' : '✅ Normal'}`)
-        setUser(user)
-        setLoading(false)
       } else {
-        console.log(`🔄 Auth: Observer confirmed cached user after ${callbackDelay}ms (token validated)`)
-        // User didn't change, but we can mark as not loading if we haven't already
-        setLoading((prevLoading) => {
-          if (prevLoading) {
-            return false
-          }
-          return prevLoading
-        })
+        console.log(`🔄 Auth: Observer confirmed cached user after ${callbackDelay}ms (token validated, no change)`)
       }
+      
+      setUser(user)
+      setLoading(false)
     })
 
-    console.log(`🔐 Auth: Observer setup completed, ${cachedUser ? 'using cached user immediately' : 'waiting for server validation...'}`)
+    console.log(`🔐 Auth: Observer setup completed, ${initialCachedUser ? 'optimistically using cached user, waiting for confirmation' : 'waiting for IndexedDB restoration...'}`)
 
     return () => {
       unsubscribe()
