@@ -65,6 +65,34 @@ export function VocabularyFlashcard({
     loadDifficulty()
   }, [word.word])
 
+  // Keyboard navigation support for desktop browsers
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only handle arrow keys, ignore if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return
+      }
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault()
+          if (onPrevious) {
+            onPrevious()
+          }
+          break
+        case 'ArrowRight':
+          e.preventDefault()
+          if (onNext) {
+            onNext()
+          }
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onNext, onPrevious])
+
   const handleIncreaseDifficulty = async (e: React.MouseEvent) => {
     e.stopPropagation()
     const newDifficulty = await increaseDifficulty(word.word)
