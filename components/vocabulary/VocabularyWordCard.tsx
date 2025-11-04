@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -29,6 +29,7 @@ export interface VocabularyWord {
   synonyms: string[]
   antonyms: string[]
   further_information: string[]
+  tip?: string
 }
 
 interface VocabularyWordCardProps {
@@ -638,6 +639,23 @@ export function VocabularyWordCard({
                   "{highlightWord(example, word.word)}"
                 </p>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Memory Tip */}
+        {word.tip && (
+          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <Lightbulb className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-1 uppercase tracking-wide">
+                  Memory Tip
+                </h3>
+                <p className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed">
+                  {word.tip}
+                </p>
+              </div>
             </div>
           </div>
         )}
