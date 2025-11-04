@@ -120,8 +120,29 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
     @apply bg-background text-foreground;
+    /* Disable overscroll bounce on mobile */
+    overscroll-behavior: none;
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Disable touch actions that cause bounce */
+    touch-action: pan-y;
+  }
+
+  /* Additional fix for iOS Safari */
+  html {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
   }
 }
 
