@@ -567,32 +567,62 @@ export function VocabularyWordCard({
               category="vocabulary"
             />
             {/* Difficulty Controls - Spinner Wheel */}
-            <div className="flex items-center justify-center gap-2">
-              <Button
-                onClick={handleDecreaseDifficulty}
-                disabled={difficulty === 0}
-                variant="outline"
-                size="sm"
-                className="h-10 w-10 p-0 rounded-full flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                title="Decrease difficulty"
-              >
-                <ChevronDown className="h-5 w-5" />
-              </Button>
-              <div className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap text-center min-w-[120px] ${
+            <div className="relative w-full max-w-[140px]">
+              {/* Spinner Wheel Container */}
+              <div className="relative h-[100px] overflow-hidden rounded-lg border-2 border-muted bg-background">
+                {/* Top gradient overlay */}
+                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+
+                {/* Selection highlight */}
+                <div className="absolute top-1/2 left-0 right-0 h-8 -translate-y-1/2 border-y-2 border-primary/30 bg-primary/5 pointer-events-none z-10" />
+
+                {/* Scrollable items */}
+                <div
+                  className="absolute inset-0 py-[36px] overflow-y-auto scrollbar-hide cursor-pointer select-none"
+                  style={{
+                    scrollSnapType: 'y mandatory',
+                    scrollBehavior: 'smooth'
+                  }}
+                  onScroll={(e) => {
+                    const scrollTop = e.currentTarget.scrollTop
+                    const itemHeight = 32 // Height of each item
+                    const newDifficulty = Math.round(scrollTop / itemHeight) as DifficultyLevel
+                    if (newDifficulty >= 0 && newDifficulty <= 3 && newDifficulty !== difficulty) {
+                      handleDifficultyChange([newDifficulty])
+                    }
+                  }}
+                  ref={(el) => {
+                    if (el) {
+                      el.scrollTop = difficulty * 32
+                    }
+                  }}
+                >
+                  {[0, 1, 2, 3].map((level) => (
+                    <div
+                      key={level}
+                      className="h-8 flex items-center justify-center text-sm font-medium transition-all"
+                      style={{
+                        scrollSnapAlign: 'start',
+                        opacity: level === difficulty ? 1 : 0.3,
+                        transform: level === difficulty ? 'scale(1.1)' : 'scale(0.9)'
+                      }}
+                      onClick={() => handleDifficultyChange([level])}
+                    >
+                      {getDifficultyLabel(level as DifficultyLevel, level <= difficulty && isReviewed)}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bottom gradient overlay */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+              </div>
+
+              {/* Current difficulty indicator below */}
+              <div className={`mt-2 px-3 py-1 rounded-full text-xs font-semibold text-center ${
                 getDifficultyColor(difficulty, isReviewed)
               }`}>
                 {getDifficultyLabel(difficulty, isReviewed)}
               </div>
-              <Button
-                onClick={handleIncreaseDifficulty}
-                disabled={difficulty === 3}
-                variant="outline"
-                size="sm"
-                className="h-10 w-10 p-0 rounded-full flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                title="Increase difficulty"
-              >
-                <ChevronUp className="h-5 w-5" />
-              </Button>
             </div>
           </div>
         </div>

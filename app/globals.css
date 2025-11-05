@@ -199,3 +199,13 @@ div[id*="recaptcha"] * {
 [data-sonner-toast] {
   pointer-events: auto !important;
 }
+
+/* Hide scrollbar for spinner wheel */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
