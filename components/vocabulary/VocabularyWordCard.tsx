@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Slider } from "@/components/ui/slider"
 import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
@@ -15,6 +16,7 @@ import {
   getDifficultyColor,
   initializeDifficulties,
   hasWordBeenReviewed,
+  setWordDifficulty,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
@@ -82,6 +84,14 @@ export function VocabularyWordCard({
     setDifficulty(newDifficulty)
     setIsReviewed(true) // Mark as reviewed once user interacts
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
+  }
+
+  const handleDifficultyChange = async (value: number[]) => {
+    const newDifficulty = value[0] as DifficultyLevel
+    await setWordDifficulty(word.word, newDifficulty)
+    setDifficulty(newDifficulty)
+    setIsReviewed(true)
+    setHistoryRefreshTrigger(prev => prev + 1)
   }
 
   // Helper to call SpeechSynthesis synchronously (for iOS)
@@ -557,32 +567,20 @@ export function VocabularyWordCard({
               category="vocabulary"
             />
             {/* Difficulty Controls */}
-            <div className="flex items-center gap-1.5 sm:gap-1">
-              <Button
-                onClick={handleDecreaseDifficulty}
-                disabled={difficulty === 0}
-                variant="outline"
-                size="sm"
-                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                title="Decrease difficulty"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-              <div className={`px-3 sm:px-2 py-1 sm:py-0.5 rounded text-xs font-medium whitespace-nowrap flex-1 sm:flex-none text-center ${
+            <div className="space-y-2">
+              <div className={`px-3 py-1 rounded text-xs font-medium text-center ${
                 getDifficultyColor(difficulty, isReviewed)
               }`}>
                 {getDifficultyLabel(difficulty, isReviewed)}
               </div>
-              <Button
-                onClick={handleIncreaseDifficulty}
-                disabled={difficulty === 3}
-                variant="outline"
-                size="sm"
-                className="h-9 w-12 sm:h-8 sm:w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                title="Increase difficulty"
-              >
-                <ChevronUp className="h-4 w-4" />
-              </Button>
+              <Slider
+                value={[difficulty]}
+                onValueChange={handleDifficultyChange}
+                min={0}
+                max={3}
+                step={1}
+                className="w-full"
+              />
             </div>
           </div>
         </div>
