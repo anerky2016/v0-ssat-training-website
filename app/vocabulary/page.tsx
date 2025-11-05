@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Brain, ListChecks, Sparkles } from "lucide-react"
+import { BookOpen, Brain, ListChecks, Sparkles, Award } from "lucide-react"
 import Link from "next/link"
 import { generateMetadata as genMeta, seoKeywords } from "@/lib/seo"
 import type { Metadata } from "next"
@@ -38,7 +38,7 @@ export default function VocabularyPage() {
         {/* Content Categories */}
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto">
+            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
               <Link href="/vocabulary/word-lists">
                 <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
@@ -99,30 +99,60 @@ export default function VocabularyPage() {
                 </Card>
               </Link>
 
-              <Link href="/verbal/exercises">
+              <Link href="/vocabulary/quiz">
                 <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-chart-1/10 text-chart-1">
-                      <Sparkles className="h-6 w-6" />
+                      <Award className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl text-card-foreground">Practice Tests</CardTitle>
+                    <CardTitle className="text-xl text-card-foreground">Vocabulary Quiz</CardTitle>
                     <CardDescription className="text-muted-foreground">
-                      Apply your vocabulary knowledge with practice exercises
+                      Test your knowledge with interactive quizzes
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-1 flex-shrink-0" />
-                        <span>Synonym questions</span>
+                        <span>Synonyms & antonyms</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-1 flex-shrink-0" />
-                        <span>Analogy practice</span>
+                        <span>Word analogies</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-1 flex-shrink-0" />
                         <span>Instant feedback</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/verbal/exercises">
+                <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-xl text-card-foreground">Practice Tests</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      Full-length SSAT verbal practice tests
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-purple-500 flex-shrink-0" />
+                        <span>Timed practice</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-purple-500 flex-shrink-0" />
+                        <span>Test-like format</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-purple-500 flex-shrink-0" />
+                        <span>Detailed results</span>
                       </li>
                     </ul>
                   </CardContent>

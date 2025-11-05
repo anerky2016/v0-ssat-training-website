@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
-import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter, Lightbulb, ChevronUp, ChevronDown, Sparkles, Target, TrendingDown, TrendingUp, GraduationCap, Layers } from "lucide-react"
+import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter, Lightbulb, ChevronUp, ChevronDown, Sparkles, Target, TrendingDown, TrendingUp, GraduationCap, Layers, Award, Brain } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
@@ -803,16 +803,25 @@ export default function WordListsPage() {
                 </div>
               )}
 
-              {/* Only show flashcard button after letter selection */}
+              {/* Only show practice buttons after letter selection */}
               {((isMobile && mobileLetterSelected) || (!isMobile && desktopLetterSelected)) && filteredWords.length > 0 && (
-                <div className="mt-8 flex justify-center">
+                <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                   <Link
                     href={`/vocabulary/flashcards?words=${encodeURIComponent(
                       filteredWords.map(w => w.word).join(',')
                     )}&from=word-lists${selectedLetter ? `&letter=${selectedLetter}` : ''}`}
                   >
-                    <Button size="lg" className="bg-chart-5 hover:bg-chart-5/90">
+                    <Button size="lg" className="bg-chart-5 hover:bg-chart-5/90 w-full sm:w-auto">
+                      <Brain className="h-5 w-5 mr-2" />
                       Practice with Flashcards ({filteredWords.length} words)
+                    </Button>
+                  </Link>
+                  <Link
+                    href={`/vocabulary/quiz${selectedLetter ? `?letter=${selectedLetter}` : ''}`}
+                  >
+                    <Button size="lg" className="bg-chart-1 hover:bg-chart-1/90 w-full sm:w-auto">
+                      <Award className="h-5 w-5 mr-2" />
+                      Take Quiz on {selectedLetter ? `Letter ${selectedLetter}` : 'All Words'}
                     </Button>
                   </Link>
                 </div>
