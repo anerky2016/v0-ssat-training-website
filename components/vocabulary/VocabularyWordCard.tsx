@@ -566,21 +566,33 @@ export function VocabularyWordCard({
               customPath={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}
               category="vocabulary"
             />
-            {/* Difficulty Controls */}
-            <div className="space-y-2">
-              <div className={`px-3 py-1 rounded text-xs font-medium text-center ${
+            {/* Difficulty Controls - Spinner Wheel */}
+            <div className="flex items-center justify-center gap-2">
+              <Button
+                onClick={handleDecreaseDifficulty}
+                disabled={difficulty === 0}
+                variant="outline"
+                size="sm"
+                className="h-10 w-10 p-0 rounded-full flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                title="Decrease difficulty"
+              >
+                <ChevronDown className="h-5 w-5" />
+              </Button>
+              <div className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap text-center min-w-[120px] ${
                 getDifficultyColor(difficulty, isReviewed)
               }`}>
                 {getDifficultyLabel(difficulty, isReviewed)}
               </div>
-              <Slider
-                value={[difficulty]}
-                onValueChange={handleDifficultyChange}
-                min={0}
-                max={3}
-                step={1}
-                className="w-full"
-              />
+              <Button
+                onClick={handleIncreaseDifficulty}
+                disabled={difficulty === 3}
+                variant="outline"
+                size="sm"
+                className="h-10 w-10 p-0 rounded-full flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                title="Increase difficulty"
+              >
+                <ChevronUp className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
