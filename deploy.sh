@@ -2,8 +2,16 @@
 
 # SSAT Training Website Deployment Script
 # This script pulls latest changes, installs dependencies, builds, and restarts the app
+# Usage: ./deploy.sh [--force]
 
 set -e  # Exit on any error
+
+FORCE_DEPLOY=false
+
+# Check for --force flag
+if [ "$1" = "--force" ]; then
+    FORCE_DEPLOY=true
+fi
 
 echo "========================================="
 echo "Starting deployment..."
@@ -17,12 +25,17 @@ git fetch origin
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/main)
 
-if [ "$LOCAL" = "$REMOTE" ]; then
+if [ "$LOCAL" = "$REMOTE" ] && [ "$FORCE_DEPLOY" = false ]; then
     echo ""
     echo "========================================="
     echo "✅ Already up to date! No deployment needed."
+    echo "Use --force flag to force deployment anyway."
     echo "========================================="
     exit 0
+fi
+
+if [ "$FORCE_DEPLOY" = true ]; then
+    echo "🔥 Force deployment mode enabled - deploying anyway..."
 fi
 
 echo "📥 Pulling latest changes..."
