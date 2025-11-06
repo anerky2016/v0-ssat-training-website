@@ -566,8 +566,40 @@ export function VocabularyWordCard({
               customPath={`/vocabulary/word-lists/${word.word.toLowerCase().replace(/\s+/g, '-')}`}
               category="vocabulary"
             />
-            {/* Difficulty Controls - Spinner Wheel */}
-            <div className="relative w-full max-w-[140px]">
+
+            {/* Desktop: Button Controls */}
+            <div className="hidden md:flex flex-col gap-2 w-full max-w-[200px]">
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={handleDecreaseDifficulty}
+                  disabled={difficulty === 0}
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  title="Decrease difficulty"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+                <div className={`flex-1 px-3 py-1.5 rounded-md text-sm font-semibold text-center ${
+                  getDifficultyColor(difficulty, isReviewed)
+                }`}>
+                  {getDifficultyLabel(difficulty, isReviewed)}
+                </div>
+                <Button
+                  onClick={handleIncreaseDifficulty}
+                  disabled={difficulty === 3}
+                  variant="outline"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  title="Increase difficulty"
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Mobile: Spinner Wheel */}
+            <div className="md:hidden relative w-full max-w-[140px]">
               {/* Spinner Wheel Container */}
               <div className="relative h-[100px] overflow-hidden rounded-lg border-2 border-muted bg-background">
                 {/* Top gradient overlay */}
