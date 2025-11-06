@@ -47,13 +47,16 @@ export function VocabularyWordCard({
   showAudio = true,
   index
 }: VocabularyWordCardProps) {
-  const { loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [activeTooltip, setActiveTooltip] = useState(false)
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null) // Track which text is currently playing
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
   const [isReviewed, setIsReviewed] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
+
+  // Check if user is logged in (for enabling difficulty controls)
+  const isLoggedIn = !!user
 
   // Load difficulty from Supabase for current word
   // Wait for auth to be ready to ensure user session is restored
@@ -585,11 +588,11 @@ export function VocabularyWordCard({
               <div className="flex items-center gap-2">
                 <Button
                   onClick={handleDecreaseDifficulty}
-                  disabled={difficulty === 0}
+                  disabled={!isLoggedIn || difficulty === 0}
                   variant="outline"
                   size="sm"
                   className="h-8 w-8 p-0"
-                  title="Decrease difficulty"
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </Button>
@@ -600,11 +603,11 @@ export function VocabularyWordCard({
                 </div>
                 <Button
                   onClick={handleIncreaseDifficulty}
-                  disabled={difficulty === 3}
+                  disabled={!isLoggedIn || difficulty === 3}
                   variant="outline"
                   size="sm"
                   className="h-8 w-8 p-0"
-                  title="Increase difficulty"
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
                 >
                   <ChevronUp className="h-4 w-4" />
                 </Button>
@@ -623,12 +626,14 @@ export function VocabularyWordCard({
 
                 {/* Scrollable items */}
                 <div
-                  className="absolute inset-0 py-[36px] overflow-y-auto scrollbar-hide cursor-pointer select-none"
+                  className={`absolute inset-0 py-[36px] overflow-y-auto scrollbar-hide ${isLoggedIn ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'} select-none`}
                   style={{
                     scrollSnapType: 'y mandatory',
-                    scrollBehavior: 'smooth'
+                    scrollBehavior: 'smooth',
+                    pointerEvents: isLoggedIn ? 'auto' : 'none'
                   }}
                   onScroll={(e) => {
+                    if (!isLoggedIn) return
                     const scrollTop = e.currentTarget.scrollTop
                     const itemHeight = 32 // Height of each item
                     const newDifficulty = Math.round(scrollTop / itemHeight) as DifficultyLevel

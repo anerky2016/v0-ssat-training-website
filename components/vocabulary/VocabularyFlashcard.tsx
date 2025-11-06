@@ -15,6 +15,7 @@ import {
   isUserLoggedIn,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
+import { useAuth } from "@/contexts/firebase-auth-context"
 
 export interface VocabularyWord {
   word: string
@@ -52,10 +53,14 @@ export function VocabularyFlashcard({
   onNext,
   onPrevious,
 }: VocabularyFlashcardProps) {
+  const { user } = useAuth()
   const [difficulty, setDifficulty] = useState<DifficultyLevel>(1)
   const [isReviewed, setIsReviewed] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  // Check if user is logged in (for enabling difficulty controls)
+  const isLoggedIn = !!user
 
   // Load difficulty from Supabase
   useEffect(() => {
@@ -248,11 +253,11 @@ export function VocabularyFlashcard({
               <div className="flex items-center gap-1.5">
                 <Button
                   onClick={handleDecreaseDifficulty}
-                  disabled={difficulty === 0}
+                  disabled={!isLoggedIn || difficulty === 0}
                   variant="outline"
                   size="sm"
                   className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                  title="Decrease difficulty"
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </Button>
@@ -263,11 +268,11 @@ export function VocabularyFlashcard({
                 </div>
                 <Button
                   onClick={handleIncreaseDifficulty}
-                  disabled={difficulty === 3}
+                  disabled={!isLoggedIn || difficulty === 3}
                   variant="outline"
                   size="sm"
                   className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                  title="Increase difficulty"
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
                 >
                   <ChevronUp className="h-4 w-4" />
                 </Button>
