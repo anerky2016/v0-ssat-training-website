@@ -19,7 +19,7 @@ import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
 import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
-import { getWordDifficulty, getDifficultyLabel, getDifficultyColor, initializeDifficulties, hasWordBeenReviewed, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
+import { getAllDifficulties, getDifficultyLabel, getDifficultyColor, isUserLoggedIn, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
@@ -53,19 +53,40 @@ export default function WordListsPage() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Initialize difficulties and load word difficulties
+  // Load difficulties from Supabase
   useEffect(() => {
     const loadDifficulties = async () => {
-      await initializeDifficulties()
-      // Load all word difficulties and review status
-      const difficulties: Record<string, DifficultyLevel> = {}
-      const reviewStatus: Record<string, boolean> = {}
-      vocabularyData.words.forEach(word => {
-        difficulties[word.word] = getWordDifficulty(word.word)
-        reviewStatus[word.word] = hasWordBeenReviewed(word.word)
-      })
-      setWordDifficulties(difficulties)
-      setWordReviewStatus(reviewStatus)
+      // Check if user is logged in
+      if (!isUserLoggedIn()) {
+        console.warn('User not logged in - difficulty tracking disabled')
+        return
+      }
+
+      try {
+        // Load all difficulties from Supabase
+        const allDifficulties = await getAllDifficulties()
+
+        // Build maps for quick lookup
+        const difficulties: Record<string, DifficultyLevel> = {}
+        const reviewStatus: Record<string, boolean> = {}
+
+        vocabularyData.words.forEach(word => {
+          const normalizedWord = word.word.toLowerCase()
+          const wordDifficulty = allDifficulties[normalizedWord]
+
+          if (wordDifficulty) {
+            difficulties[word.word] = wordDifficulty.difficulty
+            reviewStatus[word.word] = true
+          } else {
+            reviewStatus[word.word] = false
+          }
+        })
+
+        setWordDifficulties(difficulties)
+        setWordReviewStatus(reviewStatus)
+      } catch (error) {
+        console.error('Failed to load difficulties:', error)
+      }
     }
     loadDifficulties()
   }, [])

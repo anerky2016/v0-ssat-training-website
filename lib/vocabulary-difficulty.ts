@@ -1,4 +1,4 @@
-// Vocabulary difficulty management with Supabase sync
+// Vocabulary difficulty management - Always reads/writes from Supabase
 // Difficulty levels: 0 (Easy) - 3 (Very Hard)
 
 import { auth } from './firebase'
@@ -14,167 +14,125 @@ import {
 
 export type { DifficultyLevel }
 
-const STORAGE_KEY = 'vocabulary-difficulty'
-
 export interface VocabularyDifficulty {
   word: string
   difficulty: DifficultyLevel
   updatedAt: number
 }
 
-// In-memory cache for better performance
-let difficultyCache: Record<string, VocabularyDifficulty> | null = null
-let cacheInitialized = false
-
 // Helper to get current user ID
 function getCurrentUserId(): string | null {
   return auth?.currentUser?.uid || null
 }
 
-// Load difficulties from localStorage (fallback/cache)
-function loadLocalDifficulties(): Record<string, VocabularyDifficulty> {
-  if (typeof window === 'undefined') return {}
-
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored ? JSON.parse(stored) : {}
-  } catch (error) {
-    console.error('Error loading vocabulary difficulties from localStorage:', error)
-    return {}
-  }
+// Check if user is logged in (required for all operations)
+export function isUserLoggedIn(): boolean {
+  return getCurrentUserId() !== null
 }
 
-// Save difficulties to localStorage (cache)
-function saveLocalDifficulties(difficulties: Record<string, VocabularyDifficulty>): void {
-  if (typeof window === 'undefined') return
-
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(difficulties))
-  } catch (error) {
-    console.error('Error saving vocabulary difficulties to localStorage:', error)
-  }
-}
-
-// Initialize cache from Supabase
-export async function initializeDifficulties(): Promise<void> {
-  if (cacheInitialized) return
-
+// Get all vocabulary difficulties for current user from Supabase
+export async function getAllDifficulties(): Promise<Record<string, VocabularyDifficulty>> {
   const userId = getCurrentUserId()
   if (!userId) {
-    // Not logged in, use localStorage only
-    difficultyCache = loadLocalDifficulties()
-    cacheInitialized = true
-    return
+    console.warn('User not logged in - cannot fetch difficulties')
+    return {}
   }
 
   try {
-    // Load from Supabase
     const supabaseDifficulties = await getUserVocabularyDifficulties(userId)
 
-    // Convert to cache format
-    const cache: Record<string, VocabularyDifficulty> = {}
+    // Convert to record format
+    const difficulties: Record<string, VocabularyDifficulty> = {}
     supabaseDifficulties.forEach(d => {
-      cache[d.word] = {
+      difficulties[d.word] = {
         word: d.word,
         difficulty: d.difficulty,
         updatedAt: new Date(d.updated_at).getTime(),
       }
     })
 
-    difficultyCache = cache
-
-    // Also save to localStorage as backup
-    saveLocalDifficulties(cache)
-
-    cacheInitialized = true
+    return difficulties
   } catch (error) {
-    console.error('Failed to initialize difficulties from Supabase:', error)
-    // Fallback to localStorage
-    difficultyCache = loadLocalDifficulties()
-    cacheInitialized = true
+    console.error('Failed to fetch difficulties from Supabase:', error)
+    return {}
   }
-}
-
-// Get all vocabulary difficulties
-export function getAllDifficulties(): Record<string, VocabularyDifficulty> {
-  if (!cacheInitialized) {
-    // Lazy load from localStorage if cache not initialized
-    difficultyCache = loadLocalDifficulties()
-  }
-
-  return difficultyCache || {}
 }
 
 // Check if a word has been reviewed (has a difficulty set)
-export function hasWordBeenReviewed(word: string): boolean {
-  const difficulties = getAllDifficulties()
-  const normalizedWord = word.toLowerCase()
-  return normalizedWord in difficulties
-}
-
-// Get difficulty for a specific word (defaults to Medium if not set)
-export function getWordDifficulty(word: string): DifficultyLevel {
-  const difficulties = getAllDifficulties()
-  const normalizedWord = word.toLowerCase()
-  return difficulties[normalizedWord]?.difficulty ?? 1 // Default to Medium
-}
-
-// Set difficulty for a word
-export async function setWordDifficulty(word: string, difficulty: DifficultyLevel): Promise<void> {
-  const normalizedWord = word.toLowerCase()
+export async function hasWordBeenReviewed(word: string): Promise<boolean> {
   const userId = getCurrentUserId()
+  if (!userId) return false
 
-  // Get old difficulty for history tracking
-  const oldDifficulty = getWordDifficulty(normalizedWord)
+  try {
+    const normalizedWord = word.toLowerCase()
+    const difficulty = await getFromSupabase(userId, normalizedWord)
+    return difficulty !== null
+  } catch (error) {
+    console.error('Failed to check if word has been reviewed:', error)
+    return false
+  }
+}
 
-  // Update cache immediately for UI responsiveness
-  if (!difficultyCache) {
-    difficultyCache = loadLocalDifficulties()
+// Get difficulty for a specific word from Supabase
+export async function getWordDifficulty(word: string): Promise<DifficultyLevel | null> {
+  const userId = getCurrentUserId()
+  if (!userId) return null
+
+  try {
+    const normalizedWord = word.toLowerCase()
+    const difficulty = await getFromSupabase(userId, normalizedWord)
+    return difficulty
+  } catch (error) {
+    console.error('Failed to fetch word difficulty:', error)
+    return null
+  }
+}
+
+// Set difficulty for a word in Supabase
+export async function setWordDifficulty(word: string, difficulty: DifficultyLevel): Promise<void> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    throw new Error('User must be logged in to set word difficulty')
   }
 
-  difficultyCache[normalizedWord] = {
-    word: normalizedWord,
-    difficulty,
-    updatedAt: Date.now(),
-  }
+  const normalizedWord = word.toLowerCase()
 
-  // Save to localStorage immediately
-  saveLocalDifficulties(difficultyCache)
+  try {
+    // Get old difficulty for history tracking
+    const oldDifficulty = await getFromSupabase(userId, normalizedWord)
 
-  // Sync to Supabase if user is logged in
-  if (userId) {
-    try {
-      await saveToSupabase(userId, normalizedWord, difficulty)
+    // Save to Supabase
+    await saveToSupabase(userId, normalizedWord, difficulty)
 
-      // Save to history (only if difficulty actually changed)
-      if (oldDifficulty !== difficulty) {
-        await saveVocabularyDifficultyHistory(userId, normalizedWord, oldDifficulty, difficulty)
-      }
-    } catch (error) {
-      console.error('Failed to save vocabulary difficulty to Supabase:', error)
+    // Save to history (only if difficulty actually changed)
+    if (oldDifficulty !== difficulty) {
+      await saveVocabularyDifficultyHistory(userId, normalizedWord, oldDifficulty, difficulty)
     }
+  } catch (error) {
+    console.error('Failed to save vocabulary difficulty:', error)
+    throw error
   }
 }
 
 // Increase difficulty (max 3)
 export async function increaseDifficulty(word: string): Promise<DifficultyLevel> {
-  const current = getWordDifficulty(word)
-  const newDifficulty = Math.min(3, current + 1) as DifficultyLevel
+  const current = await getWordDifficulty(word)
+  const newDifficulty = Math.min(3, (current ?? 1) + 1) as DifficultyLevel
   await setWordDifficulty(word, newDifficulty)
   return newDifficulty
 }
 
 // Decrease difficulty (min 0)
 export async function decreaseDifficulty(word: string): Promise<DifficultyLevel> {
-  const current = getWordDifficulty(word)
-  const newDifficulty = Math.max(0, current - 1) as DifficultyLevel
+  const current = await getWordDifficulty(word)
+  const newDifficulty = Math.max(0, (current ?? 1) - 1) as DifficultyLevel
   await setWordDifficulty(word, newDifficulty)
   return newDifficulty
 }
 
 // Get difficulty label (with option for unreviewed)
-export function getDifficultyLabel(difficulty: DifficultyLevel, isReviewed: boolean = true): string {
-  if (!isReviewed) {
+export function getDifficultyLabel(difficulty: DifficultyLevel | null, isReviewed: boolean = true): string {
+  if (!isReviewed || difficulty === null) {
     return 'Wait for decision'
   }
   const labels = ['Easy', 'Medium', 'Hard', 'Very Hard']
@@ -182,8 +140,8 @@ export function getDifficultyLabel(difficulty: DifficultyLevel, isReviewed: bool
 }
 
 // Get difficulty color (with option for unreviewed)
-export function getDifficultyColor(difficulty: DifficultyLevel, isReviewed: boolean = true): string {
-  if (!isReviewed) {
+export function getDifficultyColor(difficulty: DifficultyLevel | null, isReviewed: boolean = true): string {
+  if (!isReviewed || difficulty === null) {
     return 'text-gray-600 dark:text-gray-400 bg-gray-500/10'
   }
   const colors = [
@@ -197,38 +155,32 @@ export function getDifficultyColor(difficulty: DifficultyLevel, isReviewed: bool
 
 // Remove difficulty setting for a word
 export async function removeWordDifficulty(word: string): Promise<void> {
-  const normalizedWord = word.toLowerCase()
   const userId = getCurrentUserId()
-
-  // Update cache
-  if (!difficultyCache) {
-    difficultyCache = loadLocalDifficulties()
+  if (!userId) {
+    throw new Error('User must be logged in to remove word difficulty')
   }
 
-  delete difficultyCache[normalizedWord]
-  saveLocalDifficulties(difficultyCache)
+  const normalizedWord = word.toLowerCase()
 
-  // Sync to Supabase if user is logged in
-  if (userId) {
-    try {
-      await deleteFromSupabase(userId, normalizedWord)
-    } catch (error) {
-      console.error('Failed to delete vocabulary difficulty from Supabase:', error)
-    }
+  try {
+    await deleteFromSupabase(userId, normalizedWord)
+  } catch (error) {
+    console.error('Failed to delete vocabulary difficulty:', error)
+    throw error
   }
 }
 
-// Get words by difficulty level
-export function getWordsByDifficulty(difficulty: DifficultyLevel): string[] {
-  const difficulties = getAllDifficulties()
+// Get words by difficulty level from Supabase
+export async function getWordsByDifficulty(difficulty: DifficultyLevel): Promise<string[]> {
+  const difficulties = await getAllDifficulties()
   return Object.values(difficulties)
     .filter(d => d.difficulty === difficulty)
     .map(d => d.word)
 }
 
 // Get statistics
-export function getDifficultyStats(): Record<DifficultyLevel, number> {
-  const difficulties = getAllDifficulties()
+export async function getDifficultyStats(): Promise<Record<DifficultyLevel, number>> {
+  const difficulties = await getAllDifficulties()
   const stats: Record<DifficultyLevel, number> = { 0: 0, 1: 0, 2: 0, 3: 0 }
 
   Object.values(difficulties).forEach(d => {

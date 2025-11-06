@@ -11,8 +11,8 @@ import {
   decreaseDifficulty,
   getDifficultyLabel,
   getDifficultyColor,
-  initializeDifficulties,
   hasWordBeenReviewed,
+  isUserLoggedIn,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 
@@ -57,14 +57,27 @@ export function VocabularyFlashcard({
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
-  // Initialize difficulty from storage
+  // Load difficulty from Supabase
   useEffect(() => {
     const loadDifficulty = async () => {
-      await initializeDifficulties()
-      const currentDifficulty = getWordDifficulty(word.word)
-      const reviewed = hasWordBeenReviewed(word.word)
-      setDifficulty(currentDifficulty)
-      setIsReviewed(reviewed)
+      // Check if user is logged in
+      if (!isUserLoggedIn()) {
+        setIsReviewed(false)
+        setDifficulty(1) // Default to Medium for display
+        return
+      }
+
+      try {
+        const currentDifficulty = await getWordDifficulty(word.word)
+        const reviewed = await hasWordBeenReviewed(word.word)
+
+        setDifficulty(currentDifficulty ?? 1) // Default to Medium if null
+        setIsReviewed(reviewed)
+      } catch (error) {
+        console.error('Failed to load word difficulty:', error)
+        setIsReviewed(false)
+        setDifficulty(1)
+      }
     }
     loadDifficulty()
   }, [word.word])

@@ -14,9 +14,9 @@ import {
   decreaseDifficulty,
   getDifficultyLabel,
   getDifficultyColor,
-  initializeDifficulties,
   hasWordBeenReviewed,
   setWordDifficulty,
+  isUserLoggedIn,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
@@ -55,18 +55,31 @@ export function VocabularyWordCard({
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
-  // Initialize difficulties from Supabase and load current word difficulty
+  // Load difficulty from Supabase for current word
   // Wait for auth to be ready to ensure user session is restored
   useEffect(() => {
     const loadDifficulty = async () => {
-      // Wait for auth to finish loading before initializing
+      // Wait for auth to finish loading
       if (authLoading) return
 
-      await initializeDifficulties()
-      const currentDifficulty = getWordDifficulty(word.word)
-      const reviewed = hasWordBeenReviewed(word.word)
-      setDifficulty(currentDifficulty)
-      setIsReviewed(reviewed)
+      // Check if user is logged in
+      if (!isUserLoggedIn()) {
+        setIsReviewed(false)
+        setDifficulty(1) // Default to Medium for display
+        return
+      }
+
+      try {
+        const currentDifficulty = await getWordDifficulty(word.word)
+        const reviewed = await hasWordBeenReviewed(word.word)
+
+        setDifficulty(currentDifficulty ?? 1) // Default to Medium if null
+        setIsReviewed(reviewed)
+      } catch (error) {
+        console.error('Failed to load word difficulty:', error)
+        setIsReviewed(false)
+        setDifficulty(1)
+      }
     }
 
     loadDifficulty()
