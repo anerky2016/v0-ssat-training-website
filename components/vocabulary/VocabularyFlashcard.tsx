@@ -58,6 +58,7 @@ export function VocabularyFlashcard({
   const [isReviewed, setIsReviewed] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const isMobile = useMobile()
 
   // Check if user is logged in (for enabling difficulty controls)
   const isLoggedIn = !!user
@@ -131,6 +132,12 @@ export function VocabularyFlashcard({
     e.stopPropagation()
     const newDifficulty = await decreaseDifficulty(word.word)
     setDifficulty(newDifficulty)
+    setIsReviewed(true)
+  }
+
+  const handleSpinnerWheelChange = async (value: number) => {
+    await setWordDifficulty(word.word, value as DifficultyLevel)
+    setDifficulty(value as DifficultyLevel)
     setIsReviewed(true)
   }
 
@@ -246,37 +253,68 @@ export function VocabularyFlashcard({
         >
           <CardContent className="p-6 sm:p-8">
             {/* Difficulty Controls - Back */}
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
+            <div className="flex flex-col items-center gap-4 mb-4 pb-4 border-b border-border">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Difficulty Level
               </h3>
-              <div className="flex items-center gap-1.5">
-                <Button
-                  onClick={handleDecreaseDifficulty}
-                  disabled={!isLoggedIn || difficulty === 0}
-                  variant="outline"
-                  size="sm"
-                  className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                  title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-                <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
-                  getDifficultyColor(difficulty, isReviewed)
-                }`}>
-                  {getDifficultyLabel(difficulty, isReviewed)}
+              
+              {/* Desktop: Button Controls */}
+              {!isMobile && (
+                <div className="flex items-center gap-1.5">
+                  <Button
+                    onClick={handleDecreaseDifficulty}
+                    disabled={!isLoggedIn || difficulty === 0}
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                  <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                    getDifficultyColor(difficulty, isReviewed)
+                  }`}>
+                    {getDifficultyLabel(difficulty, isReviewed)}
+                  </div>
+                  <Button
+                    onClick={handleIncreaseDifficulty}
+                    disabled={!isLoggedIn || difficulty === 3}
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button
-                  onClick={handleIncreaseDifficulty}
-                  disabled={!isLoggedIn || difficulty === 3}
-                  variant="outline"
-                  size="sm"
-                  className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                  title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
-                >
-                  <ChevronUp className="h-4 w-4" />
-                </Button>
-              </div>
+              )}
+
+              {/* Mobile: Classic Spinner Wheel */}
+              {isMobile && (
+                <div className="flex flex-col items-center gap-3 w-full max-w-[200px]">
+                  <div className="w-full rounded-lg border-2 border-muted bg-background p-2">
+                    <SpinnerWheel
+                      options={[
+                        { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
+                        { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
+                        { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
+                        { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
+                      ]}
+                      value={difficulty}
+                      onChange={handleSpinnerWheelChange}
+                      disabled={!isLoggedIn}
+                      itemHeight={48}
+                      visibleItems={3}
+                    />
+                  </div>
+                  {/* Current difficulty indicator */}
+                  <div className={`px-4 py-1.5 rounded-full text-xs font-semibold text-center ${
+                    getDifficultyColor(difficulty, isReviewed)
+                  }`}>
+                    {getDifficultyLabel(difficulty, isReviewed)}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-4">

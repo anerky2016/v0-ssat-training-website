@@ -21,6 +21,8 @@ import {
 } from "@/lib/vocabulary-difficulty"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 import { useAuth } from "@/contexts/firebase-auth-context"
+import { SpinnerWheel } from "./SpinnerWheel"
+import { useMobile } from "@/hooks/use-mobile"
 
 export interface VocabularyWord {
   word: string
@@ -54,6 +56,7 @@ export function VocabularyWordCard({
   const [isReviewed, setIsReviewed] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
+  const isMobile = useMobile()
 
   // Check if user is logged in (for enabling difficulty controls)
   const isLoggedIn = !!user
@@ -106,6 +109,13 @@ export function VocabularyWordCard({
     const newDifficulty = value[0] as DifficultyLevel
     await setWordDifficulty(word.word, newDifficulty)
     setDifficulty(newDifficulty)
+    setIsReviewed(true)
+    setHistoryRefreshTrigger(prev => prev + 1)
+  }
+
+  const handleSpinnerWheelChange = async (value: number) => {
+    await setWordDifficulty(word.word, value as DifficultyLevel)
+    setDifficulty(value as DifficultyLevel)
     setIsReviewed(true)
     setHistoryRefreshTrigger(prev => prev + 1)
   }
@@ -614,66 +624,32 @@ export function VocabularyWordCard({
               </div>
             </div>
 
-            {/* Mobile: Spinner Wheel */}
-            <div className="md:hidden relative w-full max-w-[140px]">
-              {/* Spinner Wheel Container */}
-              <div className="relative h-[100px] overflow-hidden rounded-lg border-2 border-muted bg-background">
-                {/* Top gradient overlay */}
-                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
-
-                {/* Selection highlight */}
-                <div className="absolute top-1/2 left-0 right-0 h-8 -translate-y-1/2 border-y-2 border-primary/30 bg-primary/5 pointer-events-none z-10" />
-
-                {/* Scrollable items */}
-                <div
-                  className={`absolute inset-0 py-[36px] overflow-y-auto scrollbar-hide ${isLoggedIn ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'} select-none`}
-                  style={{
-                    scrollSnapType: 'y mandatory',
-                    scrollBehavior: 'smooth',
-                    pointerEvents: isLoggedIn ? 'auto' : 'none'
-                  }}
-                  onScroll={(e) => {
-                    if (!isLoggedIn) return
-                    const scrollTop = e.currentTarget.scrollTop
-                    const itemHeight = 32 // Height of each item
-                    const newDifficulty = Math.round(scrollTop / itemHeight) as DifficultyLevel
-                    if (newDifficulty >= 0 && newDifficulty <= 3 && newDifficulty !== difficulty) {
-                      handleDifficultyChange([newDifficulty])
-                    }
-                  }}
-                  ref={(el) => {
-                    if (el) {
-                      el.scrollTop = difficulty * 32
-                    }
-                  }}
-                >
-                  {[0, 1, 2, 3].map((level) => (
-                    <div
-                      key={level}
-                      className="h-8 flex items-center justify-center text-sm font-medium transition-all"
-                      style={{
-                        scrollSnapAlign: 'start',
-                        opacity: level === difficulty ? 1 : 0.3,
-                        transform: level === difficulty ? 'scale(1.1)' : 'scale(0.9)'
-                      }}
-                      onClick={() => handleDifficultyChange([level])}
-                    >
-                      {getDifficultyLabel(level as DifficultyLevel, level <= difficulty && isReviewed)}
-                    </div>
-                  ))}
+            {/* Mobile: Classic Spinner Wheel */}
+            {isMobile && (
+              <div className="flex flex-col items-center gap-3 w-full max-w-[200px]">
+                <div className="w-full rounded-lg border-2 border-muted bg-background p-2">
+                  <SpinnerWheel
+                    options={[
+                      { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
+                      { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
+                      { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
+                      { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
+                    ]}
+                    value={difficulty}
+                    onChange={handleSpinnerWheelChange}
+                    disabled={!isLoggedIn}
+                    itemHeight={48}
+                    visibleItems={3}
+                  />
                 </div>
-
-                {/* Bottom gradient overlay */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+                {/* Current difficulty indicator */}
+                <div className={`px-4 py-1.5 rounded-full text-xs font-semibold text-center ${
+                  getDifficultyColor(difficulty, isReviewed)
+                }`}>
+                  {getDifficultyLabel(difficulty, isReviewed)}
+                </div>
               </div>
-
-              {/* Current difficulty indicator below */}
-              <div className={`mt-2 px-3 py-1 rounded-full text-xs font-semibold text-center ${
-                getDifficultyColor(difficulty, isReviewed)
-              }`}>
-                {getDifficultyLabel(difficulty, isReviewed)}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </CardHeader>
