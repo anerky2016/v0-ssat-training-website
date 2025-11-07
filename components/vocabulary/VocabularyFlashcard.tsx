@@ -13,9 +13,18 @@ import {
   getDifficultyColor,
   hasWordBeenReviewed,
   isUserLoggedIn,
+  setWordDifficulty,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { useAuth } from "@/contexts/firebase-auth-context"
+import { SpinnerWheel } from "./SpinnerWheel"
+import { useMobile } from "@/hooks/use-mobile"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 export interface VocabularyWord {
   word: string
@@ -58,6 +67,7 @@ export function VocabularyFlashcard({
   const [isReviewed, setIsReviewed] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [showDifficultyPicker, setShowDifficultyPicker] = useState(false)
   const isMobile = useMobile()
 
   // Check if user is logged in (for enabling difficulty controls)
@@ -139,6 +149,8 @@ export function VocabularyFlashcard({
     await setWordDifficulty(word.word, value as DifficultyLevel)
     setDifficulty(value as DifficultyLevel)
     setIsReviewed(true)
+    // Close the picker after selection
+    setShowDifficultyPicker(false)
   }
 
   // Minimum swipe distance (in px) to trigger navigation
@@ -289,30 +301,52 @@ export function VocabularyFlashcard({
                 </div>
               )}
 
-              {/* Mobile: Classic Spinner Wheel */}
+              {/* Mobile: Difficulty Picker Button */}
               {isMobile && (
-                <div className="flex flex-col items-center gap-3 w-full max-w-[200px]">
-                  <div className="w-full rounded-lg border-2 border-muted bg-background p-2">
-                    <SpinnerWheel
-                      options={[
-                        { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
-                        { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
-                        { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
-                        { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
-                      ]}
-                      value={difficulty}
-                      onChange={handleSpinnerWheelChange}
-                      disabled={!isLoggedIn}
-                      itemHeight={48}
-                      visibleItems={3}
-                    />
-                  </div>
-                  {/* Current difficulty indicator */}
-                  <div className={`px-4 py-1.5 rounded-full text-xs font-semibold text-center ${
-                    getDifficultyColor(difficulty, isReviewed)
-                  }`}>
-                    {getDifficultyLabel(difficulty, isReviewed)}
-                  </div>
+                <div className="flex flex-col items-center gap-2 w-full">
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setShowDifficultyPicker(true)
+                    }}
+                    disabled={!isLoggedIn}
+                    variant="outline"
+                    className={`w-full ${getDifficultyColor(difficulty, isReviewed)}`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Adjust difficulty"}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-sm font-semibold">
+                        {getDifficultyLabel(difficulty, isReviewed)}
+                      </span>
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
+                  </Button>
+                  
+                  {/* Spinner Wheel Dialog */}
+                  <Dialog open={showDifficultyPicker} onOpenChange={setShowDifficultyPicker}>
+                    <DialogContent className="sm:max-w-[300px] p-6">
+                      <DialogHeader>
+                        <DialogTitle className="text-center">Select Difficulty</DialogTitle>
+                      </DialogHeader>
+                      <div className="flex justify-center py-4">
+                        <div className="w-full max-w-[240px] rounded-lg border-2 border-muted bg-background p-4">
+                          <SpinnerWheel
+                            options={[
+                              { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
+                              { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
+                              { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
+                              { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
+                            ]}
+                            value={difficulty}
+                            onChange={handleSpinnerWheelChange}
+                            disabled={!isLoggedIn}
+                            itemHeight={56}
+                            visibleItems={3}
+                          />
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               )}
             </div>
