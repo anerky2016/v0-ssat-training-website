@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform, useVelocity } from "framer-motion"
 
 export interface SpinnerWheelOption {
   value: number
@@ -23,8 +23,8 @@ export function SpinnerWheel({
   value,
   onChange,
   disabled = false,
-  itemHeight = 48,
-  visibleItems = 3,
+  itemHeight = 56,
+  visibleItems = 5,
 }: SpinnerWheelProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -35,7 +35,8 @@ export function SpinnerWheel({
   })
 
   const y = useMotionValue(currentIndex * itemHeight)
-  const springConfig = { damping: 30, stiffness: 300 }
+  const velocity = useVelocity(y)
+  const springConfig = { damping: 40, stiffness: 400, mass: 0.8 }
   const springY = useSpring(y, springConfig)
 
   // Update current index when value prop changes externally
@@ -47,11 +48,24 @@ export function SpinnerWheel({
     }
   }, [value, options, currentIndex, y])
 
-  // Snap to nearest option
-  const snapToIndex = (index: number) => {
+  // Snap to nearest option with momentum
+  const snapToIndex = (index: number, momentum?: number) => {
     const clampedIndex = Math.max(0, Math.min(index, options.length - 1))
     setCurrentIndex(clampedIndex)
-    y.set(clampedIndex * itemHeight)
+    
+    // Add momentum if provided
+    if (momentum && Math.abs(momentum) > 50) {
+      const momentumOffset = Math.sign(momentum) * Math.min(Math.abs(momentum) / 10, itemHeight * 0.5)
+      const targetY = clampedIndex * itemHeight + momentumOffset
+      y.set(targetY)
+      // Snap back after momentum
+      setTimeout(() => {
+        y.set(clampedIndex * itemHeight)
+      }, 100)
+    } else {
+      y.set(clampedIndex * itemHeight)
+    }
+    
     onChange(options[clampedIndex].value)
   }
 
@@ -87,10 +101,13 @@ export function SpinnerWheel({
     if (disabled || !isDragging) return
     setIsDragging(false)
     
-    // Calculate which index we're closest to
+    // Get velocity for momentum scrolling
+    const currentVelocity = velocity.get()
     const currentY = y.get()
     const nearestIndex = Math.round(currentY / itemHeight)
-    snapToIndex(nearestIndex)
+    
+    // Apply momentum if velocity is significant
+    snapToIndex(nearestIndex, currentVelocity)
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -125,9 +142,13 @@ export function SpinnerWheel({
     if (disabled || !isDragging) return
     setIsDragging(false)
     
+    // Get velocity for momentum scrolling
+    const currentVelocity = velocity.get()
     const currentY = y.get()
     const nearestIndex = Math.round(currentY / itemHeight)
-    snapToIndex(nearestIndex)
+    
+    // Apply momentum if velocity is significant
+    snapToIndex(nearestIndex, currentVelocity)
   }
 
   // Handle wheel events for desktop
@@ -142,11 +163,12 @@ export function SpinnerWheel({
 
   const containerHeight = itemHeight * visibleItems
   const halfItemHeight = itemHeight / 2
+  const centerY = containerHeight / 2
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden select-none"
+      className="relative w-full overflow-hidden select-none rounded-2xl bg-muted/30"
       style={{ height: containerHeight }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -157,57 +179,74 @@ export function SpinnerWheel({
       onMouseLeave={handleMouseUp}
       onWheel={handleWheel}
     >
-      {/* Selection highlight */}
+      {/* iOS-style selection indicator with handles */}
       <div
-        className="absolute left-0 right-0 border-y-2 border-primary/40 bg-primary/10 pointer-events-none z-10 rounded-lg"
+        className="absolute left-0 right-0 pointer-events-none z-20"
         style={{
           top: `calc(50% - ${halfItemHeight}px)`,
           height: itemHeight,
         }}
-      />
+      >
+        {/* Top border */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-border/50" />
+        {/* Bottom border */}
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-border/50" />
+        {/* Selection highlight background */}
+        <div className="absolute inset-0 bg-primary/5 rounded-lg" />
+      </div>
 
-      {/* Top gradient overlay */}
+      {/* Top gradient overlay - more pronounced for iOS look */}
       <div
-        className="absolute top-0 left-0 right-0 pointer-events-none z-20"
+        className="absolute top-0 left-0 right-0 pointer-events-none z-30 rounded-t-2xl"
         style={{
-          height: halfItemHeight,
-          background: "linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)",
+          height: halfItemHeight * 2,
+          background: "linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background)) 60%, transparent 100%)",
         }}
       />
 
-      {/* Bottom gradient overlay */}
+      {/* Bottom gradient overlay - more pronounced for iOS look */}
       <div
-        className="absolute bottom-0 left-0 right-0 pointer-events-none z-20"
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-30 rounded-b-2xl"
         style={{
-          height: halfItemHeight,
-          background: "linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)",
+          height: halfItemHeight * 2,
+          background: "linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background)) 60%, transparent 100%)",
         }}
       />
 
-      {/* Options container */}
+      {/* Options container with smooth scrolling */}
       <motion.div
         className="absolute left-0 right-0"
         style={{
           y: useTransform(springY, (val) => {
-            const offset = containerHeight / 2 - halfItemHeight
-            return -val + offset
+            return centerY - halfItemHeight - val
           }),
         }}
       >
         {options.map((option, index) => {
+          // Calculate distance from current index for iOS-style effect
           const distance = Math.abs(index - currentIndex)
-          const opacity = distance === 0 ? 1 : distance === 1 ? 0.5 : distance === 2 ? 0.2 : 0.1
-          const scale = distance === 0 ? 1.1 : distance === 1 ? 0.95 : 0.85
+          
+          // iOS-style opacity and scale based on distance
+          const opacity = distance === 0 ? 1 : distance === 1 ? 0.6 : distance === 2 ? 0.3 : 0.1
+          const scale = distance === 0 ? 1 : distance === 1 ? 0.92 : 0.8
+          
+          // Color intensity based on selection
+          const isSelected = distance < 0.5
+          const textColor = isSelected 
+            ? (option.color || 'hsl(var(--foreground))')
+            : 'hsl(var(--muted-foreground))'
 
           return (
             <motion.div
               key={option.value}
-              className="flex items-center justify-center text-center font-medium transition-colors"
+              className="flex items-center justify-center text-center font-semibold"
               style={{
                 height: itemHeight,
                 opacity,
                 scale,
-                color: option.color || 'hsl(var(--foreground))',
+                color: textColor,
+                fontSize: isSelected ? '18px' : '16px',
+                fontWeight: isSelected ? 600 : 500,
               }}
             >
               {option.label}

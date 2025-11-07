@@ -658,7 +658,7 @@ export function VocabularyWordCard({
                       <SheetTitle className="text-center">Select Difficulty</SheetTitle>
                     </SheetHeader>
                     <div className="flex justify-center px-6 pb-6">
-                      <div className="w-full max-w-[280px] rounded-lg border-2 border-muted bg-background p-4">
+                      <div className="w-full max-w-[280px]">
                         <SpinnerWheel
                           options={[
                             { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
@@ -669,8 +669,6 @@ export function VocabularyWordCard({
                           value={difficulty}
                           onChange={handleSpinnerWheelChange}
                           disabled={!isLoggedIn}
-                          itemHeight={56}
-                          visibleItems={3}
                         />
                       </div>
                     </div>
