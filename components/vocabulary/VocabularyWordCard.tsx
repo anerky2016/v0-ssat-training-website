@@ -24,11 +24,11 @@ import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
 
 export interface VocabularyWord {
   word: string
@@ -651,14 +651,14 @@ export function VocabularyWordCard({
                   </div>
                 </Button>
                 
-                {/* Spinner Wheel Dialog */}
-                <Dialog open={showDifficultyPicker} onOpenChange={setShowDifficultyPicker}>
-                  <DialogContent className="sm:max-w-[300px] p-6">
-                    <DialogHeader>
-                      <DialogTitle className="text-center">Select Difficulty</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex justify-center py-4">
-                      <div className="w-full max-w-[240px] rounded-lg border-2 border-muted bg-background p-4">
+                {/* Spinner Wheel Bottom Sheet */}
+                <Sheet open={showDifficultyPicker} onOpenChange={setShowDifficultyPicker}>
+                  <SheetContent side="bottom" className="h-auto max-h-[60vh] p-0">
+                    <SheetHeader className="px-6 pt-6 pb-4">
+                      <SheetTitle className="text-center">Select Difficulty</SheetTitle>
+                    </SheetHeader>
+                    <div className="flex justify-center px-6 pb-6">
+                      <div className="w-full max-w-[280px] rounded-lg border-2 border-muted bg-background p-4">
                         <SpinnerWheel
                           options={[
                             { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
@@ -674,8 +674,8 @@ export function VocabularyWordCard({
                         />
                       </div>
                     </div>
-                  </DialogContent>
-                </Dialog>
+                  </SheetContent>
+                </Sheet>
               </div>
             )}
           </div>
