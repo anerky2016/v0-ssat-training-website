@@ -19,7 +19,7 @@ ssh ${SERVER_USER}@${SERVER_IP} << 'ENDSSH'
 set -e
 
 echo "📂 Navigating to project directory..."
-cd /v0-ssat-training-website
+cd ./v0-ssat-training-website
 
 echo "🔄 Running deployment script..."
 ./deploy.sh
