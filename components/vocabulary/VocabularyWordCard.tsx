@@ -156,12 +156,22 @@ export function VocabularyWordCard({
   // Generate new memory tip using OpenAI
   const handleGenerateNewTip = async () => {
     if (!isLoggedIn) {
+      console.warn('🔒 [UI] User attempted to generate tip without being logged in')
       alert('Please log in to generate custom memory tips')
       return
     }
 
+    console.log('🎯 [UI] User clicked generate new tip:', {
+      word: word.word,
+      hasExistingCustomTip: hasCustomTip,
+      isLoggedIn
+    })
+
     setIsGeneratingTip(true)
+    const startTime = Date.now()
+
     try {
+      console.log('📡 [UI] Calling tip generation API...')
       const response = await fetch('/api/vocabulary/generate-tip', {
         method: 'POST',
         headers: {
@@ -175,20 +185,47 @@ export function VocabularyWordCard({
       })
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        console.error('❌ [UI] API request failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorData
+        })
         throw new Error('Failed to generate tip')
       }
 
       const data = await response.json()
       const newTip = data.tip
+      const apiDuration = Date.now() - startTime
+
+      console.log('✅ [UI] Tip received from API:', {
+        word: word.word,
+        tipLength: newTip.length,
+        duration: `${apiDuration}ms`
+      })
 
       // Save to Supabase
+      console.log('💾 [UI] Saving tip to Supabase...')
       await saveCustomMemoryTip(word.word, newTip)
+
+      const totalDuration = Date.now() - startTime
+      console.log('🎉 [UI] Tip generation complete:', {
+        word: word.word,
+        totalDuration: `${totalDuration}ms`,
+        tipPreview: newTip.substring(0, 50) + (newTip.length > 50 ? '...' : '')
+      })
 
       // Update UI
       setCurrentTip(newTip)
       setHasCustomTip(true)
     } catch (error) {
-      console.error('Error generating memory tip:', error)
+      const duration = Date.now() - startTime
+      console.error('❌ [UI] Error generating memory tip:', {
+        word: word.word,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        duration: `${duration}ms`,
+        stack: error instanceof Error ? error.stack : undefined
+      })
       alert('Failed to generate new memory tip. Please try again.')
     } finally {
       setIsGeneratingTip(false)
@@ -197,14 +234,26 @@ export function VocabularyWordCard({
 
   // Revert to default memory tip
   const handleRevertToDefault = async () => {
-    if (!isLoggedIn) return
+    if (!isLoggedIn) {
+      console.warn('🔒 [UI] User attempted to revert tip without being logged in')
+      return
+    }
+
+    console.log('🔄 [UI] User clicked revert to default:', {
+      word: word.word,
+      hasCustomTip
+    })
 
     try {
       await deleteCustomMemoryTip(word.word)
       setCurrentTip(word.tip || null)
       setHasCustomTip(false)
+      console.log('✅ [UI] Reverted to default tip successfully:', word.word)
     } catch (error) {
-      console.error('Error reverting to default tip:', error)
+      console.error('❌ [UI] Error reverting to default tip:', {
+        word: word.word,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
       alert('Failed to revert to default tip')
     }
   }

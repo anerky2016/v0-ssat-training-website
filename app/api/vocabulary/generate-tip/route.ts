@@ -6,10 +6,20 @@ const openai = new OpenAI({
 })
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+
   try {
     const { word, definition, partOfSpeech } = await request.json()
 
+    console.log('💡 [Tip Generation] Request received:', {
+      word,
+      definition: definition?.substring(0, 50) + (definition?.length > 50 ? '...' : ''),
+      partOfSpeech,
+      timestamp: new Date().toISOString()
+    })
+
     if (!word) {
+      console.warn('⚠️ [Tip Generation] Request missing word parameter')
       return NextResponse.json(
         { error: 'Word is required' },
         { status: 400 }
@@ -34,6 +44,9 @@ Examples of good tips:
 
 Generate ONE creative memory tip for "${word}":`
 
+    console.log('🤖 [Tip Generation] Calling OpenAI API...')
+    const apiStartTime = Date.now()
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -50,15 +63,34 @@ Generate ONE creative memory tip for "${word}":`
       max_tokens: 100,
     })
 
+    const apiDuration = Date.now() - apiStartTime
     const tip = completion.choices[0]?.message?.content?.trim()
 
     if (!tip) {
+      console.error('❌ [Tip Generation] OpenAI returned empty response')
       throw new Error('Failed to generate memory tip')
     }
 
+    const totalDuration = Date.now() - startTime
+    console.log('✅ [Tip Generation] Success:', {
+      word,
+      tipLength: tip.length,
+      tip: tip.substring(0, 100) + (tip.length > 100 ? '...' : ''),
+      apiDuration: `${apiDuration}ms`,
+      totalDuration: `${totalDuration}ms`,
+      model: 'gpt-4o-mini',
+      tokensUsed: completion.usage?.total_tokens || 'N/A'
+    })
+
     return NextResponse.json({ tip })
   } catch (error) {
-    console.error('Error generating memory tip:', error)
+    const duration = Date.now() - startTime
+    console.error('❌ [Tip Generation] Error:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      duration: `${duration}ms`,
+      stack: error instanceof Error ? error.stack : undefined
+    })
+
     return NextResponse.json(
       { error: 'Failed to generate memory tip' },
       { status: 500 }

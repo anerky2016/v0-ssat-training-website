@@ -10,7 +10,11 @@ import { auth } from './firebase'
  * Get the current user ID from Firebase auth
  */
 function getCurrentUserId(): string | null {
-  return auth?.currentUser?.uid || null
+  const uid = auth?.currentUser?.uid || null
+  if (!uid) {
+    console.log('📝 [Memory Tips] No user currently authenticated')
+  }
+  return uid
 }
 
 /**
@@ -18,10 +22,14 @@ function getCurrentUserId(): string | null {
  */
 export async function getCustomMemoryTip(word: string): Promise<string | null> {
   const userId = getCurrentUserId()
-  if (!userId) return null
+  if (!userId) {
+    console.log('📝 [Memory Tips] Cannot fetch tip - user not logged in')
+    return null
+  }
 
   try {
     const normalizedWord = word.toLowerCase()
+    console.log('📝 [Memory Tips] Fetching custom tip:', { word: normalizedWord, userId: userId.substring(0, 8) + '...' })
 
     const { data, error } = await supabase
       .from('vocabulary_memory_tips')
@@ -33,14 +41,20 @@ export async function getCustomMemoryTip(word: string): Promise<string | null> {
     if (error) {
       if (error.code === 'PGRST116') {
         // No custom tip found
+        console.log('📝 [Memory Tips] No custom tip found for word:', normalizedWord)
         return null
       }
       throw error
     }
 
+    console.log('✅ [Memory Tips] Custom tip retrieved:', {
+      word: normalizedWord,
+      tipLength: data?.tip?.length || 0
+    })
+
     return data?.tip || null
   } catch (error) {
-    console.error('Failed to fetch custom memory tip:', error)
+    console.error('❌ [Memory Tips] Failed to fetch custom memory tip:', error)
     return null
   }
 }
@@ -51,11 +65,17 @@ export async function getCustomMemoryTip(word: string): Promise<string | null> {
 export async function saveCustomMemoryTip(word: string, tip: string): Promise<void> {
   const userId = getCurrentUserId()
   if (!userId) {
+    console.error('❌ [Memory Tips] Cannot save tip - user not logged in')
     throw new Error('User must be logged in to save memory tips')
   }
 
   try {
     const normalizedWord = word.toLowerCase()
+    console.log('💾 [Memory Tips] Saving custom tip:', {
+      word: normalizedWord,
+      userId: userId.substring(0, 8) + '...',
+      tipLength: tip.length
+    })
 
     const { error } = await supabase
       .from('vocabulary_memory_tips')
@@ -70,9 +90,12 @@ export async function saveCustomMemoryTip(word: string, tip: string): Promise<vo
 
     if (error) throw error
 
-    console.log(`Custom memory tip saved for word: ${word}`)
+    console.log('✅ [Memory Tips] Custom memory tip saved successfully:', {
+      word: normalizedWord,
+      tipPreview: tip.substring(0, 50) + (tip.length > 50 ? '...' : '')
+    })
   } catch (error) {
-    console.error('Failed to save custom memory tip:', error)
+    console.error('❌ [Memory Tips] Failed to save custom memory tip:', error)
     throw error
   }
 }
@@ -83,11 +106,16 @@ export async function saveCustomMemoryTip(word: string, tip: string): Promise<vo
 export async function deleteCustomMemoryTip(word: string): Promise<void> {
   const userId = getCurrentUserId()
   if (!userId) {
+    console.error('❌ [Memory Tips] Cannot delete tip - user not logged in')
     throw new Error('User must be logged in to delete memory tips')
   }
 
   try {
     const normalizedWord = word.toLowerCase()
+    console.log('🗑️ [Memory Tips] Deleting custom tip (reverting to default):', {
+      word: normalizedWord,
+      userId: userId.substring(0, 8) + '...'
+    })
 
     const { error } = await supabase
       .from('vocabulary_memory_tips')
@@ -97,9 +125,9 @@ export async function deleteCustomMemoryTip(word: string): Promise<void> {
 
     if (error) throw error
 
-    console.log(`Custom memory tip deleted for word: ${word}`)
+    console.log('✅ [Memory Tips] Custom memory tip deleted successfully:', { word: normalizedWord })
   } catch (error) {
-    console.error('Failed to delete custom memory tip:', error)
+    console.error('❌ [Memory Tips] Failed to delete custom memory tip:', error)
     throw error
   }
 }
