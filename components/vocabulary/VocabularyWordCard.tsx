@@ -650,14 +650,14 @@ export function VocabularyWordCard({
                     }
                   }}
                   disabled={!isLoggedIn}
-                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     !isReviewed
-                      ? 'bg-gray-500 border-gray-600 text-white shadow-lg scale-110'
-                      : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:scale-105 hover:shadow-md'
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
                   }`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Wait for decision"}
                 >
-                  ?
+                  Wait for decision
                 </button>
 
                 {/* Easy */}
@@ -669,14 +669,14 @@ export function VocabularyWordCard({
                     setHistoryRefreshTrigger(prev => prev + 1)
                   }}
                   disabled={!isLoggedIn}
-                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     isReviewed && difficulty === 0
-                      ? 'bg-green-600 border-green-700 text-white shadow-lg scale-110'
-                      : 'bg-green-100 dark:bg-green-900/20 border-green-300 dark:border-green-700 text-green-700 dark:text-green-400 hover:scale-105 hover:shadow-md'
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
                   }`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Easy"}
                 >
-                  E
+                  Easy
                 </button>
 
                 {/* Medium */}
@@ -688,14 +688,14 @@ export function VocabularyWordCard({
                     setHistoryRefreshTrigger(prev => prev + 1)
                   }}
                   disabled={!isLoggedIn}
-                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     isReviewed && difficulty === 1
-                      ? 'bg-yellow-600 border-yellow-700 text-white shadow-lg scale-110'
-                      : 'bg-yellow-100 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700 text-yellow-700 dark:text-yellow-400 hover:scale-105 hover:shadow-md'
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
                   }`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Medium"}
                 >
-                  M
+                  Medium
                 </button>
 
                 {/* Hard */}
@@ -707,14 +707,14 @@ export function VocabularyWordCard({
                     setHistoryRefreshTrigger(prev => prev + 1)
                   }}
                   disabled={!isLoggedIn}
-                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     isReviewed && difficulty === 2
-                      ? 'bg-orange-600 border-orange-700 text-white shadow-lg scale-110'
-                      : 'bg-orange-100 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-400 hover:scale-105 hover:shadow-md'
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
                   }`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Hard"}
                 >
-                  H
+                  Hard
                 </button>
 
                 {/* Very Hard */}
@@ -726,14 +726,14 @@ export function VocabularyWordCard({
                     setHistoryRefreshTrigger(prev => prev + 1)
                   }}
                   disabled={!isLoggedIn}
-                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                     isReviewed && difficulty === 3
-                      ? 'bg-red-600 border-red-700 text-white shadow-lg scale-110'
-                      : 'bg-red-100 dark:bg-red-900/20 border-red-300 dark:border-red-700 text-red-700 dark:text-red-400 hover:scale-105 hover:shadow-md'
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
                   }`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Very Hard"}
                 >
-                  VH
+                  Very Hard
                 </button>
               </div>
             </div>
