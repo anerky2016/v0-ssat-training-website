@@ -139,3 +139,50 @@ See `SUPABASE_LOGIN_TRACKING.md` in the root folder for:
 - Row Level Security (RLS) enabled
 - Policies control data access
 - Only basic login info tracked
+
+---
+
+## 📚 Database Migrations
+
+### Available Migrations
+
+The `migrations/` folder contains SQL migration files for additional features:
+
+#### `003_vocabulary_memory_tips.sql` ⭐ NEW
+Creates the `vocabulary_memory_tips` table for storing custom AI-generated memory tips.
+
+**What it does:**
+- Stores user-customized memory tips for vocabulary words
+- One custom tip per user per word
+- Row Level Security (RLS) - users can only access their own tips
+- Indexed for fast lookups
+
+**How to apply:**
+1. Go to Supabase Dashboard → **SQL Editor**
+2. Click **New Query**
+3. Copy and paste contents of `migrations/003_vocabulary_memory_tips.sql`
+4. Click **Run**
+
+**Table Structure:**
+```sql
+vocabulary_memory_tips (
+  user_id TEXT,
+  word TEXT,
+  tip TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+)
+```
+
+**Features enabled:**
+- Custom memory tip generation with OpenAI
+- Refresh button to generate new tips
+- Revert button to restore default tips
+- Tips saved per-user in Supabase
+
+### Other Migrations
+
+- `001_vocabulary_difficulty.sql` - Word difficulty tracking
+- `002_difficulty_history.sql` - Difficulty change history
+
+Apply these in order if you haven't already.
