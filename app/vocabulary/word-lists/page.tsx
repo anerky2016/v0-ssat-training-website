@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useSearchParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -27,7 +27,11 @@ export default function WordListsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null | 'unreviewed'>(null)
-  const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(getAvailableLevels()) // Default: all levels
+  const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(() => {
+    const allLevels = getAvailableLevels()
+    // Default: include SSAT and all Wordly Wise levels
+    return allLevels
+  })
   const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
   const [wordReviewStatus, setWordReviewStatus] = useState<Record<string, boolean>>({})
   const [currentPage, setCurrentPage] = useState(1)
@@ -123,7 +127,7 @@ export default function WordListsPage() {
     }
   }, [searchParams])
 
-  // Calculate letter counts
+  // Calculate letter counts based on selected levels
   const letterCounts = useMemo(() => {
     const counts: Record<string, number> = {}
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
@@ -140,7 +144,7 @@ export default function WordListsPage() {
     })
 
     return counts
-  }, [])
+  }, [vocabularyData])
 
   const filteredWords = vocabularyData.words.filter(word => {
     const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
