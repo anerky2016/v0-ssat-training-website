@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -47,6 +47,23 @@ interface VocabularyWordCardProps {
   showTooltip?: boolean
   showAudio?: boolean
   index?: number
+}
+
+// Helper function to get icon and color for part of speech
+function getPartOfSpeechIcon(partOfSpeech: string) {
+  const lowerCase = partOfSpeech.toLowerCase()
+
+  if (lowerCase.includes('noun')) {
+    return { Icon: Box, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-50 dark:bg-blue-950/20' }
+  } else if (lowerCase.includes('verb')) {
+    return { Icon: Zap, color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-50 dark:bg-orange-950/20' }
+  } else if (lowerCase.includes('adjective')) {
+    return { Icon: SparklesIcon, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-950/20' }
+  } else if (lowerCase.includes('adverb')) {
+    return { Icon: TrendingUp, color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-50 dark:bg-green-950/20' }
+  } else {
+    return { Icon: FileText, color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-50 dark:bg-gray-950/20' }
+  }
 }
 
 export function VocabularyWordCard({
@@ -544,7 +561,13 @@ export function VocabularyWordCard({
                 {showTooltip && activeTooltip && (
                   <div className="absolute z-10 mt-2 p-3 bg-chart-5 text-white rounded-lg shadow-xl max-w-xs text-sm leading-relaxed">
                     <div className="font-semibold mb-1">{word.meanings[0]}</div>
-                    <div className="text-xs opacity-90 italic">{word.part_of_speech}</div>
+                    <div className="text-xs opacity-90 italic flex items-center gap-1.5">
+                      {(() => {
+                        const { Icon, color } = getPartOfSpeechIcon(word.part_of_speech)
+                        return <Icon className="h-3.5 w-3.5 text-white" />
+                      })()}
+                      {word.part_of_speech}
+                    </div>
                     <div className="absolute -top-2 left-4 w-4 h-4 bg-chart-5 transform rotate-45"></div>
                   </div>
                 )}
@@ -592,7 +615,17 @@ export function VocabularyWordCard({
               </span>
             </div>
             <CardDescription className="text-sm italic">
-              {word.part_of_speech}
+              <div className="flex items-center gap-2">
+                {(() => {
+                  const { Icon, color, bgColor } = getPartOfSpeechIcon(word.part_of_speech)
+                  return (
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${bgColor} ${color} font-medium text-xs`}>
+                      <Icon className="h-3.5 w-3.5" />
+                      {word.part_of_speech}
+                    </span>
+                  )
+                })()}
+              </div>
             </CardDescription>
           </div>
           <div className="flex-shrink-0 flex flex-col gap-2 w-full sm:w-auto">
@@ -602,34 +635,106 @@ export function VocabularyWordCard({
               category="vocabulary"
             />
 
-            {/* Desktop: Button Controls */}
-            <div className="hidden md:flex flex-col gap-2 w-full max-w-[200px]">
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={handleDecreaseDifficulty}
-                  disabled={!isLoggedIn || difficulty === 0}
-                  variant="outline"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                  title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
+            {/* Desktop: Circular Difficulty Buttons */}
+            <div className="hidden md:flex flex-col gap-2 w-full">
+              <div className="flex items-center justify-center gap-1.5">
+                {/* Wait for decision (Not Reviewed) */}
+                <button
+                  onClick={async () => {
+                    setDifficulty(1)
+                    setIsReviewed(false)
+                    // Clear from Supabase to mark as not reviewed
+                    if (isLoggedIn) {
+                      await setWordDifficulty(word.word, 1)
+                      setHistoryRefreshTrigger(prev => prev + 1)
+                    }
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    !isReviewed
+                      ? 'bg-gray-500 border-gray-600 text-white shadow-lg scale-110'
+                      : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Wait for decision"}
                 >
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-                <div className={`flex-1 px-3 py-1.5 rounded-md text-sm font-semibold text-center ${
-                  getDifficultyColor(difficulty, isReviewed)
-                }`}>
-                  {getDifficultyLabel(difficulty, isReviewed)}
-                </div>
-                <Button
-                  onClick={handleIncreaseDifficulty}
-                  disabled={!isLoggedIn || difficulty === 3}
-                  variant="outline"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                  title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
+                  ?
+                </button>
+
+                {/* Easy */}
+                <button
+                  onClick={async () => {
+                    await setWordDifficulty(word.word, 0)
+                    setDifficulty(0)
+                    setIsReviewed(true)
+                    setHistoryRefreshTrigger(prev => prev + 1)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 0
+                      ? 'bg-green-600 border-green-700 text-white shadow-lg scale-110'
+                      : 'bg-green-100 dark:bg-green-900/20 border-green-300 dark:border-green-700 text-green-700 dark:text-green-400 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Easy"}
                 >
-                  <ChevronUp className="h-4 w-4" />
-                </Button>
+                  E
+                </button>
+
+                {/* Medium */}
+                <button
+                  onClick={async () => {
+                    await setWordDifficulty(word.word, 1)
+                    setDifficulty(1)
+                    setIsReviewed(true)
+                    setHistoryRefreshTrigger(prev => prev + 1)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 1
+                      ? 'bg-yellow-600 border-yellow-700 text-white shadow-lg scale-110'
+                      : 'bg-yellow-100 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700 text-yellow-700 dark:text-yellow-400 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Medium"}
+                >
+                  M
+                </button>
+
+                {/* Hard */}
+                <button
+                  onClick={async () => {
+                    await setWordDifficulty(word.word, 2)
+                    setDifficulty(2)
+                    setIsReviewed(true)
+                    setHistoryRefreshTrigger(prev => prev + 1)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 2
+                      ? 'bg-orange-600 border-orange-700 text-white shadow-lg scale-110'
+                      : 'bg-orange-100 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-400 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Hard"}
+                >
+                  H
+                </button>
+
+                {/* Very Hard */}
+                <button
+                  onClick={async () => {
+                    await setWordDifficulty(word.word, 3)
+                    setDifficulty(3)
+                    setIsReviewed(true)
+                    setHistoryRefreshTrigger(prev => prev + 1)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`h-10 w-10 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 3
+                      ? 'bg-red-600 border-red-700 text-white shadow-lg scale-110'
+                      : 'bg-red-100 dark:bg-red-900/20 border-red-300 dark:border-red-700 text-red-700 dark:text-red-400 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Very Hard"}
+                >
+                  VH
+                </button>
               </div>
             </div>
 
