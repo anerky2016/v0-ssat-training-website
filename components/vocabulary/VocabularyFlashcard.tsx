@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown, MousePointerClick, RotateCcw } from "lucide-react"
+import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown, MousePointerClick, RotateCcw, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText } from "lucide-react"
 import {
   getWordDifficulty,
   increaseDifficulty,
@@ -48,6 +48,29 @@ interface VocabularyFlashcardProps {
   onToggleDetails: () => void
   onNext?: () => void
   onPrevious?: () => void
+}
+
+// Helper function to get icon and color for a single part of speech
+function getSinglePartOfSpeechIcon(partOfSpeech: string) {
+  const lowerCase = partOfSpeech.toLowerCase().trim()
+
+  if (lowerCase.includes('noun')) {
+    return { Icon: Box, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-50 dark:bg-blue-950/20', label: partOfSpeech.trim() }
+  } else if (lowerCase.includes('verb')) {
+    return { Icon: Zap, color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-50 dark:bg-orange-950/20', label: partOfSpeech.trim() }
+  } else if (lowerCase.includes('adjective')) {
+    return { Icon: SparklesIcon, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-950/20', label: partOfSpeech.trim() }
+  } else if (lowerCase.includes('adverb')) {
+    return { Icon: TrendingUp, color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-50 dark:bg-green-950/20', label: partOfSpeech.trim() }
+  } else {
+    return { Icon: FileText, color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-50 dark:bg-gray-950/20', label: partOfSpeech.trim() }
+  }
+}
+
+// Helper function to get icons for all parts of speech (handles "Adjective/Noun" etc.)
+function getPartOfSpeechIcons(partOfSpeech: string) {
+  const parts = partOfSpeech.split('/').map(p => p.trim())
+  return parts.map(part => getSinglePartOfSpeechIcon(part))
 }
 
 export function VocabularyFlashcard({
@@ -241,8 +264,13 @@ export function VocabularyFlashcard({
                 {word.pronunciation}
               </span>
             </div>
-            <div className="text-lg text-muted-foreground italic">
-              ({word.part_of_speech})
+            <div className="flex items-center justify-center gap-2 flex-wrap mt-2">
+              {getPartOfSpeechIcons(word.part_of_speech).map((iconData, index) => (
+                <span key={index} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${iconData.bgColor} ${iconData.color} font-medium text-sm`}>
+                  <iconData.Icon className="h-4 w-4" />
+                  {iconData.label}
+                </span>
+              ))}
             </div>
             {isMastered && (
               <div className="mt-6 flex items-center justify-center gap-2 text-green-600">

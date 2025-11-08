@@ -49,21 +49,27 @@ interface VocabularyWordCardProps {
   index?: number
 }
 
-// Helper function to get icon and color for part of speech
-function getPartOfSpeechIcon(partOfSpeech: string) {
-  const lowerCase = partOfSpeech.toLowerCase()
+// Helper function to get icon and color for a single part of speech
+function getSinglePartOfSpeechIcon(partOfSpeech: string) {
+  const lowerCase = partOfSpeech.toLowerCase().trim()
 
   if (lowerCase.includes('noun')) {
-    return { Icon: Box, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-50 dark:bg-blue-950/20' }
+    return { Icon: Box, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-50 dark:bg-blue-950/20', label: partOfSpeech.trim() }
   } else if (lowerCase.includes('verb')) {
-    return { Icon: Zap, color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-50 dark:bg-orange-950/20' }
+    return { Icon: Zap, color: 'text-orange-600 dark:text-orange-400', bgColor: 'bg-orange-50 dark:bg-orange-950/20', label: partOfSpeech.trim() }
   } else if (lowerCase.includes('adjective')) {
-    return { Icon: SparklesIcon, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-950/20' }
+    return { Icon: SparklesIcon, color: 'text-yellow-600 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-950/20', label: partOfSpeech.trim() }
   } else if (lowerCase.includes('adverb')) {
-    return { Icon: TrendingUp, color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-50 dark:bg-green-950/20' }
+    return { Icon: TrendingUp, color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-50 dark:bg-green-950/20', label: partOfSpeech.trim() }
   } else {
-    return { Icon: FileText, color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-50 dark:bg-gray-950/20' }
+    return { Icon: FileText, color: 'text-gray-600 dark:text-gray-400', bgColor: 'bg-gray-50 dark:bg-gray-950/20', label: partOfSpeech.trim() }
   }
+}
+
+// Helper function to get icons for all parts of speech (handles "Adjective/Noun" etc.)
+function getPartOfSpeechIcons(partOfSpeech: string) {
+  const parts = partOfSpeech.split('/').map(p => p.trim())
+  return parts.map(part => getSinglePartOfSpeechIcon(part))
 }
 
 export function VocabularyWordCard({
@@ -561,12 +567,13 @@ export function VocabularyWordCard({
                 {showTooltip && activeTooltip && (
                   <div className="absolute z-10 mt-2 p-3 bg-chart-5 text-white rounded-lg shadow-xl max-w-xs text-sm leading-relaxed">
                     <div className="font-semibold mb-1">{word.meanings[0]}</div>
-                    <div className="text-xs opacity-90 italic flex items-center gap-1.5">
-                      {(() => {
-                        const { Icon, color } = getPartOfSpeechIcon(word.part_of_speech)
-                        return <Icon className="h-3.5 w-3.5 text-white" />
-                      })()}
-                      {word.part_of_speech}
+                    <div className="text-xs opacity-90 italic flex items-center gap-1.5 flex-wrap">
+                      {getPartOfSpeechIcons(word.part_of_speech).map((iconData, index) => (
+                        <span key={index} className="flex items-center gap-1">
+                          <iconData.Icon className="h-3.5 w-3.5 text-white" />
+                          <span>{iconData.label}</span>
+                        </span>
+                      ))}
                     </div>
                     <div className="absolute -top-2 left-4 w-4 h-4 bg-chart-5 transform rotate-45"></div>
                   </div>
@@ -615,16 +622,13 @@ export function VocabularyWordCard({
               </span>
             </div>
             <CardDescription className="text-sm italic">
-              <div className="flex items-center gap-2">
-                {(() => {
-                  const { Icon, color, bgColor } = getPartOfSpeechIcon(word.part_of_speech)
-                  return (
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${bgColor} ${color} font-medium text-xs`}>
-                      <Icon className="h-3.5 w-3.5" />
-                      {word.part_of_speech}
-                    </span>
-                  )
-                })()}
+              <div className="flex items-center gap-2 flex-wrap">
+                {getPartOfSpeechIcons(word.part_of_speech).map((iconData, index) => (
+                  <span key={index} className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${iconData.bgColor} ${iconData.color} font-medium text-xs`}>
+                    <iconData.Icon className="h-3.5 w-3.5" />
+                    {iconData.label}
+                  </span>
+                ))}
               </div>
             </CardDescription>
           </div>
