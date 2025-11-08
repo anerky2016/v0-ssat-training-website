@@ -15,10 +15,18 @@
         "After realizing he was too busy with sports, Jake decided to abdicate his role as team captain for the season."
       ],
       "synonyms": [
-        "ABC&#039;s",
-        "abdicated"
+        "resign",
+        "step down",
+        "give up",
+        "quit",
+        "leave"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "rule",
+        "lead",
+        "command",
+        "govern"
+      ],
       "further_information": []
     },
     {
@@ -36,10 +44,19 @@
         "After discussing it with the teacher, the students voted to abolish homework on Fridays so they could enjoy their weekends."
       ],
       "synonyms": [
-        "aboil",
-        "abolished"
+        "end",
+        "cancel",
+        "remove",
+        "stop",
+        "get rid of",
+        "wipe out"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "keep",
+        "continue",
+        "maintain",
+        "support"
+      ],
       "further_information": []
     },
     {
@@ -57,10 +74,20 @@
         "In the story, the king decided to wear his crown on his feet, and everyone thought it was absurd!"
       ],
       "synonyms": [
-        "abstrusity",
-        "absurdities"
+        "silly",
+        "crazy",
+        "foolish",
+        "ridiculous",
+        "nonsensical",
+        "wacky",
+        "bizarre"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "reasonable",
+        "sensible",
+        "logical",
+        "normal"
+      ],
       "further_information": []
     },
     {
@@ -78,9 +105,18 @@
         "The rocket was designed to accelerate into space, reaching high speeds as it left Earth’s atmosphere."
       ],
       "synonyms": [
-        "accelerated"
+        "speed up",
+        "hasten",
+        "rush",
+        "quicken",
+        "boost",
+        "increase"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "slow down",
+        "decrease",
+        "stop"
+      ],
       "further_information": []
     },
     {
@@ -98,10 +134,19 @@
         "When we visit the museum, we can access all the interesting exhibits about dinosaurs and space!"
       ],
       "synonyms": [
-        "accepts",
-        "accessed"
+        "enter",
+        "open",
+        "reach",
+        "find",
+        "get to",
+        "use"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "close",
+        "exit",
+        "ignore",
+        "deny"
+      ],
       "further_information": []
     },
     {
@@ -119,10 +164,20 @@
         "The soccer coach decided to accommodate more players on the team by creating a second practice group after school."
       ],
       "synonyms": [
-        "accolades",
-        "accommodated"
+        "fit",
+        "adapt",
+        "house",
+        "welcome",
+        "adjust",
+        "make space",
+        "provide for"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "reject",
+        "displace",
+        "exclude",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -140,10 +195,18 @@
         "I set a goal to learn how to ride my bike without training wheels, and I was excited to accomplish it on my own!"
       ],
       "synonyms": [
-        "accomplices",
-        "accomplished"
+        "achieve",
+        "complete",
+        "finish",
+        "succeed",
+        "attain",
+        "fulfill"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "fail",
+        "give up",
+        "quit"
+      ],
       "further_information": []
     },
     {
@@ -161,10 +224,19 @@
         "My mom took an accurate measurement of the ingredients to make the cookies turn out just right."
       ],
       "synonyms": [
-        "accuracy",
-        "accurately"
+        "correct",
+        "right",
+        "true",
+        "exact",
+        "precise",
+        "on target"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "wrong",
+        "incorrect",
+        "false",
+        "off"
+      ],
       "further_information": []
     },
     {
@@ -182,10 +254,17 @@
         "As we camped in the woods, we had to accustom ourselves to sleeping in a tent instead of a bed."
       ],
       "synonyms": [
-        "accusing",
-        "accustomed"
+        "familiarize",
+        "adapt",
+        "acclimate",
+        "get used to",
+        "habituate"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "ignore",
+        "reject",
+        "oppose"
+      ],
       "further_information": []
     },
     {
@@ -203,10 +282,19 @@
         "In the story, the dragon's curse would afflict the village until a brave hero arrived to save them."
       ],
       "synonyms": [
-        "affixing",
-        "afflicted"
+        "hurt",
+        "trouble",
+        "sadden",
+        "distress",
+        "bother",
+        "worry"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "comfort",
+        "help",
+        "cheer",
+        "heal"
+      ],
       "further_information": []
     },
     {
@@ -224,10 +312,19 @@
         "In the story, the dragon was aggressive and scared the villagers until a brave knight saved them."
       ],
       "synonyms": [
-        "aggressions",
-        "aggressively"
+        "hostile",
+        "fierce",
+        "pushy",
+        "angry",
+        "violent",
+        "forceful"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "friendly",
+        "calm",
+        "gentle",
+        "peaceful"
+      ],
       "further_information": []
     },
     {
@@ -245,10 +342,19 @@
         "When the team lost the championship game, the players were in agony, feeling sad about their hard work not paying off."
       ],
       "synonyms": [
-        "agonizingly",
-        "agrarian"
+        "pain",
+        "suffering",
+        "hurt",
+        "distress",
+        "misery",
+        "anguish"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "comfort",
+        "happiness",
+        "joy",
+        "pleasure"
+      ],
       "further_information": []
     },
     {
@@ -266,11 +372,17 @@
         "At the science fair, I was alert to see how my classmates presented their cool projects and experiments."
       ],
       "synonyms": [
-        "red alert",
-        "alehouses",
-        "alerted"
+        "watchful",
+        "attentive",
+        "aware",
+        "vigilant",
+        "observant"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "distracted",
+        "unaware",
+        "sleepy"
+      ],
       "further_information": []
     },
     {
@@ -288,10 +400,17 @@
         "While hiking, we saw different plants and animals that live at various altitudes on the mountain."
       ],
       "synonyms": [
-        "altiplanos",
-        "altitudes"
+        "height",
+        "elevation",
+        "rise",
+        "climb",
+        "level"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "depth",
+        "low",
+        "bottom"
+      ],
       "further_information": []
     },
     {
@@ -309,9 +428,20 @@
         "My grandma's garden has ample flowers, making it the perfect spot for a picnic with my friends."
       ],
       "synonyms": [
-        "ampleness"
+        "plenty",
+        "abundant",
+        "sufficient",
+        "enough",
+        "generous",
+        "ample",
+        "large"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "scarce",
+        "few",
+        "limited",
+        "insufficient"
+      ],
       "further_information": []
     },
     {
@@ -329,10 +459,16 @@
         "During the school project, I discovered that one of my ancestors was a famous explorer who traveled the world!"
       ],
       "synonyms": [
-        "anatomy",
-        "ancestors"
+        "forefather",
+        "ancestor",
+        "relative",
+        "great-grandparent",
+        "old family member"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "descendant",
+        "child"
+      ],
       "further_information": []
     },
     {
@@ -350,10 +486,20 @@
         "The animated stories in the book made the characters come to life and kept me reading all night."
       ],
       "synonyms": [
-        "animate",
-        "animated cartoon"
+        "lively",
+        "exciting",
+        "energetic",
+        "spirited",
+        "fun",
+        "vibrant",
+        "bouncy"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "boring",
+        "dull",
+        "inactive",
+        "lifeless"
+      ],
       "further_information": []
     },
     {
@@ -371,10 +517,19 @@
         "Before the school play, I was anxious backstage, but once I started acting, I felt much better."
       ],
       "synonyms": [
-        "anxiety",
-        "anxiously"
+        "worried",
+        "nervous",
+        "uneasy",
+        "apprehensive",
+        "tense",
+        "fidgety"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "calm",
+        "relaxed",
+        "confident",
+        "at ease"
+      ],
       "further_information": []
     },
     {
@@ -392,9 +547,16 @@
         "The approximate time it takes to finish the book is about two weeks if I read a little every day."
       ],
       "synonyms": [
-        "approximated"
+        "about",
+        "around",
+        "close to",
+        "nearly",
+        "roughly"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "exact",
+        "precise"
+      ],
       "further_information": []
     },
     {
@@ -412,10 +574,18 @@
         "In art class, the aroma of paint and clay inspired us to create colorful masterpieces."
       ],
       "synonyms": [
-        "army",
-        "aromas"
+        "scent",
+        "fragrance",
+        "smell",
+        "bouquet",
+        "whiff",
+        "perfume"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "stink",
+        "odor",
+        "foulness"
+      ],
       "further_information": []
     },
     {
@@ -433,9 +603,19 @@
         "As the sun began to rise in the morning, it seemed to ascend slowly over the horizon, filling the sky with light."
       ],
       "synonyms": [
-        "ascendance"
+        "climb",
+        "rise",
+        "go up",
+        "lift",
+        "scale",
+        "elevate"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "descend",
+        "fall",
+        "go down",
+        "drop"
+      ],
       "further_information": []
     },
     {
@@ -453,10 +633,20 @@
         "At the library, we will assemble our favorite books to create a special display for everyone to see."
       ],
       "synonyms": [
-        "assemblages",
-        "assembled"
+        "gather",
+        "collect",
+        "build",
+        "join",
+        "put together",
+        "group",
+        "combine"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "disassemble",
+        "separate",
+        "break apart",
+        "scatter"
+      ],
       "further_information": []
     },
     {
@@ -474,10 +664,18 @@
         "In science class, the teacher will assign partners for a fun experiment about how plants grow."
       ],
       "synonyms": [
-        "assiduousness",
-        "assignation"
+        "give",
+        "hand out",
+        "allocate",
+        "designate",
+        "appoint",
+        "task"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "remove",
+        "take away",
+        "dismiss"
+      ],
       "further_information": []
     },
     {
@@ -495,10 +693,18 @@
         "In history, we associate important events with the people who made a difference, like Martin Luther King Jr. and his dream for equality."
       ],
       "synonyms": [
-        "assists",
-        "associated"
+        "connect",
+        "link",
+        "join",
+        "remember",
+        "relate",
+        "think of"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "separate",
+        "disconnect",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -516,10 +722,19 @@
         "When my friend didn't come to school, I assumed she was sick and hoped she would feel better soon."
       ],
       "synonyms": [
-        "assumably",
-        "assumed"
+        "believe",
+        "think",
+        "guess",
+        "expect",
+        "presume",
+        "figure",
+        "suppose"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "know",
+        "doubt",
+        "verify"
+      ],
       "further_information": []
     },
     {
@@ -537,10 +752,19 @@
         "There are plenty of snacks available in the kitchen if you get hungry while doing your homework."
       ],
       "synonyms": [
-        "availability",
-        "availableness"
+        "ready",
+        "on hand",
+        "at hand",
+        "accessible",
+        "obtainable",
+        "free"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "unavailable",
+        "not ready",
+        "busy",
+        "taken"
+      ],
       "further_information": []
     },
     {
@@ -558,10 +782,17 @@
         "When we built a snow fort, I imagined what it would be like if an avalanche came and covered everything in snow!"
       ],
       "synonyms": [
-        "avails",
-        "avalanched"
+        "snowfall",
+        "landslide",
+        "rockslide",
+        "snow slide",
+        "ice flow"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "stillness",
+        "calm",
+        "stability"
+      ],
       "further_information": []
     },
     {
@@ -579,10 +810,18 @@
         "In the story, the animals planned a banquet in the forest to thank the wise old owl for sharing his knowledge with them."
       ],
       "synonyms": [
-        "banning",
-        "banqueted"
+        "feast",
+        "party",
+        "celebration",
+        "meal",
+        "gathering",
+        "event"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "snack",
+        "fast",
+        "quiet time"
+      ],
       "further_information": []
     },
     {
@@ -600,10 +839,18 @@
         "During our hiking trip, we saw a barren area where nothing seemed to grow, not even grass."
       ],
       "synonyms": [
-        "barrels",
-        "barrenness"
+        "dry",
+        "empty",
+        "lifeless",
+        "desolate",
+        "sterile"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "fertile",
+        "lush",
+        "green",
+        "blooming"
+      ],
       "further_information": []
     },
     {
@@ -621,10 +868,19 @@
         "After finishing our science project, we took a break to bask in the warm sun on the school lawn."
       ],
       "synonyms": [
-        "basis",
-        "basked"
+        "soak up",
+        "enjoy",
+        "relax",
+        "repose",
+        "lie in the sun",
+        "savor"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "shiver",
+        "freeze",
+        "hide",
+        "avoid"
+      ],
       "further_information": []
     },
     {
@@ -642,9 +898,18 @@
         "In the story, the knight had to decide whether to betray his kingdom or stay loyal to the king he served."
       ],
       "synonyms": [
-        "betrayal"
+        "betray",
+        "deceive",
+        "backstab",
+        "double-cross",
+        "stab in the back"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "trust",
+        "loyal",
+        "support",
+        "protect"
+      ],
       "further_information": []
     },
     {
@@ -662,10 +927,18 @@
         "For my birthday party, I served a colorful beverage made with fruit juice and sparkling water."
       ],
       "synonyms": [
-        "bevels",
-        "beverages"
+        "drink",
+        "refreshment",
+        "liquid",
+        "soda",
+        "juice",
+        "milk",
+        "tea"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "solid",
+        "food"
+      ],
       "further_information": []
     },
     {
@@ -683,10 +956,18 @@
         "My mom said that the plain rice was too bland, so she added some vegetables and sauce to make it tastier."
       ],
       "synonyms": [
-        "blanching",
-        "blandish"
+        "plain",
+        "dull",
+        "unexciting",
+        "tasteless",
+        "mild"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "flavorful",
+        "exciting",
+        "spicy",
+        "zesty"
+      ],
       "further_information": []
     },
     {
@@ -704,10 +985,17 @@
         "After the blizzard passed, we went outside to explore the beautiful, white world that was left behind."
       ],
       "synonyms": [
-        "blitzkriegs",
-        "blizzardly"
+        "snowstorm",
+        "snowfall",
+        "winter storm",
+        "whiteout",
+        "frost"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "sunshine",
+        "clear sky",
+        "warmth"
+      ],
       "further_information": []
     },
     {
@@ -725,10 +1013,20 @@
         "We enjoyed a boisterous afternoon of singing and dancing at the school talent show."
       ],
       "synonyms": [
-        "boils over",
-        "boisterously"
+        "loud",
+        "noisy",
+        "rowdy",
+        "hyper",
+        "excited",
+        "bouncy",
+        "playful"
       ],
-      "antonyms": [],
+      "antonyms": [
+        "quiet",
+        "calm",
+        "peaceful",
+        "silent"
+      ],
       "further_information": []
     },
     {
@@ -745,8 +1043,18 @@
         "In our science project, we discovered how plants can be in bondage if they don't get enough sunlight or water to grow properly.",
         "The video game had a level where the character needed to break free from bondage to save the princess and complete the quest."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "captivity",
+        "restraint",
+        "tied up",
+        "trapped",
+        "confinement"
+      ],
+      "antonyms": [
+        "freedom",
+        "liberation",
+        "release"
+      ],
       "further_information": []
     },
     {
@@ -763,8 +1071,17 @@
         "In science class, we learned how a brace can help support a broken bone while it heals.",
         "My friend showed me how to use a brace to hold her drawing pad steady while she painted."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "support",
+        "band",
+        "splint",
+        "holder",
+        "strap"
+      ],
+      "antonyms": [
+        "loosen",
+        "release"
+      ],
       "further_information": []
     },
     {
@@ -781,8 +1098,20 @@
         "The brilliant sunshine made the flowers in the garden look even more colorful and beautiful.",
         "In the book, the brilliant detective solved the mystery before anyone else could figure it out."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "bright",
+        "smart",
+        "clever",
+        "shiny",
+        "genius",
+        "wonderful",
+        "excellent"
+      ],
+      "antonyms": [
+        "dull",
+        "stupid",
+        "ordinary"
+      ],
       "further_information": []
     },
     {
@@ -799,8 +1128,18 @@
         "In science class, we learned that some materials are brittle and can break easily when too much pressure is applied.",
         "My mom warned me that the brittle cookies would crumble if I touched them too hard."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "fragile",
+        "breakable",
+        "delicate",
+        "weak",
+        "shatterable"
+      ],
+      "antonyms": [
+        "strong",
+        "tough",
+        "flexible"
+      ],
       "further_information": []
     },
     {
@@ -817,8 +1156,19 @@
         "During the soccer game, I had to budge my position to make space for my teammate to score a goal.",
         "The puppy wouldn’t budge from his favorite sunny spot on the floor, even when it was time for a walk."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "move",
+        "shift",
+        "budge",
+        "nudge",
+        "push",
+        "jostle"
+      ],
+      "antonyms": [
+        "stay",
+        "remain",
+        "freeze"
+      ],
       "further_information": []
     },
     {
@@ -835,8 +1185,21 @@
         "While building my model rocket, I bungled the assembly and had to start over because it wouldn’t stand up straight.",
         "When we played the board game, I bungled my turn and forgot to follow the rules, which confused everyone."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "mess up",
+        "screw up",
+        "blunder",
+        "fail",
+        "botch",
+        "fumble",
+        "flub"
+      ],
+      "antonyms": [
+        "succeed",
+        "fix",
+        "do well",
+        "complete"
+      ],
       "further_information": []
     },
     {
@@ -853,8 +1216,18 @@
         "Carrying the heavy backpack to school every day became a burden, so I decided to leave some books at home.",
         "In the story, the hero faced a great burden when he had to save his village from danger all by himself."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "load",
+        "weight",
+        "responsibility",
+        "strain",
+        "pressure"
+      ],
+      "antonyms": [
+        "lightness",
+        "ease",
+        "freedom"
+      ],
       "further_information": []
     },
     {
@@ -871,8 +1244,20 @@
         "The burly character in the movie became a hero by saving the day with his incredible strength.",
         "At the zoo, we saw a burly gorilla that was much bigger than all the other animals."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "strong",
+        "muscular",
+        "brawny",
+        "sturdy",
+        "hefty",
+        "powerful"
+      ],
+      "antonyms": [
+        "thin",
+        "weak",
+        "small",
+        "slender"
+      ],
       "further_information": []
     },
     {
@@ -889,8 +1274,18 @@
         "During our camping trip, we found the carcass of a fish near the river, which showed us how nature recycles life.",
         "In the book we read, a detective discovered a carcass in the woods, which helped him solve the mystery of the missing animals."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "body",
+        "remains",
+        "carcass",
+        "flesh",
+        "meat"
+      ],
+      "antonyms": [
+        "alive",
+        "living",
+        "healthy"
+      ],
       "further_information": []
     },
     {
@@ -907,8 +1302,17 @@
         "The airplane flew high in the sky, bringing cargo that included books and school supplies for kids in another country.",
         "When the train arrived at the station, it was loaded with cargo that included all sorts of delicious snacks for the fair."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "goods",
+        "freight",
+        "load",
+        "shipment",
+        "packages"
+      ],
+      "antonyms": [
+        "empty",
+        "nothing"
+      ],
       "further_information": []
     },
     {
@@ -925,8 +1329,18 @@
         "In the animal kingdom, a carnivore like the wolf works together with its pack to catch prey for food.",
         "My favorite dinosaur is the T-rex because it was a fierce carnivore that hunted smaller dinosaurs."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "meat-eater",
+        "predator",
+        "hunter",
+        "flesh-eater",
+        "meat lover"
+      ],
+      "antonyms": [
+        "herbivore",
+        "plant-eater",
+        "vegan"
+      ],
       "further_information": []
     },
     {
@@ -943,8 +1357,17 @@
         "In the story, the brave explorer found a cask buried in the sand, full of delicious fruit juice.",
         "My dad told me that in ancient times, people used casks to keep their drinks safe and fresh for a long time."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "barrel",
+        "container",
+        "drum",
+        "vat",
+        "keg"
+      ],
+      "antonyms": [
+        "cup",
+        "bottle"
+      ],
       "further_information": []
     },
     {
@@ -961,8 +1384,18 @@
         "My favorite part of the video game was using a catapult to knock down the enemy's castle walls.",
         "The ancient warriors used a catapult to fling heavy stones at their enemies during battles long ago."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "launcher",
+        "thrower",
+        "slingshot",
+        "catapulting device",
+        "trebuchet"
+      ],
+      "antonyms": [
+        "catcher",
+        "holder",
+        "stopper"
+      ],
       "further_information": []
     },
     {
@@ -979,8 +1412,19 @@
         "When our team wins a game, we celebrate by cheering, high-fiving each other, and enjoying some ice cream together.",
         "During the holidays, our family likes to celebrate by decorating the house and cooking special meals that everyone loves."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "party",
+        "honor",
+        "enjoy",
+        "commemorate",
+        "mark",
+        "festivity"
+      ],
+      "antonyms": [
+        "ignore",
+        "forget",
+        "neglect"
+      ],
       "further_information": []
     },
     {
@@ -997,8 +1441,21 @@
         "Reading a thick book can be a challenge, but it feels amazing to finish it and share my thoughts with friends.",
         "During our nature hike, we encountered the challenge of climbing a steep hill, but we all helped each other succeed."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "test",
+        "trial",
+        "difficulty",
+        "obstacle",
+        "task",
+        "problem",
+        "puzzle"
+      ],
+      "antonyms": [
+        "easy",
+        "simple",
+        "comfort",
+        "help"
+      ],
       "further_information": []
     },
     {
@@ -1015,8 +1472,17 @@
         "The character traits of kindness and honesty are important for making good friends.",
         "In history class, we learned about a character named Martin Luther King Jr. who fought for equality."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "person",
+        "figure",
+        "hero",
+        "animal",
+        "role"
+      ],
+      "antonyms": [
+        "real",
+        "nonfiction"
+      ],
       "further_information": []
     },
     {
@@ -1033,8 +1499,21 @@
         "My teacher showed us a cluster of colorful flowers in the garden and explained how they help bees.",
         "During the school project, we formed a cluster of ideas to create a great presentation about our favorite animals."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "bunch",
+        "group",
+        "collection",
+        "gathering",
+        "cluster",
+        "set",
+        "pack"
+      ],
+      "antonyms": [
+        "single",
+        "individual",
+        "alone",
+        "separate"
+      ],
       "further_information": []
     },
     {
@@ -1051,8 +1530,19 @@
         "My science project is about how bees form a colony to take care of their queen and larvae.",
         "In the video game, players can create their own colony and help it grow by building houses and farms."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "settlement",
+        "community",
+        "group",
+        "enclave",
+        "outpost",
+        "neighborhood"
+      ],
+      "antonyms": [
+        "solitude",
+        "isolation",
+        "separation"
+      ],
       "further_information": []
     },
     {
@@ -1069,8 +1559,21 @@
         "For our school project, we decided to combine our ideas about recycling to create a fun presentation.",
         "In soccer, it's important to combine teamwork and strategy to play well and win the game."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "mix",
+        "join",
+        "merge",
+        "blend",
+        "unite",
+        "couple",
+        "connect"
+      ],
+      "antonyms": [
+        "separate",
+        "divide",
+        "split",
+        "disconnect"
+      ],
       "further_information": []
     },
     {
@@ -1087,8 +1590,20 @@
         "At school, having a study companion makes learning new things easier and more fun because we can help each other.",
         "When I go on hikes, my favorite companion is my friend, who shares interesting facts about the plants and animals we see along the way."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "friend",
+        "buddy",
+        "pal",
+        "mate",
+        "partner",
+        "sidekick",
+        "comrade"
+      ],
+      "antonyms": [
+        "enemy",
+        "stranger",
+        "loner"
+      ],
       "further_information": []
     },
     {
@@ -1105,8 +1620,19 @@
         "I felt compassion for my classmate when I saw him sitting alone at lunch, so I invited him to join us.",
         "When my sister was sad about her broken toy, I showed her compassion by giving her a hug and cheering her up."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "kindness",
+        "sympathy",
+        "care",
+        "understanding",
+        "pity",
+        "concern"
+      ],
+      "antonyms": [
+        "indifference",
+        "cruelty",
+        "hatred"
+      ],
       "further_information": []
     },
     {
@@ -1123,8 +1649,18 @@
         "The two puzzle pieces were compatible and fit together perfectly to complete the picture.",
         "When we work on group projects, it's important that our ideas are compatible so everyone can agree."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "matching",
+        "fitting",
+        "suitable",
+        "harmonious",
+        "agreeable"
+      ],
+      "antonyms": [
+        "incompatible",
+        "wrong",
+        "mismatched"
+      ],
       "further_information": []
     },
     {
@@ -1141,8 +1677,19 @@
         "My brother broke my toy, but he promised to compensate by saving his allowance to buy me a new one.",
         "To compensate for missing the school field trip, I wrote a report about what I learned from my friends who went."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "repay",
+        "make up",
+        "reward",
+        "atone",
+        "balance",
+        "pay back"
+      ],
+      "antonyms": [
+        "take",
+        "lose",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -1159,8 +1706,20 @@
         "My parents expect me to comply with their bedtime rules so I can get enough sleep for school.",
         "During the group project, we agreed to comply with each other's ideas to make our presentation better."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "follow",
+        "obey",
+        "conform",
+        "submit",
+        "adhere",
+        "accept"
+      ],
+      "antonyms": [
+        "disobey",
+        "ignore",
+        "reject",
+        "resist"
+      ],
       "further_information": []
     },
     {
@@ -1177,8 +1736,21 @@
         "After watching the documentary about animals, I could better comprehend the importance of protecting their habitats.",
         "My dad explained the rules of the game, and I was finally able to comprehend how to play it with my friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "understand",
+        "grasp",
+        "know",
+        "get",
+        "realize",
+        "figure out",
+        "see"
+      ],
+      "antonyms": [
+        "confuse",
+        "misunderstand",
+        "ignore",
+        "overlook"
+      ],
       "further_information": []
     },
     {
@@ -1195,8 +1767,21 @@
         "To win the game, I had to conceal my strategy from my opponents until the right moment.",
         "The detective tried to conceal the clues so that only he could figure out the mystery."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hide",
+        "cover",
+        "mask",
+        "shroud",
+        "cloak",
+        "bury",
+        "stash"
+      ],
+      "antonyms": [
+        "reveal",
+        "show",
+        "uncover",
+        "expose"
+      ],
       "further_information": []
     },
     {
@@ -1213,8 +1798,20 @@
         "The concept of friendship means being kind and supportive to each other, just like we are in our group.",
         "When reading a story, understanding the main concept helps us remember what the book is about."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "idea",
+        "thought",
+        "notion",
+        "belief",
+        "understanding",
+        "view",
+        "image"
+      ],
+      "antonyms": [
+        "confusion",
+        "ignorance",
+        "fact"
+      ],
       "further_information": []
     },
     {
@@ -1231,8 +1828,20 @@
         "After studying hard for the spelling test, I was confident that I would do well and get a good grade.",
         "My mom said I should be confident in my art skills because my painting turned out really nice."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "sure",
+        "brave",
+        "self-assured",
+        "bold",
+        "positive",
+        "courageous"
+      ],
+      "antonyms": [
+        "nervous",
+        "doubtful",
+        "uncertain",
+        "shy"
+      ],
       "further_information": []
     },
     {
@@ -1249,8 +1858,20 @@
         "With practice and determination, I was able to conquer the math problems that once seemed impossible.",
         "After many attempts, I finally conquered the tall climbing wall at the playground, and it felt amazing!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "defeat",
+        "overcome",
+        "win",
+        "master",
+        "triumph",
+        "beat"
+      ],
+      "antonyms": [
+        "lose",
+        "surrender",
+        "fail",
+        "give up"
+      ],
       "further_information": []
     },
     {
@@ -1267,8 +1888,19 @@
         "The book I’m reading consists of three exciting stories about friendship, adventure, and bravery that keep me turning the pages.",
         "Our team will consist of five players, and we need to practice together to win the next soccer game."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "make up",
+        "include",
+        "form",
+        "comprise",
+        "be made of",
+        "contain"
+      ],
+      "antonyms": [
+        "exclude",
+        "disassemble",
+        "remove"
+      ],
       "further_information": []
     },
     {
@@ -1285,8 +1917,18 @@
         "In science class, we learned that animals consume food to get the energy they need to move and grow.",
         "When I read a book, I consume the story and imagine all the adventures in my mind."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "eat",
+        "drink",
+        "devour",
+        "gobble",
+        "use"
+      ],
+      "antonyms": [
+        "save",
+        "preserve",
+        "keep"
+      ],
       "further_information": []
     },
     {
@@ -1303,8 +1945,20 @@
         "When we planned the soccer tournament, we had to contact all the teams to sign up.",
         "If you see a lost pet, you should contact the animal shelter to help find its owner."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "communicate",
+        "message",
+        "reach out",
+        "call",
+        "write to",
+        "get in touch",
+        "connect"
+      ],
+      "antonyms": [
+        "ignore",
+        "avoid",
+        "disconnect"
+      ],
       "further_information": []
     },
     {
@@ -1321,8 +1975,18 @@
         "My friend went to the hospital, but now he is back home to convalesce and play video games with me again.",
         "During the summer, I plan to convalesce at the beach, resting and enjoying the sunshine after my busy school year."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "recover",
+        "heal",
+        "get well",
+        "improve",
+        "bounce back"
+      ],
+      "antonyms": [
+        "sicken",
+        "worsen",
+        "fall ill"
+      ],
       "further_information": []
     },
     {
@@ -1339,8 +2003,19 @@
         "I wanted to convince my sister to read the book I loved because I knew she would enjoy it too.",
         "At the science fair, I had to convince the judges that my project was the best one there."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "persuade",
+        "influence",
+        "sway",
+        "encourage",
+        "prompt",
+        "urge"
+      ],
+      "antonyms": [
+        "dissuade",
+        "reject",
+        "oppose"
+      ],
       "further_information": []
     },
     {
@@ -1357,8 +2032,19 @@
         "As we hiked up the mountain, we followed the course marked by colorful signs along the trail.",
         "In history class, we studied the course of events that led to the signing of the Declaration of Independence."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "path",
+        "route",
+        "way",
+        "direction",
+        "lesson",
+        "class"
+      ],
+      "antonyms": [
+        "stop",
+        "end",
+        "detour"
+      ],
       "further_information": []
     },
     {
@@ -1375,8 +2061,21 @@
         "On hot summer days, I always crave a cold lemonade to help me cool down and feel refreshed.",
         "After watching a fun movie, I sometimes crave popcorn, because it makes the experience even better!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "desire",
+        "want",
+        "long for",
+        "yearn",
+        "hunger for",
+        "wish for",
+        "need"
+      ],
+      "antonyms": [
+        "dislike",
+        "hate",
+        "reject",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -1393,8 +2092,20 @@
         "As we explored the cave, we saw bats resting in the dark crevice above our heads.",
         "During our science project, we learned that plants can grow in the crevice of rocks if they have enough sunlight."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "crack",
+        "gap",
+        "split",
+        "fissure",
+        "opening",
+        "slot"
+      ],
+      "antonyms": [
+        "whole",
+        "solid",
+        "closed",
+        "unbroken"
+      ],
       "further_information": []
     },
     {
@@ -1411,8 +2122,19 @@
         "We should cultivate our friendships by being kind and helpful to each other every day at school.",
         "To cultivate a good habit like reading, I try to spend at least twenty minutes with a book each night."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "grow",
+        "nurture",
+        "tend",
+        "raise",
+        "plant",
+        "foster"
+      ],
+      "antonyms": [
+        "neglect",
+        "ignore",
+        "destroy"
+      ],
       "further_information": []
     },
     {
@@ -1429,8 +2151,18 @@
         "My little brother tried to ride his bicycle with the cumbersome training wheels, but he kept wobbling and falling over.",
         "Building a large model rocket can be fun, but the cumbersome pieces make it tricky to put together without help."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "heavy",
+        "bulky",
+        "clumsy",
+        "awkward",
+        "unwieldy"
+      ],
+      "antonyms": [
+        "light",
+        "easy",
+        "simple"
+      ],
       "further_information": []
     },
     {
@@ -1447,8 +2179,17 @@
         "Scientists study changes in the environment over a decade to see how nature is affected.",
         "It’s exciting to think how much technology will change in the next decade as we grow up!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "ten years",
+        "period",
+        "time span",
+        "era",
+        "age"
+      ],
+      "antonyms": [
+        "minute",
+        "hour"
+      ],
       "further_information": []
     },
     {
@@ -1465,8 +2206,19 @@
         "If we don't recycle, the amount of trash in our landfills will continue to decline our planet's health.",
         "My grades began to decline when I stopped studying regularly, so I made a plan to improve them."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "decrease",
+        "diminish",
+        "drop",
+        "lessen",
+        "refuse"
+      ],
+      "antonyms": [
+        "increase",
+        "grow",
+        "accept",
+        "rise"
+      ],
       "further_information": []
     },
     {
@@ -1483,8 +2235,21 @@
         "If we practice our math problems every day, we can decrease the number of mistakes we make on tests.",
         "When we turn off the lights when we leave a room, we can help decrease the amount of electricity we use."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "reduce",
+        "lessen",
+        "diminish",
+        "drop",
+        "shrink",
+        "cut down",
+        "lower"
+      ],
+      "antonyms": [
+        "increase",
+        "grow",
+        "expand",
+        "rise"
+      ],
       "further_information": []
     },
     {
@@ -1501,8 +2266,18 @@
         "We should dedicate part of our garden to growing flowers for the bees and butterflies.",
         "During the game, I will dedicate all my energy to helping my team win the championship!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "commit",
+        "devote",
+        "allocate",
+        "promise",
+        "set aside"
+      ],
+      "antonyms": [
+        "neglect",
+        "waste",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -1519,8 +2294,19 @@
         "While hiking, we spotted delicate wildflowers growing in the rocky soil, showing us how nature can thrive in tough places.",
         "In art class, we learned to paint on delicate paper that could tear easily if we pressed too hard with the brush."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "fragile",
+        "tender",
+        "soft",
+        "fine",
+        "gentle"
+      ],
+      "antonyms": [
+        "strong",
+        "sturdy",
+        "tough",
+        "hard"
+      ],
       "further_information": []
     },
     {
@@ -1537,8 +2323,18 @@
         "My dad will denounce littering in our park during the community clean-up day to help keep nature beautiful.",
         "When my friend saw someone being unkind, she felt it was important to denounce that behavior and stand up for what is right."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "criticize",
+        "condemn",
+        "blame",
+        "protest",
+        "oppose"
+      ],
+      "antonyms": [
+        "support",
+        "approve",
+        "praise"
+      ],
       "further_information": []
     },
     {
@@ -1555,8 +2351,18 @@
         "When we made slime, the mixture became dense and sticky, making it fun to play with.",
         "My backpack felt dense with all the heavy books I had to carry home from school."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "thick",
+        "heavy",
+        "close",
+        "compact",
+        "crowded"
+      ],
+      "antonyms": [
+        "sparse",
+        "thin",
+        "empty"
+      ],
       "further_information": []
     },
     {
@@ -1573,8 +2379,21 @@
         "Our class will depart for the museum at 10 AM to learn about dinosaurs and history.",
         "The birds will depart for warmer places as winter approaches, leaving the trees quiet and bare."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "leave",
+        "go",
+        "exit",
+        "part",
+        "set off",
+        "take off",
+        "move away"
+      ],
+      "antonyms": [
+        "arrive",
+        "stay",
+        "come",
+        "enter"
+      ],
       "further_information": []
     },
     {
@@ -1591,8 +2410,18 @@
         "When I finished reading the library book, I had to deposit it in the return bin before the due date.",
         "We decided to deposit all the coins we found on the playground into a jar for our school charity."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "place",
+        "put in",
+        "store",
+        "save",
+        "invest"
+      ],
+      "antonyms": [
+        "withdraw",
+        "take out",
+        "remove"
+      ],
       "further_information": []
     },
     {
@@ -1609,8 +2438,19 @@
         "My friend felt despair when he couldn't find his favorite book in the library, even though he searched everywhere.",
         "After our team lost the championship, some players sat in despair, wondering if they would ever win a game."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "sadness",
+        "hopelessness",
+        "gloom",
+        "despondency",
+        "misery"
+      ],
+      "antonyms": [
+        "hope",
+        "joy",
+        "happiness",
+        "cheerfulness"
+      ],
       "further_information": []
     },
     {
@@ -1627,8 +2467,21 @@
         "He was desperate for a good grade on his test, so he studied all night long to prepare.",
         "In the middle of the race, I felt desperate because I was so tired and wanted to give up, but I kept going."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hopeless",
+        "worried",
+        "frantic",
+        "anxious",
+        "fearful",
+        "distressed",
+        "agonized"
+      ],
+      "antonyms": [
+        "calm",
+        "confident",
+        "hopeful",
+        "safe"
+      ],
       "further_information": []
     },
     {
@@ -1645,8 +2498,17 @@
         "The destination of our hiking adventure is the top of the mountain, where we can see the beautiful view.",
         "I can't wait to reach our destination, which is the library, so I can borrow new books to read."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "goal",
+        "stop",
+        "place",
+        "target",
+        "site"
+      ],
+      "antonyms": [
+        "start",
+        "origin"
+      ],
       "further_information": []
     },
     {
@@ -1663,8 +2525,19 @@
         "My favorite book began to deteriorate because I read it so many times that the pages started to tear.",
         "The playground equipment can deteriorate if it is not regularly checked and repaired by the school."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "decline",
+        "worsen",
+        "break down",
+        "get worse",
+        "fall apart"
+      ],
+      "antonyms": [
+        "improve",
+        "get better",
+        "heal",
+        "strengthen"
+      ],
       "further_information": []
     },
     {
@@ -1681,8 +2554,19 @@
         "During our science project, we will dictate our ideas to each other to make sure everyone understands.",
         "When my mom cooks, she sometimes dictates the recipe steps for me to write down in my cookbook."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "say",
+        "read aloud",
+        "tell",
+        "recite",
+        "announce",
+        "speak"
+      ],
+      "antonyms": [
+        "listen",
+        "ignore",
+        "keep quiet"
+      ],
       "further_information": []
     },
     {
@@ -1699,8 +2583,18 @@
         "The movie we watched had a story about a disaster that struck a small village and how the people worked together to rebuild.",
         "During the soccer game, when it started pouring rain, the match turned into a disaster, and we all got soaked!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "tragedy",
+        "catastrophe",
+        "calamity",
+        "crisis",
+        "wreck"
+      ],
+      "antonyms": [
+        "success",
+        "blessing",
+        "fortune"
+      ],
       "further_information": []
     },
     {
@@ -1717,8 +2611,18 @@
         "The colorful butterflies in the garden can easily distract me when I’m trying to read my book outside.",
         "In science class, we learned that loud noises can distract animals, making it hard for them to find food."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "interrupt",
+        "divert",
+        "distract",
+        "confuse",
+        "stop"
+      ],
+      "antonyms": [
+        "focus",
+        "concentrate",
+        "pay attention"
+      ],
       "further_information": []
     },
     {
@@ -1735,8 +2639,20 @@
         "The loud thunderstorm at night filled me with distress as I worried about my family’s safety.",
         "During the test, I felt some distress because I wasn’t sure if I studied enough."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "sorrow",
+        "worry",
+        "sadness",
+        "pain",
+        "trouble",
+        "anguish"
+      ],
+      "antonyms": [
+        "happiness",
+        "joy",
+        "comfort",
+        "peace"
+      ],
       "further_information": []
     },
     {
@@ -1753,8 +2669,20 @@
         "When the sun shines bright, it can dominate the sky, making everything look warm and cheerful.",
         "In our science project, we learned that certain animals dominate their habitats, like lions in the savanna or sharks in the ocean."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "control",
+        "lead",
+        "command",
+        "rule",
+        "overpower",
+        "master"
+      ],
+      "antonyms": [
+        "follow",
+        "submit",
+        "lose",
+        "yield"
+      ],
       "further_information": []
     },
     {
@@ -1771,8 +2699,20 @@
         "For my birthday, I asked my friends to donate money to a charity instead of giving me gifts.",
         "Every year, my soccer team donates a portion of our game fees to support children's sports programs."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "give",
+        "share",
+        "contribute",
+        "offer",
+        "present",
+        "bestow"
+      ],
+      "antonyms": [
+        "take",
+        "keep",
+        "withhold",
+        "hold on to"
+      ],
       "further_information": []
     },
     {
@@ -1789,8 +2729,19 @@
         "In science class, we learned that some plants become dormant in dry seasons to survive without water.",
         "After a long soccer season, my muscles felt dormant, and I needed to stretch and move to feel active again."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "inactive",
+        "asleep",
+        "resting",
+        "sleeping",
+        "stationary"
+      ],
+      "antonyms": [
+        "active",
+        "growing",
+        "moving",
+        "awake"
+      ],
       "further_information": []
     },
     {
@@ -1807,8 +2758,18 @@
         "I read a book about a desert where a long drought made it difficult for plants and animals to survive.",
         "When there is a drought, people often need to find new ways to save water for drinking and washing."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "dry spell",
+        "water shortage",
+        "lack of rain",
+        "arid period",
+        "desert-like conditions"
+      ],
+      "antonyms": [
+        "flood",
+        "rain",
+        "downpour"
+      ],
       "further_information": []
     },
     {
@@ -1825,8 +2786,18 @@
         "The duration of the movie we watched last night was two hours, and I really enjoyed every minute of it.",
         "When baking cookies, the duration for them to bake is about 15 minutes, which seems like forever when you’re waiting!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "length",
+        "time",
+        "period",
+        "span",
+        "interval"
+      ],
+      "antonyms": [
+        "shortness",
+        "instant",
+        "moment"
+      ],
       "further_information": []
     },
     {
@@ -1843,8 +2814,20 @@
         "My mom taught me how to tell which mushrooms are edible and which ones we should avoid in the forest.",
         "When we went camping, we cooked hot dogs over the fire because they are easy to prepare and definitely edible."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "safe to eat",
+        "tasty",
+        "yummy",
+        "delicious",
+        "nutritious",
+        "wholesome"
+      ],
+      "antonyms": [
+        "inedible",
+        "poisonous",
+        "unsafe",
+        "bad"
+      ],
       "further_information": []
     },
     {
@@ -1861,8 +2844,20 @@
         "My mom set the table for dinner with elegant plates and shiny silverware that made the meal feel special.",
         "In the museum, we saw an elegant painting of a landscape that made us feel like we were in a beautiful dream."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "graceful",
+        "stylish",
+        "fancy",
+        "chic",
+        "classy",
+        "refined"
+      ],
+      "antonyms": [
+        "clumsy",
+        "plain",
+        "messy",
+        "ugly"
+      ],
       "further_information": []
     },
     {
@@ -1879,8 +2874,18 @@
         "For our science project, we can employ a variety of experiments to learn about plants and how they grow.",
         "During the summer camp, the counselors will employ fun games to keep us active and entertained."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hire",
+        "use",
+        "engage",
+        "assign",
+        "employe"
+      ],
+      "antonyms": [
+        "fire",
+        "dismiss",
+        "quit"
+      ],
       "further_information": []
     },
     {
@@ -1897,8 +2902,19 @@
         "When I went to the museum, I encountered a giant dinosaur skeleton that amazed me with its size.",
         "At the science fair, I encountered a project about volcanoes that inspired me to learn more about how they work."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "meet",
+        "bump into",
+        "run into",
+        "find",
+        "come across",
+        "stumble upon"
+      ],
+      "antonyms": [
+        "avoid",
+        "miss",
+        "ignore"
+      ],
       "further_information": []
     },
     {
@@ -1915,8 +2931,18 @@
         "My teacher said that reading for 20 minutes is equivalent to finishing one chapter of a book.",
         "In soccer, scoring a goal is equivalent to getting a point for your team."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "equal",
+        "same",
+        "alike",
+        "comparable",
+        "matching"
+      ],
+      "antonyms": [
+        "different",
+        "unequal",
+        "dissimilar"
+      ],
       "further_information": []
     },
     {
@@ -1933,8 +2959,18 @@
         "In science class, we learned how rivers can erode rocks and create beautiful canyons over thousands of years.",
         "If we don’t take care of our playground, the swings and slides may erode and become unsafe to use."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "wear away",
+        "break down",
+        "deteriorate",
+        "decay",
+        "erasure"
+      ],
+      "antonyms": [
+        "build up",
+        "strengthen",
+        "increase"
+      ],
       "further_information": []
     },
     {
@@ -1951,8 +2987,21 @@
         "During our art class, the kids erupted with excitement when they saw the new paint colors.",
         "At recess, the soccer game erupted into cheers as our team scored the winning goal!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "burst",
+        "explode",
+        "erupt",
+        "break out",
+        "surge",
+        "release",
+        "spill out"
+      ],
+      "antonyms": [
+        "calm",
+        "quiet",
+        "subside",
+        "settle"
+      ],
       "further_information": []
     },
     {
@@ -1969,8 +3018,20 @@
         "The science project was fun at first, but when we couldn't agree on ideas, the stress began to escalate.",
         "As the storm approached, the winds began to escalate, and we knew it was time to head indoors for safety."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "increase",
+        "grow",
+        "expand",
+        "intensify",
+        "rise",
+        "amplify"
+      ],
+      "antonyms": [
+        "decrease",
+        "reduce",
+        "diminish",
+        "calm"
+      ],
       "further_information": []
     },
     {
@@ -1987,8 +3048,20 @@
         "The coach wanted to establish a new team strategy to help us win the next soccer game.",
         "We decided to establish a friendship by sharing our favorite games and playing together every weekend."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "create",
+        "build",
+        "set up",
+        "found",
+        "start",
+        "launch"
+      ],
+      "antonyms": [
+        "destroy",
+        "end",
+        "stop",
+        "cancel"
+      ],
       "further_information": []
     },
     {
@@ -2005,8 +3078,20 @@
         "She used her quick thinking to evade answering the tricky question in class.",
         "The rabbit can easily evade predators by hopping quickly through the tall grass."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "avoid",
+        "escape",
+        "dodge",
+        "elude",
+        "shun",
+        "bypass",
+        "skirt"
+      ],
+      "antonyms": [
+        "confront",
+        "face",
+        "meet"
+      ],
       "further_information": []
     },
     {
@@ -2023,8 +3108,18 @@
         "During the soccer game, it was evident that our team practiced a lot because we worked together so well on the field.",
         "After we cleaned up the playground, it was evident that everyone enjoyed playing in the nice, tidy space."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "clear",
+        "obvious",
+        "apparent",
+        "noticeable",
+        "plain"
+      ],
+      "antonyms": [
+        "hidden",
+        "unclear",
+        "confusing"
+      ],
       "further_information": []
     },
     {
@@ -2041,8 +3136,19 @@
         "When my mom asks me to clean my room for the fifth time, I start to feel exasperated because I think I already did it well.",
         "It can exasperate me when my favorite video game has too many ads, making it hard to enjoy playing with my friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "annoy",
+        "frustrate",
+        "irritate",
+        "vex",
+        "bother",
+        "trouble"
+      ],
+      "antonyms": [
+        "calm",
+        "please",
+        "satisfy"
+      ],
       "further_information": []
     },
     {
@@ -2059,8 +3165,20 @@
         "When we went to the beach, we saw people excavate the sand to build a big sandcastle with towers and a moat.",
         "In the museum, there was an exhibit showing how paleontologists excavate dinosaur bones from the ground to study them."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "dig",
+        "unearth",
+        "excise",
+        "remove",
+        "bore",
+        "hollow out",
+        "clear out"
+      ],
+      "antonyms": [
+        "fill",
+        "cover",
+        "pack"
+      ],
       "further_information": []
     },
     {
@@ -2077,8 +3195,21 @@
         "In art class, I had to exert my creativity to come up with a unique painting idea.",
         "My mom always tells me to exert patience when I'm learning something new, like playing the piano."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "use",
+        "apply",
+        "put in",
+        "try",
+        "work hard",
+        "push",
+        "strain"
+      ],
+      "antonyms": [
+        "rest",
+        "relax",
+        "slack",
+        "stop"
+      ],
       "further_information": []
     },
     {
@@ -2095,8 +3226,20 @@
         "As I read more books, my vocabulary began to expand, and I learned new words every day.",
         "During the summer, my family plans to expand our garden by adding new flowers and vegetables."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "enlarge",
+        "grow",
+        "stretch",
+        "increase",
+        "widen",
+        "broaden"
+      ],
+      "antonyms": [
+        "shrink",
+        "contract",
+        "reduce",
+        "decrease"
+      ],
       "further_information": []
     },
     {
@@ -2113,8 +3256,18 @@
         "If you break the school’s important rules, you might be expelled and have to leave for a while.",
         "The angry bee tried to expel the intruder from its hive by buzzing loudly and flying around."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "remove",
+        "send away",
+        "kick out",
+        "dismiss",
+        "banish"
+      ],
+      "antonyms": [
+        "welcome",
+        "invite",
+        "include"
+      ],
       "further_information": []
     },
     {
@@ -2131,8 +3284,20 @@
         "For my art project, I wanted to experiment with mixing different colors of paint to create new shades.",
         "We learned about gravity by doing an experiment where we dropped different objects to see which would fall faster."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "test",
+        "trial",
+        "study",
+        "project",
+        "investigation",
+        "check",
+        "tryout"
+      ],
+      "antonyms": [
+        "certainty",
+        "fact",
+        "guessing"
+      ],
       "further_information": []
     },
     {
@@ -2149,8 +3314,17 @@
         "My dad's company will export toys to kids in other countries so they can enjoy playing with them too.",
         "When we visited the museum, we saw a display about how countries export goods like coffee and chocolate."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "send",
+        "ship",
+        "deliver",
+        "trade",
+        "sell"
+      ],
+      "antonyms": [
+        "import",
+        "receive"
+      ],
       "further_information": []
     },
     {
@@ -2167,8 +3341,18 @@
         "It's important to protect endangered animals so they don’t become extinct like some species in the past.",
         "When we read about extinct creatures in our history book, I was amazed at how different the world was back then."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "gone",
+        "lost",
+        "dead",
+        "no longer existing",
+        "disappeared"
+      ],
+      "antonyms": [
+        "alive",
+        "existing",
+        "thriving"
+      ],
       "further_information": []
     },
     {
@@ -2185,8 +3369,18 @@
         "When we made cookies, we had to extract the chocolate chips from the bag before adding them to the mix.",
         "During our history project, we had to extract important facts from books and write them down in our own words."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "remove",
+        "take out",
+        "pull out",
+        "draw out",
+        "get out"
+      ],
+      "antonyms": [
+        "add",
+        "insert",
+        "put in"
+      ],
       "further_information": []
     },
     {
@@ -2203,8 +3397,21 @@
         "As the last puzzle piece clicked into place, the kids exulted, thrilled that they had completed the challenging picture together.",
         "When the science fair project won first place, Jake and his partner exulted, feeling proud of their hard work and creativity."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "celebrate",
+        "rejoice",
+        "cheer",
+        "delight",
+        "jump for joy",
+        "be happy",
+        "be excited"
+      ],
+      "antonyms": [
+        "sadden",
+        "mourn",
+        "frown",
+        "feel upset"
+      ],
       "further_information": []
     },
     {
@@ -2221,8 +3428,18 @@
         "My teacher explained that famine can happen after natural disasters, making it hard for people to find food for a long time.",
         "In our geography lesson, we studied countries that have faced famine and talked about ways we can help those in need."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hunger",
+        "starvation",
+        "food shortage",
+        "lack of food",
+        "food crisis"
+      ],
+      "antonyms": [
+        "plenty",
+        "abundance",
+        "sufficiency"
+      ],
       "further_information": []
     },
     {
@@ -2239,8 +3456,20 @@
         "The stories in my favorite book series fascinate me so much that I can’t put the books down.",
         "When we visited the zoo, the way the monkeys played with each other fascinated all the children watching."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "captivate",
+        "charm",
+        "interest",
+        "enthrall",
+        "delight",
+        "engage",
+        "mesmerize"
+      ],
+      "antonyms": [
+        "bore",
+        "distract",
+        "repel"
+      ],
       "further_information": []
     },
     {
@@ -2257,8 +3486,20 @@
         "After being sick for a week, I felt feeble and needed to rest before going back to school.",
         "The feeble sound of the bell made it hard for the students to hear when class was over."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "weak",
+        "fragile",
+        "delicate",
+        "feeble-minded",
+        "unsteady",
+        "soft"
+      ],
+      "antonyms": [
+        "strong",
+        "powerful",
+        "sturdy",
+        "healthy"
+      ],
       "further_information": []
     },
     {
@@ -2275,8 +3516,18 @@
         "The ferocious storm knocked down branches and made the wind howl through the trees.",
         "In the video game, the ferocious dragon tried to protect its treasure from the brave hero."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "fierce",
+        "angry",
+        "wild",
+        "savage",
+        "brutal"
+      ],
+      "antonyms": [
+        "calm",
+        "gentle",
+        "friendly"
+      ],
       "further_information": []
     },
     {
@@ -2293,8 +3544,19 @@
         "After planting seeds in the fertile ground, we watched them grow into tall sunflowers that reached for the sky.",
         "Our teacher told us that ancient civilizations thrived in fertile areas where they could grow enough food to survive."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "productive",
+        "rich",
+        "bountiful",
+        "lush",
+        "abundant",
+        "plentiful"
+      ],
+      "antonyms": [
+        "barren",
+        "poor",
+        "empty"
+      ],
       "further_information": []
     },
     {
@@ -2311,8 +3573,20 @@
         "When I got scared during the scary movie, I couldn't help but flail my hands in front of my face.",
         "In art class, when I couldn’t find my paintbrush, I started to flail my arms, searching everywhere for it."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "thrash",
+        "swing",
+        "wave",
+        "flop",
+        "kick",
+        "fling"
+      ],
+      "antonyms": [
+        "calm",
+        "still",
+        "steady",
+        "control"
+      ],
       "further_information": []
     },
     {
@@ -2329,8 +3603,21 @@
         "If there’s a fire in the building, everyone must flee quickly and calmly to the nearest exit.",
         "In our history lesson, we learned how people had to flee their homes during the war to find safety."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "run away",
+        "escape",
+        "bolt",
+        "dash",
+        "sprint",
+        "scamper",
+        "hurry"
+      ],
+      "antonyms": [
+        "stay",
+        "remain",
+        "approach",
+        "face"
+      ],
       "further_information": []
     },
     {
@@ -2347,8 +3634,20 @@
         "The flimsy bridge made of sticks wobbled whenever we walked across it during our nature hike.",
         "When the wind blew, the flimsy kite we made in gym class got tangled in the trees."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "weak",
+        "thin",
+        "delicate",
+        "fragile",
+        "lightweight",
+        "airy"
+      ],
+      "antonyms": [
+        "strong",
+        "sturdy",
+        "thick",
+        "durable"
+      ],
       "further_information": []
     },
     {
@@ -2365,8 +3664,18 @@
         "When the kids decided to explore the dark cave without a flashlight, it seemed like a foolhardy adventure.",
         "Tom's foolhardy choice to skip studying for the test led to a surprise when he got a low grade."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "reckless",
+        "careless",
+        "daring",
+        "bold",
+        "brave"
+      ],
+      "antonyms": [
+        "cautious",
+        "careful",
+        "thoughtful"
+      ],
       "further_information": []
     },
     {
@@ -2383,8 +3692,18 @@
         "Our teacher explained that a formal dinner has rules about how to set the table and behave.",
         "In history class, we learned about formal ceremonies that kings and queens held in ancient times."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "official",
+        "polite",
+        "ceremonial",
+        "elegant",
+        "respectful"
+      ],
+      "antonyms": [
+        "informal",
+        "casual",
+        "rude"
+      ],
       "further_information": []
     },
     {
@@ -2401,8 +3720,18 @@
         "I found an old toy in the attic that was a former favorite of mine when I was younger.",
         "My former best friend and I used to build amazing forts out of blankets in the living room."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "previous",
+        "past",
+        "earlier",
+        "old",
+        "prior"
+      ],
+      "antonyms": [
+        "current",
+        "later",
+        "new"
+      ],
       "further_information": []
     },
     {
@@ -2419,8 +3748,18 @@
         "The old tree in the park had a fracture in its trunk, which made it look very interesting and different from the other trees.",
         "When I read my favorite adventure book, the hero faced a fracture in his arm but still managed to save the day!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "break",
+        "crack",
+        "shatter",
+        "split",
+        "snap"
+      ],
+      "antonyms": [
+        "heal",
+        "fix",
+        "repair"
+      ],
       "further_information": []
     },
     {
@@ -2437,8 +3776,19 @@
         "During our science class, we learned that frigid temperatures can freeze water into ice very quickly.",
         "When I opened the refrigerator, the frigid air made me shiver a little bit."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "cold",
+        "chilly",
+        "icy",
+        "freezing",
+        "cool"
+      ],
+      "antonyms": [
+        "warm",
+        "hot",
+        "friendly",
+        "kind"
+      ],
       "further_information": []
     },
     {
@@ -2455,8 +3805,20 @@
         "My little brother likes to make frivolous jokes during dinner, which makes everyone laugh, but sometimes we need to focus on our meal.",
         "In the story, the character wasted his time on frivolous adventures instead of studying for the big test he had coming up."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "silly",
+        "funny",
+        "lighthearted",
+        "playful",
+        "carefree",
+        "trivial"
+      ],
+      "antonyms": [
+        "serious",
+        "important",
+        "meaningful",
+        "significant"
+      ],
       "further_information": []
     },
     {
@@ -2473,8 +3835,20 @@
         "When the teacher said we had a surprise quiz, the whole class began to fume and groan loudly.",
         "My mom could see me fume when I found out I had to do my chores before playing video games."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "rage",
+        "frown",
+        "scowl",
+        "glare",
+        "huff",
+        "pout"
+      ],
+      "antonyms": [
+        "smile",
+        "laugh",
+        "cheer",
+        "calm"
+      ],
       "further_information": []
     },
     {
@@ -2491,8 +3865,21 @@
         "During the storm, the gale howled outside, making it sound like a giant was playing a spooky tune on the wind.",
         "In our science class, we learned that a gale can make waves in the ocean rise high and crash on the shore."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "storm",
+        "breeze",
+        "wind",
+        "tempest",
+        "hurricane",
+        "gust",
+        "blow"
+      ],
+      "antonyms": [
+        "calm",
+        "stillness",
+        "quiet",
+        "peace"
+      ],
       "further_information": []
     },
     {
@@ -2509,8 +3896,21 @@
         "My dad surprised me with a gigantic pizza for my birthday, and we had to share it with all my friends.",
         "The gigantic redwood trees in the national park were so tall that they seemed to reach the sky!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "huge",
+        "enormous",
+        "massive",
+        "gigantic",
+        "colossal",
+        "immense",
+        "vast"
+      ],
+      "antonyms": [
+        "tiny",
+        "small",
+        "miniature",
+        "little"
+      ],
       "further_information": []
     },
     {
@@ -2527,8 +3927,21 @@
         "At the birthday party, everyone gorged on cake and ice cream until there was hardly any left.",
         "When I read about the animals in the jungle, I learned that some gorged on fruits to stay healthy."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "devour",
+        "wolf down",
+        "feast",
+        "stuff",
+        "eat a lot",
+        "chow down",
+        "gobble"
+      ],
+      "antonyms": [
+        "nibble",
+        "snack",
+        "fast",
+        "pick at"
+      ],
       "further_information": []
     },
     {
@@ -2545,8 +3958,21 @@
         "After losing the game, my friend's grim face showed how disappointed he felt about not winning.",
         "The old, abandoned house had a grim appearance, and we all felt a little scared to go inside."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "serious",
+        "sad",
+        "stern",
+        "dark",
+        "gloomy",
+        "dismal",
+        "melancholy"
+      ],
+      "antonyms": [
+        "cheerful",
+        "happy",
+        "bright",
+        "joyful"
+      ],
       "further_information": []
     },
     {
@@ -2563,8 +3989,17 @@
         "In the book I read, the brave knight became the guardian of the kingdom, protecting it from dragons and other dangers.",
         "During the camping trip, my dad was our guardian, making sure we stayed safe and followed all the rules around the campfire."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "protector",
+        "caregiver",
+        "guardian angel",
+        "watcher",
+        "keeper"
+      ],
+      "antonyms": [
+        "enemy",
+        "stranger"
+      ],
       "further_information": []
     },
     {
@@ -2581,8 +4016,17 @@
         "In science class, we learned that a hangar is where planes get repairs and maintenance to keep flying safely.",
         "When we visited the museum, we saw a vintage airplane displayed in a hangar that looked like it was from a movie."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "garage",
+        "shelter",
+        "building",
+        "warehouse",
+        "depot"
+      ],
+      "antonyms": [
+        "open air",
+        "outside"
+      ],
       "further_information": []
     },
     {
@@ -2599,8 +4043,19 @@
         "During our history lesson, we discovered that many famous cities were built near a harbor for trade.",
         "My dad took me to see the big ships in the harbor, where they parked safely while waiting to unload their cargo."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "dock",
+        "port",
+        "bay",
+        "cove",
+        "marina",
+        "anchorage"
+      ],
+      "antonyms": [
+        "open water",
+        "ocean",
+        "stormy sea"
+      ],
       "further_information": []
     },
     {
@@ -2617,8 +4072,21 @@
         "The harsh rules in the game made it hard for everyone to have fun while playing.",
         "Some animals have to survive in harsh environments, like deserts where there's very little water."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "rude",
+        "cruel",
+        "rough",
+        "severe",
+        "mean",
+        "bitter",
+        "strict"
+      ],
+      "antonyms": [
+        "kind",
+        "gentle",
+        "soft",
+        "nice"
+      ],
       "further_information": []
     },
     {
@@ -2635,8 +4103,18 @@
         "My grandparents invited us to their farm to help with the harvest, and we picked apples from the trees together.",
         "The book we read told a story about a family who worked hard to harvest their corn before the first snow arrived."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "gathering",
+        "collecting",
+        "picking",
+        "reaping",
+        "bringing in"
+      ],
+      "antonyms": [
+        "planting",
+        "sowing",
+        "losing"
+      ],
       "further_information": []
     },
     {
@@ -2653,8 +4131,19 @@
         "The soldier’s heroic actions during the battle helped keep many people safe and earned him a medal of honor.",
         "When my sister stood up to the bully at school, her courageous act was truly heroic and inspired others to be brave."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "brave",
+        "courageous",
+        "valiant",
+        "daring",
+        "gallant",
+        "bold"
+      ],
+      "antonyms": [
+        "cowardly",
+        "afraid",
+        "timid"
+      ],
       "further_information": []
     },
     {
@@ -2671,8 +4160,19 @@
         "The story told how ancient people would hew stones to make tools for hunting and farming.",
         "During our camping trip, we watched the ranger hew logs to make a bench for everyone to sit on."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "cut",
+        "shape",
+        "carve",
+        "trim",
+        "chop",
+        "slice"
+      ],
+      "antonyms": [
+        "join",
+        "assemble",
+        "build"
+      ],
       "further_information": []
     },
     {
@@ -2689,8 +4189,19 @@
         "When we played charades at the sleepover, some of the guesses were so hilarious that we nearly fell off the couch!",
         "In the comic book I read, the superhero's funny mistakes were so hilarious that I couldn't wait to read the next issue."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "funny",
+        "silly",
+        "amusing",
+        "comical",
+        "laughable",
+        "entertaining"
+      ],
+      "antonyms": [
+        "serious",
+        "boring",
+        "sad"
+      ],
       "further_information": []
     },
     {
@@ -2707,8 +4218,19 @@
         "The team worked together to hoist the giant trophy after winning the championship match.",
         "In science class, we used a pulley to hoist a weight and see how it made lifting easier."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "lift",
+        "raise",
+        "elevate",
+        "uphold",
+        "boost",
+        "heave"
+      ],
+      "antonyms": [
+        "lower",
+        "drop",
+        "bring down"
+      ],
       "further_information": []
     },
     {
@@ -2725,8 +4247,18 @@
         "When I read my favorite book, I imagined the hero standing on the horizon, ready for a new adventure to begin.",
         "In science class, we talked about how the horizon looks different from the top of a tall building compared to the ground."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "skyline",
+        "view",
+        "line of sight",
+        "sky edge",
+        "faraway line"
+      ],
+      "antonyms": [
+        "ground",
+        "close-up",
+        "nearby"
+      ],
       "further_information": []
     },
     {
@@ -2743,8 +4275,19 @@
         "When the classmates teased each other, it created a hostile atmosphere that made everyone feel uncomfortable.",
         "The teacher explained that being hostile to others can hurt their feelings and make it hard to be friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "unfriendly",
+        "mean",
+        "angry",
+        "rude",
+        "hostile"
+      ],
+      "antonyms": [
+        "friendly",
+        "kind",
+        "nice",
+        "welcoming"
+      ],
       "further_information": []
     },
     {
@@ -2761,8 +4304,19 @@
         "On the school trip, the students huddled together for a group photo in front of the giant tree at the park.",
         "After the hike, we found a spot to huddle around the campfire, roasting marshmallows and sharing funny stories."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "gather",
+        "cluster",
+        "bunch",
+        "snuggle",
+        "cuddle",
+        "crowd"
+      ],
+      "antonyms": [
+        "scatter",
+        "separate",
+        "disperse"
+      ],
       "further_information": []
     },
     {
@@ -2779,8 +4333,19 @@
         "The team felt idle after losing the game, but they promised to practice harder for the next match.",
         "Even though my dog was idle on the couch, he still perked up when he heard the treat bag crinkle."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "lazy",
+        "resting",
+        "inactive",
+        "relaxing",
+        "unbusy"
+      ],
+      "antonyms": [
+        "busy",
+        "active",
+        "working",
+        "hurrying"
+      ],
       "further_information": []
     },
     {
@@ -2797,8 +4362,21 @@
         "When my mom explained the math problem, her clear explanations began to illuminate the tricky parts for me.",
         "The streetlights illuminate the path when we walk home after playing soccer with our friends in the evening."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "light up",
+        "brighten",
+        "clarify",
+        "explain",
+        "enlighten",
+        "shine",
+        "reveal"
+      ],
+      "antonyms": [
+        "darken",
+        "obscure",
+        "confuse",
+        "hide"
+      ],
       "further_information": []
     },
     {
@@ -2815,8 +4393,21 @@
         "In the library, I found an immense book about space that had pictures of planets and stars that amazed me.",
         "During the soccer game, the immense crowd cheered loudly for our team, making us feel like champions!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "huge",
+        "gigantic",
+        "enormous",
+        "vast",
+        "massive",
+        "colossal",
+        "tremendous"
+      ],
+      "antonyms": [
+        "tiny",
+        "small",
+        "little",
+        "petite"
+      ],
       "further_information": []
     },
     {
@@ -2833,8 +4424,19 @@
         "I felt indignant when my friend didn’t let me join the game, even though there were plenty of spots available.",
         "When the class voted to have pizza for lunch but then changed it to broccoli, I was indignant and expressed my feelings to my teacher."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "angry",
+        "upset",
+        "mad",
+        "furious",
+        "irritated",
+        "cross"
+      ],
+      "antonyms": [
+        "calm",
+        "happy",
+        "satisfied"
+      ],
       "further_information": []
     },
     {
@@ -2851,8 +4453,20 @@
         "During the game, one player accidentally tried to inflict a penalty on the other team by being too rough.",
         "The teacher explained that teasing someone can inflict emotional pain, and we should always be kind."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hurt",
+        "cause pain",
+        "wound",
+        "bother",
+        "upset",
+        "distress"
+      ],
+      "antonyms": [
+        "heal",
+        "comfort",
+        "help",
+        "make happy"
+      ],
       "further_information": []
     },
     {
@@ -2869,8 +4483,18 @@
         "During the intense thunderstorm, we all gathered in the living room and played games together.",
         "The intense colors of the rainbow after the rain made our day feel extra special."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "strong",
+        "powerful",
+        "fierce",
+        "extreme",
+        "deep"
+      ],
+      "antonyms": [
+        "mild",
+        "weak",
+        "calm"
+      ],
       "further_information": []
     },
     {
@@ -2887,8 +4511,18 @@
         "The detective was quick to intercept the message before it could be sent to the bad guy.",
         "When I saw my little brother throw a toy, I rushed to intercept it so it wouldn't break anything in the living room."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "catch",
+        "block",
+        "stop",
+        "capture",
+        "prevent"
+      ],
+      "antonyms": [
+        "allow",
+        "release",
+        "let go"
+      ],
       "further_information": []
     },
     {
@@ -2905,8 +4539,19 @@
         "When we start our book club, I will introduce the first book we will read together.",
         "During soccer practice, the coach will introduce some new drills to help us improve our skills."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "present",
+        "show",
+        "announce",
+        "reveal",
+        "unveil",
+        "bring out"
+      ],
+      "antonyms": [
+        "hide",
+        "conceal",
+        "keep secret"
+      ],
       "further_information": []
     },
     {
@@ -2923,8 +4568,19 @@
         "In our nature club, we will investigate the different types of birds that visit our schoolyard each day.",
         "After hearing strange noises at night, my brother and I decided to investigate what was happening in the backyard."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "search",
+        "examine",
+        "explore",
+        "study",
+        "check",
+        "look into"
+      ],
+      "antonyms": [
+        "ignore",
+        "neglect",
+        "overlook"
+      ],
       "further_information": []
     },
     {
@@ -2941,8 +4597,19 @@
         "During the game, I made a jest about our team’s silly dance moves, and everyone joined in.",
         "My cousin told a jest about a sneaky squirrel stealing acorns, and we all burst out laughing."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "joke",
+        "gag",
+        "humor",
+        "funny remark",
+        "prank",
+        "quip"
+      ],
+      "antonyms": [
+        "seriousness",
+        "sadness",
+        "gloom"
+      ],
       "further_information": []
     },
     {
@@ -2959,8 +4626,20 @@
         "As the soccer game kicked off, players jostled for the ball in a rush to score the first goal.",
         "While we were hiking, I had to jostle past some branches that were blocking the trail to see the beautiful view."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "push",
+        "bump",
+        "shove",
+        "nudge",
+        "jolt",
+        "crowd",
+        "brush"
+      ],
+      "antonyms": [
+        "stand still",
+        "stay back",
+        "give space"
+      ],
       "further_information": []
     },
     {
@@ -2977,8 +4656,20 @@
         "When the last school bell rang before summer vacation, the playground erupted in jubilation as kids ran outside to enjoy their break.",
         "During the holiday party, the room was filled with jubilation as we sang songs, shared treats, and played games with our friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "joy",
+        "happiness",
+        "celebration",
+        "excitement",
+        "cheer",
+        "delight",
+        "festivity"
+      ],
+      "antonyms": [
+        "sadness",
+        "gloom",
+        "disappointment"
+      ],
       "further_information": []
     },
     {
@@ -2995,8 +4686,20 @@
         "In history class, we learned that a jubilee can mark important events, like a king's reign or a community's founding.",
         "For my birthday this year, I want to have a jubilee theme with balloons and decorations to celebrate with all my friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "celebration",
+        "festivity",
+        "party",
+        "anniversary",
+        "gathering",
+        "event"
+      ],
+      "antonyms": [
+        "sadness",
+        "mourning",
+        "quiet",
+        "normalcy"
+      ],
       "further_information": []
     },
     {
@@ -3013,8 +4716,17 @@
         "The book I read was about a brave knight who fought to protect his kin from danger.",
         "At the picnic, we played games with our kin while enjoying delicious food together."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "family",
+        "relatives",
+        "clan",
+        "kinfolk",
+        "household"
+      ],
+      "antonyms": [
+        "stranger",
+        "enemy"
+      ],
       "further_information": []
     },
     {
@@ -3031,8 +4743,20 @@
         "The scientists aimed to liberate the animals in the lab by finding a way to protect them while still learning important information.",
         "During the game, we worked as a team to liberate our captured flag from the other side of the field and win the match."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "free",
+        "release",
+        "unleash",
+        "let go",
+        "rescue",
+        "save"
+      ],
+      "antonyms": [
+        "trap",
+        "confine",
+        "hold",
+        "capture"
+      ],
       "further_information": []
     },
     {
@@ -3049,8 +4773,18 @@
         "When I saw the movie, the main character was a likeness of my favorite book hero, which made it exciting.",
         "During history class, we learned that many ancient statues were made to show the likeness of important leaders."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "similarity",
+        "resemblance",
+        "appearance",
+        "copy",
+        "reflection"
+      ],
+      "antonyms": [
+        "difference",
+        "dissimilarity",
+        "unlike"
+      ],
       "further_information": []
     },
     {
@@ -3067,8 +4801,19 @@
         "During gym class, I loathe running laps, but I love playing games like soccer afterward.",
         "My sister loathes cleaning her room, especially when there are so many toys scattered everywhere."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hate",
+        "detest",
+        "dislike",
+        "despise",
+        "abhor",
+        "can't stand"
+      ],
+      "antonyms": [
+        "love",
+        "like",
+        "enjoy"
+      ],
       "further_information": []
     },
     {
@@ -3085,8 +4830,18 @@
         "My dad bought some lumber at the store to make a new picnic table for our backyard.",
         "During the history lesson, we discovered that early settlers used lumber to build their homes and farms."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "wood",
+        "timber",
+        "plank",
+        "board",
+        "beam"
+      ],
+      "antonyms": [
+        "metal",
+        "plastic",
+        "glass"
+      ],
       "further_information": []
     },
     {
@@ -3103,8 +4858,18 @@
         "During the science experiment, the table began to lurch, causing all the beakers to wobble dangerously.",
         "When the roller coaster reached the top of the hill, it gave us a sudden lurch that made everyone scream with excitement!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "stumble",
+        "wobble",
+        "sway",
+        "tilt",
+        "jolt"
+      ],
+      "antonyms": [
+        "steady",
+        "balance",
+        "walk straight"
+      ],
       "further_information": []
     },
     {
@@ -3121,8 +4886,19 @@
         "The magician’s tricks always lure the audience’s attention, making everyone gasp in surprise.",
         "My mom baked cookies to lure my brother into helping her clean the kitchen."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "attract",
+        "draw",
+        "entice",
+        "tempt",
+        "invite",
+        "pull"
+      ],
+      "antonyms": [
+        "repel",
+        "deter",
+        "discourage"
+      ],
       "further_information": []
     },
     {
@@ -3139,8 +4915,20 @@
         "My favorite sport is soccer, and winning the major tournament this year would be a big achievement for our team.",
         "Planting trees is a major way we can help protect the environment and make our planet healthier."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "important",
+        "big",
+        "significant",
+        "main",
+        "key",
+        "primary"
+      ],
+      "antonyms": [
+        "minor",
+        "small",
+        "unimportant",
+        "insignificant"
+      ],
       "further_information": []
     },
     {
@@ -3157,8 +4945,18 @@
         "Our team used a makeshift goal made of cones and shoes to play soccer in the park.",
         "When the power went out, we made a makeshift lantern using a jar and a candle to light up the room."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "temporary",
+        "improvised",
+        "makeshift",
+        "quick",
+        "simple"
+      ],
+      "antonyms": [
+        "permanent",
+        "lasting",
+        "stable"
+      ],
       "further_information": []
     },
     {
@@ -3175,8 +4973,18 @@
         "My mom said I can have a maximum of two cookies after dinner to keep my tummy healthy.",
         "When we went to the amusement park, the maximum height to ride the roller coaster was 48 inches."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "highest",
+        "greatest",
+        "top",
+        "utmost",
+        "limit"
+      ],
+      "antonyms": [
+        "minimum",
+        "lowest",
+        "least"
+      ],
       "further_information": []
     },
     {
@@ -3193,8 +5001,18 @@
         "On the meager shelf in the library, there were only a few books about dinosaurs, but I loved reading them anyway.",
         "His meager collection of baseball cards had only three, but he treasured each one like it was a rare gem."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "small",
+        "thin",
+        "poor",
+        "scanty",
+        "little"
+      ],
+      "antonyms": [
+        "plentiful",
+        "ample",
+        "abundant"
+      ],
       "further_information": []
     },
     {
@@ -3211,8 +5029,18 @@
         "During the group project, it was hard for everyone to focus when one person kept trying to meddle in others' ideas.",
         "If you meddle with the science experiment too much, it might not turn out the way we want it to!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "interfere",
+        "intrude",
+        "butt in",
+        "poke in",
+        "stick your nose in"
+      ],
+      "antonyms": [
+        "leave alone",
+        "ignore",
+        "mind your own business"
+      ],
       "further_information": []
     },
     {
@@ -3229,8 +5057,20 @@
         "My mom has a methodical way of cleaning the house, starting from one room and moving to the next without missing anything.",
         "In art class, I like to be methodical about my drawings, planning out each part before I start coloring."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "organized",
+        "systematic",
+        "careful",
+        "detailed",
+        "planned",
+        "precise"
+      ],
+      "antonyms": [
+        "messy",
+        "haphazard",
+        "disorganized",
+        "careless"
+      ],
       "further_information": []
     },
     {
@@ -3247,8 +5087,20 @@
         "When we played charades, I had to mimic a monkey, and it made everyone giggle.",
         "At the science fair, I created a robot that could mimic human movements, which amazed all the judges."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "copy",
+        "imitate",
+        "echo",
+        "pretend",
+        "simulate",
+        "repeat",
+        "act like"
+      ],
+      "antonyms": [
+        "create",
+        "original",
+        "invent"
+      ],
       "further_information": []
     },
     {
@@ -3265,8 +5117,21 @@
         "While cleaning my room, I found some minor messes that needed fixing, like a few toys out of place and some books left open.",
         "The story had a few minor details that changed, but the main plot stayed the same and was still really interesting."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "small",
+        "little",
+        "trivial",
+        "unimportant",
+        "insignificant",
+        "slight",
+        "petty"
+      ],
+      "antonyms": [
+        "major",
+        "important",
+        "big",
+        "significant"
+      ],
       "further_information": []
     },
     {
@@ -3283,8 +5148,19 @@
         "During the school talent show, the audience's mirth was contagious as each act made them laugh.",
         "We shared jokes at lunch, and the mirth around the table made it the best part of our day."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "joy",
+        "laughter",
+        "happiness",
+        "cheer",
+        "fun",
+        "excitement"
+      ],
+      "antonyms": [
+        "sadness",
+        "misery",
+        "sorrow"
+      ],
       "further_information": []
     },
     {
@@ -3301,8 +5177,19 @@
         "In the classroom, the students made mischief by whispering jokes to each other while the teacher was writing on the board.",
         "My brother's mischief made me laugh when he dressed our cat in a funny hat for a silly picture."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "prank",
+        "trick",
+        "naughtiness",
+        "playfulness",
+        "trouble",
+        "fun"
+      ],
+      "antonyms": [
+        "good behavior",
+        "obedience",
+        "seriousness"
+      ],
       "further_information": []
     },
     {
@@ -3319,8 +5206,20 @@
         "When you heat sand in a furnace, it can become molten glass that can be shaped into beautiful art.",
         "The story about ancient Rome mentioned how people used molten bronze to make strong weapons and fancy decorations."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "liquid",
+        "melted",
+        "flowing",
+        "hot",
+        "fused",
+        "heated"
+      ],
+      "antonyms": [
+        "solid",
+        "hard",
+        "frozen",
+        "stiff"
+      ],
       "further_information": []
     },
     {
@@ -3337,8 +5236,21 @@
         "When we went camping, we heard monstrous sounds in the night that made us feel a little scared.",
         "My little brother built a monstrous sandcastle at the beach that towered over all the other kids' creations."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "huge",
+        "gigantic",
+        "enormous",
+        "scary",
+        "terrifying",
+        "strange",
+        "weird"
+      ],
+      "antonyms": [
+        "small",
+        "tiny",
+        "normal",
+        "friendly"
+      ],
       "further_information": []
     },
     {
@@ -3355,8 +5267,19 @@
         "In science class, we discussed the moral of protecting nature and how it helps the planet stay healthy for everyone.",
         "The moral of the fable was that being kind to others can lead to friendship and happiness."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "lesson",
+        "teaching",
+        "principle",
+        "value",
+        "rule",
+        "guideline"
+      ],
+      "antonyms": [
+        "immorality",
+        "wrongdoing",
+        "misconduct"
+      ],
       "further_information": []
     },
     {
@@ -3373,8 +5296,19 @@
         "The puppy eagerly gobbled up each morsel of his dinner, wagging his tail happily.",
         "When we read the story, I imagined a tiny morsel of bread floating down the river with the hungry duck."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "bite",
+        "piece",
+        "chunk",
+        "nibble",
+        "snack",
+        "bit"
+      ],
+      "antonyms": [
+        "whole",
+        "entire",
+        "big piece"
+      ],
       "further_information": []
     },
     {
@@ -3391,8 +5325,19 @@
         "During our field trip, the teacher helped us navigate the museum so we could see all the cool exhibits.",
         "I learned how to navigate my bicycle around the park safely while riding with my friends."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "find",
+        "direct",
+        "guide",
+        "travel",
+        "steer",
+        "explore"
+      ],
+      "antonyms": [
+        "get lost",
+        "stay",
+        "wander"
+      ],
       "further_information": []
     },
     {
@@ -3409,8 +5354,20 @@
         "The soccer team had to negotiate the rules for our practice game so everyone could have fun.",
         "When planning a picnic, we will negotiate where to go and what snacks to bring to please everyone."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "discuss",
+        "talk",
+        "bargain",
+        "settle",
+        "debate",
+        "arrange"
+      ],
+      "antonyms": [
+        "disagree",
+        "fight",
+        "ignore",
+        "reject"
+      ],
       "further_information": []
     },
     {
@@ -3427,8 +5384,19 @@
         "Even when it started to rain, the kids were nonchalant and kept playing outside without a care.",
         "After finishing his book report, Leo was nonchalant about waiting for his turn to present in class."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "calm",
+        "cool",
+        "relaxed",
+        "unconcerned",
+        "easygoing"
+      ],
+      "antonyms": [
+        "nervous",
+        "worried",
+        "anxious",
+        "tense"
+      ],
       "further_information": []
     },
     {
@@ -3445,8 +5413,17 @@
         "Every time I visit my old school, I feel a wave of nostalgia for all the laughter and adventures I had there.",
         "Playing the video games I loved as a kid brings back nostalgia, reminding me of the weekends I spent with my siblings."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "remembrance",
+        "memory",
+        "reminiscence",
+        "yearning",
+        "longing"
+      ],
+      "antonyms": [
+        "forgetfulness",
+        "indifference"
+      ],
       "further_information": []
     },
     {
@@ -3463,8 +5440,20 @@
         "At the basketball game, my friend made a notable three-point shot that helped our team win!",
         "In history class, we learned about a notable leader who changed the world with his brave actions."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "important",
+        "famous",
+        "remarkable",
+        "special",
+        "outstanding",
+        "significant"
+      ],
+      "antonyms": [
+        "ordinary",
+        "unimportant",
+        "common",
+        "insignificant"
+      ],
       "further_information": []
     },
     {
@@ -3481,8 +5470,20 @@
         "The library has numerous books about adventure, and I can't wait to read them all this summer.",
         "During the field trip, we saw numerous animals at the zoo, including lions, elephants, and colorful birds."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "many",
+        "countless",
+        "lots",
+        "numerous",
+        "plenty",
+        "several",
+        "a lot"
+      ],
+      "antonyms": [
+        "few",
+        "little",
+        "none"
+      ],
       "further_information": []
     },
     {
@@ -3499,8 +5500,18 @@
         "The storybook told us about a brave explorer who discovered an oasis filled with delicious fruits and fresh water.",
         "When we played outside in the sun, the shady tree by the pond felt like an oasis on a hot summer day."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "refuge",
+        "sanctuary",
+        "haven",
+        "resting place",
+        "green spot"
+      ],
+      "antonyms": [
+        "desert",
+        "wasteland",
+        "barren land"
+      ],
       "further_information": []
     },
     {
@@ -3517,8 +5528,18 @@
         "During soccer practice, the obedient players listened to their coach and worked hard to improve their skills.",
         "The obedient garden plants grew tall and healthy because I watered them every day, just like my science project suggested."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "submissive",
+        "compliant",
+        "dutiful",
+        "respectful",
+        "well-behaved"
+      ],
+      "antonyms": [
+        "disobedient",
+        "rebellious",
+        "defiant"
+      ],
       "further_information": []
     },
     {
@@ -3535,8 +5556,21 @@
         "While playing the trivia game, I struggled to answer an obscure question about a science fact that I had never heard before.",
         "In our nature hike, we spotted an obscure plant that only grows in a few special places around our town."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hidden",
+        "unclear",
+        "unknown",
+        "mysterious",
+        "secret",
+        "faint",
+        "vague"
+      ],
+      "antonyms": [
+        "clear",
+        "famous",
+        "known",
+        "obvious"
+      ],
       "further_information": []
     },
     {
@@ -3553,8 +5587,19 @@
         "Some old video game consoles are becoming obsolete, making way for new gaming systems with better graphics.",
         "The way we used to send letters by mail is becoming obsolete because we can now send messages instantly online."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "outdated",
+        "old-fashioned",
+        "unused",
+        "unpopular",
+        "worn-out"
+      ],
+      "antonyms": [
+        "new",
+        "modern",
+        "popular",
+        "needed"
+      ],
       "further_information": []
     },
     {
@@ -3571,8 +5616,20 @@
         "My friends and I had to find a way around the obstacle of a fallen tree on our nature hike.",
         "In the story, the brave knight faced many obstacles on his journey to rescue the princess from the dragon."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "barrier",
+        "hurdle",
+        "block",
+        "challenge",
+        "difficulty",
+        "problem"
+      ],
+      "antonyms": [
+        "help",
+        "aid",
+        "support",
+        "assistance"
+      ],
       "further_information": []
     },
     {
@@ -3589,8 +5646,18 @@
         "We usually go camping in the summer, but this occasion was extra special because we invited our friends to join us.",
         "My teacher told us that the school will have an occasion to celebrate our hard work at the end of the year with a big party!"
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "event",
+        "celebration",
+        "party",
+        "gathering",
+        "moment",
+        "occasion"
+      ],
+      "antonyms": [
+        "ordinary",
+        "routine"
+      ],
       "further_information": []
     },
     {
@@ -3607,8 +5674,19 @@
         "During the debate, I had to oppose my classmate's opinion about the best way to help the environment.",
         "When my friends wanted to play soccer, I had to oppose them because I wanted to play basketball instead."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "disagree",
+        "resist",
+        "fight",
+        "challenge",
+        "object"
+      ],
+      "antonyms": [
+        "agree",
+        "support",
+        "accept",
+        "approve"
+      ],
       "further_information": []
     },
     {
@@ -3625,8 +5703,21 @@
         "When I lost my favorite toy, my friend, who is an optimist, told me we would find it again soon if we looked together.",
         "Reading stories with happy endings makes me an optimist, because I love believing that everything will turn out well in the end."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "hopeful",
+        "cheerful",
+        "positive",
+        "bright",
+        "confident",
+        "upbeat",
+        "enthusiastic"
+      ],
+      "antonyms": [
+        "pessimist",
+        "gloomy",
+        "negative",
+        "cynical"
+      ],
       "further_information": []
     },
     {
@@ -3643,8 +5734,19 @@
         "During gym class, we could choose the option of playing soccer or basketball, and I picked soccer because I love it.",
         "When planning our field trip, the teacher gave us the option to visit a zoo or a science museum, and everyone voted for the zoo."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "choice",
+        "selection",
+        "pick",
+        "alternative",
+        "decision",
+        "possibility"
+      ],
+      "antonyms": [
+        "certainty",
+        "obligation",
+        "requirement"
+      ],
       "further_information": []
     },
     {
@@ -3661,8 +5763,19 @@
         "My grandparents live on the outskirts of the city, where there are lots of gardens and fresh air.",
         "During our field trip, we learned about the farms that are found on the outskirts of the busy city."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "border",
+        "fringe",
+        "edge",
+        "suburbs",
+        "periphery"
+      ],
+      "antonyms": [
+        "center",
+        "downtown",
+        "heart",
+        "main area"
+      ],
       "further_information": []
     },
     {
@@ -3679,8 +5792,17 @@
         "The game we ordered online is overdue, and I hope it arrives before my birthday party.",
         "The plants in the garden are overdue for watering, so I need to help my mom today."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "late",
+        "belated",
+        "tardy",
+        "past due",
+        "behind schedule"
+      ],
+      "antonyms": [
+        "on time",
+        "early"
+      ],
       "further_information": []
     },
     {
@@ -3697,8 +5819,20 @@
         "In the movie, the animals banded together to overthrow the bad farmer and take back their farm.",
         "The students decided to overthrow the boring school rules by suggesting fun new ones during the meeting."
       ],
-      "synonyms": [],
-      "antonyms": [],
+      "synonyms": [
+        "topple",
+        "remove",
+        "defeat",
+        "overcome",
+        "oust",
+        "dethrone"
+      ],
+      "antonyms": [
+        "support",
+        "maintain",
+        "keep",
+        "establish"
+      ],
       "further_information": []
     },
     {
