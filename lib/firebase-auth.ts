@@ -16,6 +16,7 @@ import {
   sendEmailVerification,
 } from 'firebase/auth'
 import { auth } from './firebase'
+import { clearLastActivity, stopActivityTracking } from './session-timeout'
 
 // Declare global grecaptcha for TypeScript
 declare global {
@@ -309,6 +310,10 @@ export async function signOutUser(): Promise<void> {
     // Clear any pending authentication state
     confirmationResult = null
     clearRecaptchaVerifier()
+
+    // Clear session tracking
+    clearLastActivity()
+    stopActivityTracking()
 
     // Redirect to home page after successful sign out
     if (typeof window !== 'undefined') {

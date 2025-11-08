@@ -3,6 +3,13 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useRef } from 'react'
 import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
+import {
+  isSessionTimedOut,
+  initializeSession,
+  clearLastActivity,
+  startActivityTracking,
+  stopActivityTracking,
+} from '@/lib/session-timeout'
 
 interface AuthContextType {
   user: User | null
@@ -79,7 +86,7 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     // This will fire immediately if there's a cached user in IndexedDB (restoration)
     // and also fires whenever auth state changes (sign in/out, token refresh, etc.)
     const setupStart = Date.now()
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       firstCallbackReceivedRef.current = true
       const callbackDelay = Date.now() - setupStart
       const totalElapsed = Date.now() - startTime
@@ -88,6 +95,21 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
         timeoutRef.current = null
+      }
+
+      // Check for session timeout if user is logged in
+      if (user && isSessionTimedOut()) {
+        console.warn('⏰ Session timeout: 7 days of inactivity - logging out user')
+        try {
+          await firebaseSignOut(auth)
+          clearLastActivity()
+          stopActivityTracking()
+        } catch (error) {
+          console.error('Error during session timeout logout:', error)
+        }
+        setUser(null)
+        setLoading(false)
+        return
       }
 
       // Always update user state when observer fires
@@ -104,7 +126,23 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
       } else {
         console.log(`🔄 Auth: Observer confirmed cached user after ${callbackDelay}ms (token validated, no change)`)
       }
-      
+
+      // Handle user login/logout state changes
+      if (user && !initialCachedUser) {
+        // User just logged in
+        console.log('🔐 User logged in - initializing session')
+        initializeSession()
+        startActivityTracking()
+      } else if (!user && initialCachedUser) {
+        // User just logged out
+        console.log('🔐 User logged out - clearing session')
+        clearLastActivity()
+        stopActivityTracking()
+      } else if (user) {
+        // User session restored - start activity tracking
+        startActivityTracking()
+      }
+
       setUser(user)
       setLoading(false)
     })
@@ -113,6 +151,7 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
 
     return () => {
       unsubscribe()
+      stopActivityTracking()
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
@@ -128,6 +167,8 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
     }
     console.log('Signing out user...')
     await firebaseSignOut(auth)
+    clearLastActivity()
+    stopActivityTracking()
     console.log('Firebase sign out completed')
     // Note: Redirection should be handled by the component using this function
   }
