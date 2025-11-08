@@ -66,6 +66,7 @@ export default function WordListsPage() {
   }, [])
 
   // Load difficulties from Supabase
+  // Reload when filters change to ensure we have the latest difficulty data
   useEffect(() => {
     const loadDifficulties = async () => {
       // Check if user is logged in
@@ -75,6 +76,7 @@ export default function WordListsPage() {
       }
 
       try {
+        console.log('Loading latest difficulty data from Supabase...')
         // Load all difficulties from Supabase
         const allDifficulties = await getAllDifficulties()
 
@@ -96,12 +98,13 @@ export default function WordListsPage() {
 
         setWordDifficulties(difficulties)
         setWordReviewStatus(reviewStatus)
+        console.log('Difficulty data loaded successfully')
       } catch (error) {
         console.error('Failed to load difficulties:', error)
       }
     }
     loadDifficulties()
-  }, [vocabularyData])
+  }, [vocabularyData, selectedLetter, selectedDifficulty, searchTerm])
 
   // Check if this is first visit and show how-to dialog
   useEffect(() => {
