@@ -4,23 +4,13 @@
  */
 
 import { supabase } from './supabase'
+import { auth } from './firebase'
 
 /**
- * Get the current user ID from Supabase auth
+ * Get the current user ID from Firebase auth
  */
 function getCurrentUserId(): string | null {
-  if (typeof window === 'undefined') return null
-
-  try {
-    const userStr = localStorage.getItem('firebase-user')
-    if (!userStr) return null
-
-    const user = JSON.parse(userStr)
-    return user?.uid || null
-  } catch (error) {
-    console.error('Error getting current user ID:', error)
-    return null
-  }
+  return auth?.currentUser?.uid || null
 }
 
 /**
