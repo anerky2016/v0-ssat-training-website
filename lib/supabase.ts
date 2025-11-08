@@ -1,11 +1,11 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 // Only create the client if both environment variables are provided
 export const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey, {
+  ? createSupabaseClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         persistSession: false, // We're using Firebase for auth
       },
@@ -16,6 +16,17 @@ export const supabase = supabaseUrl && supabaseAnonKey
       },
     })
   : null
+
+/**
+ * Create a Supabase client for API routes
+ * Returns the shared Supabase client instance
+ */
+export function createClient() {
+  if (!supabase) {
+    throw new Error('Supabase client not configured. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
+  }
+  return supabase
+}
 
 // ===== USER LOGIN LOGS =====
 
