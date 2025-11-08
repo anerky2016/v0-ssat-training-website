@@ -16,16 +16,18 @@ import {
 } from "@/components/ui/dialog"
 import { ListChecks, ArrowLeft, ChevronLeft, ChevronRight, X, Filter, Lightbulb, ChevronUp, ChevronDown, Sparkles, Target, TrendingDown, TrendingUp, GraduationCap, Layers, Award, Brain } from "lucide-react"
 import Link from "next/link"
-import vocabularyData from "@/data/vocabulary-words.json"
 import { VocabularyWordCard } from "@/components/vocabulary/VocabularyWordCard"
 import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
+import { LevelSelector } from "@/components/vocabulary/LevelSelector"
 import { getAllDifficulties, getDifficultyLabel, getDifficultyColor, isUserLoggedIn, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
+import { loadVocabularyWords, VocabularyLevel, getAvailableLevels, getTotalWordCount } from "@/lib/vocabulary-levels"
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null | 'unreviewed'>(null)
+  const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(getAvailableLevels()) // Default: all levels
   const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
   const [wordReviewStatus, setWordReviewStatus] = useState<Record<string, boolean>>({})
   const [currentPage, setCurrentPage] = useState(1)
@@ -41,6 +43,12 @@ export default function WordListsPage() {
   const [showHowToDialog, setShowHowToDialog] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
+
+  // Load vocabulary words from selected levels
+  const vocabularyData = useMemo(() => {
+    const words = loadVocabularyWords(selectedLevels)
+    return { words }
+  }, [selectedLevels])
 
   // Detect mobile screen size
   useEffect(() => {
@@ -89,7 +97,7 @@ export default function WordListsPage() {
       }
     }
     loadDifficulties()
-  }, [])
+  }, [vocabularyData])
 
   // Check if this is first visit and show how-to dialog
   useEffect(() => {
@@ -393,6 +401,16 @@ export default function WordListsPage() {
                 </p>
 
                 <div className="space-y-4">
+                  {/* Level Selector */}
+                  <LevelSelector
+                    selectedLevels={selectedLevels}
+                    onLevelsChange={(levels) => {
+                      setSelectedLevels(levels)
+                      setCurrentPage(1)
+                      setCurrentCardIndex(0)
+                    }}
+                  />
+
                   <div className="flex items-center gap-4">
                     <input
                       type="text"
