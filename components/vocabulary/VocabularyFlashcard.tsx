@@ -270,34 +270,106 @@ export function VocabularyFlashcard({
                 Difficulty Level
               </h3>
               
-              {/* Desktop: Button Controls */}
+              {/* Desktop: Circular Difficulty Buttons */}
               {!isMobile && (
-                <div className="flex items-center gap-1.5">
-                  <Button
-                    onClick={handleDecreaseDifficulty}
-                    disabled={!isLoggedIn || difficulty === 0}
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Decrease difficulty"}
+                <div className="flex items-center justify-center gap-1.5">
+                  {/* Wait for decision (Not Reviewed) */}
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      setDifficulty(1)
+                      setIsReviewed(false)
+                      // Clear from Supabase to mark as not reviewed
+                      if (isLoggedIn) {
+                        await setWordDifficulty(word.word, 1)
+                      }
+                    }}
+                    disabled={!isLoggedIn}
+                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                      !isReviewed
+                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                    }`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Wait for decision"}
                   >
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                  <div className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
-                    getDifficultyColor(difficulty, isReviewed)
-                  }`}>
-                    {getDifficultyLabel(difficulty, isReviewed)}
-                  </div>
-                  <Button
-                    onClick={handleIncreaseDifficulty}
-                    disabled={!isLoggedIn || difficulty === 3}
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-10 p-0 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Increase difficulty"}
+                    Wait for decision
+                  </button>
+
+                  {/* Easy */}
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await setWordDifficulty(word.word, 0)
+                      setDifficulty(0)
+                      setIsReviewed(true)
+                    }}
+                    disabled={!isLoggedIn}
+                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                      isReviewed && difficulty === 0
+                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                    }`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Easy"}
                   >
-                    <ChevronUp className="h-4 w-4" />
-                  </Button>
+                    Easy
+                  </button>
+
+                  {/* Medium */}
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await setWordDifficulty(word.word, 1)
+                      setDifficulty(1)
+                      setIsReviewed(true)
+                    }}
+                    disabled={!isLoggedIn}
+                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                      isReviewed && difficulty === 1
+                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                    }`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Medium"}
+                  >
+                    Medium
+                  </button>
+
+                  {/* Hard */}
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await setWordDifficulty(word.word, 2)
+                      setDifficulty(2)
+                      setIsReviewed(true)
+                    }}
+                    disabled={!isLoggedIn}
+                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                      isReviewed && difficulty === 2
+                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                    }`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Hard"}
+                  >
+                    Hard
+                  </button>
+
+                  {/* Very Hard */}
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await setWordDifficulty(word.word, 3)
+                      setDifficulty(3)
+                      setIsReviewed(true)
+                    }}
+                    disabled={!isLoggedIn}
+                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                      isReviewed && difficulty === 3
+                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                    }`}
+                    title={!isLoggedIn ? "Log in to track difficulty" : "Very Hard"}
+                  >
+                    Very Hard
+                  </button>
                 </div>
               )}
 
