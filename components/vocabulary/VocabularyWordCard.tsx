@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText } from "lucide-react"
+import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, RefreshCw, RotateCcw } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -19,6 +19,7 @@ import {
   isUserLoggedIn,
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
+import { getCustomMemoryTip, saveCustomMemoryTip, deleteCustomMemoryTip } from "@/lib/vocabulary-memory-tips"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
@@ -86,6 +87,9 @@ export function VocabularyWordCard({
   const [showHistory, setShowHistory] = useState(false)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
   const [showDifficultyPicker, setShowDifficultyPicker] = useState(false)
+  const [currentTip, setCurrentTip] = useState<string | null>(word.tip || null)
+  const [isGeneratingTip, setIsGeneratingTip] = useState(false)
+  const [hasCustomTip, setHasCustomTip] = useState(false)
   const isMobile = useMobile()
 
   // Check if user is logged in (for enabling difficulty controls)
@@ -120,6 +124,90 @@ export function VocabularyWordCard({
 
     loadDifficulty()
   }, [word.word, authLoading])
+
+  // Load custom memory tip from Supabase
+  useEffect(() => {
+    const loadCustomTip = async () => {
+      if (!isLoggedIn) {
+        setCurrentTip(word.tip || null)
+        setHasCustomTip(false)
+        return
+      }
+
+      try {
+        const customTip = await getCustomMemoryTip(word.word)
+        if (customTip) {
+          setCurrentTip(customTip)
+          setHasCustomTip(true)
+        } else {
+          setCurrentTip(word.tip || null)
+          setHasCustomTip(false)
+        }
+      } catch (error) {
+        console.error('Failed to load custom memory tip:', error)
+        setCurrentTip(word.tip || null)
+        setHasCustomTip(false)
+      }
+    }
+
+    loadCustomTip()
+  }, [word.word, word.tip, isLoggedIn])
+
+  // Generate new memory tip using OpenAI
+  const handleGenerateNewTip = async () => {
+    if (!isLoggedIn) {
+      alert('Please log in to generate custom memory tips')
+      return
+    }
+
+    setIsGeneratingTip(true)
+    try {
+      const response = await fetch('/api/vocabulary/generate-tip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          word: word.word,
+          definition: word.meanings[0],
+          partOfSpeech: word.part_of_speech,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate tip')
+      }
+
+      const data = await response.json()
+      const newTip = data.tip
+
+      // Save to Supabase
+      await saveCustomMemoryTip(word.word, newTip)
+
+      // Update UI
+      setCurrentTip(newTip)
+      setHasCustomTip(true)
+    } catch (error) {
+      console.error('Error generating memory tip:', error)
+      alert('Failed to generate new memory tip. Please try again.')
+    } finally {
+      setIsGeneratingTip(false)
+    }
+  }
+
+  // Revert to default memory tip
+  const handleRevertToDefault = async () => {
+    if (!isLoggedIn) return
+
+    try {
+      await deleteCustomMemoryTip(word.word)
+      setCurrentTip(word.tip || null)
+      setHasCustomTip(false)
+    } catch (error) {
+      console.error('Error reverting to default tip:', error)
+      alert('Failed to revert to default tip')
+    }
+  }
 
   const handleIncreaseDifficulty = async () => {
     const newDifficulty = await increaseDifficulty(word.word)
@@ -845,16 +933,41 @@ export function VocabularyWordCard({
         )}
 
         {/* Memory Tip */}
-        {word.tip && (
+        {currentTip && (
           <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
             <div className="flex items-start gap-3">
               <Lightbulb className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-1 uppercase tracking-wide">
-                  Memory Tip
-                </h3>
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-sm font-semibold text-amber-900 dark:text-amber-100 uppercase tracking-wide">
+                    Memory Tip {hasCustomTip && <span className="text-xs ml-2 normal-case opacity-70">(Custom)</span>}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    {hasCustomTip && (
+                      <Button
+                        onClick={handleRevertToDefault}
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40"
+                        title="Revert to default tip"
+                      >
+                        <RotateCcw className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
+                    <Button
+                      onClick={handleGenerateNewTip}
+                      disabled={isGeneratingTip || !isLoggedIn}
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 px-2 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 disabled:opacity-50"
+                      title={!isLoggedIn ? "Log in to generate custom tips" : "Generate new memory tip"}
+                    >
+                      <RefreshCw className={`h-3.5 w-3.5 ${isGeneratingTip ? 'animate-spin' : ''}`} />
+                    </Button>
+                  </div>
+                </div>
                 <p className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed">
-                  {word.tip}
+                  {currentTip}
                 </p>
               </div>
             </div>
