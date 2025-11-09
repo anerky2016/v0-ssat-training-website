@@ -53,7 +53,30 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 
 ## 🌐 Step 2: Choose a Cron Service
 
-### Option A: cron-job.org (Recommended - Free)
+### Option A: PM2 on Ubuntu Server (⭐ RECOMMENDED)
+
+**Pros:**
+- Full control over your infrastructure
+- No external dependencies
+- Faster execution (local network)
+- Better logging and monitoring
+- Free (no service limits)
+- Survives server restarts
+
+**Setup:**
+See detailed guide: [PM2 Cron Setup](./PM2_CRON_SETUP.md)
+
+**Quick Start:**
+```bash
+# On your Ubuntu server
+cd /home/ubuntu/ssat-cron
+pm2 start ecosystem.config.js
+pm2 save
+```
+
+---
+
+### Option B: cron-job.org (External Service - Free)
 
 **Pros:**
 - Free forever
@@ -67,7 +90,7 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 2. Create a free account
 3. Click "Create Cronjob"
 
-### Option B: EasyCron (Free Tier)
+### Option C: EasyCron (Free Tier)
 
 **Pros:**
 - Free tier: 250 cron jobs/month
@@ -79,7 +102,7 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 2. Sign up for free account
 3. Add new cron job
 
-### Option C: Uptime Robot (Free Monitors)
+### Option D: Uptime Robot (Free Monitors)
 
 **Pros:**
 - Primary use: monitoring
