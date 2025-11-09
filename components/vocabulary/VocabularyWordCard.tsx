@@ -20,6 +20,7 @@ import {
   type DifficultyLevel
 } from "@/lib/vocabulary-difficulty"
 import { getCustomMemoryTip, saveCustomMemoryTip, deleteCustomMemoryTip } from "@/lib/vocabulary-memory-tips"
+import { scheduleWordReview } from "@/lib/vocabulary-review-schedule"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
@@ -263,6 +264,9 @@ export function VocabularyWordCard({
     setDifficulty(newDifficulty)
     setIsReviewed(true) // Mark as reviewed once user interacts
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
+
+    // Schedule next review using spaced repetition
+    await scheduleWordReview(word.word, newDifficulty)
   }
 
   const handleDecreaseDifficulty = async () => {
@@ -270,6 +274,9 @@ export function VocabularyWordCard({
     setDifficulty(newDifficulty)
     setIsReviewed(true) // Mark as reviewed once user interacts
     setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
+
+    // Schedule next review using spaced repetition
+    await scheduleWordReview(word.word, newDifficulty)
   }
 
   const handleDifficultyChange = async (value: number[]) => {
@@ -278,6 +285,9 @@ export function VocabularyWordCard({
     setDifficulty(newDifficulty)
     setIsReviewed(true)
     setHistoryRefreshTrigger(prev => prev + 1)
+
+    // Schedule next review using spaced repetition
+    await scheduleWordReview(word.word, newDifficulty)
   }
 
   const handleSpinnerWheelChange = async (value: number) => {
@@ -285,6 +295,10 @@ export function VocabularyWordCard({
     setDifficulty(value as DifficultyLevel)
     setIsReviewed(true)
     setHistoryRefreshTrigger(prev => prev + 1)
+
+    // Schedule next review using spaced repetition
+    await scheduleWordReview(word.word, value as DifficultyLevel)
+
     // Close the picker after selection
     setShowDifficultyPicker(false)
   }

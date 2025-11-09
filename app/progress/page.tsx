@@ -36,6 +36,7 @@ import {
 } from "@/lib/study-history"
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { NotificationSettings } from "@/components/notification-settings"
+import { VocabularyWordReviews } from "@/components/VocabularyWordReviews"
 import Link from "next/link"
 
 export default function ProgressPage() {
@@ -580,6 +581,11 @@ export default function ProgressPage() {
                       </CardContent>
                     </Card>
                   )}
+
+                  {/* Vocabulary Word Reviews (Individual Words) */}
+                  <div className="mb-12">
+                    <VocabularyWordReviews />
+                  </div>
 
                   {/* Notification Settings */}
                   <div className="mb-12">
