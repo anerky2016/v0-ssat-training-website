@@ -57,7 +57,7 @@ export function VocabularyWordReviews() {
               <BookOpen className="h-6 w-6 text-purple-500" />
             </div>
             <div>
-              <CardTitle>Vocabulary Word Reviews</CardTitle>
+              <CardTitle>Vocabulary Spaced Repetition Review</CardTitle>
               <CardDescription>Loading review schedule...</CardDescription>
             </div>
           </div>
@@ -89,8 +89,8 @@ export function VocabularyWordReviews() {
             <BookOpen className="h-6 w-6 text-purple-500" />
           </div>
           <div className="flex-1">
-            <CardTitle>Vocabulary Word Reviews</CardTitle>
-            <CardDescription>Spaced repetition for individual words</CardDescription>
+            <CardTitle>Vocabulary Spaced Repetition Review</CardTitle>
+            <CardDescription>Optimize your vocabulary mastery with difficulty-based review</CardDescription>
           </div>
         </div>
       </CardHeader>
