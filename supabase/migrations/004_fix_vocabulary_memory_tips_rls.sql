@@ -24,8 +24,7 @@ DROP POLICY IF EXISTS "Users can delete their own memory tips" ON vocabulary_mem
 ALTER TABLE vocabulary_memory_tips DISABLE ROW LEVEL SECURITY;
 
 -- Add comment explaining the security model
-COMMENT ON TABLE vocabulary_memory_tips IS
-'Stores custom AI-generated memory tips for vocabulary words, personalized per user.
+COMMENT ON TABLE vocabulary_memory_tips IS $$Stores custom AI-generated memory tips for vocabulary words, personalized per user.
 
 SECURITY MODEL:
 - RLS is DISABLED for this table
@@ -34,4 +33,4 @@ SECURITY MODEL:
 - The user_id column stores the Firebase UID
 - Data sensitivity: Low (educational memory tips)
 
-For enhanced security, consider moving database operations to API routes.';
+For enhanced security, consider moving database operations to API routes.$$;
