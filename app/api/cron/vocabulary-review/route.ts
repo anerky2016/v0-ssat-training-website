@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase'
 import { sendNotificationToTokens } from '@/lib/firebase-admin'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 /**
  * Cron Job API Route for Vocabulary Review Push Notifications
  *

@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase'
 import { sendNotificationToTokens } from '@/lib/firebase-admin'
 
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 /**
  * Cron endpoint to send vocabulary review notifications
@@ -21,10 +22,10 @@ export async function GET(request: NextRequest) {
     // Simple authentication using secret token
     const authHeader = request.headers.get('authorization')
     const urlToken = request.nextUrl.searchParams.get('token')
-    const expectedToken = process.env.CRON_SECRET_TOKEN
+    const expectedToken = process.env.CRON_SECRET
 
     if (!expectedToken) {
-      console.error('❌ [Cron] CRON_SECRET_TOKEN not configured')
+      console.error('❌ [Cron] CRON_SECRET not configured')
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
