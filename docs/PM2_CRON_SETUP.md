@@ -54,33 +54,47 @@ pm2 save
 
 Create a Node.js script that will call your API endpoint.
 
-**Location:** `/home/ubuntu/ssat-cron/vocabulary-review-cron.js`
+**Location:** `/root/ssat-cron/vocabulary-review-cron.js`
 
 ```javascript
 #!/usr/bin/env node
 
 /**
- * Vocabulary Review Notification Cron Job
- * Calls the API endpoint to send review notifications
+ * Vocabulary Review Push Notification Cron Job
+ * Calls the API endpoint to send push notifications to all active devices
  */
 
 const https = require('https');
+const url = require('url');
 
 // Configuration
 const API_URL = process.env.API_URL || 'https://midssat.com';
-const CRON_SECRET = process.env.CRON_SECRET_TOKEN;
+const CRON_SECRET = process.env.CRON_SECRET;
 
 if (!CRON_SECRET) {
-  console.error('❌ Error: CRON_SECRET_TOKEN environment variable not set');
+  console.error('❌ Error: CRON_SECRET environment variable not set');
   process.exit(1);
 }
 
-const endpoint = `${API_URL}/api/cron/vocabulary-review-notifications?token=${CRON_SECRET}`;
+const endpoint = `${API_URL}/api/cron/vocabulary-review`;
+const parsedUrl = url.parse(endpoint);
 
 console.log(`🔔 [${new Date().toISOString()}] Starting vocabulary review notification cron...`);
+console.log(`📍 Endpoint: ${endpoint}`);
 
-// Make HTTPS request
-https.get(endpoint, (res) => {
+// Make HTTPS request with Authorization header
+const options = {
+  hostname: parsedUrl.hostname,
+  port: parsedUrl.port || 443,
+  path: parsedUrl.path,
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${CRON_SECRET}`,
+    'Content-Type': 'application/json'
+  }
+};
+
+const req = https.request(options, (res) => {
   let data = '';
 
   res.on('data', (chunk) => {
@@ -95,8 +109,10 @@ https.get(endpoint, (res) => {
       console.log(`✅ Response:`, JSON.stringify(result, null, 2));
 
       if (result.success) {
-        console.log(`🎉 Successfully sent ${result.notificationsSent} notifications`);
-        console.log(`📚 ${result.wordsDue} words were due for review`);
+        console.log(`🎉 Successfully sent notifications!`);
+        console.log(`📱 Total devices: ${result.stats?.totalDevices || 0}`);
+        console.log(`✅ Success: ${result.stats?.successCount || 0}`);
+        console.log(`❌ Failed: ${result.stats?.failureCount || 0}`);
         process.exit(0);
       } else {
         console.error('❌ API returned error:', result.error);
@@ -108,22 +124,26 @@ https.get(endpoint, (res) => {
       process.exit(1);
     }
   });
+});
 
-}).on('error', (error) => {
+req.on('error', (error) => {
   console.error('❌ Request failed:', error.message);
   process.exit(1);
 });
 
 // Timeout after 30 seconds
-setTimeout(() => {
+req.setTimeout(30000, () => {
   console.error('⏰ Request timeout after 30 seconds');
+  req.destroy();
   process.exit(1);
-}, 30000);
+});
+
+req.end();
 ```
 
 **Make it executable:**
 ```bash
-chmod +x /home/ubuntu/ssat-cron/vocabulary-review-cron.js
+chmod +x /root/ssat-cron/vocabulary-review-cron.js
 ```
 
 ---
@@ -132,7 +152,7 @@ chmod +x /home/ubuntu/ssat-cron/vocabulary-review-cron.js
 
 Create a PM2 ecosystem configuration file for better management.
 
-**Location:** `/home/ubuntu/ssat-cron/ecosystem.config.js`
+**Location:** `/root/ssat-cron/ecosystem.config.js`
 
 ```javascript
 module.exports = {
@@ -140,13 +160,13 @@ module.exports = {
     {
       name: 'vocabulary-review-cron',
       script: './vocabulary-review-cron.js',
-      cron_restart: '0 8 * * *',  // Every day at 8:00 AM
+      cron_restart: '0 18 * * *',  // Every day at 6:00 PM (18:00)
       watch: false,
       autorestart: false,  // Don't restart on exit (cron will restart)
       env: {
         NODE_ENV: 'production',
         API_URL: 'https://midssat.com',
-        CRON_SECRET_TOKEN: 'your-secret-token-here',
+        CRON_SECRET: '1c313f85f340141b6081eaf0de5df30f24e4faefb1a8fdf3275eb85c644a8edf',
         TZ: 'America/New_York'  // Set your timezone
       },
       error_file: './logs/vocabulary-cron-error.log',
@@ -165,7 +185,7 @@ module.exports = {
 
 ```bash
 # Navigate to cron directory
-cd /home/ubuntu/ssat-cron
+cd /root/ssat-cron
 
 # Create logs directory
 mkdir -p logs
@@ -211,7 +231,7 @@ pm2 logs vocabulary-review-cron --err
 pm2 restart vocabulary-review-cron
 
 # Or run the script directly
-node /home/ubuntu/ssat-cron/vocabulary-review-cron.js
+node /root/ssat-cron/vocabulary-review-cron.js
 ```
 
 ### Stop/Start
@@ -273,14 +293,14 @@ cron_restart: '0 19 * * 0'
 
 ```bash
 # Create .env file
-cat > /home/ubuntu/ssat-cron/.env << EOF
+cat > /root/ssat-cron/.env << EOF
 API_URL=https://midssat.com
-CRON_SECRET_TOKEN=your-actual-secret-token-here
+CRON_SECRET=1c313f85f340141b6081eaf0de5df30f24e4faefb1a8fdf3275eb85c644a8edf
 TZ=America/New_York
 EOF
 
 # Restrict permissions
-chmod 600 /home/ubuntu/ssat-cron/.env
+chmod 600 /root/ssat-cron/.env
 ```
 
 Update `ecosystem.config.js`:
@@ -292,11 +312,12 @@ module.exports = {
   apps: [{
     name: 'vocabulary-review-cron',
     script: './vocabulary-review-cron.js',
-    cron_restart: '0 8 * * *',
+    cron_restart: '0 18 * * *',  // 6:00 PM daily
+    autorestart: false,
     env: {
       NODE_ENV: 'production',
       API_URL: process.env.API_URL,
-      CRON_SECRET_TOKEN: process.env.CRON_SECRET_TOKEN,
+      CRON_SECRET: process.env.CRON_SECRET,
       TZ: process.env.TZ || 'America/New_York'
     }
   }]
@@ -307,13 +328,13 @@ module.exports = {
 
 ```bash
 # Set ownership
-sudo chown -R ubuntu:ubuntu /home/ubuntu/ssat-cron
+sudo chown -R root:root /root/ssat-cron
 
 # Set permissions
-chmod 700 /home/ubuntu/ssat-cron
-chmod 600 /home/ubuntu/ssat-cron/.env
-chmod 600 /home/ubuntu/ssat-cron/ecosystem.config.js
-chmod 755 /home/ubuntu/ssat-cron/vocabulary-review-cron.js
+chmod 700 /root/ssat-cron
+chmod 600 /root/ssat-cron/.env
+chmod 600 /root/ssat-cron/ecosystem.config.js
+chmod 755 /root/ssat-cron/vocabulary-review-cron.js
 ```
 
 ---
@@ -537,7 +558,7 @@ pm2-gui start
 
 ```bash
 # Edit the ecosystem file
-nano /home/ubuntu/ssat-cron/ecosystem.config.js
+nano /root/ssat-cron/ecosystem.config.js
 
 # Reload the configuration
 pm2 reload ecosystem.config.js
@@ -552,123 +573,28 @@ pm2 save
 
 ---
 
-## 📝 Complete Setup Script
+## 📝 Quick Update Commands
 
-Save this as `setup-pm2-cron.sh`:
+If you already have the cron job running with the old endpoint, update it:
 
 ```bash
-#!/bin/bash
+# Navigate to cron directory
+cd /root/ssat-cron
 
-# PM2 Cron Setup Script for Vocabulary Review Notifications
+# Update the script with the new code (copy from Step 2 above)
+nano vocabulary-review-cron.js
 
-set -e  # Exit on error
+# Update ecosystem.config.js with CRON_SECRET (instead of CRON_SECRET_TOKEN)
+nano ecosystem.config.js
 
-echo "🚀 Setting up PM2 cron for vocabulary review notifications..."
+# Reload PM2
+pm2 delete vocabulary-review-cron
+pm2 start ecosystem.config.js
+pm2 save
 
-# Create directory structure
-mkdir -p /home/ubuntu/ssat-cron/logs
-cd /home/ubuntu/ssat-cron
-
-# Create vocabulary-review-cron.js
-cat > vocabulary-review-cron.js << 'EOF'
-#!/usr/bin/env node
-const https = require('https');
-
-const API_URL = process.env.API_URL || 'https://midssat.com';
-const CRON_SECRET = process.env.CRON_SECRET_TOKEN;
-
-if (!CRON_SECRET) {
-  console.error('❌ Error: CRON_SECRET_TOKEN not set');
-  process.exit(1);
-}
-
-const endpoint = \`\${API_URL}/api/cron/vocabulary-review-notifications?token=\${CRON_SECRET}\`;
-
-console.log(\`🔔 [\${new Date().toISOString()}] Starting cron...\`);
-
-https.get(endpoint, (res) => {
-  let data = '';
-  res.on('data', (chunk) => { data += chunk; });
-  res.on('end', () => {
-    console.log(\`📊 Status: \${res.statusCode}\`);
-    try {
-      const result = JSON.parse(data);
-      console.log(\`✅ Response:\`, JSON.stringify(result, null, 2));
-      process.exit(result.success ? 0 : 1);
-    } catch (error) {
-      console.error('❌ Parse error:', error.message);
-      process.exit(1);
-    }
-  });
-}).on('error', (error) => {
-  console.error('❌ Request failed:', error.message);
-  process.exit(1);
-});
-
-setTimeout(() => {
-  console.error('⏰ Timeout');
-  process.exit(1);
-}, 30000);
-EOF
-
-chmod +x vocabulary-review-cron.js
-
-# Create .env file (user must edit this!)
-cat > .env << 'EOF'
-API_URL=https://midssat.com
-CRON_SECRET_TOKEN=REPLACE_WITH_YOUR_SECRET_TOKEN
-TZ=America/New_York
-EOF
-
-chmod 600 .env
-
-# Create ecosystem.config.js
-cat > ecosystem.config.js << 'EOF'
-require('dotenv').config();
-
-module.exports = {
-  apps: [{
-    name: 'vocabulary-review-cron',
-    script: './vocabulary-review-cron.js',
-    cron_restart: '0 8 * * *',
-    watch: false,
-    autorestart: false,
-    env: {
-      NODE_ENV: 'production',
-      API_URL: process.env.API_URL,
-      CRON_SECRET_TOKEN: process.env.CRON_SECRET_TOKEN,
-      TZ: process.env.TZ || 'America/New_York'
-    },
-    error_file: './logs/vocabulary-cron-error.log',
-    out_file: './logs/vocabulary-cron-out.log',
-    log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-    merge_logs: true,
-    max_memory_restart: '200M'
-  }]
-};
-EOF
-
-# Install dotenv
-npm install dotenv
-
-echo "✅ Setup complete!"
-echo ""
-echo "⚠️  IMPORTANT: Edit the .env file and set your CRON_SECRET_TOKEN:"
-echo "   nano /home/ubuntu/ssat-cron/.env"
-echo ""
-echo "Then start the cron:"
-echo "   cd /home/ubuntu/ssat-cron"
-echo "   pm2 start ecosystem.config.js"
-echo "   pm2 save"
-echo ""
-echo "Monitor with:"
-echo "   pm2 logs vocabulary-review-cron"
-```
-
-**Run it:**
-```bash
-chmod +x setup-pm2-cron.sh
-./setup-pm2-cron.sh
+# Test it
+pm2 restart vocabulary-review-cron
+pm2 logs vocabulary-review-cron
 ```
 
 ---
