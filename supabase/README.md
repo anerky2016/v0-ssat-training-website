@@ -148,48 +148,29 @@ See `SUPABASE_LOGIN_TRACKING.md` in the root folder for:
 
 The `migrations/` folder contains SQL migration files for additional features:
 
-#### `003_vocabulary_memory_tips.sql`
-Creates the `vocabulary_memory_tips` table for storing custom AI-generated memory tips.
+#### `005_recreate_vocabulary_memory_tips.sql` ⭐ RECOMMENDED (Clean Install)
+Recreates the `vocabulary_memory_tips` table from scratch - designed for Firebase Auth.
+
+**Use this if:**
+- You're setting up the table for the first time
+- You had issues with migrations 003 or 004
+- You want a clean slate (⚠️ will delete all existing custom tips)
 
 **What it does:**
-- Creates table structure for user-customized memory tips
-- One custom tip per user per word
-- Indexed for fast lookups
-- Initial RLS policies (requires fix - see migration 004)
+- Drops existing `vocabulary_memory_tips` table (if it exists)
+- Creates table fresh with proper structure
+- NO Row Level Security (works with Firebase Auth)
+- Includes all necessary indexes
+- Properly formatted comments (no SQL errors)
 
 **How to apply:**
 1. Go to Supabase Dashboard → **SQL Editor**
 2. Click **New Query**
-3. Copy and paste contents of `migrations/003_vocabulary_memory_tips.sql`
+3. Copy and paste contents of `migrations/005_recreate_vocabulary_memory_tips.sql`
 4. Click **Run**
-5. **IMPORTANT:** Then apply migration `004_fix_vocabulary_memory_tips_rls.sql` (required!)
+5. You should see: "Table created successfully! | row_count: 0"
 
-#### `004_fix_vocabulary_memory_tips_rls.sql` ⭐ REQUIRED
-Fixes Row Level Security policies for Firebase Auth compatibility.
-
-**Why needed:**
-- Migration 003 created RLS policies for Supabase Auth (`auth.uid()`)
-- Our app uses Firebase Auth, not Supabase Auth
-- Original policies blocked all operations with error: `new row violates row-level security policy`
-- This migration disables RLS since we handle auth client-side with Firebase
-
-**What it does:**
-- Drops incompatible RLS policies from migration 003
-- Disables RLS for the `vocabulary_memory_tips` table
-- Adds documentation about the security model
-- Allows the table to work with Firebase Authentication
-
-**How to apply:**
-1. Go to Supabase Dashboard → **SQL Editor**
-2. Click **New Query**
-3. Copy and paste contents of `migrations/004_fix_vocabulary_memory_tips_rls.sql`
-4. Click **Run**
-
-**Security Model:**
-- Authentication enforced client-side via Firebase Auth
-- Only logged-in users can access the library functions
-- Data sensitivity: Low (educational memory tips)
-- For production with sensitive data, consider API routes with service role key
+⚠️ **WARNING:** This will delete all existing custom memory tips. If you have data you want to keep, backup first!
 
 **Table Structure:**
 ```sql
@@ -210,11 +191,40 @@ vocabulary_memory_tips (
 - Revert button to restore default tips
 - Tips saved per-user in Supabase
 
+---
+
+### Alternative Migrations (Legacy)
+
+<details>
+<summary>Click to expand legacy migrations (003 and 004)</summary>
+
+#### `003_vocabulary_memory_tips.sql` (Legacy)
+Initial table creation with RLS policies.
+
+**Issues:**
+- Uses RLS policies for Supabase Auth (incompatible with Firebase Auth)
+- Requires migration 004 to fix
+
+**Recommendation:** Use migration 005 instead for clean setup.
+
+#### `004_fix_vocabulary_memory_tips_rls.sql` (Legacy)
+Fixes RLS policies from migration 003.
+
+**Issues:**
+- Had SQL syntax errors in some versions
+- Complicated two-step process
+
+**Recommendation:** Use migration 005 instead for clean setup.
+
+</details>
+
+---
+
 ### Other Migrations
 
 - `001_vocabulary_difficulty.sql` - Word difficulty tracking
 - `002_difficulty_history.sql` - Difficulty change history
 
-**Apply migrations in order:**
-1. `003_vocabulary_memory_tips.sql`
-2. `004_fix_vocabulary_memory_tips_rls.sql` ⚠️ Required after 003
+**Migration Path:**
+- **New setup:** Just run `005_recreate_vocabulary_memory_tips.sql`
+- **Already have data:** Backup first, then run `005_recreate_vocabulary_memory_tips.sql`
