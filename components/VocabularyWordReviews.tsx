@@ -82,7 +82,7 @@ export function VocabularyWordReviews() {
   const estimatedMinutes = Math.ceil((dueWords.length * 30) / 60)
 
   return (
-    <Card>
+    <Card id="review-difficult-words">
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
