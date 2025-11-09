@@ -387,6 +387,15 @@ export async function getReviewStats(userId?: string): Promise<{
 }
 
 /**
+ * Get words due for review with their difficulty levels as a list of words
+ * Returns just the word strings that are due for review
+ */
+export async function getDueReviewWords(): Promise<string[]> {
+  const schedules = await getDueReviews()
+  return schedules.map(s => s.word)
+}
+
+/**
  * Sync existing vocabulary difficulties to review schedule
  * This creates review schedule entries for words that have difficulty levels
  * but don't have review schedules yet

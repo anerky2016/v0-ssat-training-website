@@ -203,7 +203,7 @@ export function VocabularyWordReviews() {
             </div>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Link href="/vocabulary/word-lists" className="flex-1">
+              <Link href="/vocabulary/review-session" className="flex-1">
                 <Button className="w-full" size="lg">
                   <Lightbulb className="mr-2 h-4 w-4" />
                   Start Review Session

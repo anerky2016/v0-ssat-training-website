@@ -123,8 +123,16 @@ export default function WordListsPage() {
   // Initialize from URL parameters
   useEffect(() => {
     const letter = searchParams.get('letter')
+    const reviewWords = searchParams.get('reviewWords')
+
     if (letter) {
       setSelectedLetter(letter.toUpperCase())
+      setMobileLetterSelected(true)
+      setDesktopLetterSelected(true)
+    }
+
+    // If coming from review session, auto-show cards
+    if (reviewWords) {
       setMobileLetterSelected(true)
       setDesktopLetterSelected(true)
     }
@@ -150,6 +158,14 @@ export default function WordListsPage() {
   }, [vocabularyData])
 
   const filteredWords = vocabularyData.words.filter(word => {
+    // Check if filtering by review words from URL
+    const reviewWordsParam = searchParams.get('reviewWords')
+    if (reviewWordsParam) {
+      const reviewWordsList = reviewWordsParam.split(',').map(w => w.toLowerCase())
+      const matchesReviewList = reviewWordsList.includes(word.word.toLowerCase())
+      if (!matchesReviewList) return false
+    }
+
     const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
 
