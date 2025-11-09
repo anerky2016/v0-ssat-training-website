@@ -76,10 +76,12 @@ export async function POST(request: NextRequest) {
     // Prepare notification data
     const notificationData = data || {};
     const fcmTokens = tokens.map((t) => t.fcm_token);
+    const deviceTypes = tokens.map((t) => t.device_type as 'ios' | 'android');
 
     console.log(`📱 Sending notification to ${fcmTokens.length} devices`);
     console.log(`Title: ${title}`);
     console.log(`Body: ${notificationBody}`);
+    console.log(`Device types: ${deviceTypes.join(', ')}`);
 
     // Send notifications
     try {
@@ -88,7 +90,8 @@ export async function POST(request: NextRequest) {
         const response = await sendNotificationToToken(
           fcmTokens[0],
           { title, body: notificationBody },
-          notificationData
+          notificationData,
+          deviceTypes[0]
         );
 
         // Update last_used_at
@@ -109,7 +112,8 @@ export async function POST(request: NextRequest) {
         const response = await sendNotificationToTokens(
           fcmTokens,
           { title, body: notificationBody },
-          notificationData
+          notificationData,
+          deviceTypes
         );
 
         // Update last_used_at for successful sends

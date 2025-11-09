@@ -1,7 +1,48 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+// Validate environment variables
+function validateSupabaseConfig() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      'Supabase configuration missing. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.'
+    )
+  }
+  
+  // Validate URL format
+  try {
+    const url = new URL(supabaseUrl)
+    if (!['http:', 'https:'].includes(url.protocol)) {
+      throw new Error('Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.')
+    }
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error('Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.')
+    }
+    throw error
+  }
+}
+
+/**
+ * Create a Supabase client instance
+ * Use this function for server-side code that needs a fresh client
+ */
+export function createClient(): SupabaseClient {
+  validateSupabaseConfig()
+  
+  return createSupabaseClient(supabaseUrl!, supabaseAnonKey!, {
+    auth: {
+      persistSession: false, // We're using Firebase for auth
+    },
+    realtime: {
+      params: {
+        eventsPerSecond: 2, // Limit real-time events to prevent excessive updates
+      },
+    },
+  })
+}
 
 // Only create the client if both environment variables are provided
 export const supabase = supabaseUrl && supabaseAnonKey
@@ -16,17 +57,6 @@ export const supabase = supabaseUrl && supabaseAnonKey
       },
     })
   : null
-
-/**
- * Create a Supabase client for API routes
- * Returns the shared Supabase client instance
- */
-export function createClient() {
-  if (!supabase) {
-    throw new Error('Supabase client not configured. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.')
-  }
-  return supabase
-}
 
 // ===== USER LOGIN LOGS =====
 
