@@ -21,8 +21,7 @@ CREATE INDEX idx_review_schedule_user_next_review
   ON vocabulary_review_schedule(user_id, next_review_at);
 
 CREATE INDEX idx_review_schedule_next_review
-  ON vocabulary_review_schedule(next_review_at)
-  WHERE next_review_at <= NOW() + INTERVAL '1 day';
+  ON vocabulary_review_schedule(next_review_at);
 
 CREATE INDEX idx_review_schedule_user_id
   ON vocabulary_review_schedule(user_id);
