@@ -148,29 +148,59 @@ See `SUPABASE_LOGIN_TRACKING.md` in the root folder for:
 
 The `migrations/` folder contains SQL migration files for additional features:
 
-#### `003_vocabulary_memory_tips.sql` ⭐ NEW
+#### `003_vocabulary_memory_tips.sql`
 Creates the `vocabulary_memory_tips` table for storing custom AI-generated memory tips.
 
 **What it does:**
-- Stores user-customized memory tips for vocabulary words
+- Creates table structure for user-customized memory tips
 - One custom tip per user per word
-- Row Level Security (RLS) - users can only access their own tips
 - Indexed for fast lookups
+- Initial RLS policies (requires fix - see migration 004)
 
 **How to apply:**
 1. Go to Supabase Dashboard → **SQL Editor**
 2. Click **New Query**
 3. Copy and paste contents of `migrations/003_vocabulary_memory_tips.sql`
 4. Click **Run**
+5. **IMPORTANT:** Then apply migration `004_fix_vocabulary_memory_tips_rls.sql` (required!)
+
+#### `004_fix_vocabulary_memory_tips_rls.sql` ⭐ REQUIRED
+Fixes Row Level Security policies for Firebase Auth compatibility.
+
+**Why needed:**
+- Migration 003 created RLS policies for Supabase Auth (`auth.uid()`)
+- Our app uses Firebase Auth, not Supabase Auth
+- Original policies blocked all operations with error: `new row violates row-level security policy`
+- This migration disables RLS since we handle auth client-side with Firebase
+
+**What it does:**
+- Drops incompatible RLS policies from migration 003
+- Disables RLS for the `vocabulary_memory_tips` table
+- Adds documentation about the security model
+- Allows the table to work with Firebase Authentication
+
+**How to apply:**
+1. Go to Supabase Dashboard → **SQL Editor**
+2. Click **New Query**
+3. Copy and paste contents of `migrations/004_fix_vocabulary_memory_tips_rls.sql`
+4. Click **Run**
+
+**Security Model:**
+- Authentication enforced client-side via Firebase Auth
+- Only logged-in users can access the library functions
+- Data sensitivity: Low (educational memory tips)
+- For production with sensitive data, consider API routes with service role key
 
 **Table Structure:**
 ```sql
 vocabulary_memory_tips (
-  user_id TEXT,
-  word TEXT,
-  tip TEXT,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  word TEXT NOT NULL,
+  tip TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE,
+  updated_at TIMESTAMP WITH TIME ZONE,
+  UNIQUE(user_id, word)
 )
 ```
 
@@ -185,4 +215,6 @@ vocabulary_memory_tips (
 - `001_vocabulary_difficulty.sql` - Word difficulty tracking
 - `002_difficulty_history.sql` - Difficulty change history
 
-Apply these in order if you haven't already.
+**Apply migrations in order:**
+1. `003_vocabulary_memory_tips.sql`
+2. `004_fix_vocabulary_memory_tips_rls.sql` ⚠️ Required after 003
