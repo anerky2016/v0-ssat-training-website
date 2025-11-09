@@ -453,10 +453,8 @@ export default function ProgressPage() {
                     </Card>
                   )}
 
-                  {/* Vocabulary reviews are now handled by the VocabularyWordReviews component below,
-                       which uses difficulty levels instead of lesson completion status */}
-
-                  {/* Vocabulary Word Reviews (Individual Words) */}
+                  {/* Vocabulary Spaced Repetition Review */}
+                  {/* Uses difficulty-based review system instead of lesson completion status */}
                   <div className="mb-12">
                     <VocabularyWordReviews />
                   </div>
