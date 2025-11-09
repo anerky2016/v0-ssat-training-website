@@ -185,6 +185,11 @@ export async function sendNotificationToTokens(
       }
     });
 
+    console.log(`📊 [FCM] Sending notifications to ${tokens.length} devices:`);
+    console.log(`   📱 iOS: ${iosTokens.length} devices`);
+    console.log(`   🤖 Android: ${androidTokens.length} devices`);
+    console.log(`   ❓ Unknown: ${unknownTokens.length} devices`);
+
     const allResponses: admin.messaging.SendResponse[] = [];
     const allTokens: string[] = [];
 
@@ -192,6 +197,11 @@ export async function sendNotificationToTokens(
     // Note: If you get "Auth error from APNS" errors, you need to configure
     // APNS credentials in Firebase Console: Project Settings > Cloud Messaging > Apple app configuration
     if (iosTokens.length > 0) {
+      console.log(`📱 [FCM] Sending to ${iosTokens.length} iOS devices...`);
+      iosTokens.forEach((token, idx) => {
+        console.log(`   iOS Token ${idx + 1}: ${token.substring(0, 20)}...${token.substring(token.length - 10)}`);
+      });
+
       const iosMessage: admin.messaging.MulticastMessage = {
         tokens: iosTokens,
         notification: {
@@ -210,6 +220,7 @@ export async function sendNotificationToTokens(
       };
 
       const iosResponse = await messaging.sendEachForMulticast(iosMessage);
+      console.log(`📱 [FCM] iOS Response: ${iosResponse.successCount} success, ${iosResponse.failureCount} failed`);
       allResponses.push(...iosResponse.responses);
       allTokens.push(...iosTokens);
     }
@@ -270,7 +281,29 @@ export async function sendNotificationToTokens(
       console.warn(`⚠️ Failed to send ${failureCount} notifications`);
       allResponses.forEach((resp, idx) => {
         if (!resp.success) {
-          console.error(`Failed for token ${allTokens[idx]}:`, resp.error);
+          const token = allTokens[idx];
+          const deviceType = deviceTypes?.[idx] || 'unknown';
+          const tokenPreview = `${token.substring(0, 20)}...${token.substring(token.length - 10)}`;
+
+          console.error(`\n❌ [FCM] Failed notification #${idx + 1}:`);
+          console.error(`   Device: ${deviceType}`);
+          console.error(`   Token: ${tokenPreview}`);
+          console.error(`   Error Code: ${resp.error?.code}`);
+          console.error(`   Error Message: ${resp.error?.message}`);
+
+          if (resp.error?.code === 'messaging/third-party-auth-error') {
+            console.error(`\n   🔍 APNs Authentication Error Details:`);
+            console.error(`   - This is an iOS-specific error`);
+            console.error(`   - Firebase cannot authenticate with Apple Push Notification service`);
+            console.error(`   - Check Firebase Console > Cloud Messaging > Apple app configuration`);
+            console.error(`   - Verify APNs Authentication Key (.p8) is uploaded`);
+            console.error(`   - Verify Team ID and Key ID match your Apple Developer account`);
+            console.error(`   - Verify Bundle ID in Firebase matches your iOS app: "WordyWise"`);
+          }
+
+          if (resp.error) {
+            console.error(`   Full Error:`, JSON.stringify(resp.error, null, 2));
+          }
         }
       });
     }

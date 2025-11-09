@@ -34,11 +34,11 @@ export async function POST(request: NextRequest) {
     const supabase = createClient()
     const { data: tokens, error } = await supabase
       .from('fcm_tokens')
-      .select('fcm_token')
+      .select('fcm_token, device_type, device_name, created_at')
       .eq('is_active', true)
 
     if (error) {
-      console.error('Error fetching FCM tokens:', error)
+      console.error('❌ [Cron] Error fetching FCM tokens:', error)
       return NextResponse.json(
         { error: 'Failed to fetch device tokens', details: error.message },
         { status: 500 }
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!tokens || tokens.length === 0) {
+      console.log('⚠️ [Cron] No active devices found in database')
       return NextResponse.json({
         success: true,
         message: 'No active devices to send notifications to',
@@ -54,8 +55,15 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Extract token strings
+    console.log(`📱 [Cron] Found ${tokens.length} active devices in database:`)
+    tokens.forEach((token, idx) => {
+      const tokenPreview = `${token.fcm_token.substring(0, 15)}...${token.fcm_token.substring(token.fcm_token.length - 10)}`
+      console.log(`   ${idx + 1}. ${token.device_type?.toUpperCase() || 'UNKNOWN'} - ${token.device_name || 'Unknown Device'} - Token: ${tokenPreview}`)
+    })
+
+    // Extract token strings and device types
     const fcmTokens = tokens.map(t => t.fcm_token)
+    const deviceTypes = tokens.map(t => t.device_type as 'ios' | 'android')
 
     // Send push notification to all active devices
     const notification = {
@@ -68,7 +76,7 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     }
 
-    const response = await sendNotificationToTokens(fcmTokens, notification, data)
+    const response = await sendNotificationToTokens(fcmTokens, notification, data, deviceTypes)
 
     console.log('Vocabulary review cron job executed:', {
       timestamp: new Date().toISOString(),
