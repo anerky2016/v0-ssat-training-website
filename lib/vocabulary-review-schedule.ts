@@ -385,3 +385,102 @@ export async function getReviewStats(userId?: string): Promise<{
     }
   }
 }
+
+/**
+ * Sync existing vocabulary difficulties to review schedule
+ * This creates review schedule entries for words that have difficulty levels
+ * but don't have review schedules yet
+ */
+export async function syncDifficultiesToReviewSchedule(): Promise<number> {
+  const userId = getCurrentUserId()
+  if (!userId) {
+    console.log('📅 [Review Schedule] Cannot sync - user not logged in')
+    return 0
+  }
+
+  if (!supabase) {
+    console.log('📅 [Review Schedule] Supabase not configured')
+    return 0
+  }
+
+  try {
+    console.log('🔄 [Review Schedule] Starting sync of difficulties to review schedule...')
+
+    // Get all difficulty levels for this user
+    const { data: difficulties, error: diffError } = await supabase
+      .from('vocabulary_difficulty')
+      .select('word, difficulty, updated_at')
+      .eq('user_id', userId)
+
+    if (diffError) throw diffError
+
+    if (!difficulties || difficulties.length === 0) {
+      console.log('📅 [Review Schedule] No difficulties found to sync')
+      return 0
+    }
+
+    console.log(`📅 [Review Schedule] Found ${difficulties.length} words with difficulty levels`)
+
+    // Get existing review schedules
+    const { data: existingSchedules, error: schedError } = await supabase
+      .from('vocabulary_review_schedule')
+      .select('word')
+      .eq('user_id', userId)
+
+    if (schedError) throw schedError
+
+    const existingWords = new Set(existingSchedules?.map(s => s.word) || [])
+
+    // Find words that need review schedules created
+    const wordsToSchedule = difficulties.filter(d => !existingWords.has(d.word))
+
+    if (wordsToSchedule.length === 0) {
+      console.log('✅ [Review Schedule] All words already have review schedules')
+      return 0
+    }
+
+    console.log(`📅 [Review Schedule] Creating review schedules for ${wordsToSchedule.length} words...`)
+
+    // Create review schedules for words that don't have them
+    const schedules = wordsToSchedule.map(d => {
+      const lastReviewed = new Date(d.updated_at)
+      const nextReview = calculateNextReview(d.difficulty as DifficultyLevel, 0, lastReviewed)
+
+      return {
+        user_id: userId,
+        word: d.word,
+        difficulty: d.difficulty as DifficultyLevel,
+        review_count: 0,
+        last_reviewed_at: lastReviewed.toISOString(),
+        next_review_at: nextReview.toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    })
+
+    // Insert in batches to avoid overwhelming the database
+    const batchSize = 100
+    let totalInserted = 0
+
+    for (let i = 0; i < schedules.length; i += batchSize) {
+      const batch = schedules.slice(i, i + batchSize)
+      const { error: insertError } = await supabase
+        .from('vocabulary_review_schedule')
+        .insert(batch)
+
+      if (insertError) {
+        console.error('❌ [Review Schedule] Error inserting batch:', insertError)
+        continue
+      }
+
+      totalInserted += batch.length
+      console.log(`📅 [Review Schedule] Inserted batch ${Math.floor(i / batchSize) + 1}, total: ${totalInserted}`)
+    }
+
+    console.log(`✅ [Review Schedule] Sync complete! Created ${totalInserted} review schedules`)
+    return totalInserted
+  } catch (error) {
+    console.error('❌ [Review Schedule] Failed to sync difficulties:', error)
+    return 0
+  }
+}

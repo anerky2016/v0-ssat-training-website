@@ -13,7 +13,7 @@ import {
   Lightbulb
 } from "lucide-react"
 import Link from "next/link"
-import { getDueReviews, getReviewStats, type ReviewSchedule } from "@/lib/vocabulary-review-schedule"
+import { getDueReviews, getReviewStats, syncDifficultiesToReviewSchedule, type ReviewSchedule } from "@/lib/vocabulary-review-schedule"
 import { getDifficultyLabel, getDifficultyColor } from "@/lib/vocabulary-difficulty"
 
 export function VocabularyWordReviews() {
@@ -32,6 +32,10 @@ export function VocabularyWordReviews() {
     async function loadReviews() {
       setLoading(true)
       try {
+        // First, sync any difficulties that don't have review schedules yet
+        await syncDifficultiesToReviewSchedule()
+
+        // Then load the reviews
         const [due, reviewStats] = await Promise.all([
           getDueReviews(),
           getReviewStats()
