@@ -228,3 +228,76 @@ Fixes RLS policies from migration 003.
 **Migration Path:**
 - **New setup:** Just run `005_recreate_vocabulary_memory_tips.sql`
 - **Already have data:** Backup first, then run `005_recreate_vocabulary_memory_tips.sql`
+
+---
+
+#### `006_vocabulary_review_schedule.sql` ⭐ NEW - Review Notifications
+
+Creates tables for vocabulary word review scheduling with spaced repetition.
+
+**What it does:**
+- Creates `vocabulary_review_schedule` table (tracks when words need review)
+- Creates `vocabulary_review_history` table (logs all review sessions)
+- Creates `user_notification_preferences` table (notification settings)
+- Indexes for efficient review queries
+- No RLS (works with Firebase Auth)
+
+**How to apply:**
+1. Go to Supabase Dashboard → **SQL Editor**
+2. Click **New Query**
+3. Copy and paste contents of `migrations/006_vocabulary_review_schedule.sql`
+4. Click **Run**
+5. You should see: "Tables created successfully!"
+
+**Tables Created:**
+
+```sql
+-- Review schedule (when words need review)
+vocabulary_review_schedule (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  word TEXT NOT NULL,
+  difficulty INTEGER NOT NULL,
+  review_count INTEGER DEFAULT 0,
+  last_reviewed_at TIMESTAMP,
+  next_review_at TIMESTAMP NOT NULL,
+  UNIQUE(user_id, word)
+)
+
+-- Review history (logs of reviews)
+vocabulary_review_history (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  word TEXT NOT NULL,
+  difficulty_at_review INTEGER NOT NULL,
+  reviewed_at TIMESTAMP,
+  time_spent_seconds INTEGER,
+  was_recalled_correctly BOOLEAN
+)
+
+-- User notification preferences
+user_notification_preferences (
+  id BIGSERIAL PRIMARY KEY,
+  user_id TEXT UNIQUE NOT NULL,
+  daily_summary_enabled BOOLEAN DEFAULT true,
+  daily_summary_time TIME DEFAULT '08:00:00',
+  critical_alerts_enabled BOOLEAN DEFAULT true,
+  weekly_report_enabled BOOLEAN DEFAULT true,
+  notification_method TEXT DEFAULT 'push',
+  timezone TEXT DEFAULT 'America/New_York'
+)
+```
+
+**Features Enabled:**
+- Spaced repetition review scheduling
+- Word-level review tracking
+- Review history analytics
+- Notification preferences
+- Progress page review tasks
+- External cron notifications
+
+**Next Steps:**
+1. Apply this migration
+2. Set `CRON_SECRET_TOKEN` environment variable
+3. Set up external cron job (see [setup guide](../docs/VOCABULARY_REVIEW_NOTIFICATIONS_SETUP.md))
+4. Users will automatically get review notifications!
