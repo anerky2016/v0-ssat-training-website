@@ -66,9 +66,7 @@ export function VocabularyWordReviews() {
     )
   }
 
-  if (!stats || (stats.totalScheduled === 0 && dueWords.length === 0)) {
-    return null
-  }
+  const hasNoReviews = !stats || (stats.totalScheduled === 0 && dueWords.length === 0)
 
   // Group words by difficulty
   const groupedByDifficulty = dueWords.reduce((acc, word) => {
@@ -95,6 +93,21 @@ export function VocabularyWordReviews() {
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
+        {hasNoReviews ? (
+          <div className="text-center py-8">
+            <BookOpen className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
+            <h3 className="text-lg font-semibold mb-2">No Words Scheduled for Review</h3>
+            <p className="text-muted-foreground mb-6">
+              Start marking words as Medium, Hard, or Very Hard in the vocabulary section to schedule them for review.
+            </p>
+            <Link href="/vocabulary/word-lists">
+              <Button variant="outline">
+                Browse Vocabulary Words
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <>
         {/* Stats Overview */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-4 rounded-lg border bg-card">
@@ -219,6 +232,8 @@ export function VocabularyWordReviews() {
               )}
             </div>
           </div>
+        )}
+        </>
         )}
       </CardContent>
     </Card>
