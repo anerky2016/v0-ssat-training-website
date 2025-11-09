@@ -26,7 +26,7 @@ export default function WordListsPage() {
   const searchParams = useSearchParams()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
-  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | null | 'unreviewed'>(null)
+  const [selectedDifficulties, setSelectedDifficulties] = useState<(DifficultyLevel | 'unreviewed')[]>([])
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(() => {
     const allLevels = getAvailableLevels()
     // Default: include SSAT and all Wordly Wise levels
@@ -104,7 +104,7 @@ export default function WordListsPage() {
       }
     }
     loadDifficulties()
-  }, [vocabularyData, selectedLetter, selectedDifficulty, searchTerm])
+  }, [vocabularyData, selectedLetter, selectedDifficulties, searchTerm])
 
   // Check if this is first visit and show how-to dialog
   useEffect(() => {
@@ -154,15 +154,18 @@ export default function WordListsPage() {
     const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
 
     let matchesDifficulty = true
-    if (selectedDifficulty === 'unreviewed') {
-      // Show words that have NOT been reviewed (false or undefined in status)
-      const isReviewed = wordReviewStatus[word.word]
-      matchesDifficulty = !isReviewed
-    } else if (selectedDifficulty !== null) {
-      // Show words that have been reviewed AND match the selected difficulty level
+    if (selectedDifficulties.length > 0) {
       const isReviewed = wordReviewStatus[word.word]
       const wordDifficulty = wordDifficulties[word.word]
-      matchesDifficulty = isReviewed && wordDifficulty === selectedDifficulty
+
+      // Check if word matches any of the selected difficulties
+      matchesDifficulty = selectedDifficulties.some(difficulty => {
+        if (difficulty === 'unreviewed') {
+          return !isReviewed
+        } else {
+          return isReviewed && wordDifficulty === difficulty
+        }
+      })
     }
 
     return matchesSearch && matchesLetter && matchesDifficulty
@@ -185,9 +188,21 @@ export default function WordListsPage() {
     }
   }
 
-  // Handle difficulty filter
-  const handleDifficultyFilter = (difficulty: DifficultyLevel | null | 'unreviewed') => {
-    setSelectedDifficulty(difficulty)
+  // Handle difficulty filter - toggle multi-select
+  const handleDifficultyFilter = (difficulty: DifficultyLevel | 'unreviewed' | null) => {
+    if (difficulty === null) {
+      // Clear all filters
+      setSelectedDifficulties([])
+    } else {
+      // Toggle the difficulty in the array
+      setSelectedDifficulties(prev => {
+        if (prev.includes(difficulty)) {
+          return prev.filter(d => d !== difficulty)
+        } else {
+          return [...prev, difficulty]
+        }
+      })
+    }
     setCurrentPage(1)
     setCurrentCardIndex(0)
   }
@@ -233,7 +248,7 @@ export default function WordListsPage() {
   const handleDesktopBackToAlphabet = () => {
     setDesktopLetterSelected(false)
     setSelectedLetter(null)
-    setSelectedDifficulty(null)
+    setSelectedDifficulties([])
     setCurrentPage(1)
     setSearchTerm('') // Clear search when returning to alphabet
   }
@@ -438,49 +453,49 @@ export default function WordListsPage() {
                       <span className="text-sm font-medium text-muted-foreground">Difficulty:</span>
                       <Button
                         onClick={() => handleDifficultyFilter(null)}
-                        variant={selectedDifficulty === null ? "default" : "outline"}
+                        variant={selectedDifficulties.length === 0 ? "default" : "outline"}
                         size="sm"
-                        className={selectedDifficulty === null ? "bg-chart-5 hover:bg-chart-5/90" : ""}
+                        className={selectedDifficulties.length === 0 ? "bg-chart-5 hover:bg-chart-5/90" : ""}
                       >
                         All
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter('unreviewed')}
-                        variant={selectedDifficulty === 'unreviewed' ? "default" : "outline"}
+                        variant={selectedDifficulties.includes('unreviewed') ? "default" : "outline"}
                         size="sm"
-                        className={`${selectedDifficulty === 'unreviewed' ? getDifficultyColor(1, false) : ""}`}
+                        className={`${selectedDifficulties.includes('unreviewed') ? getDifficultyColor(1, false) : ""}`}
                       >
                         {getDifficultyLabel(1, false)}
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(0)}
-                        variant={selectedDifficulty === 0 ? "default" : "outline"}
+                        variant={selectedDifficulties.includes(0) ? "default" : "outline"}
                         size="sm"
-                        className={`${selectedDifficulty === 0 ? getDifficultyColor(0) : ""}`}
+                        className={`${selectedDifficulties.includes(0) ? getDifficultyColor(0) : ""}`}
                       >
                         {getDifficultyLabel(0)}
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(1)}
-                        variant={selectedDifficulty === 1 ? "default" : "outline"}
+                        variant={selectedDifficulties.includes(1) ? "default" : "outline"}
                         size="sm"
-                        className={`${selectedDifficulty === 1 ? getDifficultyColor(1) : ""}`}
+                        className={`${selectedDifficulties.includes(1) ? getDifficultyColor(1) : ""}`}
                       >
                         {getDifficultyLabel(1)}
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(2)}
-                        variant={selectedDifficulty === 2 ? "default" : "outline"}
+                        variant={selectedDifficulties.includes(2) ? "default" : "outline"}
                         size="sm"
-                        className={`${selectedDifficulty === 2 ? getDifficultyColor(2) : ""}`}
+                        className={`${selectedDifficulties.includes(2) ? getDifficultyColor(2) : ""}`}
                       >
                         {getDifficultyLabel(2)}
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(3)}
-                        variant={selectedDifficulty === 3 ? "default" : "outline"}
+                        variant={selectedDifficulties.includes(3) ? "default" : "outline"}
                         size="sm"
-                        className={`${selectedDifficulty === 3 ? getDifficultyColor(3) : ""}`}
+                        className={`${selectedDifficulties.includes(3) ? getDifficultyColor(3) : ""}`}
                       >
                         {getDifficultyLabel(3)}
                       </Button>
@@ -770,12 +785,8 @@ export default function WordListsPage() {
                     <p className="text-muted-foreground">
                       {searchTerm ? (
                         `No words found matching "${searchTerm}"`
-                      ) : selectedDifficulty !== null ? (
-                        selectedDifficulty === 'unreviewed' ? (
-                          `No words with "${getDifficultyLabel(1, false)}" status found${selectedLetter ? ` in letter "${selectedLetter}"` : ''}`
-                        ) : (
-                          `No words with "${getDifficultyLabel(selectedDifficulty)}" difficulty found${selectedLetter ? ` in letter "${selectedLetter}"` : ''}`
-                        )
+                      ) : selectedDifficulties.length > 0 ? (
+                        `No words found with selected difficulties${selectedLetter ? ` in letter "${selectedLetter}"` : ''}`
                       ) : selectedLetter ? (
                         `No words found starting with "${selectedLetter}"`
                       ) : (
