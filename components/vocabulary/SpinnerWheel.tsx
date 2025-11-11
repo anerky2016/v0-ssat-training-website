@@ -32,6 +32,7 @@ export function SpinnerWheel({
   const [lastTouchY, setLastTouchY] = useState(0) // Track last touch position
   const [dragStartIndex, setDragStartIndex] = useState(0) // Track index when drag started
   const isDraggingRef = useRef(false) // Ref to track dragging state to prevent useEffect interference
+  const pendingValueRef = useRef<number | null>(null) // Track value we're about to set to prevent useEffect from resetting
   const [currentIndex, setCurrentIndex] = useState(() => {
     const index = options.findIndex(opt => opt.value === value)
     return index >= 0 ? index : 0
@@ -45,10 +46,19 @@ export function SpinnerWheel({
   // Update current index when value prop changes externally
   // But don't interfere if we're currently dragging or just finished dragging
   useEffect(() => {
-    // Skip if we're dragging or just finished (give it a small delay to avoid race conditions)
+    // Skip if we're dragging
     if (isDraggingRef.current) return
     
+    // Skip if this is the value we just set (prevent race condition)
+    // This prevents the useEffect from resetting the position when onChange updates the parent
+    if (pendingValueRef.current !== null && pendingValueRef.current === value) {
+      // Don't clear pendingValueRef here - let it be cleared after a delay
+      // This ensures we ignore this value change completely
+      return
+    }
+    
     const index = options.findIndex(opt => opt.value === value)
+    // Only update if the index actually changed AND it's different from current
     if (index >= 0 && index !== currentIndex) {
       setCurrentIndex(index)
       y.set(index * itemHeight)
@@ -121,6 +131,7 @@ export function SpinnerWheel({
     // Snap to nearest option immediately (no momentum, no bounce)
     const nearestIndex = Math.round(currentY / itemHeight)
     const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
+    const newValue = options[clampedIndex].value
 
     // Immediately snap without animation using jump() to avoid any spring animation
     const targetY = clampedIndex * itemHeight
@@ -128,17 +139,22 @@ export function SpinnerWheel({
     springY.jump(targetY)
     setCurrentIndex(clampedIndex)
     
-    // Update the ref first, then call onChange
-    // Use setTimeout to ensure state updates complete before allowing useEffect to run
-    isDraggingRef.current = false
+    // Track the value we're about to set to prevent useEffect from resetting it
+    pendingValueRef.current = newValue
     
-    // Call onChange immediately to update the value
-    onChange(options[clampedIndex].value)
+    // Call onChange to update parent state (this will trigger value prop change)
+    onChange(newValue)
     
-    // Small delay to prevent useEffect from interfering
+    // Keep dragging ref true briefly to prevent useEffect interference
+    // Then clear it after a small delay to allow normal syncing
     setTimeout(() => {
+      isDraggingRef.current = false
       setIsDragging(false)
-    }, 0)
+      // Clear pending value after useEffect has had a chance to see it
+      setTimeout(() => {
+        pendingValueRef.current = null
+      }, 50)
+    }, 100)
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -188,6 +204,7 @@ export function SpinnerWheel({
     // Snap to nearest option immediately (no momentum, no bounce)
     const nearestIndex = Math.round(currentY / itemHeight)
     const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
+    const newValue = options[clampedIndex].value
 
     // Immediately snap without animation using jump() to avoid any spring animation
     const targetY = clampedIndex * itemHeight
@@ -195,17 +212,22 @@ export function SpinnerWheel({
     springY.jump(targetY)
     setCurrentIndex(clampedIndex)
     
-    // Update the ref first, then call onChange
-    // Use setTimeout to ensure state updates complete before allowing useEffect to run
-    isDraggingRef.current = false
+    // Track the value we're about to set to prevent useEffect from resetting it
+    pendingValueRef.current = newValue
     
-    // Call onChange immediately to update the value
-    onChange(options[clampedIndex].value)
+    // Call onChange to update parent state (this will trigger value prop change)
+    onChange(newValue)
     
-    // Small delay to prevent useEffect from interfering
+    // Keep dragging ref true briefly to prevent useEffect interference
+    // Then clear it after a small delay to allow normal syncing
     setTimeout(() => {
+      isDraggingRef.current = false
       setIsDragging(false)
-    }, 0)
+      // Clear pending value after useEffect has had a chance to see it
+      setTimeout(() => {
+        pendingValueRef.current = null
+      }, 50)
+    }, 100)
   }
 
   // Handle wheel events for desktop
