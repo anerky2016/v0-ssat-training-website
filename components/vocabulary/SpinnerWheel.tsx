@@ -52,21 +52,25 @@ export function SpinnerWheel({
   const snapToIndex = (index: number, momentum?: number) => {
     const clampedIndex = Math.max(0, Math.min(index, options.length - 1))
     setCurrentIndex(clampedIndex)
-    
+
     // Add momentum if provided
     if (momentum && Math.abs(momentum) > 50) {
       const momentumOffset = Math.sign(momentum) * Math.min(Math.abs(momentum) / 10, itemHeight * 0.5)
       const targetY = clampedIndex * itemHeight + momentumOffset
       y.set(targetY)
-      // Snap back after momentum
+      // Snap back after momentum, then call onChange
       setTimeout(() => {
         y.set(clampedIndex * itemHeight)
+        // Call onChange after animation settles to ensure the value is locked in
+        setTimeout(() => {
+          onChange(options[clampedIndex].value)
+        }, 50) // Small delay to ensure spring animation completes
       }, 100)
     } else {
       y.set(clampedIndex * itemHeight)
+      // Call onChange immediately if no momentum
+      onChange(options[clampedIndex].value)
     }
-    
-    onChange(options[clampedIndex].value)
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
