@@ -31,6 +31,7 @@ export function SpinnerWheel({
   const [startY, setStartY] = useState(0)
   const [lastTouchY, setLastTouchY] = useState(0) // Track last touch position
   const [dragStartIndex, setDragStartIndex] = useState(0) // Track index when drag started
+  const isDraggingRef = useRef(false) // Ref to track dragging state to prevent useEffect interference
   const [currentIndex, setCurrentIndex] = useState(() => {
     const index = options.findIndex(opt => opt.value === value)
     return index >= 0 ? index : 0
@@ -42,13 +43,18 @@ export function SpinnerWheel({
   const springY = useSpring(y, springConfig)
 
   // Update current index when value prop changes externally
+  // But don't interfere if we're currently dragging or just finished dragging
   useEffect(() => {
+    // Skip if we're dragging or just finished (give it a small delay to avoid race conditions)
+    if (isDraggingRef.current) return
+    
     const index = options.findIndex(opt => opt.value === value)
     if (index >= 0 && index !== currentIndex) {
       setCurrentIndex(index)
       y.set(index * itemHeight)
+      springY.set(index * itemHeight)
     }
-  }, [value, options, currentIndex, y])
+  }, [value, options, currentIndex, y, springY])
 
   // Snap to nearest option (no momentum - immediate snap)
   const snapToIndex = (index: number) => {
@@ -71,6 +77,7 @@ export function SpinnerWheel({
   const handleTouchStart = (e: React.TouchEvent) => {
     if (disabled) return
     setIsDragging(true)
+    isDraggingRef.current = true
     setStartY(e.touches[0].clientY)
     setLastTouchY(e.touches[0].clientY)
     setDragStartIndex(currentIndex) // Remember the index when drag started
@@ -103,8 +110,7 @@ export function SpinnerWheel({
 
   const handleTouchEnd = () => {
     if (disabled || !isDragging) return
-    setIsDragging(false)
-
+    
     // Stop any ongoing spring animation immediately
     springY.stop()
 
@@ -117,18 +123,28 @@ export function SpinnerWheel({
     const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
 
     // Immediately snap without animation using jump() to avoid any spring animation
-    setCurrentIndex(clampedIndex)
     const targetY = clampedIndex * itemHeight
     y.jump(targetY)
     springY.jump(targetY)
+    setCurrentIndex(clampedIndex)
+    
+    // Update the ref first, then call onChange
+    // Use setTimeout to ensure state updates complete before allowing useEffect to run
+    isDraggingRef.current = false
     
     // Call onChange immediately to update the value
     onChange(options[clampedIndex].value)
+    
+    // Small delay to prevent useEffect from interfering
+    setTimeout(() => {
+      setIsDragging(false)
+    }, 0)
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (disabled) return
     setIsDragging(true)
+    isDraggingRef.current = true
     setStartY(e.clientY)
     setLastTouchY(e.clientY)
     setDragStartIndex(currentIndex) // Remember the index when drag started
@@ -161,7 +177,6 @@ export function SpinnerWheel({
 
   const handleMouseUp = () => {
     if (disabled || !isDragging) return
-    setIsDragging(false)
 
     // Stop any ongoing spring animation immediately
     springY.stop()
@@ -175,13 +190,22 @@ export function SpinnerWheel({
     const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
 
     // Immediately snap without animation using jump() to avoid any spring animation
-    setCurrentIndex(clampedIndex)
     const targetY = clampedIndex * itemHeight
     y.jump(targetY)
     springY.jump(targetY)
+    setCurrentIndex(clampedIndex)
+    
+    // Update the ref first, then call onChange
+    // Use setTimeout to ensure state updates complete before allowing useEffect to run
+    isDraggingRef.current = false
     
     // Call onChange immediately to update the value
     onChange(options[clampedIndex].value)
+    
+    // Small delay to prevent useEffect from interfering
+    setTimeout(() => {
+      setIsDragging(false)
+    }, 0)
   }
 
   // Handle wheel events for desktop
@@ -250,7 +274,9 @@ export function SpinnerWheel({
       <motion.div
         className="absolute left-0 right-0"
         style={{
-          y: useTransform(springY, (val) => {
+          // Always use raw y value directly - we control it manually during drag
+          // and jump it immediately on touch end to avoid any spring bounce-back
+          y: useTransform(y, (val) => {
             return centerY - halfItemHeight - val
           }),
         }}
