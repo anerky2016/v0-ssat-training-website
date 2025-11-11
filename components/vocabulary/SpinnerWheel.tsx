@@ -101,7 +101,8 @@ export function SpinnerWheel({
     setLastTouchY(currentY) // Track the last touch position
     const deltaY = currentY - startY
     // Use dragStartIndex to ensure we calculate from the correct starting position
-    const newY = dragStartIndex * itemHeight + deltaY
+    // Negate deltaY to reverse spin direction (drag down = move to earlier options, drag up = move to later options)
+    const newY = dragStartIndex * itemHeight - deltaY
     
     // Apply resistance at boundaries
     const minY = 0
@@ -174,7 +175,8 @@ export function SpinnerWheel({
     setLastTouchY(currentY) // Track for consistency
     const deltaY = currentY - startY
     // Use dragStartIndex to ensure we calculate from the correct starting position
-    const newY = dragStartIndex * itemHeight + deltaY
+    // Negate deltaY to reverse spin direction (drag down = move to earlier options, drag up = move to later options)
+    const newY = dragStartIndex * itemHeight - deltaY
     
     // Apply resistance at boundaries
     const minY = 0
@@ -235,7 +237,8 @@ export function SpinnerWheel({
     if (disabled) return
     
     e.preventDefault()
-    const delta = e.deltaY > 0 ? 1 : -1
+    // Reverse direction: scroll down = move backward, scroll up = move forward
+    const delta = e.deltaY > 0 ? -1 : 1
     const newIndex = Math.max(0, Math.min(currentIndex + delta, options.length - 1))
     snapToIndex(newIndex)
   }
