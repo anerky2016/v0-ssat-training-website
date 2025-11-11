@@ -29,6 +29,8 @@ export function SpinnerWheel({
   const containerRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)
+  const [lastTouchY, setLastTouchY] = useState(0) // Track last touch position
+  const [dragStartIndex, setDragStartIndex] = useState(0) // Track index when drag started
   const [currentIndex, setCurrentIndex] = useState(() => {
     const index = options.findIndex(opt => opt.value === value)
     return index >= 0 ? index : 0
@@ -70,15 +72,19 @@ export function SpinnerWheel({
     if (disabled) return
     setIsDragging(true)
     setStartY(e.touches[0].clientY)
-    springY.stop()
+    setLastTouchY(e.touches[0].clientY)
+    setDragStartIndex(currentIndex) // Remember the index when drag started
+    springY.stop() // Stop spring animation so we can control position directly
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (disabled || !isDragging) return
     
     const currentY = e.touches[0].clientY
+    setLastTouchY(currentY) // Track the last touch position
     const deltaY = currentY - startY
-    const newY = currentIndex * itemHeight + deltaY
+    // Use dragStartIndex to ensure we calculate from the correct starting position
+    const newY = dragStartIndex * itemHeight + deltaY
     
     // Apply resistance at boundaries
     const minY = 0
@@ -91,6 +97,7 @@ export function SpinnerWheel({
       constrainedY = maxY + (newY - maxY) * 0.3 // Resistance
     }
     
+    // Directly set the motion value (bypass spring during drag)
     y.set(constrainedY)
   }
 
@@ -98,29 +105,44 @@ export function SpinnerWheel({
     if (disabled || !isDragging) return
     setIsDragging(false)
 
-    // Stop any ongoing spring animation first
+    // Stop any ongoing spring animation immediately
     springY.stop()
 
-    // Snap to nearest option immediately (no momentum)
+    // Get the current visual Y position directly from the motion value
+    // This is the position that was set during touchMove, so it reflects where the user's finger was
     const currentY = y.get()
+    
+    // Snap to nearest option immediately (no momentum, no bounce)
     const nearestIndex = Math.round(currentY / itemHeight)
+    const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
 
-    snapToIndex(nearestIndex)
+    // Immediately snap without animation using jump() to avoid any spring animation
+    setCurrentIndex(clampedIndex)
+    const targetY = clampedIndex * itemHeight
+    y.jump(targetY)
+    springY.jump(targetY)
+    
+    // Call onChange immediately to update the value
+    onChange(options[clampedIndex].value)
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (disabled) return
     setIsDragging(true)
     setStartY(e.clientY)
-    springY.stop()
+    setLastTouchY(e.clientY)
+    setDragStartIndex(currentIndex) // Remember the index when drag started
+    springY.stop() // Stop spring animation so we can control position directly
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (disabled || !isDragging) return
     
     const currentY = e.clientY
+    setLastTouchY(currentY) // Track for consistency
     const deltaY = currentY - startY
-    const newY = currentIndex * itemHeight + deltaY
+    // Use dragStartIndex to ensure we calculate from the correct starting position
+    const newY = dragStartIndex * itemHeight + deltaY
     
     // Apply resistance at boundaries
     const minY = 0
@@ -133,6 +155,7 @@ export function SpinnerWheel({
       constrainedY = maxY + (newY - maxY) * 0.3
     }
     
+    // Directly set the motion value (bypass spring during drag)
     y.set(constrainedY)
   }
 
@@ -140,14 +163,25 @@ export function SpinnerWheel({
     if (disabled || !isDragging) return
     setIsDragging(false)
 
-    // Stop any ongoing spring animation first
+    // Stop any ongoing spring animation immediately
     springY.stop()
 
-    // Snap to nearest option immediately (no momentum)
+    // Get the current visual Y position directly from the motion value
+    // This is the position that was set during mouseMove, so it reflects where the cursor was
     const currentY = y.get()
+    
+    // Snap to nearest option immediately (no momentum, no bounce)
     const nearestIndex = Math.round(currentY / itemHeight)
+    const clampedIndex = Math.max(0, Math.min(nearestIndex, options.length - 1))
 
-    snapToIndex(nearestIndex)
+    // Immediately snap without animation using jump() to avoid any spring animation
+    setCurrentIndex(clampedIndex)
+    const targetY = clampedIndex * itemHeight
+    y.jump(targetY)
+    springY.jump(targetY)
+    
+    // Call onChange immediately to update the value
+    onChange(options[clampedIndex].value)
   }
 
   // Handle wheel events for desktop
