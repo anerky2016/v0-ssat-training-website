@@ -187,6 +187,38 @@ export default function WordListsPage() {
     return matchesSearch && matchesLetter && matchesDifficulty
   })
 
+  // Calculate difficulty counts for filter buttons
+  const difficultyCounts = useMemo(() => {
+    const baseWords = vocabularyData.words.filter(word => {
+      const matchesSearch = word.word.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesLetter = !selectedLetter || word.word.charAt(0).toUpperCase() === selectedLetter
+      return matchesSearch && matchesLetter
+    })
+
+    const counts = {
+      all: baseWords.length,
+      unreviewed: 0,
+      0: 0,
+      1: 0,
+      2: 0,
+      3: 0
+    }
+
+    baseWords.forEach(word => {
+      const isReviewed = wordReviewStatus[word.word]
+      if (!isReviewed) {
+        counts.unreviewed++
+      } else {
+        const difficulty = wordDifficulties[word.word]
+        if (difficulty !== undefined) {
+          counts[difficulty]++
+        }
+      }
+    })
+
+    return counts
+  }, [vocabularyData, searchTerm, selectedLetter, wordReviewStatus, wordDifficulties])
+
   // Reset to page 1 when search term changes
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -473,7 +505,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={selectedDifficulties.length === 0 ? "bg-chart-5 hover:bg-chart-5/90" : ""}
                       >
-                        All
+                        All ({difficultyCounts.all})
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter('unreviewed')}
@@ -481,7 +513,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={`${selectedDifficulties.includes('unreviewed') ? getDifficultyColor(1, false) : ""}`}
                       >
-                        {getDifficultyLabel(1, false)}
+                        {getDifficultyLabel(1, false)} ({difficultyCounts.unreviewed})
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(0)}
@@ -489,7 +521,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={`${selectedDifficulties.includes(0) ? getDifficultyColor(0) : ""}`}
                       >
-                        {getDifficultyLabel(0)}
+                        {getDifficultyLabel(0)} ({difficultyCounts[0]})
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(1)}
@@ -497,7 +529,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={`${selectedDifficulties.includes(1) ? getDifficultyColor(1) : ""}`}
                       >
-                        {getDifficultyLabel(1)}
+                        {getDifficultyLabel(1)} ({difficultyCounts[1]})
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(2)}
@@ -505,7 +537,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={`${selectedDifficulties.includes(2) ? getDifficultyColor(2) : ""}`}
                       >
-                        {getDifficultyLabel(2)}
+                        {getDifficultyLabel(2)} ({difficultyCounts[2]})
                       </Button>
                       <Button
                         onClick={() => handleDifficultyFilter(3)}
@@ -513,7 +545,7 @@ export default function WordListsPage() {
                         size="sm"
                         className={`${selectedDifficulties.includes(3) ? getDifficultyColor(3) : ""}`}
                       >
-                        {getDifficultyLabel(3)}
+                        {getDifficultyLabel(3)} ({difficultyCounts[3]})
                       </Button>
                     </div>
                   )}
