@@ -52,7 +52,10 @@ export function SpinnerWheel({
   const snapToIndex = (index: number) => {
     const clampedIndex = Math.max(0, Math.min(index, options.length - 1))
     setCurrentIndex(clampedIndex)
-    y.set(clampedIndex * itemHeight)
+
+    // Use jump() instead of set() to avoid spring animation bounce-back
+    // This positions immediately without animation
+    y.jump(clampedIndex * itemHeight)
 
     // Call onChange immediately to update the value
     onChange(options[clampedIndex].value)
