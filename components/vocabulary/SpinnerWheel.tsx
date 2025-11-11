@@ -48,29 +48,14 @@ export function SpinnerWheel({
     }
   }, [value, options, currentIndex, y])
 
-  // Snap to nearest option with momentum
-  const snapToIndex = (index: number, momentum?: number) => {
+  // Snap to nearest option (no momentum - immediate snap)
+  const snapToIndex = (index: number) => {
     const clampedIndex = Math.max(0, Math.min(index, options.length - 1))
     setCurrentIndex(clampedIndex)
+    y.set(clampedIndex * itemHeight)
 
-    // Add momentum if provided
-    if (momentum && Math.abs(momentum) > 50) {
-      const momentumOffset = Math.sign(momentum) * Math.min(Math.abs(momentum) / 10, itemHeight * 0.5)
-      const targetY = clampedIndex * itemHeight + momentumOffset
-      y.set(targetY)
-      // Snap back after momentum, then call onChange
-      setTimeout(() => {
-        y.set(clampedIndex * itemHeight)
-        // Call onChange after animation settles to ensure the value is locked in
-        setTimeout(() => {
-          onChange(options[clampedIndex].value)
-        }, 50) // Small delay to ensure spring animation completes
-      }, 100)
-    } else {
-      y.set(clampedIndex * itemHeight)
-      // Call onChange immediately if no momentum
-      onChange(options[clampedIndex].value)
-    }
+    // Call onChange immediately to update the value
+    onChange(options[clampedIndex].value)
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -104,14 +89,12 @@ export function SpinnerWheel({
   const handleTouchEnd = () => {
     if (disabled || !isDragging) return
     setIsDragging(false)
-    
-    // Get velocity for momentum scrolling
-    const currentVelocity = velocity.get()
+
+    // Snap to nearest option immediately (no momentum)
     const currentY = y.get()
     const nearestIndex = Math.round(currentY / itemHeight)
-    
-    // Apply momentum if velocity is significant
-    snapToIndex(nearestIndex, currentVelocity)
+
+    snapToIndex(nearestIndex)
   }
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -145,14 +128,12 @@ export function SpinnerWheel({
   const handleMouseUp = () => {
     if (disabled || !isDragging) return
     setIsDragging(false)
-    
-    // Get velocity for momentum scrolling
-    const currentVelocity = velocity.get()
+
+    // Snap to nearest option immediately (no momentum)
     const currentY = y.get()
     const nearestIndex = Math.round(currentY / itemHeight)
-    
-    // Apply momentum if velocity is significant
-    snapToIndex(nearestIndex, currentVelocity)
+
+    snapToIndex(nearestIndex)
   }
 
   // Handle wheel events for desktop

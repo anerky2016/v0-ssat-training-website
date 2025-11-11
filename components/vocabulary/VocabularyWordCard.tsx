@@ -299,10 +299,10 @@ export function VocabularyWordCard({
     // Schedule next review using spaced repetition
     await scheduleWordReview(word.word, value as DifficultyLevel)
 
-    // Close the picker after a short delay to let the user see the final selection
+    // Close the picker after a brief delay to let the user see the final selection
     setTimeout(() => {
       setShowDifficultyPicker(false)
-    }, 300) // Delay to allow spinner animation to complete and user to see selection
+    }, 150) // Short delay to allow user to see the snapped selection
   }
 
   // Helper to call SpeechSynthesis synchronously (for iOS)
