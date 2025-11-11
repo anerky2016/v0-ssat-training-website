@@ -53,9 +53,14 @@ export function SpinnerWheel({
     const clampedIndex = Math.max(0, Math.min(index, options.length - 1))
     setCurrentIndex(clampedIndex)
 
-    // Use jump() instead of set() to avoid spring animation bounce-back
-    // This positions immediately without animation
-    y.jump(clampedIndex * itemHeight)
+    const targetY = clampedIndex * itemHeight
+
+    // Stop spring animation completely
+    springY.stop()
+
+    // Use jump() to position immediately without animation
+    y.jump(targetY)
+    springY.jump(targetY)
 
     // Call onChange immediately to update the value
     onChange(options[clampedIndex].value)
@@ -92,6 +97,9 @@ export function SpinnerWheel({
   const handleTouchEnd = () => {
     if (disabled || !isDragging) return
     setIsDragging(false)
+
+    // Stop any ongoing spring animation first
+    springY.stop()
 
     // Snap to nearest option immediately (no momentum)
     const currentY = y.get()
@@ -131,6 +139,9 @@ export function SpinnerWheel({
   const handleMouseUp = () => {
     if (disabled || !isDragging) return
     setIsDragging(false)
+
+    // Stop any ongoing spring animation first
+    springY.stop()
 
     // Snap to nearest option immediately (no momentum)
     const currentY = y.get()
