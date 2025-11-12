@@ -11,6 +11,7 @@ import { FeedbackButton } from "@/components/feedback-button"
 import { StructuredData } from "@/components/structured-data"
 import { LoginTracker } from "@/components/login-tracker"
 import { LocationSyncProvider } from "@/components/providers/location-sync-provider"
+import { LastLocationRestorer } from "@/components/last-location-restorer"
 import { Toaster } from "sonner"
 import "./globals.css"
 import { Suspense } from "react"
@@ -122,6 +123,7 @@ export default function RootLayout({
               <StudyHistoryProvider>
                 <LocationSyncProvider>
                   <LoginTracker />
+                  <LastLocationRestorer />
                   <Toaster
                     position="top-center"
                     richColors
