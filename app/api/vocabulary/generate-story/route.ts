@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine target word count for story
-    const targetWordCount = targetLength === 'short' ? 150 : targetLength === 'long' ? 400 : 250
+    const targetWordCount = targetLength === 'short' ? 250 : targetLength === 'long' ? 800 : 500
 
     // Create the prompt for story generation
     const wordsList = selectedWords.map(w => `- ${w.word} (${w.meaning})`).join('\n')
@@ -107,7 +107,7 @@ Write ONLY the story, no title, no additional explanation.`
         }
       ],
       temperature: 0.8,
-      max_tokens: 800,
+      max_tokens: 1200,
     })
 
     const apiDuration = Date.now() - apiStartTime
