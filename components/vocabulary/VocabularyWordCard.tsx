@@ -989,9 +989,35 @@ export function VocabularyWordCard({
             </h3>
             <div className="space-y-2">
               {word.examples.map((example, idx) => (
-                <p key={idx} className="text-sm text-muted-foreground italic pl-4 border-l-2 border-chart-5 leading-relaxed">
-                  "{highlightWord(example, word.word)}"
-                </p>
+                <div key={idx} className="group flex items-start gap-2">
+                  <p className="flex-1 text-sm text-muted-foreground italic pl-4 border-l-2 border-chart-5 leading-relaxed">
+                    "{highlightWord(example, word.word)}"
+                  </p>
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      // On iOS with uncached audio, try SpeechSynthesis synchronously
+                      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+                      const cachedAudio = audioCache.get(example)
+
+                      if (isIOS && !cachedAudio && speakWithSpeechSynthesis(example)) {
+                        return // SpeechSynthesis succeeded
+                      }
+
+                      // Otherwise use normal flow
+                      await pronounceWord(example)
+                    }}
+                    className="flex-shrink-0 p-1 hover:bg-muted rounded opacity-0 group-hover:opacity-100 transition-all active:scale-90"
+                    title="Click to hear example sentence"
+                  >
+                    {currentlyPlaying === example ? (
+                      <AudioWaveform className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform animate-pulse" />
+                    ) : (
+                      <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-transform" />
+                    )}
+                  </button>
+                </div>
               ))}
             </div>
           </div>

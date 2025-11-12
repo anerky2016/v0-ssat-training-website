@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { getCacheKey, isCached, saveToCache, readFromCache } from '@/lib/audio-cache'
+import { getCacheKey, getCacheUrl, isCached, saveToCache, readFromCache } from '@/lib/audio-cache'
 
 // Volcengine TTS API configuration
 const VOLCENGINE_API_HOST = 'openspeech.bytedance.com'
@@ -88,10 +88,17 @@ export async function POST(request: NextRequest) {
         cluster: cluster
       },
       user: {
-        uid: 'user-' + Date.now()
+        uid: 'test-user-' + Date.now()
       },
       audio: {
-        voice_type: voiceType, // English female voice - Lauren (high quality BigTTS model)
+        voice_type: 'en_female_lauren_moon_bigtts', // English female voice - Lauren (high quality BigTTS model)
+        // Other voice options:
+        // 'BV001_streaming' - Chinese female
+        // 'BV002_streaming' - Chinese male
+        // 'BV700_V2_streaming' - English female
+        // 'BV701_V2_streaming' - English male
+        // 'en_female_lauren_moon_bigtts' - English female Lauren (BigTTS)
+        // 'en_male_adam_moon_bigtts' - English male Adam (BigTTS)
         encoding: 'mp3',
         speed_ratio: 1.0,
         volume_ratio: 1.0,
