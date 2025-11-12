@@ -38,7 +38,7 @@ export default function VocabularyPage() {
         {/* Content Categories */}
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto">
+            <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 max-w-7xl mx-auto">
               <Link href="/vocabulary/word-lists">
                 <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
@@ -123,6 +123,36 @@ export default function VocabularyPage() {
                       <li className="flex items-start gap-2">
                         <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-1 flex-shrink-0" />
                         <span>Instant feedback</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/vocabulary/stories">
+                <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
+                  <CardHeader>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-xl text-card-foreground">Story Generator</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      Create stories with vocabulary words using AI
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-secondary flex-shrink-0" />
+                        <span>AI-powered stories</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-secondary flex-shrink-0" />
+                        <span>Multi-level words</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-secondary flex-shrink-0" />
+                        <span>Engaging narratives</span>
                       </li>
                     </ul>
                   </CardContent>

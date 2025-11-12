@@ -1,0 +1,142 @@
+import { NextRequest, NextResponse } from 'next/server'
+import OpenAI from 'openai'
+import { loadVocabularyWords, type VocabularyLevel } from '@/lib/vocabulary-levels'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
+
+export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+
+  try {
+    const { levels, wordsPerLevel, storyLength } = await request.json()
+
+    console.log('📚 [Story Generation] Request received:', {
+      levels,
+      wordsPerLevel,
+      storyLength,
+      timestamp: new Date().toISOString()
+    })
+
+    // Validate input
+    if (!levels || !Array.isArray(levels) || levels.length === 0) {
+      console.warn('⚠️ [Story Generation] Invalid or missing levels parameter')
+      return NextResponse.json(
+        { error: 'At least one difficulty level is required' },
+        { status: 400 }
+      )
+    }
+
+    // Default values
+    const wordsToUsePerLevel = wordsPerLevel || 3
+    const targetLength = storyLength || 'medium' // short, medium, long
+
+    // Load words from all selected levels
+    const selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
+
+    for (const level of levels) {
+      const levelWords = loadVocabularyWords([level as VocabularyLevel])
+
+      // Randomly select words from this level
+      const shuffled = levelWords.sort(() => 0.5 - Math.random())
+      const selected = shuffled.slice(0, wordsToUsePerLevel)
+
+      selectedWords.push(...selected.map(w => ({
+        word: w.word,
+        level: level as VocabularyLevel,
+        meaning: w.meanings[0] || ''
+      })))
+    }
+
+    if (selectedWords.length === 0) {
+      console.error('❌ [Story Generation] No words could be loaded from selected levels')
+      return NextResponse.json(
+        { error: 'Unable to load words from selected levels' },
+        { status: 400 }
+      )
+    }
+
+    // Determine target word count for story
+    const targetWordCount = targetLength === 'short' ? 150 : targetLength === 'long' ? 400 : 250
+
+    // Create the prompt for story generation
+    const wordsList = selectedWords.map(w => `- ${w.word} (${w.meaning})`).join('\n')
+
+    const prompt = `You are a creative writer helping students learn vocabulary. Write an engaging, age-appropriate short story for 10-12 year old students that naturally incorporates ALL of these vocabulary words:
+
+${wordsList}
+
+Requirements:
+- Story should be approximately ${targetWordCount} words long
+- Use EVERY word from the list above in a natural, meaningful way
+- Make the story fun, engaging, and appropriate for middle school students
+- Bold each vocabulary word when you use it (use **word** format)
+- The story should flow naturally - don't force the words awkwardly
+- Include an interesting plot with characters, conflict, and resolution
+- Make it educational but entertaining
+
+Write ONLY the story, no title, no additional explanation.`
+
+    console.log('🤖 [Story Generation] Calling OpenAI API...')
+    console.log('📝 [Story Generation] Using words:', selectedWords.map(w => w.word).join(', '))
+    const apiStartTime = Date.now()
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a creative educational writer who creates engaging stories for middle school students to help them learn vocabulary words. You always incorporate all given vocabulary words naturally into your stories.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.8,
+      max_tokens: 800,
+    })
+
+    const apiDuration = Date.now() - apiStartTime
+    const story = completion.choices[0]?.message?.content?.trim()
+
+    if (!story) {
+      console.error('❌ [Story Generation] OpenAI returned empty response')
+      throw new Error('Failed to generate story')
+    }
+
+    const totalDuration = Date.now() - startTime
+    console.log('✅ [Story Generation] Success:', {
+      levels,
+      wordsUsed: selectedWords.length,
+      storyLength: story.length,
+      apiDuration: `${apiDuration}ms`,
+      totalDuration: `${totalDuration}ms`,
+      model: 'gpt-4o-mini',
+      tokensUsed: completion.usage?.total_tokens || 'N/A'
+    })
+
+    return NextResponse.json({
+      story,
+      words: selectedWords,
+      metadata: {
+        levels,
+        wordsUsed: selectedWords.length,
+        generatedAt: new Date().toISOString()
+      }
+    })
+  } catch (error) {
+    const duration = Date.now() - startTime
+    console.error('❌ [Story Generation] Error:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      duration: `${duration}ms`,
+      stack: error instanceof Error ? error.stack : undefined
+    })
+
+    return NextResponse.json(
+      { error: 'Failed to generate story' },
+      { status: 500 }
+    )
+  }
+}
