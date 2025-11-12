@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine target word count for story
-    const targetWordCount = targetLength === 'short' ? 250 : targetLength === 'long' ? 800 : 500
+    const targetWordCount = targetLength === 'short' ? 300 : targetLength === 'long' ? 1200 : 600
 
     // Create the prompt for story generation
     const wordsList = selectedWords.map(w => `- ${w.word} (${w.meaning})`).join('\n')
@@ -82,11 +82,13 @@ ${wordsList}
 Requirements:
 - Story should be approximately ${targetWordCount} words long
 - Use EVERY word from the list above in a natural, meaningful way
-- Make the story fun, engaging, and appropriate for middle school students
+- Create a complex story structure with well-developed characters, vivid settings, and engaging dialogue
+- Include clear character development, rising action, climax, and resolution
 - Bold each vocabulary word when you use it (use **word** format)
 - The story should flow naturally - don't force the words awkwardly
-- Include an interesting plot with characters, conflict, and resolution
-- Make it educational but entertaining
+- Make the story fun, engaging, and appropriate for middle school students
+- Add descriptive details and sensory language to bring the story to life
+- Make it educational but highly entertaining
 
 Write ONLY the story, no title, no additional explanation.`
 
@@ -99,7 +101,7 @@ Write ONLY the story, no title, no additional explanation.`
       messages: [
         {
           role: 'system',
-          content: 'You are a creative educational writer who creates engaging stories for middle school students to help them learn vocabulary words. You always incorporate all given vocabulary words naturally into your stories.'
+          content: 'You are a creative educational writer who creates engaging, complex stories for middle school students to help them learn vocabulary words. You craft stories with rich character development, vivid descriptions, engaging dialogue, and compelling plots. You always incorporate all given vocabulary words naturally into your stories.'
         },
         {
           role: 'user',
@@ -107,7 +109,7 @@ Write ONLY the story, no title, no additional explanation.`
         }
       ],
       temperature: 0.8,
-      max_tokens: 1200,
+      max_tokens: 1800,
     })
 
     const apiDuration = Date.now() - apiStartTime

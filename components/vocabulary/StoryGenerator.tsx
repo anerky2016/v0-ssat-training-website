@@ -188,19 +188,19 @@ export function StoryGenerator() {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="short" id="short" />
                 <Label htmlFor="short" className="font-normal cursor-pointer">
-                  Short (~250 words)
+                  Short (~300 words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="medium" id="medium" />
                 <Label htmlFor="medium" className="font-normal cursor-pointer">
-                  Medium (~500 words)
+                  Medium (~600 words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="long" id="long" />
                 <Label htmlFor="long" className="font-normal cursor-pointer">
-                  Long (~800 words)
+                  Long (~1200 words) - Complex structure
                 </Label>
               </div>
             </RadioGroup>
