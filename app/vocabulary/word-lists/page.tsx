@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,6 +24,8 @@ import { loadVocabularyWords, VocabularyLevel, getAvailableLevels, getTotalWordC
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [selectedDifficulties, setSelectedDifficulties] = useState<(DifficultyLevel | 'unreviewed')[]>([])
@@ -32,6 +34,23 @@ export default function WordListsPage() {
     // Default: include SSAT and all Wordly Wise levels
     return allLevels
   })
+
+  // Helper function to update URL with new params
+  const updateURL = (updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    // Apply updates
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === '') {
+        params.delete(key)
+      } else {
+        params.set(key, value)
+      }
+    })
+
+    // Update URL
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  }
   const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
   const [wordReviewStatus, setWordReviewStatus] = useState<Record<string, boolean>>({})
   const [currentPage, setCurrentPage] = useState(1)
@@ -124,15 +143,45 @@ export default function WordListsPage() {
   useEffect(() => {
     const letter = searchParams.get('letter')
     const reviewWords = searchParams.get('reviewWords')
+    const difficulties = searchParams.get('difficulties')
+    const levels = searchParams.get('levels')
+    const search = searchParams.get('search')
 
+    // Initialize letter filter
     if (letter) {
       setSelectedLetter(letter.toUpperCase())
       setMobileLetterSelected(true)
       setDesktopLetterSelected(true)
     }
 
+    // Initialize difficulty filter
+    if (difficulties) {
+      const diffArray = difficulties.split(',').map(d => {
+        if (d === 'unreviewed') return 'unreviewed'
+        const num = parseInt(d, 10)
+        if (!isNaN(num) && num >= 0 && num <= 3) return num as DifficultyLevel
+        return null
+      }).filter(Boolean) as (DifficultyLevel | 'unreviewed')[]
+      setSelectedDifficulties(diffArray)
+    }
+
+    // Initialize levels filter
+    if (levels) {
+      const levelArray = levels.split(',') as VocabularyLevel[]
+      const availableLevels = getAvailableLevels()
+      const validLevels = levelArray.filter(l => availableLevels.includes(l))
+      if (validLevels.length > 0) {
+        setSelectedLevels(validLevels)
+      }
+    }
+
+    // Initialize search term
+    if (search) {
+      setSearchTerm(search)
+    }
+
     // If coming from review session, auto-show cards
-    if (reviewWords) {
+    if (reviewWords || letter || difficulties || search) {
       setMobileLetterSelected(true)
       setDesktopLetterSelected(true)
     }
@@ -221,13 +270,20 @@ export default function WordListsPage() {
 
   // Reset to page 1 when search term changes
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
+    const newSearch = e.target.value
+    setSearchTerm(newSearch)
     setSelectedLetter(null) // Clear letter filter when searching
     setCurrentPage(1)
     setCurrentCardIndex(0)
 
+    // Update URL
+    updateURL({
+      search: newSearch || null,
+      letter: null, // Clear letter when searching
+    })
+
     // Show cards directly when searching
-    if (e.target.value) {
+    if (newSearch) {
       if (isMobile) {
         setMobileLetterSelected(true)
       } else {
@@ -238,21 +294,28 @@ export default function WordListsPage() {
 
   // Handle difficulty filter - toggle multi-select
   const handleDifficultyFilter = (difficulty: DifficultyLevel | 'unreviewed' | null) => {
+    let newDifficulties: (DifficultyLevel | 'unreviewed')[]
+
     if (difficulty === null) {
       // Clear all filters
-      setSelectedDifficulties([])
+      newDifficulties = []
     } else {
       // Toggle the difficulty in the array
-      setSelectedDifficulties(prev => {
-        if (prev.includes(difficulty)) {
-          return prev.filter(d => d !== difficulty)
-        } else {
-          return [...prev, difficulty]
-        }
-      })
+      if (selectedDifficulties.includes(difficulty)) {
+        newDifficulties = selectedDifficulties.filter(d => d !== difficulty)
+      } else {
+        newDifficulties = [...selectedDifficulties, difficulty]
+      }
     }
+
+    setSelectedDifficulties(newDifficulties)
     setCurrentPage(1)
     setCurrentCardIndex(0)
+
+    // Update URL
+    updateURL({
+      difficulties: newDifficulties.length > 0 ? newDifficulties.join(',') : null,
+    })
   }
 
   // Handle letter selection
@@ -261,6 +324,11 @@ export default function WordListsPage() {
     setSelectedLetter(newLetter)
     setCurrentPage(1)
     setCurrentCardIndex(0)
+
+    // Update URL
+    updateURL({
+      letter: newLetter,
+    })
 
     // Mark letter as selected to show cards
     if (newLetter) {
@@ -277,6 +345,12 @@ export default function WordListsPage() {
     setSelectedLetter(null)
     setCurrentPage(1)
     setCurrentCardIndex(0)
+
+    // Update URL to clear letter filter
+    updateURL({
+      letter: null,
+    })
+
     if (isMobile) {
       setMobileLetterSelected(true)
     } else {
@@ -290,6 +364,13 @@ export default function WordListsPage() {
     setSelectedLetter(null)
     setCurrentCardIndex(0)
     setSearchTerm('') // Clear search when returning to alphabet
+
+    // Clear URL parameters
+    updateURL({
+      letter: null,
+      search: null,
+      difficulties: null,
+    })
   }
 
   // Return to alphabet selection on desktop
@@ -299,6 +380,13 @@ export default function WordListsPage() {
     setSelectedDifficulties([])
     setCurrentPage(1)
     setSearchTerm('') // Clear search when returning to alphabet
+
+    // Clear URL parameters
+    updateURL({
+      letter: null,
+      search: null,
+      difficulties: null,
+    })
   }
 
   // Touch event handlers for swipe
@@ -478,6 +566,11 @@ export default function WordListsPage() {
                       setSelectedLevels(levels)
                       setCurrentPage(1)
                       setCurrentCardIndex(0)
+
+                      // Update URL
+                      updateURL({
+                        levels: levels.join(','),
+                      })
                     }}
                   />
 
