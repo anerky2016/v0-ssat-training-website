@@ -895,9 +895,53 @@ export function VocabularyWordCard({
               </div>
             </div>
 
-            {/* Mobile: Difficulty Picker Button */}
+            {/* Mobile: Audio and Difficulty Picker Buttons */}
             {isMobile && (
               <div className="flex flex-col items-center gap-2 w-full max-w-[200px]">
+                {/* Audio Button for Mobile */}
+                {showAudio && (
+                  <Button
+                    onClick={async (e) => {
+                      e.stopPropagation()
+
+                      // Check if audio is cached first
+                      const cachedAudio = audioCache.get(word.word)
+
+                      // On iOS with uncached audio, try SpeechSynthesis synchronously in click handler
+                      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+                      if (isIOS && !cachedAudio) {
+                        if (speakWithSpeechSynthesis(word.word)) {
+                          return
+                        }
+                      }
+
+                      await pronounceWord(word.word)
+                    }}
+                    className={`w-full h-12 rounded-full transition-all duration-200 shadow-lg active:scale-95 ${
+                      currentlyPlaying === word.word
+                        ? 'bg-chart-5 hover:bg-chart-5/90 animate-pulse'
+                        : 'bg-chart-5 hover:bg-chart-5/90'
+                    }`}
+                    title="Hear pronunciation"
+                  >
+                    <div className="flex items-center justify-center gap-2 w-full">
+                      {currentlyPlaying === word.word ? (
+                        <>
+                          <AudioWaveform className="h-5 w-5 text-white animate-pulse" />
+                          <span className="text-sm font-semibold text-white">Playing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="h-5 w-5 text-white" />
+                          <span className="text-sm font-semibold text-white">Hear Pronunciation</span>
+                        </>
+                      )}
+                    </div>
+                  </Button>
+                )}
+
                 <Button
                   onClick={() => setShowDifficultyPicker(true)}
                   disabled={!isLoggedIn}
