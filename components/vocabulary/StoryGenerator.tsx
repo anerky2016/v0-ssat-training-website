@@ -23,12 +23,15 @@ interface GeneratedStory {
 
 export function StoryGenerator() {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
+  const [selectedLetters, setSelectedLetters] = useState<string[]>([])
   const [wordsPerLevel, setWordsPerLevel] = useState(3)
   const [storyLength, setStoryLength] = useState<"short" | "medium" | "long">("medium")
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedStory, setGeneratedStory] = useState<GeneratedStory | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
   const handleGenerate = async () => {
     if (selectedLevels.length === 0) {
@@ -47,6 +50,7 @@ export function StoryGenerator() {
         },
         body: JSON.stringify({
           levels: selectedLevels,
+          letters: selectedLetters,
           wordsPerLevel,
           storyLength,
         }),
@@ -98,6 +102,55 @@ export function StoryGenerator() {
             selectedLevels={selectedLevels}
             onLevelsChange={setSelectedLevels}
           />
+
+          {/* Alphabet Selector */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium text-muted-foreground">
+                Filter by first letter (optional)
+              </Label>
+              {selectedLetters.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedLetters([])}
+                  className="text-xs h-7"
+                >
+                  Clear ({selectedLetters.length})
+                </Button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {alphabet.map((letter) => {
+                const isSelected = selectedLetters.includes(letter)
+                return (
+                  <Button
+                    key={letter}
+                    onClick={() => {
+                      if (isSelected) {
+                        setSelectedLetters(selectedLetters.filter(l => l !== letter))
+                      } else {
+                        setSelectedLetters([...selectedLetters, letter])
+                      }
+                    }}
+                    variant={isSelected ? "default" : "outline"}
+                    size="sm"
+                    className={cn(
+                      "h-8 w-8 p-0 text-xs font-medium",
+                      isSelected && "bg-chart-1 hover:bg-chart-1/90"
+                    )}
+                  >
+                    {letter}
+                  </Button>
+                )
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {selectedLetters.length === 0
+                ? "Select letters to only use words starting with those letters"
+                : `Using words starting with: ${selectedLetters.sort().join(", ")}`}
+            </p>
+          </div>
 
           {/* Words Per Level */}
           <div className="space-y-3">

@@ -10,10 +10,11 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, wordsPerLevel, storyLength } = await request.json()
+    const { levels, letters, wordsPerLevel, storyLength } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
+      letters,
       wordsPerLevel,
       storyLength,
       timestamp: new Date().toISOString()
@@ -36,7 +37,15 @@ export async function POST(request: NextRequest) {
     const selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
 
     for (const level of levels) {
-      const levelWords = loadVocabularyWords([level as VocabularyLevel])
+      let levelWords = loadVocabularyWords([level as VocabularyLevel])
+
+      // Filter by alphabet if letters are specified
+      if (letters && Array.isArray(letters) && letters.length > 0) {
+        const upperLetters = letters.map((l: string) => l.toUpperCase())
+        levelWords = levelWords.filter(word =>
+          upperLetters.includes(word.word.charAt(0).toUpperCase())
+        )
+      }
 
       // Randomly select words from this level
       const shuffled = levelWords.sort(() => 0.5 - Math.random())
@@ -50,9 +59,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (selectedWords.length === 0) {
-      console.error('❌ [Story Generation] No words could be loaded from selected levels')
+      const errorMsg = letters && letters.length > 0
+        ? `No words found starting with the selected letters (${letters.join(', ')}) in the chosen difficulty levels`
+        : 'Unable to load words from selected levels'
+      console.error('❌ [Story Generation] No words could be loaded:', errorMsg)
       return NextResponse.json(
-        { error: 'Unable to load words from selected levels' },
+        { error: errorMsg },
         { status: 400 }
       )
     }
