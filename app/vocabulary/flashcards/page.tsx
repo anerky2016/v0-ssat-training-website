@@ -158,8 +158,8 @@ export default function FlashcardsPage() {
     // Helper function to fetch and play audio when SpeechSynthesis fails
     const fetchAndPlayAudio = async (text: string) => {
       try {
-        addDebugLog(`🔄 Fetching audio from API...`)
-        const response = await fetch('/api/tts', {
+        addDebugLog(`🔄 Fetching audio from Volcengine API...`)
+        const response = await fetch('/api/tts/volcengine', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text }),
@@ -216,9 +216,9 @@ export default function FlashcardsPage() {
         addDebugLog(`✅ Audio found in cache`)
         arrayBuffer = cachedAudio
       } else {
-        addDebugLog(`📡 Fetching audio from TTS API...`)
-        // Call the Google Cloud TTS API
-        const response = await fetch('/api/tts', {
+        addDebugLog(`📡 Fetching audio from Volcengine TTS API...`)
+        // Call the Volcengine TTS API
+        const response = await fetch('/api/tts/volcengine', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

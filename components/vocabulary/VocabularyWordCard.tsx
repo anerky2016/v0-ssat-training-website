@@ -478,7 +478,7 @@ export function VocabularyWordCard({
     // Helper function to fetch and play audio when SpeechSynthesis fails
     const fetchAndPlayAudio = async (text: string) => {
       try {
-        const response = await fetch('/api/tts', {
+        const response = await fetch('/api/tts/volcengine', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text }),
@@ -533,8 +533,8 @@ export function VocabularyWordCard({
       if (cachedAudio) {
         arrayBuffer = cachedAudio
       } else {
-        // Call the Google Cloud TTS API
-        const response = await fetch('/api/tts', {
+        // Call the Volcengine TTS API
+        const response = await fetch('/api/tts/volcengine', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
