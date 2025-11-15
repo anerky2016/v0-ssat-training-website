@@ -1,6 +1,117 @@
 {
   "updates": [
     {
+      "id": "update-011",
+      "date": "2025-01-20",
+      "lesson_path": "/vocabulary/story-generator",
+      "lesson_title": "AI Story Generator with 9 Genre Types & Enhanced Features",
+      "chapter": "Vocabulary",
+      "update_type": "major_feature",
+      "summary": "Powerful AI-powered story generator creates 2000-word stories using up to 15 vocabulary words per level, with 9 story genres, 30+ subtypes, difficulty filtering, and high-quality text-to-speech pronunciation",
+      "features": [
+        {
+          "title": "9 Story Genre Types with 30+ Subtypes",
+          "description": "Choose from kid-friendly story genres each with specialized subtypes that guide AI to create genre-appropriate narratives",
+          "examples": [
+            "🌟 Adventure: Quest, Treasure Hunt, Survival, Exploring Unknown Worlds, Mystery Adventure",
+            "🕵️ Mystery & Detective: Clues & Red Herrings, Kid Detective, Neighborhood Secrets, School Mystery",
+            "🧙‍♂️ Fantasy: Magical Creatures, Spells & Powers, Portal Worlds, Talking Animals",
+            "😂 Humor: Diary-Style, School Mischief, Funny Problems",
+            "❤️ Friendship: Friend Drama, New Kid, Bullying & Kindness, Sibling Relationships",
+            "🦸 Personal Growth: Overcoming Fear, Standing Up to Bullies, Learning Skills, Finding Confidence",
+            "👽 Sci-Fi: Robots, Time Travel, Space Missions, Virtual Reality",
+            "🐻 Animal Stories: Talking Animals, Pet Adventures, Wild Survival",
+            "🧩 STEM: Building Inventions, Science Fair, Math Puzzles, Engineering Challenges"
+          ]
+        },
+        {
+          "title": "Epic Story Length: Up to 2000 Words",
+          "description": "Generate short (500), medium (1000), or long (2000-word) stories with rich character development and complex plots",
+          "examples": [
+            "Short stories (~500 words) for quick reading practice",
+            "Medium stories (~1000 words) for balanced depth",
+            "Epic stories (~2000 words) with multiple plot threads and detailed world-building",
+            "Long format labeled as 'Epic story with rich detail' for motivated readers"
+          ]
+        },
+        {
+          "title": "15 Vocabulary Words Per Level",
+          "description": "Incorporate up to 15 words per vocabulary level for comprehensive practice (up from previous limit of 10)",
+          "examples": [
+            "Single level: 15 SSAT words in one story",
+            "Multiple levels: 2 levels × 15 words = 30 total words in one story",
+            "Words are bolded (**word**) throughout the story for easy identification"
+          ]
+        },
+        {
+          "title": "Word Difficulty Level Filtering",
+          "description": "Filter words by your personal difficulty ratings (Easy, Medium, Hard, Very Hard) for targeted practice",
+          "examples": [
+            "Color-coded difficulty buttons: Green (Easy), Yellow (Medium), Orange (Hard), Red (Very Hard)",
+            "Multi-select to combine difficulty levels (e.g., only Hard + Very Hard words)",
+            "Real-time word count shows how many words match your filters",
+            "Warning if not enough matching words for selected settings",
+            "Login required to use difficulty filtering (uses your personal word ratings)"
+          ]
+        },
+        {
+          "title": "High-Quality Volcengine Text-to-Speech",
+          "description": "Professional AI voice pronunciation for all vocabulary words using BigTTS technology with server-side caching",
+          "examples": [
+            "Voice: 'en_female_lauren_moon_bigtts' for natural pronunciation",
+            "Server-side audio caching prevents repeated API calls and reduces costs",
+            "MD5 hash-based filenames ensure consistent caching",
+            "Works on both mobile and desktop with HTML5 Audio",
+            "Cache hit/miss tracking with X-Cache-Status headers",
+            "Fallback to browser SpeechSynthesis if audio playback fails"
+          ]
+        },
+        {
+          "title": "Alphabet & Level Filtering",
+          "description": "Refine word selection by first letter and vocabulary level for focused practice",
+          "examples": [
+            "Select multiple letters (A-Z) to use only words starting with those letters",
+            "Choose from SSAT and Wordly Wise levels (WW3-WW12)",
+            "Combine filters: e.g., 'Hard words starting with B from SSAT level'"
+          ]
+        },
+        {
+          "title": "AI-Guided Genre-Specific Prompts",
+          "description": "Each subtype has a specialized prompt that guides GPT-4o-mini to write authentic genre stories",
+          "examples": [
+            "Quest: 'Write a quest adventure where the protagonist embarks on a journey...'",
+            "Kid Detective: 'Write a story featuring a kid detective who uses logic...'",
+            "Time Travel: 'Write a time travel story with clear rules about how time works...'",
+            "Humor: 'Write a humorous story in diary format with exaggeration and wordplay...'",
+            "Each genre has unique storytelling elements, pacing, and character development"
+          ]
+        },
+        {
+          "title": "Last Location Tracking",
+          "description": "Automatically saves your place including all filters so you return exactly where you left off",
+          "examples": [
+            "URL parameters preserve all filter states",
+            "Refreshing page maintains your letter, difficulty, and level selections",
+            "7-day expiration for saved locations",
+            "Works across vocabulary word lists and story generator"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Story genres match popular children's literature that kids aged 8-12 already love",
+        "Genre-specific prompts ensure authentic storytelling (not generic AI stories)",
+        "2000-word stories provide substantial reading practice with extended narratives",
+        "15 words per level enables comprehensive vocabulary coverage in single story",
+        "Difficulty filtering creates personalized challenge levels for each student",
+        "High-quality TTS helps with pronunciation of challenging SSAT vocabulary",
+        "Multiple filters combine to create precisely targeted practice sessions",
+        "Epic stories build reading stamina and demonstrate vocabulary in rich context",
+        "AI-generated stories are unique each time, preventing memorization",
+        "Bolded vocabulary words make it easy to identify target words while reading"
+      ],
+      "tags": ["vocabulary", "ai-story-generator", "story-genres", "text-to-speech", "volcengine-tts", "difficulty-filtering", "gpt-4o-mini", "reading-practice", "personalized-learning", "audio-caching", "last-location"]
+    },
+    {
       "id": "update-010",
       "date": "2025-01-19",
       "lesson_path": "/vocabulary/word-lists",
@@ -789,7 +900,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-01-19",
-    "total_updates": 10
+    "last_updated": "2025-01-20",
+    "total_updates": 11
   }
 }
