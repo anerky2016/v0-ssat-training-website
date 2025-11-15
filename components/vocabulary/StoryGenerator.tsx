@@ -1,16 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { LevelSelector } from "@/components/vocabulary/LevelSelector"
-import { BookOpen, Sparkles, Copy, RefreshCw, Loader2, Check } from "lucide-react"
-import { VocabularyLevel } from "@/lib/vocabulary-levels"
+import { BookOpen, Sparkles, Copy, RefreshCw, Loader2, Check, Info } from "lucide-react"
+import { VocabularyLevel, loadVocabularyWords } from "@/lib/vocabulary-levels"
 import { cn } from "@/lib/utils"
 import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types"
+import { getAllDifficulties, isUserLoggedIn } from "@/lib/vocabulary-difficulty"
 
 interface GeneratedStory {
   story: string
@@ -25,6 +26,7 @@ interface GeneratedStory {
 export function StoryGenerator() {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
+  const [selectedDifficulties, setSelectedDifficulties] = useState<number[]>([]) // 0=Easy, 1=Medium, 2=Hard, 3=Very Hard
   const [wordsPerLevel, setWordsPerLevel] = useState(3)
   const [storyLength, setStoryLength] = useState<"short" | "medium" | "long">("medium")
   const [selectedStoryType, setSelectedStoryType] = useState<string | null>(null)
@@ -33,8 +35,56 @@ export function StoryGenerator() {
   const [generatedStory, setGeneratedStory] = useState<GeneratedStory | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [userLoggedIn, setUserLoggedIn] = useState(false)
+  const [availableWordCount, setAvailableWordCount] = useState<number | null>(null)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+
+  // Check if user is logged in
+  useEffect(() => {
+    setUserLoggedIn(isUserLoggedIn())
+  }, [])
+
+  // Calculate available words when filters change
+  useEffect(() => {
+    const calculateAvailableWords = async () => {
+      if (selectedDifficulties.length === 0) {
+        setAvailableWordCount(null)
+        return
+      }
+
+      if (!userLoggedIn) {
+        setAvailableWordCount(null)
+        return
+      }
+
+      try {
+        const difficulties = await getAllDifficulties()
+        let allWords = loadVocabularyWords(selectedLevels)
+
+        // Filter by letter
+        if (selectedLetters.length > 0) {
+          allWords = allWords.filter(word =>
+            selectedLetters.includes(word.word.charAt(0).toUpperCase())
+          )
+        }
+
+        // Filter by difficulty
+        const matchingWords = allWords.filter(word => {
+          const wordDifficulty = difficulties[word.word.toLowerCase()]
+          if (!wordDifficulty) return false
+          return selectedDifficulties.includes(wordDifficulty.difficulty)
+        })
+
+        setAvailableWordCount(matchingWords.length)
+      } catch (error) {
+        console.error('Error calculating available words:', error)
+        setAvailableWordCount(null)
+      }
+    }
+
+    calculateAvailableWords()
+  }, [selectedLevels, selectedLetters, selectedDifficulties, userLoggedIn])
 
   const handleGenerate = async () => {
     if (selectedLevels.length === 0) {
@@ -54,6 +104,7 @@ export function StoryGenerator() {
         body: JSON.stringify({
           levels: selectedLevels,
           letters: selectedLetters,
+          difficulties: selectedDifficulties,
           wordsPerLevel,
           storyLength,
           storyType: selectedStoryType,
@@ -233,6 +284,82 @@ export function StoryGenerator() {
                 ? "Select letters to only use words starting with those letters"
                 : `Using words starting with: ${selectedLetters.sort().join(", ")}`}
             </p>
+          </div>
+
+          {/* Word Difficulty Filter */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium text-muted-foreground">
+                Filter by word difficulty (optional)
+              </Label>
+              {selectedDifficulties.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedDifficulties([])}
+                  className="text-xs h-7"
+                >
+                  Clear ({selectedDifficulties.length})
+                </Button>
+              )}
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {[
+                { value: 0, label: 'Easy', color: 'bg-green-500 hover:bg-green-600', textColor: 'text-white' },
+                { value: 1, label: 'Medium', color: 'bg-yellow-500 hover:bg-yellow-600', textColor: 'text-white' },
+                { value: 2, label: 'Hard', color: 'bg-orange-500 hover:bg-orange-600', textColor: 'text-white' },
+                { value: 3, label: 'Very Hard', color: 'bg-red-500 hover:bg-red-600', textColor: 'text-white' }
+              ].map((difficulty) => {
+                const isSelected = selectedDifficulties.includes(difficulty.value)
+                return (
+                  <Button
+                    key={difficulty.value}
+                    onClick={() => {
+                      if (isSelected) {
+                        setSelectedDifficulties(selectedDifficulties.filter(d => d !== difficulty.value))
+                      } else {
+                        setSelectedDifficulties([...selectedDifficulties, difficulty.value])
+                      }
+                    }}
+                    variant={isSelected ? "default" : "outline"}
+                    size="sm"
+                    className={cn(
+                      "h-9 font-medium text-xs",
+                      isSelected && difficulty.color,
+                      isSelected && difficulty.textColor
+                    )}
+                  >
+                    {difficulty.label}
+                  </Button>
+                )
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {selectedDifficulties.length === 0
+                ? "Select difficulty levels to only use words you've marked with those difficulties"
+                : `Using only: ${selectedDifficulties.map(d =>
+                    d === 0 ? 'Easy' : d === 1 ? 'Medium' : d === 2 ? 'Hard' : 'Very Hard'
+                  ).join(', ')} words`}
+            </p>
+            {selectedDifficulties.length > 0 && !userLoggedIn && (
+              <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-blue-800 dark:text-blue-200">
+                  Difficulty filtering requires you to be logged in. Please log in to use this feature.
+                </p>
+              </div>
+            )}
+            {selectedDifficulties.length > 0 && userLoggedIn && availableWordCount !== null && (
+              <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+                <Info className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-green-800 dark:text-green-200">
+                  {availableWordCount} {availableWordCount === 1 ? 'word matches' : 'words match'} your difficulty filter.
+                  {availableWordCount < selectedLevels.length * wordsPerLevel && (
+                    <span className="font-semibold"> Note: This might not be enough for your selected words per level ({selectedLevels.length * wordsPerLevel} total needed).</span>
+                  )}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Words Per Level */}

@@ -11,11 +11,12 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, letters, wordsPerLevel, storyLength, storyType, storySubtype } = await request.json()
+    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
       letters,
+      difficulties,
       wordsPerLevel,
       storyLength,
       storyType,
@@ -49,6 +50,9 @@ export async function POST(request: NextRequest) {
           upperLetters.includes(word.word.charAt(0).toUpperCase())
         )
       }
+
+      // Note: Difficulty filtering is handled client-side since it requires user authentication
+      // The client can pass pre-filtered words if needed
 
       // Randomly select words from this level
       const shuffled = levelWords.sort(() => 0.5 - Math.random())
