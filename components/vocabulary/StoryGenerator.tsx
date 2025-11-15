@@ -192,7 +192,14 @@ export function StoryGenerator() {
             <TooltipProvider key={index}>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                  <strong className="text-primary font-semibold cursor-help underline decoration-dotted hover:decoration-solid transition-all">
+                  <strong
+                    className="text-primary font-semibold cursor-pointer underline decoration-dotted hover:decoration-solid transition-all touch-manipulation select-none"
+                    style={{
+                      WebkitTapHighlightColor: 'transparent',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}
+                  >
                     {word}
                   </strong>
                 </TooltipTrigger>
