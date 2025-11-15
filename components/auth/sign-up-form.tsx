@@ -2,11 +2,17 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signUpWithEmail, type SignUpData } from '@/lib/firebase-auth'
+import { signUpWithEmail } from '@/lib/firebase-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
+
+interface SignUpData {
+  email: string
+  password: string
+  name: string
+}
 
 export function SignUpForm() {
   const router = useRouter()
@@ -23,7 +29,7 @@ export function SignUpForm() {
     setIsLoading(true)
 
     try {
-      await signUpWithEmail(formData)
+      await signUpWithEmail(formData.email, formData.password, formData.name)
 
       toast({
         title: 'Account created!',

@@ -98,7 +98,7 @@ export function FirebaseAuthProvider({ children }: AuthProviderProps) {
       }
 
       // Check for session timeout if user is logged in
-      if (user && isSessionTimedOut()) {
+      if (user && auth && isSessionTimedOut()) {
         console.warn('⏰ Session timeout: 7 days of inactivity - logging out user')
         try {
           await firebaseSignOut(auth)

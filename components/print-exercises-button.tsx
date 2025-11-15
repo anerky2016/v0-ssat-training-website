@@ -3,6 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { Printer } from "lucide-react"
 
+// Extend Window interface to include MathJax
+declare global {
+  interface Window {
+    MathJax?: any
+  }
+}
+
 interface PrintExercisesButtonProps {
   exercises: Array<{
     id: string

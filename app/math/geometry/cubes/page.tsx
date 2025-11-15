@@ -84,7 +84,7 @@ export default function CubesPage() {
                 </p>
 
                 {/* Bullets */}
-                {'bullets' in section && section.bullets && (
+                {'bullets' in section && section.bullets ? (
                   <Card className="mb-6 border-chart-10/20">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center gap-2">
@@ -94,7 +94,7 @@ export default function CubesPage() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
-                        {section.bullets.map((bullet, idx) => (
+                        {(section.bullets as any).map((bullet: any, idx: number) => (
                           <li key={idx} className="flex items-start gap-3">
                             <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-10 flex-shrink-0" />
                             <div className="text-sm text-muted-foreground flex-1">
@@ -105,7 +105,7 @@ export default function CubesPage() {
                       </ul>
                     </CardContent>
                   </Card>
-                )}
+                ) : null}
 
                 {/* Key Formulas */}
                 {'key_formulas_latex' in section && section.key_formulas_latex && section.key_formulas_latex.length > 0 && (
@@ -175,7 +175,7 @@ export default function CubesPage() {
         ))}
 
         {/* Vocabulary */}
-        {cubesData.vocabulary && cubesData.vocabulary.length > 0 && (
+        {'vocabulary' in cubesData && (cubesData as any).vocabulary && (cubesData as any).vocabulary.length > 0 && (
           <section className="py-12 sm:py-16 lg:py-20">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="mx-auto max-w-4xl">
@@ -186,7 +186,7 @@ export default function CubesPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Vocabulary</h2>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {cubesData.vocabulary.map((item) => (
+                  {(cubesData as any).vocabulary.map((item: any) => (
                     <Card key={item.term}>
                       <CardHeader className="pb-3">
                         <CardTitle className="text-lg text-primary">{item.term}</CardTitle>

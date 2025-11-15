@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       const cachedAudio = readFromCache(cacheKey)
 
       if (cachedAudio) {
-        return new NextResponse(cachedAudio, {
+        return new NextResponse(cachedAudio as unknown as BodyInit, {
           headers: {
             'Content-Type': 'audio/mpeg',
             'Content-Length': cachedAudio.length.toString(),

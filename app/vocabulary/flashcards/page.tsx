@@ -55,8 +55,50 @@ export default function FlashcardsPage() {
 
   const pronounceWord = async (word: string) => {
     // Detect iOS devices
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+    // Helper function to fetch and play audio when SpeechSynthesis fails
+    const fetchAndPlayAudio = async (text: string) => {
+      try {
+        addDebugLog(`🔄 Fetching audio from Volcengine API...`)
+        const response = await fetch('/api/tts/volcengine', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+
+        if (!response.ok) throw new Error('TTS API failed')
+
+        const audioBlob = await response.blob()
+        const arrayBuffer = await audioBlob.arrayBuffer()
+        audioCache.set(text, arrayBuffer)
+
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
+        const audioUrl = URL.createObjectURL(blob)
+        const audio = new Audio(audioUrl)
+
+        audio.volume = 1.0
+        audio.setAttribute('playsinline', 'true')
+        audio.setAttribute('webkit-playsinline', 'true')
+
+        audio.onended = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+        audio.onerror = () => {
+          setCurrentlyPlaying(null)
+          URL.revokeObjectURL(audioUrl)
+        }
+
+        audio.load()
+        await audio.play()
+        addDebugLog(`✅ Audio playback started`)
+      } catch (error) {
+        addDebugLog(`❌ Error with audio fallback: ${error}`)
+        setCurrentlyPlaying(null)
+      }
+    }
 
     // Check if audio is cached FIRST - if so, we can play it immediately (iOS friendly)
     const cachedAudio = audioCache.get(word)
@@ -154,49 +196,7 @@ export default function FlashcardsPage() {
         // Fall through to try HTML5 Audio as fallback
       }
     }
-    
-    // Helper function to fetch and play audio when SpeechSynthesis fails
-    const fetchAndPlayAudio = async (text: string) => {
-      try {
-        addDebugLog(`🔄 Fetching audio from Volcengine API...`)
-        const response = await fetch('/api/tts/volcengine', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        })
-        
-        if (!response.ok) throw new Error('TTS API failed')
-        
-        const audioBlob = await response.blob()
-        const arrayBuffer = await audioBlob.arrayBuffer()
-        audioCache.set(text, arrayBuffer)
-        
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' })
-        const audioUrl = URL.createObjectURL(blob)
-        const audio = new Audio(audioUrl)
-        
-        audio.volume = 1.0
-        audio.setAttribute('playsinline', 'true')
-        audio.setAttribute('webkit-playsinline', 'true')
-        
-        audio.onended = () => {
-          setCurrentlyPlaying(null)
-          URL.revokeObjectURL(audioUrl)
-        }
-        audio.onerror = () => {
-          setCurrentlyPlaying(null)
-          URL.revokeObjectURL(audioUrl)
-        }
-        
-        audio.load()
-        await audio.play()
-        addDebugLog(`✅ Audio playback started`)
-      } catch (error) {
-        addDebugLog(`❌ Error with audio fallback: ${error}`)
-        setCurrentlyPlaying(null)
-      }
-    }
-    
+
     // If we reach here and it's iOS but SpeechSynthesis failed, try audio
     if (isIOS) {
       await fetchAndPlayAudio(word)

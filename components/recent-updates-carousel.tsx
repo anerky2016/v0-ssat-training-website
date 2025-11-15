@@ -44,6 +44,7 @@ export function RecentUpdatesCarousel() {
               loop: true,
             }}
             plugins={[
+              // @ts-expect-error - embla-carousel version conflict between direct and react deps
               Autoplay({
                 delay: 5000,
                 stopOnInteraction: true,

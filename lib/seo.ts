@@ -46,14 +46,6 @@ export function generateMetadata(params: SEOParams): Metadata {
             'max-image-preview': 'large',
             'max-snippet': -1,
           },
-          // Bing-specific (BingBot)
-          'bingbot': {
-            index: true,
-            follow: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
-          },
         },
     // Open Graph tags - critical for Facebook sharing
     openGraph: {

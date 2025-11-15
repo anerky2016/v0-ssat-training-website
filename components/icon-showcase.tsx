@@ -1,32 +1,32 @@
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  Icon, 
-  AcademicCap, 
-  BookOpen, 
-  Calculator, 
-  ChartBar, 
-  CheckCircle, 
-  Clock, 
-  Cog, 
-  DocumentText, 
-  ExclamationTriangle, 
-  Fire, 
-  LightBulb, 
-  Pencil, 
-  Play, 
-  Star, 
-  Trophy, 
-  UserGroup, 
+import {
+  Icon,
+  AcademicCap,
+  BookOpen,
+  Calculator,
+  ChartBar,
+  CheckCircle,
+  Clock,
+  Settings,
+  FileText,
+  AlertTriangle,
+  Flame,
+  LightBulb,
+  PenTool,
+  Play,
+  Star,
+  Trophy,
+  Users,
   XMark,
   Brain,
   Rocket,
   Target,
-  Magic,
-  Lightning,
+  Sparkles,
+  Zap,
   Award,
   Medal,
-  Gem
+  Gift
 } from '@/components/ui/icon'
 
 export function IconShowcase() {
@@ -113,7 +113,7 @@ export function IconShowcase() {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Fire size="lg" className="text-orange-500" />
+              <Flame size="lg" className="text-orange-500" />
               Energy & Motivation Icons
             </CardTitle>
             <CardDescription>
@@ -123,13 +123,13 @@ export function IconShowcase() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="flex flex-col items-center p-4 border rounded-lg">
-                <Fire size="xl" className="text-orange-500 mb-2" />
-                <span className="text-sm font-medium">Fire</span>
+                <Flame size="xl" className="text-orange-500 mb-2" />
+                <span className="text-sm font-medium">Flame</span>
                 <span className="text-xs text-muted-foreground">Energy</span>
               </div>
               <div className="flex flex-col items-center p-4 border rounded-lg">
-                <Lightning size="xl" className="text-yellow-500 mb-2" />
-                <span className="text-sm font-medium">Lightning</span>
+                <Zap size="xl" className="text-yellow-500 mb-2" />
+                <span className="text-sm font-medium">Zap</span>
                 <span className="text-xs text-muted-foreground">Power</span>
               </div>
               <div className="flex flex-col items-center p-4 border rounded-lg">
@@ -138,8 +138,8 @@ export function IconShowcase() {
                 <span className="text-xs text-muted-foreground">Launch</span>
               </div>
               <div className="flex flex-col items-center p-4 border rounded-lg">
-                <Magic size="xl" className="text-purple-500 mb-2" />
-                <span className="text-sm font-medium">Magic</span>
+                <Sparkles size="xl" className="text-purple-500 mb-2" />
+                <span className="text-sm font-medium">Sparkles</span>
                 <span className="text-xs text-muted-foreground">Wonder</span>
               </div>
             </div>
@@ -175,8 +175,8 @@ export function IconShowcase() {
                 <span className="text-xs text-muted-foreground">Ideas</span>
               </div>
               <div className="flex flex-col items-center p-4 border rounded-lg">
-                <Pencil size="xl" className="text-gray-600 mb-2" />
-                <span className="text-sm font-medium">Pencil</span>
+                <PenTool size="xl" className="text-gray-600 mb-2" />
+                <span className="text-sm font-medium">PenTool</span>
                 <span className="text-xs text-muted-foreground">Writing</span>
               </div>
             </div>
@@ -194,37 +194,21 @@ export function IconShowcase() {
           <CardContent>
             <div className="space-y-6">
               <div>
-                <h4 className="font-semibold mb-3">Academic Cap - Different Libraries</h4>
+                <h4 className="font-semibold mb-3">Academic Cap</h4>
                 <div className="flex gap-6 items-center">
                   <div className="flex flex-col items-center">
-                    <Icon name="academic-cap" library="heroicons" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">Heroicons</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Icon name="academic-cap" library="reactIcons" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">React Icons</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Icon name="academic-cap" library="phosphor" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">Phosphor</span>
+                    <Icon name="academic-cap" size="xl" className="text-primary" />
+                    <span className="text-xs mt-1">Academic Cap</span>
                   </div>
                 </div>
               </div>
-              
+
               <div>
-                <h4 className="font-semibold mb-3">Calculator - Different Libraries</h4>
+                <h4 className="font-semibold mb-3">Calculator</h4>
                 <div className="flex gap-6 items-center">
                   <div className="flex flex-col items-center">
-                    <Icon name="calculator" library="heroicons" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">Heroicons</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Icon name="calculator" library="reactIcons" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">React Icons</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Icon name="calculator" library="phosphor" size="xl" className="text-primary" />
-                    <span className="text-xs mt-1">Phosphor</span>
+                    <Icon name="calculator" size="xl" className="text-primary" />
+                    <span className="text-xs mt-1">Calculator</span>
                   </div>
                 </div>
               </div>

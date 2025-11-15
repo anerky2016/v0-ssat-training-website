@@ -17,14 +17,13 @@ interface CompleteStudyButtonProps {
 export function CompleteStudyButton({ topicTitle, centered = false, size = 'default', customPath, category }: CompleteStudyButtonProps) {
   const pathname = usePathname()
   const topicPath = customPath || pathname
-  const [completion, setCompletion] = useState<ReturnType<typeof getLessonCompletion>>(null)
+  const [completion, setCompletion] = useState<Awaited<ReturnType<typeof getLessonCompletion>>>(null)
   const [justCompleted, setJustCompleted] = useState(false)
   const [justUncompleted, setJustUncompleted] = useState(false)
 
   useEffect(() => {
     // Load completion status
-    const current = getLessonCompletion(topicPath)
-    setCompletion(current)
+    getLessonCompletion(topicPath).then(current => setCompletion(current))
   }, [topicPath])
 
   const handleComplete = () => {
@@ -42,8 +41,7 @@ export function CompleteStudyButton({ topicTitle, centered = false, size = 'defa
       })
     }
 
-    const updated = getLessonCompletion(topicPath)
-    setCompletion(updated)
+    getLessonCompletion(topicPath).then(updated => setCompletion(updated))
     setJustCompleted(true)
 
     // Reset the "just completed" state after 3 seconds

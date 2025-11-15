@@ -14,14 +14,14 @@ interface StudyReminderProps {
 }
 
 export function StudyReminder({ showHeader = true, compact = false }: StudyReminderProps) {
-  const [upcomingReviews, setUpcomingReviews] = useState<ReturnType<typeof getUpcomingReviews>>([])
-  const [lessonsDue, setLessonsDue] = useState<ReturnType<typeof getLessonsDueForReview>>([])
+  const [upcomingReviews, setUpcomingReviews] = useState<Awaited<ReturnType<typeof getUpcomingReviews>>>([])
+  const [lessonsDue, setLessonsDue] = useState<Awaited<ReturnType<typeof getLessonsDueForReview>>>([])
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    setUpcomingReviews(getUpcomingReviews())
-    setLessonsDue(getLessonsDueForReview())
+    getUpcomingReviews().then(reviews => setUpcomingReviews(reviews))
+    getLessonsDueForReview().then(lessons => setLessonsDue(lessons))
 
     // Check and show browser notification if enabled
     checkAndNotifyDueLessons()

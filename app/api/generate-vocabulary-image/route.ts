@@ -43,7 +43,7 @@ Use bright colors and clear shapes. No text in the image.`
       style: "vivid"
     })
 
-    const imageUrl = response.data[0]?.url
+    const imageUrl = response.data?.[0]?.url
 
     if (!imageUrl) {
       return NextResponse.json(

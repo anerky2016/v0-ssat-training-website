@@ -100,8 +100,8 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
             const devices = await getUserDevices(user.uid)
 
             if (devices.length > 0) {
-              // Sort by timestamp descending and pick the first one
-              const mostRecentDevice = devices.sort((a, b) => b.timestamp - a.timestamp)[0]
+              // Sort by last_active descending and pick the first one
+              const mostRecentDevice = devices.sort((a, b) => b.last_active - a.last_active)[0]
               console.log(`   Found ${devices.length} device(s)`)
               console.log(`   Most recent device: ${mostRecentDevice.device_name || mostRecentDevice.device_id}`)
               console.log(`   → Promoting to MASTER: ${mostRecentDevice.device_id}`)
@@ -490,6 +490,8 @@ export function useLocationSync(options: LocationSyncOptions = {}) {
 
     // Only run this check on slave devices with a master
     const checkMasterStatus = async () => {
+      if (!supabase) return
+
       try {
         // Get master device's last update
         const { data, error } = await supabase

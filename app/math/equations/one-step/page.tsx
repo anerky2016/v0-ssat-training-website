@@ -376,7 +376,7 @@ export default function OneStepEquationsPage() {
                                 <MathJax>{"\\[" + item.question_latex + "\\]"}</MathJax>
                               </div>
                             </div>
-                            {item.hint && (
+                            {'hint' in item && item.hint && (
                               <CardDescription className="text-sm text-muted-foreground italic flex items-baseline gap-1">
                                 <span>💡</span>
                                 <span><MathJax>{item.hint}</MathJax></span>

@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
-import { sendPasswordReset } from '@/lib/firebase-auth'
+import { signInWithEmail, resetPassword } from '@/lib/firebase-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -29,28 +28,16 @@ export function SignInForm() {
     setIsLoading(true)
 
     try {
-      const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
+      await signInWithEmail(formData.email, formData.password)
+
+      toast({
+        title: 'Welcome back!',
+        description: 'You have been signed in successfully.',
       })
 
-      if (result?.error) {
-        toast({
-          title: 'Sign in failed',
-          description: result.error,
-          variant: 'destructive',
-        })
-      } else {
-        toast({
-          title: 'Welcome back!',
-          description: 'You have been signed in successfully.',
-        })
-
-        // Redirect to home page
-        router.push('/')
-        router.refresh()
-      }
+      // Redirect to home page
+      router.push('/')
+      router.refresh()
     } catch (error: any) {
       toast({
         title: 'Sign in failed',
@@ -75,7 +62,7 @@ export function SignInForm() {
     setIsLoading(true)
 
     try {
-      await sendPasswordReset(formData.email)
+      await resetPassword(formData.email)
       toast({
         title: 'Password reset email sent',
         description: 'Check your email for instructions to reset your password.',

@@ -86,7 +86,7 @@ export default function MultiplyingMixedNumbersPage() {
                 </p>
 
                 {/* Steps (for first section) */}
-                {'steps' in section && section.steps && (
+                {'steps' in section && section.steps ? (
                   <Card className="mb-6 border-primary/20">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center gap-2">
@@ -109,26 +109,26 @@ export default function MultiplyingMixedNumbersPage() {
                       </ol>
                     </CardContent>
                   </Card>
-                )}
+                ) : null}
 
                 {/* Key Formulas */}
-                {'key_formulas_latex' in section && section.key_formulas_latex && section.key_formulas_latex.length > 0 && (
+                {'key_formulas_latex' in section && section.key_formulas_latex && (section.key_formulas_latex as any).length > 0 ? (
                   <Card className="mb-6 border-primary/20">
                     <CardHeader>
                       <CardTitle className="text-lg">Key Formulas</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {section.key_formulas_latex.map((formula, idx) => (
+                      {(section.key_formulas_latex as any).map((formula: any, idx: number) => (
                         <div key={idx} className="bg-muted/50 rounded-lg p-4 overflow-x-auto">
                           <MathJax>{"$$" + formula + "$$"}</MathJax>
                         </div>
                       ))}
                     </CardContent>
                   </Card>
-                )}
+                ) : null}
 
                 {/* Tips */}
-                {'tips' in section && section.tips && section.tips.length > 0 && (
+                {'tips' in section && section.tips && (section.tips as any).length > 0 ? (
                   <Card className="border-chart-5/20">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center gap-2">
@@ -138,7 +138,7 @@ export default function MultiplyingMixedNumbersPage() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
-                        {section.tips.map((tip, idx) => (
+                        {(section.tips as any).map((tip: any, idx: number) => (
                           <li key={idx} className="flex items-start gap-3">
                             <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-chart-5 flex-shrink-0" />
                             <div className="text-sm text-muted-foreground flex-1">
@@ -149,7 +149,7 @@ export default function MultiplyingMixedNumbersPage() {
                       </ul>
                     </CardContent>
                   </Card>
-                )}
+                ) : null}
 
                 {/* Worked Examples (for second section) */}
                 {'examples' in section && section.examples && (

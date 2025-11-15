@@ -250,7 +250,7 @@ export default function ComparingDecimalsPage() {
                   </Button>
                 ))}
                 <PrintExercisesButton
-                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty]}
+                  exercises={exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty] as any}
                   topicTitle={decimalsData.topic}
                   difficulty={selectedDifficulty}
                 />
@@ -258,7 +258,7 @@ export default function ComparingDecimalsPage() {
 
               {/* Practice Items */}
               <div className="space-y-4">
-                {exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty].map((item) => (
+                {exercisesByDifficulty[selectedDifficulty as keyof typeof exercisesByDifficulty].map((item: any) => (
                   <Card key={item.id} className="border-border">
                     <CardHeader>
                       <div className="flex items-center justify-between">

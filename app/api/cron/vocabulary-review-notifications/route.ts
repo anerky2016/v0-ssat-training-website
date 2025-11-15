@@ -123,8 +123,8 @@ export async function GET(request: NextRequest) {
 
         const difficultyText = Object.entries(difficultyBreakdown)
           .map(([diff, count]) => {
-            const labels = { 0: 'Wait', 1: 'Easy', 2: 'Medium', 3: 'Hard' }
-            return `${count} ${labels[diff as any]}`
+            const labels: { [key: string]: string } = { '0': 'Wait', '1': 'Easy', '2': 'Medium', '3': 'Hard' }
+            return `${count} ${labels[diff]}`
           })
           .join(', ')
 

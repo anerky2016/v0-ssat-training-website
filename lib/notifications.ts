@@ -156,10 +156,10 @@ export function checkAndNotifyDueLessons() {
   if (getNotificationPermission() !== 'granted') return
   if (!areNotificationsEnabled()) return
 
-  const lessonsDue = getLessonsDueForReview()
-
-  if (lessonsDue.length > 0) {
-    const firstLesson = lessonsDue[0]
-    showLessonDueNotification(lessonsDue.length, firstLesson?.topicTitle)
-  }
+  getLessonsDueForReview().then(lessonsDue => {
+    if (lessonsDue.length > 0) {
+      const firstLesson = lessonsDue[0]
+      showLessonDueNotification(lessonsDue.length, firstLesson?.topicTitle)
+    }
+  })
 }

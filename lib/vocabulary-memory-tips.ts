@@ -27,6 +27,8 @@ export async function getCustomMemoryTip(word: string): Promise<string | null> {
     return null
   }
 
+  if (!supabase) return null
+
   try {
     const normalizedWord = word.toLowerCase()
     console.log('📝 [Memory Tips] Fetching custom tip:', { word: normalizedWord, userId: userId.substring(0, 8) + '...' })
@@ -69,6 +71,8 @@ export async function saveCustomMemoryTip(word: string, tip: string): Promise<vo
     throw new Error('User must be logged in to save memory tips')
   }
 
+  if (!supabase) return
+
   try {
     const normalizedWord = word.toLowerCase()
     console.log('💾 [Memory Tips] Saving custom tip:', {
@@ -109,6 +113,8 @@ export async function deleteCustomMemoryTip(word: string): Promise<void> {
     console.error('❌ [Memory Tips] Cannot delete tip - user not logged in')
     throw new Error('User must be logged in to delete memory tips')
   }
+
+  if (!supabase) return
 
   try {
     const normalizedWord = word.toLowerCase()

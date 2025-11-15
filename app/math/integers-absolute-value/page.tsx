@@ -234,7 +234,7 @@ export default function IntegersAbsoluteValuePage() {
                           <p className="text-sm font-semibold mb-2">Answer:</p>
                           <div className="text-sm space-y-2">
                             <MathJax>{item.answer}</MathJax>
-                            {item.explain && (
+                            {'explain' in item && item.explain && (
                               <div className="mt-3 pt-3 border-t border-border">
                                 <p className="text-sm font-semibold mb-1">Explanation:</p>
                                 <p className="text-sm text-muted-foreground">
