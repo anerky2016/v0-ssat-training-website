@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -12,6 +12,12 @@ import { VocabularyLevel, loadVocabularyWords } from "@/lib/vocabulary-levels"
 import { cn } from "@/lib/utils"
 import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types"
 import { getAllDifficulties, isUserLoggedIn } from "@/lib/vocabulary-difficulty"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface GeneratedStory {
   story: string
@@ -138,6 +144,67 @@ export function StoryGenerator() {
 
   const handleRegenerate = () => {
     handleGenerate()
+  }
+
+  // Create a word lookup map for quick access to word definitions
+  const wordLookup = useMemo(() => {
+    if (!generatedStory) return new Map()
+
+    const map = new Map<string, { word: string; level: VocabularyLevel; meaning: string }>()
+    generatedStory.words.forEach(wordData => {
+      map.set(wordData.word.toLowerCase(), wordData)
+    })
+    return map
+  }, [generatedStory])
+
+  // Render story with clickable vocabulary words
+  const renderStoryWithTooltips = (story: string) => {
+    // Split by the **word** pattern to find vocabulary words
+    const parts = story.split(/(\*\*.*?\*\*)/)
+
+    return parts.map((part, index) => {
+      // Check if this part is a vocabulary word (wrapped in **)
+      const match = part.match(/\*\*(.*?)\*\*/)
+
+      if (match) {
+        const word = match[1]
+        const wordData = wordLookup.get(word.toLowerCase())
+
+        if (wordData) {
+          return (
+            <TooltipProvider key={index}>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <strong className="text-primary font-semibold cursor-help underline decoration-dotted hover:decoration-solid transition-all">
+                    {word}
+                  </strong>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs p-3" side="top">
+                  <div className="space-y-1">
+                    <p className="font-semibold text-sm">{wordData.word}</p>
+                    <p className="text-xs text-muted-foreground">{wordData.meaning}</p>
+                    <Badge variant="secondary" className="text-xs mt-1">
+                      {wordData.level === "SSAT" ? "SSAT" : `Level ${wordData.level}`}
+                    </Badge>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )
+        } else {
+          // If word not found in lookup, just render it bolded
+          return <strong key={index} className="text-primary font-semibold">{word}</strong>
+        }
+      } else {
+        // Regular text - split by newlines and render with <br />
+        return part.split('\n').map((line, lineIndex, array) => (
+          <span key={`${index}-${lineIndex}`}>
+            {line}
+            {lineIndex < array.length - 1 && <br />}
+          </span>
+        ))
+      }
+    })
   }
 
   return (
@@ -490,14 +557,9 @@ export function StoryGenerator() {
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Story Text */}
-            <div
-              className="prose prose-sm max-w-none leading-relaxed text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: generatedStory.story
-                  .replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>')
-                  .replace(/\n/g, "<br />"),
-              }}
-            />
+            <div className="prose prose-sm max-w-none leading-relaxed text-foreground">
+              {renderStoryWithTooltips(generatedStory.story)}
+            </div>
 
             {/* Vocabulary Words Used */}
             <div className="border-t pt-4 space-y-3">
