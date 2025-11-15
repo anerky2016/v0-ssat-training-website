@@ -244,7 +244,7 @@ export function StoryGenerator() {
               <input
                 type="range"
                 min="2"
-                max="10"
+                max="15"
                 value={wordsPerLevel}
                 onChange={(e) => setWordsPerLevel(Number(e.target.value))}
                 className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
@@ -271,19 +271,19 @@ export function StoryGenerator() {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="short" id="short" />
                 <Label htmlFor="short" className="font-normal cursor-pointer">
-                  Short (~300 words)
+                  Short (~500 words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="medium" id="medium" />
                 <Label htmlFor="medium" className="font-normal cursor-pointer">
-                  Medium (~600 words)
+                  Medium (~1000 words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="long" id="long" />
                 <Label htmlFor="long" className="font-normal cursor-pointer">
-                  Long (~1200 words) - Complex structure
+                  Long (~2000 words) - Epic story with rich detail
                 </Label>
               </div>
             </RadioGroup>

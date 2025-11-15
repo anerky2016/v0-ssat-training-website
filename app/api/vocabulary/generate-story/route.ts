@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Determine target word count for story
-    const targetWordCount = targetLength === 'short' ? 300 : targetLength === 'long' ? 1200 : 600
+    const targetWordCount = targetLength === 'short' ? 500 : targetLength === 'long' ? 2000 : 1000
 
     // Get story subtype configuration
     const subtypeConfig = storyType && storySubtype
@@ -123,7 +123,7 @@ ${subtypeConfig.prompt}`
         }
       ],
       temperature: 0.8,
-      max_tokens: 1800,
+      max_tokens: 3000,
     })
 
     const apiDuration = Date.now() - apiStartTime
