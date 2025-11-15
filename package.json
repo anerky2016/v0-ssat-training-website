@@ -5,6 +5,9 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "overrides": {
+    "js-yaml": "4.1.1"
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev -p 3001",
@@ -59,11 +62,11 @@
     "katex": "^0.16.22",
     "lucide-react": "^0.454.0",
     "modern-screenshot": "^4.6.6",
-    "next": "14.2.16",
+    "next": "14.2.33",
     "next-themes": "^0.4.6",
-    "nodemailer": "^6.10.1",
+    "nodemailer": "^7.0.10",
     "openai": "^6.4.0",
-    "pm2": "^6.0.13",
+    "pm2": "^6.0.11",
     "react": "^18",
     "react-day-picker": "9.8.0",
     "react-dom": "^18",
