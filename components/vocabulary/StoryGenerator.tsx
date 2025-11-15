@@ -29,6 +29,142 @@ interface GeneratedStory {
   }
 }
 
+// Separate component for vocabulary word with tooltip
+function VocabularyWordTooltip({
+  word,
+  wordData,
+}: {
+  word: string
+  wordData: FullVocabularyWord & { level: VocabularyLevel }
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  // Close tooltip when clicking outside
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as HTMLElement
+      // If click is outside the tooltip, close it
+      if (!target.closest('[data-radix-tooltip-content]') && !target.closest('[data-radix-tooltip-trigger]')) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [isOpen])
+
+  return (
+    <TooltipProvider>
+      <Tooltip open={isOpen} onOpenChange={setIsOpen}>
+        <TooltipTrigger
+          asChild
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault()
+            e.stopPropagation()
+            setIsOpen(!isOpen)
+          }}
+        >
+          <strong
+            className="text-primary font-semibold cursor-pointer underline decoration-dotted hover:decoration-solid transition-all touch-manipulation select-none"
+            style={{
+              WebkitTapHighlightColor: 'transparent',
+              WebkitUserSelect: 'none',
+              userSelect: 'none',
+            }}
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
+          >
+            {word}
+          </strong>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-md p-4" side="top" align="start">
+          <div className="space-y-3">
+            {/* Word and Pronunciation */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <h4 className="font-bold text-base">{wordData.word}</h4>
+                <Badge variant="secondary" className="text-xs">
+                  {wordData.level === "SSAT" ? "SSAT" : `WW${wordData.level}`}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-muted-foreground italic">{wordData.pronunciation}</p>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    try {
+                      const response = await fetch('/api/tts/volcengine', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: wordData.word }),
+                      })
+                      if (response.ok) {
+                        const audioBlob = await response.blob()
+                        const audioUrl = URL.createObjectURL(audioBlob)
+                        const audio = new Audio(audioUrl)
+                        audio.play()
+                        audio.onended = () => URL.revokeObjectURL(audioUrl)
+                      }
+                    } catch (error) {
+                      console.error('TTS error:', error)
+                    }
+                  }}
+                  className="p-1 hover:bg-muted rounded transition-colors"
+                  title="Hear pronunciation"
+                >
+                  <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
+                </button>
+              </div>
+              <Badge variant="outline" className="text-xs">
+                {wordData.part_of_speech}
+              </Badge>
+            </div>
+
+            {/* Meanings */}
+            <div className="space-y-1">
+              <p className="text-xs font-semibold text-foreground">Meanings:</p>
+              <ul className="space-y-1 list-disc list-inside">
+                {wordData.meanings.slice(0, 2).map((meaning, idx) => (
+                  <li key={idx} className="text-xs text-muted-foreground leading-relaxed">
+                    {meaning}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Synonyms */}
+            {wordData.synonyms && wordData.synonyms.length > 0 && (
+              <div className="space-y-1">
+                <p className="text-xs font-semibold text-foreground">Synonyms:</p>
+                <p className="text-xs text-muted-foreground">
+                  {wordData.synonyms.slice(0, 5).join(', ')}
+                </p>
+              </div>
+            )}
+
+            {/* Antonyms */}
+            {wordData.antonyms && wordData.antonyms.length > 0 && (
+              <div className="space-y-1">
+                <p className="text-xs font-semibold text-foreground">Antonyms:</p>
+                <p className="text-xs text-muted-foreground">
+                  {wordData.antonyms.slice(0, 5).join(', ')}
+                </p>
+              </div>
+            )}
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+
 export function StoryGenerator() {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
@@ -188,100 +324,7 @@ export function StoryGenerator() {
         const wordData = wordLookup.get(word.toLowerCase())
 
         if (wordData) {
-          return (
-            <TooltipProvider key={index}>
-              <Tooltip delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <strong
-                    className="text-primary font-semibold cursor-pointer underline decoration-dotted hover:decoration-solid transition-all touch-manipulation select-none"
-                    style={{
-                      WebkitTapHighlightColor: 'transparent',
-                      WebkitUserSelect: 'none',
-                      userSelect: 'none'
-                    }}
-                  >
-                    {word}
-                  </strong>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-md p-4" side="top" align="start">
-                  <div className="space-y-3">
-                    {/* Word and Pronunciation */}
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <h4 className="font-bold text-base">{wordData.word}</h4>
-                        <Badge variant="secondary" className="text-xs">
-                          {wordData.level === "SSAT" ? "SSAT" : `WW${wordData.level}`}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm text-muted-foreground italic">{wordData.pronunciation}</p>
-                        <button
-                          onClick={async (e) => {
-                            e.stopPropagation()
-                            try {
-                              const response = await fetch('/api/tts/volcengine', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ text: wordData.word }),
-                              })
-                              if (response.ok) {
-                                const audioBlob = await response.blob()
-                                const audioUrl = URL.createObjectURL(audioBlob)
-                                const audio = new Audio(audioUrl)
-                                audio.play()
-                                audio.onended = () => URL.revokeObjectURL(audioUrl)
-                              }
-                            } catch (error) {
-                              console.error('TTS error:', error)
-                            }
-                          }}
-                          className="p-1 hover:bg-muted rounded transition-colors"
-                          title="Hear pronunciation"
-                        >
-                          <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
-                        </button>
-                      </div>
-                      <Badge variant="outline" className="text-xs">
-                        {wordData.part_of_speech}
-                      </Badge>
-                    </div>
-
-                    {/* Meanings */}
-                    <div className="space-y-1">
-                      <p className="text-xs font-semibold text-foreground">Meanings:</p>
-                      <ul className="space-y-1 list-disc list-inside">
-                        {wordData.meanings.slice(0, 2).map((meaning, idx) => (
-                          <li key={idx} className="text-xs text-muted-foreground leading-relaxed">
-                            {meaning}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Synonyms */}
-                    {wordData.synonyms && wordData.synonyms.length > 0 && (
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold text-foreground">Synonyms:</p>
-                        <p className="text-xs text-muted-foreground">
-                          {wordData.synonyms.slice(0, 5).join(', ')}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Antonyms */}
-                    {wordData.antonyms && wordData.antonyms.length > 0 && (
-                      <div className="space-y-1">
-                        <p className="text-xs font-semibold text-foreground">Antonyms:</p>
-                        <p className="text-xs text-muted-foreground">
-                          {wordData.antonyms.slice(0, 5).join(', ')}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )
+          return <VocabularyWordTooltip key={index} word={word} wordData={wordData} />
         } else {
           // If word not found in lookup, just render it bolded
           return <strong key={index} className="text-primary font-semibold">{word}</strong>
