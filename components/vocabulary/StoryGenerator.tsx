@@ -7,8 +7,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { LevelSelector } from "@/components/vocabulary/LevelSelector"
-import { BookOpen, Sparkles, Copy, RefreshCw, Loader2, Check, Info } from "lucide-react"
-import { VocabularyLevel, loadVocabularyWords } from "@/lib/vocabulary-levels"
+import { BookOpen, Sparkles, Copy, RefreshCw, Loader2, Check, Info, Volume2 } from "lucide-react"
+import { VocabularyLevel, loadVocabularyWords, type VocabularyWord as FullVocabularyWord } from "@/lib/vocabulary-levels"
 import { cn } from "@/lib/utils"
 import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types"
 import { getAllDifficulties, isUserLoggedIn } from "@/lib/vocabulary-difficulty"
@@ -146,14 +146,31 @@ export function StoryGenerator() {
     handleGenerate()
   }
 
-  // Create a word lookup map for quick access to word definitions
+  // Create a word lookup map with full vocabulary data
   const wordLookup = useMemo(() => {
     if (!generatedStory) return new Map()
 
-    const map = new Map<string, { word: string; level: VocabularyLevel; meaning: string }>()
+    const map = new Map<string, FullVocabularyWord & { level: VocabularyLevel }>()
+
+    // Load all vocabulary words from selected levels
+    const allVocabWords = loadVocabularyWords(
+      Array.from(new Set(generatedStory.words.map(w => w.level)))
+    )
+
+    // Create lookup for full word data
     generatedStory.words.forEach(wordData => {
-      map.set(wordData.word.toLowerCase(), wordData)
+      const fullWord = allVocabWords.find(
+        w => w.word.toLowerCase() === wordData.word.toLowerCase()
+      )
+
+      if (fullWord) {
+        map.set(wordData.word.toLowerCase(), {
+          ...fullWord,
+          level: wordData.level
+        })
+      }
     })
+
     return map
   }, [generatedStory])
 
@@ -179,13 +196,80 @@ export function StoryGenerator() {
                     {word}
                   </strong>
                 </TooltipTrigger>
-                <TooltipContent className="max-w-xs p-3" side="top">
-                  <div className="space-y-1">
-                    <p className="font-semibold text-sm">{wordData.word}</p>
-                    <p className="text-xs text-muted-foreground">{wordData.meaning}</p>
-                    <Badge variant="secondary" className="text-xs mt-1">
-                      {wordData.level === "SSAT" ? "SSAT" : `Level ${wordData.level}`}
-                    </Badge>
+                <TooltipContent className="max-w-md p-4" side="top" align="start">
+                  <div className="space-y-3">
+                    {/* Word and Pronunciation */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="font-bold text-base">{wordData.word}</h4>
+                        <Badge variant="secondary" className="text-xs">
+                          {wordData.level === "SSAT" ? "SSAT" : `WW${wordData.level}`}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-muted-foreground italic">{wordData.pronunciation}</p>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation()
+                            try {
+                              const response = await fetch('/api/tts/volcengine', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ text: wordData.word }),
+                              })
+                              if (response.ok) {
+                                const audioBlob = await response.blob()
+                                const audioUrl = URL.createObjectURL(audioBlob)
+                                const audio = new Audio(audioUrl)
+                                audio.play()
+                                audio.onended = () => URL.revokeObjectURL(audioUrl)
+                              }
+                            } catch (error) {
+                              console.error('TTS error:', error)
+                            }
+                          }}
+                          className="p-1 hover:bg-muted rounded transition-colors"
+                          title="Hear pronunciation"
+                        >
+                          <Volume2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
+                        </button>
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        {wordData.part_of_speech}
+                      </Badge>
+                    </div>
+
+                    {/* Meanings */}
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold text-foreground">Meanings:</p>
+                      <ul className="space-y-1 list-disc list-inside">
+                        {wordData.meanings.slice(0, 2).map((meaning, idx) => (
+                          <li key={idx} className="text-xs text-muted-foreground leading-relaxed">
+                            {meaning}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Synonyms */}
+                    {wordData.synonyms && wordData.synonyms.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold text-foreground">Synonyms:</p>
+                        <p className="text-xs text-muted-foreground">
+                          {wordData.synonyms.slice(0, 5).join(', ')}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Antonyms */}
+                    {wordData.antonyms && wordData.antonyms.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold text-foreground">Antonyms:</p>
+                        <p className="text-xs text-muted-foreground">
+                          {wordData.antonyms.slice(0, 5).join(', ')}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </TooltipContent>
               </Tooltip>
