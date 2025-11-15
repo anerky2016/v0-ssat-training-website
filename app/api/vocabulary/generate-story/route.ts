@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { loadVocabularyWords, type VocabularyLevel } from '@/lib/vocabulary-levels'
+import { getStorySubtypeById } from '@/lib/story-types'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -10,13 +11,15 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, letters, wordsPerLevel, storyLength } = await request.json()
+    const { levels, letters, wordsPerLevel, storyLength, storyType, storySubtype } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
       letters,
       wordsPerLevel,
       storyLength,
+      storyType,
+      storySubtype,
       timestamp: new Date().toISOString()
     })
 
@@ -72,10 +75,15 @@ export async function POST(request: NextRequest) {
     // Determine target word count for story
     const targetWordCount = targetLength === 'short' ? 300 : targetLength === 'long' ? 1200 : 600
 
+    // Get story subtype configuration
+    const subtypeConfig = storyType && storySubtype
+      ? getStorySubtypeById(storyType, storySubtype)
+      : null
+
     // Create the prompt for story generation
     const wordsList = selectedWords.map(w => `- ${w.word} (${w.meaning})`).join('\n')
 
-    const prompt = `You are a creative writer helping students learn vocabulary. Write an engaging, age-appropriate short story for 10-12 year old students that naturally incorporates ALL of these vocabulary words:
+    let prompt = `You are a creative writer helping students learn vocabulary. Write an engaging, age-appropriate short story for 10-12 year old students that naturally incorporates ALL of these vocabulary words:
 
 ${wordsList}
 
@@ -88,9 +96,15 @@ Requirements:
 - The story should flow naturally - don't force the words awkwardly
 - Make the story fun, engaging, and appropriate for middle school students
 - Add descriptive details and sensory language to bring the story to life
-- Make it educational but highly entertaining
+- Make it educational but highly entertaining`
 
-Write ONLY the story, no title, no additional explanation.`
+    // Add story type-specific guidance if provided
+    if (subtypeConfig) {
+      prompt += `\n\nStory Type: ${subtypeConfig.label}
+${subtypeConfig.prompt}`
+    }
+
+    prompt += '\n\nWrite ONLY the story, no title, no additional explanation.'
 
     console.log('🤖 [Story Generation] Calling OpenAI API...')
     console.log('📝 [Story Generation] Using words:', selectedWords.map(w => w.word).join(', '))

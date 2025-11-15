@@ -10,6 +10,7 @@ import { LevelSelector } from "@/components/vocabulary/LevelSelector"
 import { BookOpen, Sparkles, Copy, RefreshCw, Loader2, Check } from "lucide-react"
 import { VocabularyLevel } from "@/lib/vocabulary-levels"
 import { cn } from "@/lib/utils"
+import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types"
 
 interface GeneratedStory {
   story: string
@@ -26,6 +27,8 @@ export function StoryGenerator() {
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
   const [wordsPerLevel, setWordsPerLevel] = useState(3)
   const [storyLength, setStoryLength] = useState<"short" | "medium" | "long">("medium")
+  const [selectedStoryType, setSelectedStoryType] = useState<string | null>(null)
+  const [selectedStorySubtype, setSelectedStorySubtype] = useState<string | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedStory, setGeneratedStory] = useState<GeneratedStory | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -53,6 +56,8 @@ export function StoryGenerator() {
           letters: selectedLetters,
           wordsPerLevel,
           storyLength,
+          storyType: selectedStoryType,
+          storySubtype: selectedStorySubtype,
         }),
       })
 
@@ -102,6 +107,84 @@ export function StoryGenerator() {
             selectedLevels={selectedLevels}
             onLevelsChange={setSelectedLevels}
           />
+
+          {/* Story Type Selector */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-muted-foreground">
+              Story Type (optional)
+            </Label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {storyTypes.map((type) => (
+                <Button
+                  key={type.id}
+                  onClick={() => {
+                    if (selectedStoryType === type.id) {
+                      setSelectedStoryType(null)
+                      setSelectedStorySubtype(null)
+                    } else {
+                      setSelectedStoryType(type.id)
+                      setSelectedStorySubtype(null) // Reset subtype when changing type
+                    }
+                  }}
+                  variant={selectedStoryType === type.id ? "default" : "outline"}
+                  size="sm"
+                  className={cn(
+                    "h-auto py-2 px-3 text-left flex flex-col items-start gap-1",
+                    selectedStoryType === type.id && "bg-chart-2 hover:bg-chart-2/90"
+                  )}
+                >
+                  <span className="text-base">{type.icon}</span>
+                  <span className="text-xs font-medium leading-tight">{type.label}</span>
+                </Button>
+              ))}
+            </div>
+            {selectedStoryType && (
+              <p className="text-xs text-muted-foreground">
+                {storyTypes.find(t => t.id === selectedStoryType)?.description}
+              </p>
+            )}
+          </div>
+
+          {/* Story Subtype Selector - Only show if type is selected */}
+          {selectedStoryType && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-muted-foreground">
+                  Story Subtype
+                </Label>
+                {selectedStorySubtype && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedStorySubtype(null)}
+                    className="text-xs h-7"
+                  >
+                    Clear
+                  </Button>
+                )}
+              </div>
+              <RadioGroup
+                value={selectedStorySubtype || ""}
+                onValueChange={setSelectedStorySubtype}
+                className="grid grid-cols-1 gap-2"
+              >
+                {storyTypes
+                  .find(t => t.id === selectedStoryType)
+                  ?.subtypes.map((subtype) => (
+                    <div
+                      key={subtype.id}
+                      className="flex items-start space-x-2 border rounded-lg p-3 hover:bg-muted/50 transition-colors"
+                    >
+                      <RadioGroupItem value={subtype.id} id={subtype.id} className="mt-0.5" />
+                      <Label htmlFor={subtype.id} className="font-normal cursor-pointer flex-1">
+                        <span className="font-semibold text-sm block mb-0.5">{subtype.label}</span>
+                        <span className="text-xs text-muted-foreground">{subtype.description}</span>
+                      </Label>
+                    </div>
+                  ))}
+              </RadioGroup>
+            </div>
+          )}
 
           {/* Alphabet Selector */}
           <div className="space-y-3">
