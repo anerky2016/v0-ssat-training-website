@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "total_words": 5,
-    "successful": 5,
+    "total_words": 6,
+    "successful": 6,
     "failed": 0,
     "difficulty": "medium",
     "model": "gpt-5-mini"
@@ -948,6 +948,196 @@
               "extremely boring"
             ],
             "answer": "rude and likely to offend"
+          }
+        ]
+      }
+    },
+    {
+      "word": "deflect",
+      "source": "web resource",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Which word is closest in meaning to 'deflect'?",
+            "options": [
+              "divert",
+              "absorb",
+              "attract",
+              "strengthen"
+            ],
+            "answer": "divert"
+          },
+          {
+            "id": "syn2",
+            "question": "Choose the best synonym for 'deflect'.",
+            "options": [
+              "redirect",
+              "embrace",
+              "destroy",
+              "enhance"
+            ],
+            "answer": "redirect"
+          },
+          {
+            "id": "syn3",
+            "question": "Which word best matches the meaning of 'deflect'?",
+            "options": [
+              "turn aside",
+              "pierce through",
+              "hold firm",
+              "move forward"
+            ],
+            "answer": "turn aside"
+          },
+          {
+            "id": "syn4",
+            "question": "Pick the word that is most like 'deflect'.",
+            "options": [
+              "avert",
+              "welcome",
+              "accept",
+              "absorb"
+            ],
+            "answer": "avert"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Which word is the best antonym for 'deflect'?",
+            "options": [
+              "absorb",
+              "divert",
+              "redirect",
+              "parry"
+            ],
+            "answer": "absorb"
+          },
+          {
+            "id": "ant2",
+            "question": "Choose the word that means the opposite of 'deflect'.",
+            "options": [
+              "attract",
+              "turn away",
+              "avert",
+              "repel"
+            ],
+            "answer": "attract"
+          },
+          {
+            "id": "ant3",
+            "question": "Which word would be most opposite in meaning to 'deflect'?",
+            "options": [
+              "face directly",
+              "turn aside",
+              "dodge",
+              "avoid"
+            ],
+            "answer": "face directly"
+          },
+          {
+            "id": "ant4",
+            "question": "Pick the antonym of 'deflect'.",
+            "options": [
+              "confront",
+              "parry",
+              "divert",
+              "sidestep"
+            ],
+            "answer": "confront"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "The knight used his shield to ______ the arrow.",
+            "options": [
+              "deflect",
+              "absorb",
+              "capture",
+              "attract"
+            ],
+            "answer": "deflect"
+          },
+          {
+            "id": "sent2",
+            "question": "The politician tried to ______ attention from the scandal by changing the subject.",
+            "options": [
+              "deflect",
+              "focus",
+              "highlight",
+              "emphasize"
+            ],
+            "answer": "deflect"
+          },
+          {
+            "id": "sent3",
+            "question": "The goalkeeper managed to ______ the ball just before it crossed the goal line.",
+            "options": [
+              "deflect",
+              "catch",
+              "hold",
+              "embrace"
+            ],
+            "answer": "deflect"
+          },
+          {
+            "id": "sent4",
+            "question": "She tried to ______ the blame onto someone else instead of taking responsibility.",
+            "options": [
+              "deflect",
+              "accept",
+              "assume",
+              "acknowledge"
+            ],
+            "answer": "deflect"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which of these definitions best matches the word 'deflect'?",
+            "options": [
+              "To cause something to change direction by hitting it or blocking its path.",
+              "To absorb something completely.",
+              "To attract something toward you.",
+              "To destroy something entirely."
+            ],
+            "answer": "To cause something to change direction by hitting it or blocking its path."
+          },
+          {
+            "id": "def2",
+            "question": "Choose the definition of 'deflect'.",
+            "options": [
+              "To turn aside or cause to change course.",
+              "To capture and hold.",
+              "To strengthen and fortify.",
+              "To welcome and embrace."
+            ],
+            "answer": "To turn aside or cause to change course."
+          },
+          {
+            "id": "def3",
+            "question": "Pick the meaning that fits 'deflect'.",
+            "options": [
+              "To divert from a straight course or fixed direction.",
+              "To pierce through an obstacle.",
+              "To remain in the same position.",
+              "To increase in speed."
+            ],
+            "answer": "To divert from a straight course or fixed direction."
+          },
+          {
+            "id": "def4",
+            "question": "Which statement correctly defines 'deflect'?",
+            "options": [
+              "To cause to turn away or aside; to avert.",
+              "To pull toward oneself.",
+              "To break into pieces.",
+              "To make more intense."
+            ],
+            "answer": "To cause to turn away or aside; to avert."
           }
         ]
       }
