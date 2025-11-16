@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "total_words": 6,
-    "successful": 6,
+    "total_words": 7,
+    "successful": 7,
     "failed": 0,
     "difficulty": "medium",
     "model": "gpt-5-mini"
@@ -1139,6 +1139,196 @@
               "To make more intense."
             ],
             "answer": "To cause to turn away or aside; to avert."
+          }
+        ]
+      }
+    },
+    {
+      "word": "deterrent",
+      "source": "web resource",
+      "questionSet": {
+        "synonymQuestions": [
+          {
+            "id": "syn1",
+            "question": "Which word is closest in meaning to 'deterrent'?",
+            "options": [
+              "hindrance",
+              "motivation",
+              "encouragement",
+              "reward"
+            ],
+            "answer": "hindrance"
+          },
+          {
+            "id": "syn2",
+            "question": "Choose the best synonym for 'deterrent'.",
+            "options": [
+              "obstacle",
+              "incentive",
+              "benefit",
+              "advantage"
+            ],
+            "answer": "obstacle"
+          },
+          {
+            "id": "syn3",
+            "question": "Which word best matches the meaning of 'deterrent'?",
+            "options": [
+              "discouragement",
+              "inspiration",
+              "assistance",
+              "promotion"
+            ],
+            "answer": "discouragement"
+          },
+          {
+            "id": "syn4",
+            "question": "Pick the word that is most like 'deterrent'.",
+            "options": [
+              "impediment",
+              "catalyst",
+              "stimulus",
+              "support"
+            ],
+            "answer": "impediment"
+          }
+        ],
+        "antonymQuestions": [
+          {
+            "id": "ant1",
+            "question": "Which word is the best antonym for 'deterrent'?",
+            "options": [
+              "incentive",
+              "obstacle",
+              "barrier",
+              "prevention"
+            ],
+            "answer": "incentive"
+          },
+          {
+            "id": "ant2",
+            "question": "Choose the word that means the opposite of 'deterrent'.",
+            "options": [
+              "encouragement",
+              "hindrance",
+              "restraint",
+              "discouragement"
+            ],
+            "answer": "encouragement"
+          },
+          {
+            "id": "ant3",
+            "question": "Which word would be most opposite in meaning to 'deterrent'?",
+            "options": [
+              "motivation",
+              "impediment",
+              "blockage",
+              "restriction"
+            ],
+            "answer": "motivation"
+          },
+          {
+            "id": "ant4",
+            "question": "Pick the antonym of 'deterrent'.",
+            "options": [
+              "stimulus",
+              "prevention",
+              "prohibition",
+              "barrier"
+            ],
+            "answer": "stimulus"
+          }
+        ],
+        "sentenceCompletionQuestions": [
+          {
+            "id": "sent1",
+            "question": "The high price of the product was a ______ to many potential buyers.",
+            "options": [
+              "deterrent",
+              "incentive",
+              "benefit",
+              "attraction"
+            ],
+            "answer": "deterrent"
+          },
+          {
+            "id": "sent2",
+            "question": "Security cameras serve as a ______ to shoplifters and other criminals.",
+            "options": [
+              "deterrent",
+              "encouragement",
+              "motivation",
+              "reward"
+            ],
+            "answer": "deterrent"
+          },
+          {
+            "id": "sent3",
+            "question": "The threat of punishment acts as a ______ against breaking the rules.",
+            "options": [
+              "deterrent",
+              "invitation",
+              "incentive",
+              "stimulus"
+            ],
+            "answer": "deterrent"
+          },
+          {
+            "id": "sent4",
+            "question": "Bad weather was a ______ to outdoor activities during the weekend.",
+            "options": [
+              "deterrent",
+              "promotion",
+              "assistance",
+              "support"
+            ],
+            "answer": "deterrent"
+          }
+        ],
+        "definitionMatchQuestions": [
+          {
+            "id": "def1",
+            "question": "Which of these definitions best matches the word 'deterrent'?",
+            "options": [
+              "Something that discourages or prevents a person from doing something.",
+              "Something that encourages action or progress.",
+              "Something that provides assistance or help.",
+              "Something that creates energy or power."
+            ],
+            "answer": "Something that discourages or prevents a person from doing something."
+          },
+          {
+            "id": "def2",
+            "question": "Choose the definition of 'deterrent'.",
+            "options": [
+              "A thing that makes someone less likely to do something.",
+              "A thing that inspires creativity.",
+              "A thing that provides comfort.",
+              "A thing that increases speed."
+            ],
+            "answer": "A thing that makes someone less likely to do something."
+          },
+          {
+            "id": "def3",
+            "question": "Pick the meaning that fits 'deterrent'.",
+            "options": [
+              "Something serving to discourage or restrain an action or behavior.",
+              "Something promoting growth or development.",
+              "Something providing food or nutrition.",
+              "Something creating warmth or heat."
+            ],
+            "answer": "Something serving to discourage or restrain an action or behavior."
+          },
+          {
+            "id": "def4",
+            "question": "Which statement correctly defines 'deterrent'?",
+            "options": [
+              "A measure or factor that prevents or discourages an action.",
+              "A reward for good behavior.",
+              "An opportunity for advancement.",
+              "A source of entertainment."
+            ],
+            "answer": "A measure or factor that prevents or discourages an action."
           }
         ]
       }
