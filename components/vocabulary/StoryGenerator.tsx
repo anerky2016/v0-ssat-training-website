@@ -368,8 +368,36 @@ export function StoryGenerator() {
     return map
   }, [generatedStory])
 
+  // Create word lookup from a list of words
+  const createWordLookup = (words: { word: string; level: VocabularyLevel; meaning: string }[]) => {
+    const map = new Map<string, FullVocabularyWord & { level: VocabularyLevel }>()
+
+    // Load all vocabulary words from selected levels
+    const allVocabWords = loadVocabularyWords(
+      Array.from(new Set(words.map(w => w.level)))
+    )
+
+    // Create lookup for full word data
+    words.forEach(wordData => {
+      const fullWord = allVocabWords.find(
+        w => w.word.toLowerCase() === wordData.word.toLowerCase()
+      )
+
+      if (fullWord) {
+        map.set(wordData.word.toLowerCase(), {
+          ...fullWord,
+          level: wordData.level
+        })
+      }
+    })
+
+    return map
+  }
+
   // Render story with clickable vocabulary words
-  const renderStoryWithTooltips = (story: string) => {
+  const renderStoryWithTooltips = (story: string, words: { word: string; level: VocabularyLevel; meaning: string }[]) => {
+    const lookup = createWordLookup(words)
+
     // Split by the **word** pattern to find vocabulary words
     const parts = story.split(/(\*\*.*?\*\*)/)
 
@@ -379,7 +407,7 @@ export function StoryGenerator() {
 
       if (match) {
         const word = match[1]
-        const wordData = wordLookup.get(word.toLowerCase())
+        const wordData = lookup.get(word.toLowerCase())
 
         if (wordData) {
           return <VocabularyWordTooltip key={index} word={word} wordData={wordData} />
@@ -750,7 +778,7 @@ export function StoryGenerator() {
           <CardContent className="space-y-4">
             {/* Story Text */}
             <div className="prose prose-sm max-w-none leading-relaxed text-foreground">
-              {renderStoryWithTooltips(generatedStory.story)}
+              {renderStoryWithTooltips(generatedStory.story, generatedStory.words)}
             </div>
 
             {/* Vocabulary Words Used */}
@@ -863,7 +891,7 @@ export function StoryGenerator() {
                     {isExpanded && (
                       <div className="border-t pt-3 space-y-3">
                         <div className="prose prose-sm max-w-none leading-relaxed text-foreground">
-                          {renderStoryWithTooltips(record.story_text)}
+                          {renderStoryWithTooltips(record.story_text, record.words_used)}
                         </div>
 
                         {/* Vocabulary Words Used */}
