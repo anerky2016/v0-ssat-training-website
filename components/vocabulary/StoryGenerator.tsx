@@ -12,6 +12,8 @@ import { VocabularyLevel, loadVocabularyWords, type VocabularyWord as FullVocabu
 import { cn } from "@/lib/utils"
 import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types"
 import { getAllDifficulties, isUserLoggedIn } from "@/lib/vocabulary-difficulty"
+import { getUserStoryHistory, deleteStoryFromHistory, type StoryHistoryRecord } from "@/lib/story-history"
+import { auth } from "@/lib/firebase"
 import {
   Tooltip,
   TooltipContent,
@@ -179,13 +181,25 @@ export function StoryGenerator() {
   const [copied, setCopied] = useState(false)
   const [userLoggedIn, setUserLoggedIn] = useState(false)
   const [availableWordCount, setAvailableWordCount] = useState<number | null>(null)
+  const [storyHistory, setStoryHistory] = useState<StoryHistoryRecord[]>([])
+  const [showHistory, setShowHistory] = useState(false)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
-  // Check if user is logged in
+  // Check if user is logged in and load history
   useEffect(() => {
-    setUserLoggedIn(isUserLoggedIn())
+    const loggedIn = isUserLoggedIn()
+    setUserLoggedIn(loggedIn)
+
+    if (loggedIn) {
+      loadStoryHistory()
+    }
   }, [])
+
+  const loadStoryHistory = async () => {
+    const history = await getUserStoryHistory(20)
+    setStoryHistory(history)
+  }
 
   // Calculate available words when filters change
   useEffect(() => {
@@ -238,6 +252,8 @@ export function StoryGenerator() {
     setError(null)
 
     try {
+      const userId = auth?.currentUser?.uid || null
+
       const response = await fetch("/api/vocabulary/generate-story", {
         method: "POST",
         headers: {
@@ -251,6 +267,7 @@ export function StoryGenerator() {
           storyLength,
           storyType: selectedStoryType,
           storySubtype: selectedStorySubtype,
+          userId,
         }),
       })
 
@@ -260,6 +277,11 @@ export function StoryGenerator() {
 
       const data = await response.json()
       setGeneratedStory(data)
+
+      // Reload history if user is logged in
+      if (userLoggedIn) {
+        loadStoryHistory()
+      }
     } catch (err) {
       setError("Failed to generate story. Please try again.")
       console.error(err)
@@ -717,6 +739,98 @@ export function StoryGenerator() {
               </div>
             </div>
           </CardContent>
+        </Card>
+      )}
+
+      {/* Story History */}
+      {userLoggedIn && storyHistory.length > 0 && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" />
+                <CardTitle>Story History</CardTitle>
+              </div>
+              <Button
+                onClick={() => setShowHistory(!showHistory)}
+                variant="ghost"
+                size="sm"
+              >
+                {showHistory ? "Hide" : `Show (${storyHistory.length})`}
+              </Button>
+            </div>
+            <CardDescription>
+              Your previously generated stories
+            </CardDescription>
+          </CardHeader>
+          {showHistory && (
+            <CardContent className="space-y-3">
+              {storyHistory.map((record) => (
+                <div
+                  key={record.id}
+                  className="border rounded-lg p-4 space-y-2 hover:bg-muted/50 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Badge variant="outline" className="text-xs">
+                          {record.story_length}
+                        </Badge>
+                        {record.story_type && (
+                          <Badge variant="secondary" className="text-xs">
+                            {storyTypes.find(t => t.id === record.story_type)?.label || record.story_type}
+                          </Badge>
+                        )}
+                        <span className="text-xs text-muted-foreground">
+                          {record.words_used.length} words
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(record.generated_at!).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {record.story_text.replace(/\*\*/g, '').substring(0, 150)}...
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => {
+                          setGeneratedStory({
+                            story: record.story_text,
+                            words: record.words_used,
+                            metadata: {
+                              levels: record.levels_selected,
+                              wordsUsed: record.words_used.length,
+                              generatedAt: record.generated_at!
+                            }
+                          })
+                          window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }}
+                        variant="outline"
+                        size="sm"
+                      >
+                        View
+                      </Button>
+                      <Button
+                        onClick={async () => {
+                          if (record.id && confirm('Delete this story from history?')) {
+                            const success = await deleteStoryFromHistory(record.id)
+                            if (success) {
+                              loadStoryHistory()
+                            }
+                          }
+                        }}
+                        variant="ghost"
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          )}
         </Card>
       )}
     </div>

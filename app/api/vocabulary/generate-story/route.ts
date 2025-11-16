@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { loadVocabularyWords, type VocabularyLevel } from '@/lib/vocabulary-levels'
 import { getStorySubtypeById } from '@/lib/story-types'
+import { createClient } from '@/lib/supabase'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -11,7 +12,7 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype } = await request.json()
+    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype, userId } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
       storyLength,
       storyType,
       storySubtype,
+      userId: userId ? userId.substring(0, 8) + '...' : 'anonymous',
       timestamp: new Date().toISOString()
     })
 
@@ -148,6 +150,36 @@ ${subtypeConfig.prompt}`
       model: 'gpt-4o-mini',
       tokensUsed: completion.usage?.total_tokens || 'N/A'
     })
+
+    // Save to history if user is logged in
+    if (userId) {
+      try {
+        const supabase = createClient()
+        const wordCount = story.split(/\s+/).length
+
+        await supabase
+          .from('story_generation_history')
+          .insert({
+            user_id: userId,
+            story_text: story,
+            words_used: selectedWords,
+            story_length: targetLength,
+            story_type: storyType || null,
+            story_subtype: storySubtype || null,
+            levels_selected: levels,
+            letters_filter: letters && letters.length > 0 ? letters : null,
+            difficulties_filter: difficulties && difficulties.length > 0 ? difficulties : null,
+            words_per_level: wordsToUsePerLevel,
+            word_count: wordCount,
+            generated_at: new Date().toISOString()
+          })
+
+        console.log('💾 [Story Generation] Story saved to history')
+      } catch (historyError) {
+        // Don't fail the request if history save fails
+        console.error('⚠️ [Story Generation] Failed to save to history:', historyError)
+      }
+    }
 
     return NextResponse.json({
       story,
