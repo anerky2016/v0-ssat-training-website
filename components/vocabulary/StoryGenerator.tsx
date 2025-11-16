@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -185,6 +185,7 @@ export function StoryGenerator() {
   const [showHistory, setShowHistory] = useState(false)
   const [showDebug, setShowDebug] = useState(false)
   const [debugInfo, setDebugInfo] = useState<any>({})
+  const storyDisplayRef = useRef<HTMLDivElement>(null)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
@@ -776,7 +777,7 @@ export function StoryGenerator() {
 
       {/* Generated Story Display */}
       {generatedStory && (
-        <Card>
+        <Card ref={storyDisplayRef}>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -910,7 +911,14 @@ export function StoryGenerator() {
                               generatedAt: record.generated_at!
                             }
                           })
-                          window.scrollTo({ top: 0, behavior: 'smooth' })
+
+                          // Scroll to the story display section
+                          setTimeout(() => {
+                            storyDisplayRef.current?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            })
+                          }, 100)
                         }}
                         variant="outline"
                         size="sm"
