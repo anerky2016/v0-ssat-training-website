@@ -2,6 +2,17 @@
 
 This document lists all actions that Claude Code can perform without requiring explicit user approval in this project.
 
+## How This File Works
+
+**Automatic Loading:**
+Claude Code automatically reads this file at the start of each session by using the `Read` tool, which is always available without requiring permission. This allows Claude to understand project-specific permissions and workflows immediately.
+
+**File Location:**
+This file should remain at `/docs/CLAUDE_ACCEPTED_ACTIONS.md` so Claude can reliably find and read it.
+
+**Update Process:**
+When new accepted actions are added to the project configuration, this file should be updated accordingly to keep Claude informed of the latest permissions.
+
 ## Git Operations
 
 ### Commit Operations
