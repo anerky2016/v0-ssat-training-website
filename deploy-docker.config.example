@@ -1,0 +1,32 @@
+# Docker Deployment Configuration
+# Copy this file to deploy-docker.config and customize for your setup
+# Usage: cp deploy-docker.config.example deploy-docker.config
+
+# Docker Image Configuration
+DOCKER_IMAGE_NAME="ssat-training-app"
+
+# Registry Configuration (choose one)
+# For Docker Hub:
+# DOCKER_REGISTRY="docker.io"
+# DOCKER_REGISTRY_USER="your-dockerhub-username"
+
+# For GitHub Container Registry:
+DOCKER_REGISTRY="ghcr.io"
+DOCKER_REGISTRY_USER="anerky2016"
+
+# For private registry:
+# DOCKER_REGISTRY="registry.example.com"
+# DOCKER_REGISTRY_USER="username"
+
+# Container Configuration
+CONTAINER_NAME="ssat-app"
+CONTAINER_PORT="3000"  # Port inside container
+HOST_PORT="80"         # Port on host (80 for production, 3000 for dev)
+
+# Server Configuration
+SERVER_IP="205.198.69.199"
+SERVER_USER="root"
+SERVER_PATH="/v0-ssat-training-website"
+
+# Optional: Additional Docker run flags
+# DOCKER_RUN_FLAGS="-v /host/path:/container/path"

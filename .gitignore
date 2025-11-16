@@ -28,3 +28,6 @@ next-env.d.ts
 
 # TTS audio cache
 /public/audio/tts/*.mp3
+
+# Deployment config
+deploy-docker.config
