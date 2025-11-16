@@ -190,13 +190,32 @@ export function StoryGenerator() {
 
   // Check if user is logged in and load history
   useEffect(() => {
-    const loggedIn = isUserLoggedIn()
-    console.log('📖 [StoryGenerator] User logged in:', loggedIn)
-    setUserLoggedIn(loggedIn)
-
-    if (loggedIn) {
-      loadStoryHistory()
+    // Subscribe to auth state changes
+    if (!auth) {
+      console.log('📖 [StoryGenerator] Firebase auth not configured')
+      return
     }
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      const loggedIn = !!user
+      console.log('📖 [StoryGenerator] Auth state changed:', {
+        loggedIn,
+        user: user ? {
+          uid: user.uid.substring(0, 8) + '...',
+          email: user.email
+        } : null
+      })
+      setUserLoggedIn(loggedIn)
+
+      if (loggedIn) {
+        loadStoryHistory()
+      } else {
+        setStoryHistory([])
+      }
+    })
+
+    // Cleanup subscription
+    return () => unsubscribe()
   }, [])
 
   const loadStoryHistory = async () => {
