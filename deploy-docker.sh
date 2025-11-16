@@ -70,16 +70,20 @@ echo ""
 if [ "$SKIP_BUILD" = false ]; then
     echo "🔨 Step 1: Building Docker image..."
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-    docker build -f docker/Dockerfile -t ${DOCKER_IMAGE_NAME}:latest .
-
-    echo "✅ Docker image built successfully"
+    echo "Building for linux/amd64 platform (server compatibility)"
     echo ""
 
-    # Tag for registry
-    echo "🏷️  Tagging image for registry..."
-    docker tag ${DOCKER_IMAGE_NAME}:latest ${FULL_IMAGE_NAME}
-    echo "✅ Image tagged as ${FULL_IMAGE_NAME}"
+    # Use buildx for cross-platform builds
+    # This ensures ARM64 Mac builds AMD64 images for Linux servers
+    docker buildx build \
+        --platform linux/amd64 \
+        -f docker/Dockerfile \
+        -t ${DOCKER_IMAGE_NAME}:latest \
+        -t ${FULL_IMAGE_NAME} \
+        --load \
+        .
+
+    echo "✅ Docker image built successfully for linux/amd64"
     echo ""
 else
     echo "⏭️  Skipping build step..."

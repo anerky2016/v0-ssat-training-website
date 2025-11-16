@@ -1,198 +1,301 @@
 # Docker Deployment Guide
 
-## Prerequisites
+## Overview
 
-### Install Docker
+This project includes automated Docker deployment scripts that handle building, pushing to a container registry, and deploying to a remote server.
 
-**macOS:**
-1. Download Docker Desktop: https://www.docker.com/products/docker-desktop
-2. Install and start Docker Desktop
-3. Verify installation:
-   ```bash
-   docker --version
-   docker compose version
-   ```
+**Key Features:**
+- ✅ Multi-platform builds (ARM64 Mac → AMD64 Linux server)
+- ✅ Automated deployment with one command
+- ✅ GitHub Container Registry integration
+- ✅ Auto-restart and health monitoring
+- ✅ Environment variable management
 
-**Linux (Ubuntu/Debian):**
+## Quick Start - Automated Deployment
+
+The easiest way to deploy is using the automated deployment script:
+
 ```bash
+./deploy-docker.sh
+```
+
+This single command will:
+1. Build AMD64 Docker image (compatible with Linux servers)
+2. Push to GitHub Container Registry
+3. SSH to your server
+4. Pull latest image
+5. Stop old container and start new one
+6. Clean up old images
+
+**First time setup required** - see [Setup](#setup) section below.
+
+## Setup
+
+### 1. Install Docker Desktop (macOS)
+
+```bash
+# Install via Homebrew
+brew install --cask docker
+
+# Or download from:
+# https://www.docker.com/products/docker-desktop
+```
+
+Start Docker Desktop and wait for it to fully start.
+
+### 2. GitHub Container Registry Authentication
+
+Create a GitHub Personal Access Token:
+
+1. Go to: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Name: `Docker Deployment`
+4. Expiration: Choose (30/60/90 days or no expiration)
+5. Scopes: Check ✅ `write:packages` and ✅ `read:packages`
+6. Generate token and copy it
+
+Login to registry:
+
+```bash
+# Replace with your token
+export GITHUB_TOKEN="ghp_xxxxx"
+
+echo $GITHUB_TOKEN | docker login ghcr.io -u anerky2016 --password-stdin
+```
+
+### 3. SSH Key Setup
+
+Set up passwordless SSH to your server:
+
+```bash
+# Copy your SSH key to server (enter password once)
+ssh-copy-id root@205.198.69.199
+
+# Test connection
+ssh root@205.198.69.199 'echo "SSH works!"'
+```
+
+### 4. Server Setup (First Time Only)
+
+On your server, ensure Docker is installed:
+
+```bash
+# SSH to server
+ssh root@205.198.69.199
+
+# Install Docker (if not installed)
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo usermod -aG docker $USER
+
+# Login to GitHub Container Registry on server
+echo $GITHUB_TOKEN | docker login ghcr.io -u anerky2016 --password-stdin
 ```
 
-**Windows:**
-1. Download Docker Desktop: https://www.docker.com/products/docker-desktop
-2. Install and enable WSL 2
-3. Start Docker Desktop
+### 5. Setup Multiplatform Builder (Mac users)
 
-## Quick Start
+**Important for Apple Silicon (M1/M2/M3) Mac users:**
 
-### Option 1: Using Docker Compose (Recommended)
+Create a multiplatform builder to build AMD64 images:
 
 ```bash
-# Navigate to docker folder
-cd docker
+# Create and use multiplatform builder (one-time setup)
+docker buildx create --name multiplatform --use
 
-# Build and start the container
-docker compose up -d --build
-
-# View logs
-docker compose logs -f
-
-# Stop the container
-docker compose down
+# Verify it's active
+docker buildx ls
 ```
 
-### Option 2: Using Docker Commands Directly
+You should see `multiplatform *` in the output (the `*` means it's active).
+
+### 6. Create Configuration
 
 ```bash
-# Build the image
-docker build -f docker/Dockerfile -t ssat-training-app .
+# Copy example config
+cp deploy-docker.config.example deploy-docker.config
 
-# Run the container
-docker run -d -p 3000:3000 --name ssat-app ssat-training-app
-
-# View logs
-docker logs -f ssat-app
-
-# Stop the container
-docker stop ssat-app
-docker rm ssat-app
+# Edit if needed (defaults are already set)
+nano deploy-docker.config
 ```
+
+## Deployment Methods
+
+### Method 1: Automated Deployment (Recommended)
+
+**Full deployment:**
+```bash
+./deploy-docker.sh
+```
+
+**Build only (test locally):**
+```bash
+./deploy-docker.sh --build-only
+```
+
+**Deploy only (skip build):**
+```bash
+./deploy-docker.sh --deploy-only
+```
+
+### Method 2: Manual Docker Commands
+
+For local testing or manual deployment:
+
+```bash
+# Build for AMD64 (Linux servers)
+docker buildx build --platform linux/amd64 \
+  -f docker/Dockerfile \
+  -t ghcr.io/anerky2016/ssat-training-app:latest \
+  --push .
+
+# Or build for ARM64 (Mac local)
+docker build -f docker/Dockerfile -t ssat-training-app:latest .
+
+# Run locally
+docker run -d -p 3000:3000 --name ssat-app ssat-training-app:latest
+```
+
+## Important: Multi-Platform Builds
+
+⚠️ **Critical for deployment from Mac to Linux server:**
+
+When building on **Apple Silicon (ARM64)** for deployment to **Intel/AMD servers (AMD64)**, you MUST use the multiplatform builder:
+
+### Setup Multiplatform Builder (One Time)
+
+```bash
+# Create multiplatform builder
+docker buildx create --name multiplatform --use
+```
+
+### Build for AMD64
+
+```bash
+# This creates linux/amd64 image (compatible with Intel/AMD servers)
+docker buildx build --builder multiplatform \
+  --platform linux/amd64 \
+  -f docker/Dockerfile \
+  -t ghcr.io/anerky2016/ssat-training-app:latest \
+  --push .
+```
+
+### Verify Platform
+
+```bash
+# Check what platform was built
+docker buildx imagetools inspect ghcr.io/anerky2016/ssat-training-app:latest
+```
+
+Should show `Platform: linux/amd64`
 
 ## Docker Commands Reference
 
 ### Container Management
 
 ```bash
-# Start containers
-docker compose up -d
-
-# Stop containers
-docker compose down
-
-# Restart containers
-docker compose restart
-
 # View running containers
-docker compose ps
+docker ps
 
 # View all containers
 docker ps -a
+
+# View logs
+ssh root@205.198.69.199 'docker logs -f ssat-app'
+
+# Restart container
+ssh root@205.198.69.199 'docker restart ssat-app'
+
+# Stop container
+ssh root@205.198.69.199 'docker stop ssat-app'
+
+# Remove container
+ssh root@205.198.69.199 'docker stop ssat-app && docker rm ssat-app'
 ```
 
-### Logs and Debugging
+### Image Management
 
 ```bash
-# View logs (follow mode)
-docker compose logs -f
+# List images
+docker images
 
-# View logs for specific service
-docker compose logs -f web
+# Remove image
+docker rmi ghcr.io/anerky2016/ssat-training-app:latest
 
-# Execute command in running container
-docker compose exec web sh
+# Pull image
+docker pull ghcr.io/anerky2016/ssat-training-app:latest
 
-# Check container resource usage
-docker stats
+# Inspect image
+docker inspect ghcr.io/anerky2016/ssat-training-app:latest
 ```
 
-### Building and Updating
+### Cache Management
 
 ```bash
-# Rebuild after code changes
-docker compose up -d --build
+# Clear all cache and unused data (frees up space)
+docker system prune -af --volumes
 
-# Force rebuild (ignore cache)
-docker compose build --no-cache
+# Clear build cache only
+docker builder prune -af
 
-# Pull latest base images
-docker compose pull
+# Check disk usage
+docker system df
 ```
 
-## Environment Variables
+## Configuration
 
-### Using .env.local file
+### deploy-docker.config
 
-1. Create `.env.local` in the project root:
-   ```env
-   NEXT_PUBLIC_API_URL=https://api.example.com
-   DATABASE_URL=postgresql://...
-   SECRET_KEY=your-secret-key
-   ```
-
-2. Update `docker/docker-compose.yml` to include env file:
-   ```yaml
-   services:
-     web:
-       env_file:
-         - ../.env.local
-   ```
-
-### Passing environment variables directly
+Edit this file to customize deployment:
 
 ```bash
-# In docker-compose.yml
-environment:
-  - NODE_ENV=production
-  - NEXT_PUBLIC_API_URL=https://api.example.com
+# Docker Image
+DOCKER_IMAGE_NAME="ssat-training-app"
 
-# Or via command line
-docker run -e NODE_ENV=production -e API_KEY=secret ssat-training-app
+# Registry (GitHub Container Registry)
+DOCKER_REGISTRY="ghcr.io"
+DOCKER_REGISTRY_USER="anerky2016"
+
+# Container settings
+CONTAINER_NAME="ssat-app"
+CONTAINER_PORT="3000"  # Port inside container
+HOST_PORT="3000"       # Port on host
+
+# Server settings
+SERVER_IP="205.198.69.199"
+SERVER_USER="root"
+SERVER_PATH="/v0-ssat-training-website"
 ```
 
-## Port Configuration
+### Environment Variables
 
-Default port is 3000. To change:
+To use environment variables in production:
 
-**In docker-compose.yml:**
-```yaml
-ports:
-  - "8080:3000"  # Maps host:container
+1. Create `.env.local` locally (already in .gitignore)
+2. The deployment script automatically copies it to the server
+3. Container runs with `--env-file` flag
+
+Example `.env.local`:
+```env
+OPENAI_API_KEY=sk-xxxxx
+NEXT_PUBLIC_API_URL=https://api.example.com
+VOLCENGINE_ACCESS_KEY_ID=xxxxx
+VOLCENGINE_SECRET_ACCESS_KEY=xxxxx
 ```
 
-**Via docker run:**
+## Production Setup with Nginx
+
+For production, use Nginx as reverse proxy (port 80/443) → Docker (port 3000):
+
+### Nginx Configuration
+
 ```bash
-docker run -p 8080:3000 ssat-training-app
+# On server
+sudo nano /etc/nginx/sites-available/ssat-app
 ```
 
-## Production Deployment
-
-### Deploy to Server
-
-1. **Copy files to server:**
-   ```bash
-   rsync -avz --exclude 'node_modules' --exclude '.next' \
-     ./ user@server:/path/to/app/
-   ```
-
-2. **On the server:**
-   ```bash
-   cd /path/to/app/docker
-   docker compose up -d --build
-   ```
-
-### Using Docker Registry
-
-1. **Tag and push image:**
-   ```bash
-   docker tag ssat-training-app:latest your-registry/ssat-training-app:latest
-   docker push your-registry/ssat-training-app:latest
-   ```
-
-2. **On production server:**
-   ```bash
-   docker pull your-registry/ssat-training-app:latest
-   docker run -d -p 3000:3000 your-registry/ssat-training-app:latest
-   ```
-
-### Nginx Reverse Proxy (Recommended for Production)
-
-Create `nginx.conf`:
 ```nginx
 server {
     listen 80;
-    server_name yourdomain.com;
+    server_name yourdomain.com www.yourdomain.com;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -200,217 +303,162 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
-Run nginx alongside:
-```yaml
-# docker-compose.yml
-services:
-  web:
-    # ... existing config
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - web
+```bash
+# Enable site
+sudo ln -s /etc/nginx/sites-available/ssat-app /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
 ```
 
-## Advanced Configuration
-
-### Multi-Environment Setup
-
-```yaml
-# docker-compose.prod.yml
-version: '3.8'
-services:
-  web:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-    restart: always
-```
+### SSL with Let's Encrypt
 
 ```bash
-# Use specific compose file
-docker compose -f docker-compose.prod.yml up -d
-```
+# Install certbot
+sudo apt install certbot python3-certbot-nginx
 
-### Health Checks
+# Get SSL certificate
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
-Add to `docker-compose.yml`:
-```yaml
-services:
-  web:
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-```
-
-### Persistent Volumes
-
-```yaml
-services:
-  web:
-    volumes:
-      - app-logs:/app/logs
-      - app-data:/app/data
-
-volumes:
-  app-logs:
-  app-data:
+# Auto-renewal is configured automatically
 ```
 
 ## Troubleshooting
 
-### Container won't start
+### Platform Mismatch Error
 
+**Error:** `no matching manifest for linux/amd64 in manifest list`
+
+**Cause:** Built ARM64 image on Mac, but server needs AMD64
+
+**Solution:**
 ```bash
-# Check logs
-docker compose logs
+# Use multiplatform builder
+docker buildx create --name multiplatform --use
 
-# Check container status
-docker compose ps
-
-# Inspect container
-docker inspect <container-id>
+# Build for AMD64
+docker buildx build --builder multiplatform \
+  --platform linux/amd64 \
+  -f docker/Dockerfile \
+  -t ghcr.io/anerky2016/ssat-training-app:latest \
+  --push .
 ```
 
-### Port already in use
+### SSH Permission Denied
 
+**Solution:**
 ```bash
-# Find process using port 3000
-lsof -i :3000
-
-# Kill the process
-kill -9 <PID>
-
-# Or change port in docker-compose.yml
+# Set up SSH key
+ssh-copy-id root@205.198.69.199
 ```
 
-### Build fails
+### Port Already in Use
 
+**Error:** `address already in use`
+
+**Solution:**
 ```bash
-# Clear Docker cache
-docker system prune -a
+# Check what's using the port
+ssh root@205.198.69.199 'lsof -i :3000'
 
-# Rebuild without cache
-docker compose build --no-cache
+# Change port in deploy-docker.config
+# Or stop the conflicting service
 ```
 
-### Out of disk space
+### Registry Authentication Failed
 
+**Error:** `unauthorized: authentication required`
+
+**Solution:**
 ```bash
-# Remove unused containers, images, networks
-docker system prune
-
-# Remove everything (careful!)
-docker system prune -a --volumes
+# Re-login to GitHub Container Registry
+echo $GITHUB_TOKEN | docker login ghcr.io -u anerky2016 --password-stdin
 ```
 
-## Performance Optimization
+### Container Won't Start
 
-### Reduce Image Size
-
-1. Use `.dockerignore` (already configured)
-2. Multi-stage builds (already implemented)
-3. Use alpine base images (already using node:20-alpine)
-
-### Layer Caching
-
-Order Dockerfile commands from least to most frequently changed:
-- Package files first
-- Source code last
-
-## Security Best Practices
-
-1. **Run as non-root user** (already configured)
-2. **Use specific image versions** (using node:20-alpine)
-3. **Scan for vulnerabilities:**
-   ```bash
-   docker scan ssat-training-app
-   ```
-4. **Keep base images updated:**
-   ```bash
-   docker compose pull
-   docker compose up -d --build
-   ```
-5. **Don't expose sensitive data** (use .env files, not hardcode)
-
-## Monitoring
-
-### View Resource Usage
-
+**Check logs:**
 ```bash
-# Real-time stats
-docker stats
-
-# Container processes
-docker compose top
+ssh root@205.198.69.199 'docker logs ssat-app'
 ```
 
-### Log Management
-
+**Check container status:**
 ```bash
-# Limit log size in docker-compose.yml
-services:
-  web:
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+ssh root@205.198.69.199 'docker ps -a | grep ssat-app'
 ```
 
-## CI/CD Integration
+### Out of Disk Space
 
-### GitHub Actions Example
+**Clean up Docker cache:**
+```bash
+# On local machine
+docker system prune -af --volumes
 
-```yaml
-# .github/workflows/docker-build.yml
-name: Build Docker Image
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build Docker image
-        run: docker build -f docker/Dockerfile -t ssat-app .
-
-      - name: Run tests in container
-        run: docker run ssat-app npm test
+# On server
+ssh root@205.198.69.199 'docker system prune -af'
 ```
+
+## Architecture
+
+### Multi-Stage Dockerfile
+
+The Dockerfile uses 3 stages for optimal image size:
+
+1. **deps**: Install dependencies
+2. **builder**: Build Next.js application
+3. **runner**: Production runtime (minimal image)
+
+**Benefits:**
+- Small final image (~600MB vs ~2GB)
+- Fast deploys (only final stage pushed)
+- Security (no build tools in production)
+
+### Build Process Flow
+
+```
+Local Mac (ARM64)
+  ↓
+Docker Buildx (creates AMD64 image)
+  ↓
+GitHub Container Registry
+  ↓
+Linux Server (AMD64) pulls image
+  ↓
+Docker container runs
+```
+
+## Best Practices
+
+1. **Always use multiplatform builder** when deploying from Mac to Linux
+2. **Test locally** with `--build-only` before deploying
+3. **Check logs** after deployment to verify startup
+4. **Use environment variables** for secrets (never hardcode)
+5. **Clean cache regularly** to free up disk space
+6. **Monitor container** with `docker stats` for resource usage
+7. **Use Nginx reverse proxy** for production (SSL, caching, etc.)
 
 ## Resources
 
-- Docker Documentation: https://docs.docker.com/
-- Docker Compose: https://docs.docker.com/compose/
-- Next.js Docker: https://nextjs.org/docs/deployment#docker-image
-- Best Practices: https://docs.docker.com/develop/dev-best-practices/
+- **Docker Documentation:** https://docs.docker.com/
+- **Docker Buildx:** https://docs.docker.com/buildx/working-with-buildx/
+- **GitHub Container Registry:** https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+- **Next.js Docker:** https://nextjs.org/docs/deployment#docker-image
 
 ## Support
 
-For issues or questions:
-1. Check Docker logs: `docker compose logs -f`
-2. Verify Docker is running: `docker ps`
-3. Check Docker version compatibility: `docker --version`
+For deployment issues:
+1. Check logs: `ssh root@205.198.69.199 'docker logs ssat-app'`
+2. Verify platform: `docker buildx imagetools inspect ghcr.io/anerky2016/ssat-training-app:latest`
+3. Check server: `ssh root@205.198.69.199 'docker ps'`
+4. Clear cache: `docker system prune -af`
+
+---
+
+**Last Updated:** 2025-01-20 (Updated with multi-platform build instructions)

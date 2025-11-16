@@ -21,6 +21,12 @@ echo $GITHUB_TOKEN | docker login ghcr.io -u anerky2016 --password-stdin
 ssh root@205.198.69.199
 ```
 
+### 4. Setup multiplatform builder (Mac users only)
+```bash
+# For Apple Silicon (M1/M2/M3) Mac users - required for building AMD64 images
+docker buildx create --name multiplatform --use
+```
+
 ## Deploy to Server
 
 ### Full Deployment (recommended)
@@ -90,7 +96,7 @@ ssh root@205.198.69.199 'docker logs ssat-app'
 
 ## Full Documentation
 
-See [docs/DOCKER_DEPLOY_GUIDE.md](docs/DOCKER_DEPLOY_GUIDE.md) for:
+See [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md) for:
 - Production setup with Nginx
 - SSL/HTTPS configuration
 - Environment variables

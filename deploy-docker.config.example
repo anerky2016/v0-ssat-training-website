@@ -21,7 +21,7 @@ DOCKER_REGISTRY_USER="anerky2016"
 # Container Configuration
 CONTAINER_NAME="ssat-app"
 CONTAINER_PORT="3000"  # Port inside container
-HOST_PORT="80"         # Port on host (80 for production, 3000 for dev)
+HOST_PORT="3000"       # Port on host (use 3000 if Nginx handles port 80, or 80 for direct access)
 
 # Server Configuration
 SERVER_IP="205.198.69.199"
