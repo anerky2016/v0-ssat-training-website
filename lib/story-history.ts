@@ -73,8 +73,8 @@ export async function saveStoryToHistory(story: {
       storyLength: story.storyLength,
       wordsUsed: story.words.length,
       wordCount,
-      storyType: story.storyType,
-      storySubtype: story.storySubtype
+      storyType: story.storyType || 'none',
+      storySubtype: story.storySubtype || 'none'
     })
 
     const { data, error } = await supabase

@@ -174,7 +174,12 @@ ${subtypeConfig.prompt}`
             generated_at: new Date().toISOString()
           })
 
-        console.log('💾 [Story Generation] Story saved to history')
+        console.log('💾 [Story Generation] Story saved to history:', {
+          storyType: storyType || 'none',
+          storySubtype: storySubtype || 'none',
+          wordCount,
+          storyLength: targetLength
+        })
       } catch (historyError) {
         // Don't fail the request if history save fails
         console.error('⚠️ [Story Generation] Failed to save to history:', historyError)
