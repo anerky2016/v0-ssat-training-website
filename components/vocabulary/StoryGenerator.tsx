@@ -189,6 +189,7 @@ export function StoryGenerator() {
   // Check if user is logged in and load history
   useEffect(() => {
     const loggedIn = isUserLoggedIn()
+    console.log('📖 [StoryGenerator] User logged in:', loggedIn)
     setUserLoggedIn(loggedIn)
 
     if (loggedIn) {
@@ -197,9 +198,23 @@ export function StoryGenerator() {
   }, [])
 
   const loadStoryHistory = async () => {
+    console.log('📖 [StoryGenerator] Loading story history...')
     const history = await getUserStoryHistory(20)
+    console.log('📖 [StoryGenerator] Story history loaded:', {
+      count: history.length,
+      data: history
+    })
     setStoryHistory(history)
   }
+
+  // Debug: Log when storyHistory or userLoggedIn changes
+  useEffect(() => {
+    console.log('📖 [StoryGenerator] State changed:', {
+      userLoggedIn,
+      storyHistoryCount: storyHistory.length,
+      shouldShowHistory: userLoggedIn && storyHistory.length > 0
+    })
+  }, [userLoggedIn, storyHistory])
 
   // Calculate available words when filters change
   useEffect(() => {
