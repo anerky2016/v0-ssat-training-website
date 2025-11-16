@@ -183,6 +183,8 @@ export function StoryGenerator() {
   const [availableWordCount, setAvailableWordCount] = useState<number | null>(null)
   const [storyHistory, setStoryHistory] = useState<StoryHistoryRecord[]>([])
   const [showHistory, setShowHistory] = useState(false)
+  const [showDebug, setShowDebug] = useState(false)
+  const [debugInfo, setDebugInfo] = useState<any>({})
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
@@ -205,15 +207,29 @@ export function StoryGenerator() {
       data: history
     })
     setStoryHistory(history)
+
+    // Update debug info
+    setDebugInfo((prev: any) => ({
+      ...prev,
+      historyLoaded: true,
+      historyCount: history.length,
+      historyData: history
+    }))
   }
 
   // Debug: Log when storyHistory or userLoggedIn changes
   useEffect(() => {
-    console.log('📖 [StoryGenerator] State changed:', {
+    const info = {
       userLoggedIn,
       storyHistoryCount: storyHistory.length,
-      shouldShowHistory: userLoggedIn && storyHistory.length > 0
-    })
+      shouldShowHistory: userLoggedIn && storyHistory.length > 0,
+      authUser: auth?.currentUser ? {
+        uid: auth.currentUser.uid.substring(0, 8) + '...',
+        email: auth.currentUser.email
+      } : null
+    }
+    console.log('📖 [StoryGenerator] State changed:', info)
+    setDebugInfo((prev: any) => ({ ...prev, ...info }))
   }, [userLoggedIn, storyHistory])
 
   // Calculate available words when filters change
@@ -380,6 +396,62 @@ export function StoryGenerator() {
 
   return (
     <div className="space-y-6">
+      {/* Debug Info Section */}
+      <Card className="border-yellow-500">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Info className="h-5 w-5 text-yellow-600" />
+              <CardTitle className="text-yellow-600">Debug Information</CardTitle>
+            </div>
+            <Button
+              onClick={() => setShowDebug(!showDebug)}
+              variant="ghost"
+              size="sm"
+            >
+              {showDebug ? "Hide" : "Show Debug"}
+            </Button>
+          </div>
+        </CardHeader>
+        {showDebug && (
+          <CardContent className="space-y-3">
+            <div className="bg-yellow-50 dark:bg-yellow-950/20 p-4 rounded-lg space-y-2">
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <strong>User Logged In:</strong> {debugInfo.userLoggedIn ? '✅ Yes' : '❌ No'}
+                </div>
+                <div>
+                  <strong>Auth User:</strong> {debugInfo.authUser ? `${debugInfo.authUser.email}` : '❌ None'}
+                </div>
+                <div>
+                  <strong>History Count:</strong> {debugInfo.storyHistoryCount ?? 0}
+                </div>
+                <div>
+                  <strong>Should Show History:</strong> {debugInfo.shouldShowHistory ? '✅ Yes' : '❌ No'}
+                </div>
+                <div>
+                  <strong>History Loaded:</strong> {debugInfo.historyLoaded ? '✅ Yes' : '⏳ Pending'}
+                </div>
+                <div>
+                  <strong>showHistory State:</strong> {showHistory ? 'Expanded' : 'Collapsed'}
+                </div>
+              </div>
+
+              {debugInfo.historyData && debugInfo.historyData.length > 0 && (
+                <details className="mt-4">
+                  <summary className="cursor-pointer font-semibold text-sm">
+                    Raw History Data ({debugInfo.historyData.length} items)
+                  </summary>
+                  <pre className="mt-2 bg-white dark:bg-gray-900 p-3 rounded text-xs overflow-auto max-h-96">
+                    {JSON.stringify(debugInfo.historyData, null, 2)}
+                  </pre>
+                </details>
+              )}
+            </div>
+          </CardContent>
+        )}
+      </Card>
+
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
