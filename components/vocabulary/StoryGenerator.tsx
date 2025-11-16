@@ -185,6 +185,7 @@ export function StoryGenerator() {
   const [showHistory, setShowHistory] = useState(false)
   const [showDebug, setShowDebug] = useState(false)
   const [debugInfo, setDebugInfo] = useState<any>({})
+  const [expandedStoryId, setExpandedStoryId] = useState<string | null>(null)
   const storyDisplayRef = useRef<HTMLDivElement>(null)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
@@ -872,77 +873,97 @@ export function StoryGenerator() {
           </CardHeader>
           {showHistory && (
             <CardContent className="space-y-3">
-              {storyHistory.map((record) => (
-                <div
-                  key={record.id}
-                  className="border rounded-lg p-4 space-y-2 hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline" className="text-xs">
-                          {record.story_length}
-                        </Badge>
-                        {record.story_type && (
-                          <Badge variant="secondary" className="text-xs">
-                            {storyTypes.find(t => t.id === record.story_type)?.label || record.story_type}
+              {storyHistory.map((record) => {
+                const isExpanded = expandedStoryId === record.id
+                return (
+                  <div
+                    key={record.id}
+                    className="border rounded-lg p-4 space-y-3 hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Badge variant="outline" className="text-xs">
+                            {record.story_length}
                           </Badge>
+                          {record.story_type && (
+                            <Badge variant="secondary" className="text-xs">
+                              {storyTypes.find(t => t.id === record.story_type)?.label || record.story_type}
+                            </Badge>
+                          )}
+                          <span className="text-xs text-muted-foreground">
+                            {record.words_used.length} words
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {new Date(record.generated_at!).toLocaleDateString()}
+                          </span>
+                        </div>
+                        {!isExpanded && (
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {record.story_text.replace(/\*\*/g, '').substring(0, 150)}...
+                          </p>
                         )}
-                        <span className="text-xs text-muted-foreground">
-                          {record.words_used.length} words
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(record.generated_at!).toLocaleDateString()}
-                        </span>
                       </div>
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {record.story_text.replace(/\*\*/g, '').substring(0, 150)}...
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => {
-                          setGeneratedStory({
-                            story: record.story_text,
-                            words: record.words_used,
-                            metadata: {
-                              levels: record.levels_selected,
-                              wordsUsed: record.words_used.length,
-                              generatedAt: record.generated_at!
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => {
+                            setExpandedStoryId(isExpanded ? null : record.id!)
+                          }}
+                          variant="outline"
+                          size="sm"
+                        >
+                          {isExpanded ? 'Collapse' : 'View'}
+                        </Button>
+                        <Button
+                          onClick={async () => {
+                            if (record.id && confirm('Delete this story from history?')) {
+                              const success = await deleteStoryFromHistory(record.id)
+                              if (success) {
+                                loadStoryHistory()
+                              }
                             }
-                          })
+                          }}
+                          variant="ghost"
+                          size="sm"
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
 
-                          // Scroll to the story display section
-                          setTimeout(() => {
-                            storyDisplayRef.current?.scrollIntoView({
-                              behavior: 'smooth',
-                              block: 'start'
-                            })
-                          }, 100)
-                        }}
-                        variant="outline"
-                        size="sm"
-                      >
-                        View
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          if (record.id && confirm('Delete this story from history?')) {
-                            const success = await deleteStoryFromHistory(record.id)
-                            if (success) {
-                              loadStoryHistory()
-                            }
-                          }
-                        }}
-                        variant="ghost"
-                        size="sm"
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                    {/* Expanded Story Content */}
+                    {isExpanded && (
+                      <div className="border-t pt-3 space-y-3">
+                        <div className="prose prose-sm max-w-none leading-relaxed text-foreground">
+                          {renderStoryWithTooltips(record.story_text)}
+                        </div>
+
+                        {/* Vocabulary Words Used */}
+                        <div className="border-t pt-3 space-y-2">
+                          <h4 className="text-sm font-semibold text-muted-foreground">
+                            Vocabulary Words ({record.words_used.length})
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {record.words_used.map((word, index) => (
+                              <Badge
+                                key={index}
+                                variant="secondary"
+                                className="text-sm px-3 py-1"
+                                title={word.meaning}
+                              >
+                                {word.word}
+                                <span className="ml-1.5 text-xs opacity-70">
+                                  {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
+                                </span>
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </CardContent>
           )}
         </Card>
