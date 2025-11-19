@@ -601,9 +601,6 @@ export function VocabularyWordCard({
               <span className="text-base text-muted-foreground font-normal">
                 {word.pronunciation}
               </span>
-              {word.cefr_level && (
-                <CEFRBadge level={word.cefr_level} size="sm" showDescription={false} />
-              )}
             </div>
             <CardDescription className="text-sm italic">
               <div className="flex items-center gap-2 flex-wrap">
