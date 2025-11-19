@@ -26,7 +26,8 @@
         "weakness",
         "failure"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "abreast",
@@ -54,7 +55,8 @@
         "away",
         "distant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "abrupt",
@@ -82,7 +84,8 @@
         "gradual",
         "expected"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "achieve",
@@ -111,7 +114,8 @@
         "give up",
         "stop"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "active",
@@ -139,7 +143,8 @@
         "inactive",
         "still"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "address",
@@ -167,7 +172,8 @@
         "ignore",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "advantage",
@@ -195,7 +201,8 @@
         "drawback",
         "problem"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "affect",
@@ -224,7 +231,8 @@
         "leave alone",
         "not affect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "afford",
@@ -252,7 +260,8 @@
         "can't afford",
         "lack money"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "ail",
@@ -281,7 +290,8 @@
         "well",
         "strong"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "alter",
@@ -310,7 +320,8 @@
         "stay",
         "maintain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "amiable",
@@ -341,7 +352,8 @@
         "rude",
         "grumpy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "ancient",
@@ -371,7 +383,8 @@
         "modern",
         "recent"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "annual",
@@ -399,7 +412,8 @@
         "rarely",
         "monthly"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "appall",
@@ -429,7 +443,8 @@
         "cheer",
         "please"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "apparent",
@@ -459,7 +474,8 @@
         "difficult",
         "invisible"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "applaud",
@@ -489,7 +505,8 @@
         "disapprove",
         "criticize"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "approach",
@@ -518,7 +535,8 @@
         "move away",
         "stay put"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "approve",
@@ -547,7 +565,8 @@
         "deny",
         "oppose"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "apt",
@@ -578,7 +597,8 @@
         "incapable",
         "unsuitable"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "arrest",
@@ -606,7 +626,8 @@
         "free",
         "let go"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "artificial",
@@ -635,7 +656,8 @@
         "real",
         "genuine"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "astonish",
@@ -664,7 +686,8 @@
         "calm",
         "familiar"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "astound",
@@ -692,7 +715,8 @@
         "calm",
         "familiar"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "attempt",
@@ -720,7 +744,8 @@
         "give up",
         "quit"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "attend",
@@ -749,7 +774,8 @@
         "miss",
         "avoid"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "audition",
@@ -776,7 +802,8 @@
         "dismissal",
         "rejection"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "ban",
@@ -804,7 +831,8 @@
         "permit",
         "let"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "banish",
@@ -832,7 +860,8 @@
         "invite",
         "include"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "barrier",
@@ -860,7 +889,8 @@
         "way",
         "access"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "benefit",
@@ -888,7 +918,8 @@
         "harm",
         "loss"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "blend",
@@ -917,7 +948,8 @@
         "divide",
         "unmix"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "bliss",
@@ -945,7 +977,8 @@
         "misery",
         "unhappiness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "blossom",
@@ -976,7 +1009,8 @@
         "decline",
         "stunt"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "boast",
@@ -1005,7 +1039,8 @@
         "hide",
         "keep quiet"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "bore",
@@ -1036,7 +1071,8 @@
         "interest",
         "thrill"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "bough",
@@ -1063,7 +1099,8 @@
         "trunk",
         "root"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "breadth",
@@ -1090,7 +1127,8 @@
         "narrowness",
         "thinness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "burrow",
@@ -1119,7 +1157,8 @@
         "cover",
         "surface"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "calculate",
@@ -1147,7 +1186,8 @@
         "ignore",
         "guess"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "capable",
@@ -1178,7 +1218,8 @@
         "incapable",
         "clumsy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "capital",
@@ -1205,7 +1246,8 @@
         "small town",
         "village"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "caress",
@@ -1236,7 +1278,8 @@
         "shove",
         "slap"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "cease",
@@ -1267,7 +1310,8 @@
         "begin",
         "keep"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "century",
@@ -1294,7 +1338,8 @@
         "moment",
         "second"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "chamber",
@@ -1323,7 +1368,8 @@
         "open",
         "public"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "cherish",
@@ -1352,7 +1398,8 @@
         "hate",
         "disregard"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "chord",
@@ -1380,7 +1427,8 @@
         "discord",
         "dissonance"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "climate",
@@ -1407,7 +1455,8 @@
         "storm",
         "chaos"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "clutch",
@@ -1436,7 +1485,8 @@
         "let go",
         "drop"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "coax",
@@ -1466,7 +1516,8 @@
         "force",
         "reject"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "column",
@@ -1493,7 +1544,8 @@
         "row",
         "block"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "communicate",
@@ -1523,7 +1575,8 @@
         "keep quiet",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "complete",
@@ -1551,7 +1604,8 @@
         "unfinished",
         "broken"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "concentrate",
@@ -1579,7 +1633,8 @@
         "ignore",
         "zone out"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "concern",
@@ -1608,7 +1663,8 @@
         "indifference",
         "comfort"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "conclude",
@@ -1637,7 +1693,8 @@
         "begin",
         "continue"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "confirm",
@@ -1665,7 +1722,8 @@
         "disagree",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "confuse",
@@ -1694,7 +1752,8 @@
         "explain",
         "understand"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "congratulate",
@@ -1724,7 +1783,8 @@
         "scold",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "consider",
@@ -1753,7 +1813,8 @@
         "forget",
         "overlook"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "A2"
     },
     {
       "word": "considerable",
@@ -1781,7 +1842,8 @@
         "little",
         "unimportant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "console",
@@ -1809,7 +1871,8 @@
         "hurt",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "contempt",
@@ -1838,7 +1901,8 @@
         "kindness",
         "love"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "content",
@@ -1869,7 +1933,8 @@
         "sad",
         "worried"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "contract",
@@ -1897,7 +1962,8 @@
         "disagreement",
         "refusal"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "contrast",
@@ -1925,7 +1991,8 @@
         "sameness",
         "likeness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "cower",
@@ -1954,7 +2021,8 @@
         "face",
         "confront"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "crafty",
@@ -1985,7 +2053,8 @@
         "honest",
         "straightforward"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "create",
@@ -2015,7 +2084,8 @@
         "break",
         "erase"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "A2"
     },
     {
       "word": "crude",
@@ -2044,7 +2114,8 @@
         "polished",
         "refined"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "decay",
@@ -2072,7 +2143,8 @@
         "flourish",
         "thrive"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "dejected",
@@ -2102,7 +2174,8 @@
         "joyful",
         "excited"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "deliberate",
@@ -2130,7 +2203,8 @@
         "rash",
         "careless"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "depend",
@@ -2158,7 +2232,8 @@
         "self-sufficient",
         "alone"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "deprive",
@@ -2187,7 +2262,8 @@
         "share",
         "allow"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "depth",
@@ -2215,7 +2291,8 @@
         "height",
         "top"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "descend",
@@ -2246,7 +2323,8 @@
         "climb",
         "lift"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "desire",
@@ -2274,7 +2352,8 @@
         "hate",
         "reject"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "despise",
@@ -2303,7 +2382,8 @@
         "like",
         "admire"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "destructive",
@@ -2331,7 +2411,8 @@
         "building",
         "protective"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "detest",
@@ -2359,7 +2440,8 @@
         "like",
         "enjoy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "develop",
@@ -2390,7 +2472,8 @@
         "stop",
         "remain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "A2"
     },
     {
       "word": "disclose",
@@ -2419,7 +2502,8 @@
         "keep",
         "conceal"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "dismay",
@@ -2449,7 +2533,8 @@
         "cheer",
         "satisfaction"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "dispute",
@@ -2480,7 +2565,8 @@
         "peace",
         "understanding"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "distant",
@@ -2509,7 +2595,8 @@
         "close",
         "together"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "distribute",
@@ -2537,7 +2624,8 @@
         "withhold",
         "save"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "drab",
@@ -2568,7 +2656,8 @@
         "lively",
         "exciting"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "dreary",
@@ -2597,7 +2686,8 @@
         "exciting",
         "happy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "drowsy",
@@ -2627,7 +2717,8 @@
         "energetic",
         "lively"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "dusk",
@@ -2655,7 +2746,8 @@
         "morning",
         "sunrise"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "eager",
@@ -2684,7 +2776,8 @@
         "unwilling",
         "disinterested"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "ease",
@@ -2712,7 +2805,8 @@
         "worry",
         "trouble"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "eject",
@@ -2741,7 +2835,8 @@
         "hold",
         "bring in"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "elder",
@@ -2769,7 +2864,8 @@
         "child",
         "teenager"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "elevate",
@@ -2800,7 +2896,8 @@
         "sink",
         "decrease"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "eliminate",
@@ -2828,7 +2925,8 @@
         "add",
         "include"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "embrace",
@@ -2857,7 +2955,8 @@
         "push away",
         "turn down"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "engage",
@@ -2887,7 +2986,8 @@
         "leave",
         "separate"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "ensure",
@@ -2916,7 +3016,8 @@
         "neglect",
         "doubt"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "entertain",
@@ -2946,7 +3047,8 @@
         "annoy",
         "trouble"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "entire",
@@ -2975,7 +3077,8 @@
         "piece",
         "fraction"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "entrance",
@@ -3003,7 +3106,8 @@
         "doorway out",
         "way out"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "entry",
@@ -3031,7 +3135,8 @@
         "leave",
         "departure"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "equip",
@@ -3060,7 +3165,8 @@
         "take away",
         "deprive"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "escort",
@@ -3088,7 +3194,8 @@
         "abandon",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "essential",
@@ -3117,7 +3224,8 @@
         "optional",
         "extra"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "evaporate",
@@ -3146,7 +3254,8 @@
         "fill up",
         "soak"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "eventual",
@@ -3174,7 +3283,8 @@
         "now",
         "instant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "exceed",
@@ -3202,7 +3312,8 @@
         "fall short",
         "underachieve"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "exceptional",
@@ -3232,7 +3343,8 @@
         "common",
         "average"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "exclaim",
@@ -3262,7 +3374,8 @@
         "murmur",
         "speak softly"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "expose",
@@ -3292,7 +3405,8 @@
         "conceal",
         "shut"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "exquisite",
@@ -3322,7 +3436,8 @@
         "plain",
         "ordinary"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "external",
@@ -3350,7 +3465,8 @@
         "inner",
         "hidden"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "extinguish",
@@ -3379,7 +3495,8 @@
         "start",
         "burn"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "familiar",
@@ -3407,7 +3524,8 @@
         "unknown",
         "unfamiliar"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "famished",
@@ -3435,7 +3553,8 @@
         "satisfied",
         "fed"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "fanatic",
@@ -3464,7 +3583,8 @@
         "indifferent",
         "disinterested"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "fare",
@@ -3491,7 +3611,8 @@
         "free",
         "no charge"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "feud",
@@ -3522,7 +3643,8 @@
         "peace",
         "agreement"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "flexible",
@@ -3550,7 +3672,8 @@
         "rigid",
         "fixed"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "foliage",
@@ -3578,7 +3701,8 @@
         "bare",
         "empty"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "forbid",
@@ -3606,7 +3730,8 @@
         "permit",
         "let"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "forecast",
@@ -3633,7 +3758,8 @@
         "surprise",
         "uncertainty"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "foremost",
@@ -3662,7 +3788,8 @@
         "least",
         "secondary"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "forlorn",
@@ -3692,7 +3819,8 @@
         "content",
         "joyful"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "forsake",
@@ -3721,7 +3849,8 @@
         "help",
         "join"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "fortress",
@@ -3751,7 +3880,8 @@
         "weak",
         "exposed"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "fortunate",
@@ -3780,7 +3910,8 @@
         "unfortunate",
         "sad"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "founder",
@@ -3810,7 +3941,8 @@
         "destroyer",
         "copycat"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "fragile",
@@ -3840,7 +3972,8 @@
         "tough",
         "hard"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "frequent",
@@ -3869,7 +4002,8 @@
         "rare",
         "never"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "fringe",
@@ -3898,7 +4032,8 @@
         "bare",
         "simple"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "frontier",
@@ -3926,7 +4061,8 @@
         "middle",
         "inside"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "furious",
@@ -3957,7 +4093,8 @@
         "pleased",
         "content"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "gash",
@@ -3985,7 +4122,8 @@
         "closure",
         "smoothness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "gesture",
@@ -4015,7 +4153,8 @@
         "stillness",
         "inactivity"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "glimpse",
@@ -4044,7 +4183,8 @@
         "ignore",
         "overlook"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "grace",
@@ -4075,7 +4215,8 @@
         "awkwardness",
         "harshness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "grove",
@@ -4103,7 +4244,8 @@
         "plain",
         "city"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "hail",
@@ -4130,7 +4272,8 @@
         "ignore",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "hamlet",
@@ -4159,7 +4302,8 @@
         "town",
         "urban area"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "hearty",
@@ -4188,7 +4332,8 @@
         "unfriendly",
         "sad"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "helm",
@@ -4216,7 +4361,8 @@
         "stop",
         "leave alone"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "hibernate",
@@ -4245,7 +4391,8 @@
         "stay awake",
         "active"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "host",
@@ -4273,7 +4420,8 @@
         "stranger",
         "outsider"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "hue",
@@ -4300,7 +4448,8 @@
         "black",
         "white"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "humble",
@@ -4328,7 +4477,8 @@
         "boastful",
         "arrogant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "humiliate",
@@ -4358,7 +4508,8 @@
         "encourage",
         "uplift"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "impact",
@@ -4387,7 +4538,8 @@
         "insignificance",
         "unimportance"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "implore",
@@ -4416,7 +4568,8 @@
         "ignore",
         "deny"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "impose",
@@ -4444,7 +4597,8 @@
         "let",
         "free"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "increase",
@@ -4474,7 +4628,8 @@
         "reduce",
         "shrink"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "inhale",
@@ -4502,7 +4657,8 @@
         "breathe out",
         "let out"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "insert",
@@ -4531,7 +4687,8 @@
         "remove",
         "pull out"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "instant",
@@ -4559,7 +4716,8 @@
         "delayed",
         "later"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "intend",
@@ -4588,7 +4746,8 @@
         "forget",
         "abandon"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "interior",
@@ -4616,7 +4775,8 @@
         "exterior",
         "outdoors"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "intrude",
@@ -4646,7 +4806,8 @@
         "invite",
         "ask permission"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "invade",
@@ -4675,7 +4836,8 @@
         "respect",
         "exit"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "isolate",
@@ -4704,7 +4866,8 @@
         "mix",
         "together"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "jeer",
@@ -4732,7 +4895,8 @@
         "support",
         "encourage"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "keen",
@@ -4760,7 +4924,8 @@
         "bored",
         "reluctant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "lack",
@@ -4788,7 +4953,8 @@
         "own",
         "possess"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "limb",
@@ -4815,7 +4981,8 @@
         "body",
         "torso"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "limp",
@@ -4843,7 +5010,8 @@
         "sprint",
         "walk normally"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "livelihood",
@@ -4872,7 +5040,8 @@
         "leisure",
         "idleness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "locate",
@@ -4899,7 +5068,8 @@
         "lose",
         "misplace"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "mammoth",
@@ -4927,7 +5097,8 @@
         "small",
         "little"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "master",
@@ -4956,7 +5127,8 @@
         "novice",
         "amateur"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "mature",
@@ -4984,7 +5156,8 @@
         "immature",
         "silly"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "meadow",
@@ -5012,7 +5185,8 @@
         "desert",
         "mountain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "melancholy",
@@ -5042,7 +5216,8 @@
         "cheerful",
         "excited"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "menace",
@@ -5071,7 +5246,8 @@
         "safety",
         "comfort"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "merit",
@@ -5102,7 +5278,8 @@
         "weakness",
         "disgrace"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "migrate",
@@ -5130,7 +5307,8 @@
         "stay",
         "remain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "misfortune",
@@ -5158,7 +5336,8 @@
         "luck",
         "success"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "misgiving",
@@ -5187,7 +5366,8 @@
         "certainty",
         "assurance"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "mock",
@@ -5216,7 +5396,8 @@
         "cheer",
         "encourage"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "modest",
@@ -5246,7 +5427,8 @@
         "showy",
         "arrogant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "mope",
@@ -5277,7 +5459,8 @@
         "playful",
         "excited"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "nestle",
@@ -5305,7 +5488,8 @@
         "spread out",
         "detach"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "nourish",
@@ -5333,7 +5517,8 @@
         "harm",
         "starve"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "observe",
@@ -5363,7 +5548,8 @@
         "overlook",
         "disregard"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "obstinate",
@@ -5391,7 +5577,8 @@
         "agreeable",
         "open-minded"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "obtain",
@@ -5421,7 +5608,8 @@
         "give",
         "miss"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "occupy",
@@ -5450,7 +5638,8 @@
         "leave",
         "empty"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "orchard",
@@ -5478,7 +5667,8 @@
         "wasteland",
         "barren land"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "orphan",
@@ -5505,7 +5695,8 @@
         "child with parents",
         "loved child"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "outrage",
@@ -5534,7 +5725,8 @@
         "peace",
         "happiness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "parallel",
@@ -5562,7 +5754,8 @@
         "crossing",
         "meeting"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "paralyze",
@@ -5592,7 +5785,8 @@
         "function",
         "run"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "parch",
@@ -5621,7 +5815,8 @@
         "soak",
         "hydrate"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "passage",
@@ -5648,7 +5843,8 @@
         "whole",
         "beginning"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "patriot",
@@ -5676,7 +5872,8 @@
         "enemy",
         "disloyal person"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "peasant",
@@ -5704,7 +5901,8 @@
         "noble",
         "landowner"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "peer",
@@ -5731,7 +5929,8 @@
         "adult",
         "teacher"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "permit",
@@ -5759,7 +5958,8 @@
         "ban",
         "prohibit"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "persist",
@@ -5790,7 +5990,8 @@
         "stop",
         "back down"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "persuade",
@@ -5821,7 +6022,8 @@
         "refuse",
         "oppose"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "pessimist",
@@ -5849,7 +6051,8 @@
         "hopeful person",
         "positive thinker"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "petty",
@@ -5877,7 +6080,8 @@
         "major",
         "big"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "phase",
@@ -5907,7 +6111,8 @@
         "finished",
         "complete"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "pierce",
@@ -5936,7 +6141,8 @@
         "seal",
         "fill"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "plead",
@@ -5965,7 +6171,8 @@
         "deny",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "plunge",
@@ -5993,7 +6200,8 @@
         "climb",
         "rise"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "portion",
@@ -6023,7 +6231,8 @@
         "entire",
         "full"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "pounce",
@@ -6054,7 +6263,8 @@
         "lie",
         "walk"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "practice",
@@ -6085,7 +6295,8 @@
         "stop",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "precious",
@@ -6115,7 +6326,8 @@
         "unimportant",
         "ordinary"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "precipice",
@@ -6144,7 +6356,8 @@
         "hill",
         "valley"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "prefer",
@@ -6173,7 +6386,8 @@
         "hate",
         "reject"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "prepare",
@@ -6202,7 +6416,8 @@
         "leave",
         "delay"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "progress",
@@ -6230,7 +6445,8 @@
         "decline",
         "failure"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "project",
@@ -6260,7 +6476,8 @@
         "break",
         "pause"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "prompt",
@@ -6290,7 +6507,8 @@
         "forget",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "prospect",
@@ -6319,7 +6537,8 @@
         "doubt",
         "disappointment"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "prune",
@@ -6348,7 +6567,8 @@
         "add",
         "expand"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "quaint",
@@ -6377,7 +6597,8 @@
         "plain",
         "ordinary"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "quarry",
@@ -6405,7 +6626,8 @@
         "finished structure",
         "roadway"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "quiver",
@@ -6435,7 +6657,8 @@
         "calm",
         "steady"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "ramp",
@@ -6464,7 +6687,8 @@
         "level",
         "decline"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "recall",
@@ -6491,7 +6715,8 @@
         "forget",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "recent",
@@ -6521,7 +6746,8 @@
         "past",
         "previous"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "recite",
@@ -6550,7 +6776,8 @@
         "silence",
         "whisper"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "recognize",
@@ -6577,7 +6804,8 @@
         "forget",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "recommend",
@@ -6606,7 +6834,8 @@
         "warn",
         "disapprove"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "recover",
@@ -6635,7 +6864,8 @@
         "stay sick",
         "decline"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "reduce",
@@ -6666,7 +6896,8 @@
         "enlarge",
         "grow"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "refine",
@@ -6698,7 +6929,8 @@
         "worsen",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "regain",
@@ -6727,7 +6959,8 @@
         "give away",
         "drop"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "reject",
@@ -6756,7 +6989,8 @@
         "agree",
         "receive"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "release",
@@ -6784,7 +7018,8 @@
         "keep",
         "trap"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "relent",
@@ -6813,7 +7048,8 @@
         "harden",
         "deny"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "remark",
@@ -6842,7 +7078,8 @@
         "quiet",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "replace",
@@ -6871,7 +7108,8 @@
         "hold",
         "retain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "represent",
@@ -6900,7 +7138,8 @@
         "hide",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "request",
@@ -6928,7 +7167,8 @@
         "deny",
         "reject"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "resist",
@@ -6958,7 +7198,8 @@
         "yield",
         "agree"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "respond",
@@ -6987,7 +7228,8 @@
         "neglect",
         "overlook"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "reveal",
@@ -7016,7 +7258,8 @@
         "conceal",
         "keep secret"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "revise",
@@ -7046,7 +7289,8 @@
         "leave",
         "accept"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "rout",
@@ -7074,7 +7318,8 @@
         "draw",
         "tie"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "scarce",
@@ -7103,7 +7348,8 @@
         "many",
         "ample"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "scorch",
@@ -7132,7 +7378,8 @@
         "freeze",
         "chill"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "scoundrel",
@@ -7160,7 +7407,8 @@
         "friend",
         "good person"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "scurry",
@@ -7189,7 +7437,8 @@
         "stroll",
         "walk"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "seize",
@@ -7217,7 +7466,8 @@
         "let go",
         "drop"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "sensitive",
@@ -7246,7 +7496,8 @@
         "cold",
         "hard"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "sentimental",
@@ -7276,7 +7527,8 @@
         "cold",
         "indifferent"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C2"
     },
     {
       "word": "separate",
@@ -7304,7 +7556,8 @@
         "join",
         "combine"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "severe",
@@ -7335,7 +7588,8 @@
         "easy",
         "soft"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "shallow",
@@ -7363,7 +7617,8 @@
         "profound",
         "bottomless"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "shrewd",
@@ -7392,7 +7647,8 @@
         "silly",
         "naive"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "shun",
@@ -7421,7 +7677,8 @@
         "include",
         "welcome"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "slay",
@@ -7451,7 +7708,8 @@
         "struggle",
         "disappoint"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "sole",
@@ -7479,7 +7737,8 @@
         "multiple",
         "several"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "source",
@@ -7508,7 +7767,8 @@
         "result",
         "finish"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "spacious",
@@ -7537,7 +7797,8 @@
         "cramped",
         "tight"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "stingy",
@@ -7566,7 +7827,8 @@
         "giving",
         "kind"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "stout",
@@ -7597,7 +7859,8 @@
         "light",
         "fragile"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "submit",
@@ -7625,7 +7888,8 @@
         "withhold",
         "hold back"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "sufficient",
@@ -7653,7 +7917,8 @@
         "insufficient",
         "lacking"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "sullen",
@@ -7683,7 +7948,8 @@
         "bright",
         "excited"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "summon",
@@ -7711,7 +7977,8 @@
         "send away",
         "ignore"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "surface",
@@ -7738,7 +8005,8 @@
         "interior",
         "inside"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "surround",
@@ -7767,7 +8035,8 @@
         "empty",
         "remove"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "suspect",
@@ -7795,7 +8064,8 @@
         "believe",
         "know"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "symbol",
@@ -7824,7 +8094,8 @@
         "reality",
         "truth"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "symptom",
@@ -7853,7 +8124,8 @@
         "wellness",
         "comfort"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "talon",
@@ -7880,7 +8152,8 @@
         "hand",
         "palm"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "temporary",
@@ -7908,7 +8181,8 @@
         "lasting",
         "forever"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "terror",
@@ -7939,7 +8213,8 @@
         "comfort",
         "bravery"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "threadbare",
@@ -7969,7 +8244,8 @@
         "whole",
         "strong"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "threat",
@@ -7998,7 +8274,8 @@
         "protection",
         "friendliness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "torment",
@@ -8028,7 +8305,8 @@
         "support",
         "make happy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "tour",
@@ -8056,7 +8334,8 @@
         "stay",
         "rest"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "tower",
@@ -8085,7 +8364,8 @@
         "ground",
         "flatland"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "tradition",
@@ -8113,7 +8393,8 @@
         "novelty",
         "newness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "tragic",
@@ -8141,7 +8422,8 @@
         "joyful",
         "cheerful"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "trio",
@@ -8169,7 +8451,8 @@
         "pair",
         "crowd"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "trophy",
@@ -8197,7 +8480,8 @@
         "defeat",
         "failure"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "trudge",
@@ -8227,7 +8511,8 @@
         "skip",
         "jog"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "typical",
@@ -8258,7 +8543,8 @@
         "different",
         "extraordinary"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "uneasy",
@@ -8288,7 +8574,8 @@
         "confident",
         "easy"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "utilize",
@@ -8317,7 +8604,8 @@
         "waste",
         "neglect"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "utter",
@@ -8346,7 +8634,8 @@
         "mumble",
         "silence"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "vain",
@@ -8374,7 +8663,8 @@
         "modest",
         "unpretentious"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "valiant",
@@ -8404,7 +8694,8 @@
         "scared",
         "timid"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "vary",
@@ -8434,7 +8725,8 @@
         "equal",
         "constant"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "vast",
@@ -8464,7 +8756,8 @@
         "tiny",
         "little"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "venture",
@@ -8494,7 +8787,8 @@
         "ignore",
         "refuse"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "victim",
@@ -8521,7 +8815,8 @@
         "winner",
         "hero"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "vision",
@@ -8550,7 +8845,8 @@
         "ignorance",
         "unawareness"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "waft",
@@ -8578,7 +8874,8 @@
         "drop",
         "fall"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     },
     {
       "word": "wander",
@@ -8608,7 +8905,8 @@
         "sit",
         "remain"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B2"
     },
     {
       "word": "widespread",
@@ -8637,7 +8935,8 @@
         "uncommon",
         "limited"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "C1"
     },
     {
       "word": "yield",
@@ -8666,7 +8965,8 @@
         "withhold",
         "keep"
       ],
-      "further_information": []
+      "further_information": [],
+      "cefr_level": "B1"
     }
   ]
 }

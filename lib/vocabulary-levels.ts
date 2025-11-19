@@ -9,6 +9,9 @@ import level7Data from "@/data/wordly-wise-level-7.json"
 
 export type VocabularyLevel = "SSAT" | 2 | 3 | 4 | 5 | 6 | 7
 
+// CEFR (Common European Framework of Reference for Languages) levels
+export type CEFRLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+
 export interface VocabularyWord {
   word: string
   pronunciation: string
@@ -18,6 +21,7 @@ export interface VocabularyWord {
   synonyms: string[]
   antonyms: string[]
   further_information: string[]
+  cefr_level?: CEFRLevel
 }
 
 export interface VocabularyData {
@@ -95,5 +99,107 @@ export function getLevelInfo(level: VocabularyLevel) {
 // Get all levels info
 export function getAllLevelsInfo() {
   return getAvailableLevels().map(level => getLevelInfo(level))
+}
+
+// ============================================================================
+// CEFR Level Utilities
+// ============================================================================
+
+// Get human-readable CEFR level description
+export function getCEFRDescription(level: CEFRLevel): string {
+  const descriptions: Record<CEFRLevel, string> = {
+    A1: "Beginner",
+    A2: "Elementary",
+    B1: "Intermediate",
+    B2: "Upper Intermediate",
+    C1: "Advanced",
+    C2: "Proficiency"
+  }
+  return descriptions[level]
+}
+
+// Get detailed CEFR level description
+export function getCEFRDetailedDescription(level: CEFRLevel): string {
+  const descriptions: Record<CEFRLevel, string> = {
+    A1: "Can understand and use familiar everyday expressions and basic phrases",
+    A2: "Can understand sentences and frequently used expressions related to areas of immediate relevance",
+    B1: "Can understand the main points of clear standard input on familiar matters",
+    B2: "Can understand the main ideas of complex text on both concrete and abstract topics",
+    C1: "Can understand a wide range of demanding, longer texts and recognize implicit meaning",
+    C2: "Can understand with ease virtually everything heard or read"
+  }
+  return descriptions[level]
+}
+
+// Get CEFR level color for UI display
+export function getCEFRColor(level: CEFRLevel): string {
+  const colors: Record<CEFRLevel, string> = {
+    A1: "text-green-600 dark:text-green-400 bg-green-500/10",
+    A2: "text-blue-600 dark:text-blue-400 bg-blue-500/10",
+    B1: "text-yellow-600 dark:text-yellow-400 bg-yellow-500/10",
+    B2: "text-orange-600 dark:text-orange-400 bg-orange-500/10",
+    C1: "text-red-600 dark:text-red-400 bg-red-500/10",
+    C2: "text-purple-600 dark:text-purple-400 bg-purple-500/10"
+  }
+  return colors[level]
+}
+
+// Get numeric value for CEFR level (for sorting)
+export function getCEFRNumericValue(level: CEFRLevel): number {
+  const values: Record<CEFRLevel, number> = {
+    A1: 1,
+    A2: 2,
+    B1: 3,
+    B2: 4,
+    C1: 5,
+    C2: 6
+  }
+  return values[level]
+}
+
+// Sort words by CEFR level
+export function sortWordsByCEFR(words: VocabularyWord[]): VocabularyWord[] {
+  return [...words].sort((a, b) => {
+    if (!a.cefr_level && !b.cefr_level) return 0
+    if (!a.cefr_level) return 1
+    if (!b.cefr_level) return -1
+    return getCEFRNumericValue(a.cefr_level) - getCEFRNumericValue(b.cefr_level)
+  })
+}
+
+// Filter words by CEFR level
+export function filterWordsByCEFR(words: VocabularyWord[], levels: CEFRLevel[]): VocabularyWord[] {
+  return words.filter(word => word.cefr_level && levels.includes(word.cefr_level))
+}
+
+// Get CEFR distribution for a set of words
+export function getCEFRDistribution(words: VocabularyWord[]): Record<CEFRLevel, number> {
+  const distribution: Record<CEFRLevel, number> = {
+    A1: 0,
+    A2: 0,
+    B1: 0,
+    B2: 0,
+    C1: 0,
+    C2: 0
+  }
+
+  words.forEach(word => {
+    if (word.cefr_level) {
+      distribution[word.cefr_level]++
+    }
+  })
+
+  return distribution
+}
+
+// Get all CEFR levels
+export function getAllCEFRLevels(): CEFRLevel[] {
+  return ["A1", "A2", "B1", "B2", "C1", "C2"]
+}
+
+// Get words by CEFR level from loaded data
+export function getWordsByCEFRLevel(level: CEFRLevel, vocabularyLevels: VocabularyLevel[] = ["SSAT"]): VocabularyWord[] {
+  const words = loadVocabularyWords(vocabularyLevels)
+  return words.filter(word => word.cefr_level === level)
 }
 
