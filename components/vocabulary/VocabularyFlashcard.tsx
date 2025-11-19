@@ -20,6 +20,7 @@ import { getCustomMemoryTip, saveCustomMemoryTip, deleteCustomMemoryTip } from "
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
+import CEFRBadge from "./CEFRBadge"
 import {
   Sheet,
   SheetContent,
@@ -37,6 +38,7 @@ export interface VocabularyWord {
   antonyms: string[]
   further_information: string[]
   tip?: string
+  cefr_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
 }
 
 interface VocabularyFlashcardProps {
@@ -315,7 +317,14 @@ export function VocabularyFlashcard({
           style={{ backfaceVisibility: "hidden" }}
         >
           <CardContent className="text-center p-8 w-full">
-            {/* Difficulty Badge - Front */}
+            {/* CEFR Badge - Front (Top Left) */}
+            {word.cefr_level && (
+              <div className="absolute top-4 left-4" onClick={(e) => e.stopPropagation()}>
+                <CEFRBadge level={word.cefr_level} size="sm" />
+              </div>
+            )}
+
+            {/* Personal Difficulty Badge - Front (Top Right) */}
             <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
               <div className={`px-3 py-1 rounded text-xs font-medium ${getDifficultyColor(difficulty, isReviewed)}`}>
                 {getDifficultyLabel(difficulty, isReviewed)}

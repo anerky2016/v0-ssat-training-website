@@ -25,6 +25,7 @@ import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
+import CEFRBadge from "./CEFRBadge"
 import {
   Sheet,
   SheetContent,
@@ -42,6 +43,7 @@ export interface VocabularyWord {
   antonyms: string[]
   further_information: string[]
   tip?: string
+  cefr_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
 }
 
 interface VocabularyWordCardProps {
@@ -599,6 +601,9 @@ export function VocabularyWordCard({
               <span className="text-base text-muted-foreground font-normal">
                 {word.pronunciation}
               </span>
+              {word.cefr_level && (
+                <CEFRBadge level={word.cefr_level} size="sm" showDescription={false} />
+              )}
             </div>
             <CardDescription className="text-sm italic">
               <div className="flex items-center gap-2 flex-wrap">
@@ -608,6 +613,9 @@ export function VocabularyWordCard({
                     {iconData.label}
                   </span>
                 ))}
+                {word.cefr_level && (
+                  <CEFRBadge level={word.cefr_level} size="sm" />
+                )}
               </div>
             </CardDescription>
           </div>
