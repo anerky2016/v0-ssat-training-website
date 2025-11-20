@@ -43,25 +43,156 @@ export default function CEFRBadge({
     lg: 'text-base px-3 py-1.5'
   }
 
-  const handleMobileClick = (e: React.MouseEvent) => {
+  const handleMobileClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
     setShowMobileSheet(true)
   }
 
+  // Mobile: Use button element for better iOS support
+  if (isMobile) {
+    return (
+      <>
+        <button
+          type="button"
+          className={`
+            inline-flex items-center gap-1.5 rounded-full font-medium cursor-pointer transition-all active:scale-95
+            border-0 outline-none
+            ${colorClasses}
+            ${sizeClasses[size]}
+            ${className}
+          `}
+          onClick={handleMobileClick}
+          style={{
+            WebkitTapHighlightColor: 'transparent',
+            touchAction: 'manipulation',
+            userSelect: 'none',
+            WebkitUserSelect: 'none'
+          }}
+        >
+          <span className="font-semibold">{level}</span>
+          {showDescription && (
+            <span className="hidden sm:inline">
+              {description}
+            </span>
+          )}
+          <Info className="h-3 w-3 opacity-70" />
+        </button>
+        <Sheet open={showMobileSheet} onOpenChange={setShowMobileSheet}>
+          <SheetContent
+            side="bottom"
+            className="h-auto max-h-[85vh] pb-8"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain'
+            }}
+          >
+            <SheetHeader className="text-left pb-4 border-b border-border sticky top-0 bg-background z-10">
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm ${colorClasses}`}>
+                  {level}
+                </span>
+                <div>
+                  <SheetTitle className="text-base font-bold">CEFR Level {level}</SheetTitle>
+                  <div className="text-xs text-muted-foreground">{description}</div>
+                </div>
+              </div>
+            </SheetHeader>
+
+            <div
+              className="overflow-y-auto max-h-[calc(85vh-120px)] pt-4 pb-4"
+              style={{
+                WebkitOverflowScrolling: 'touch',
+                overscrollBehavior: 'contain'
+              }}
+            >
+              <div className="space-y-4">
+                {/* Current word's explanation */}
+                <div className="bg-chart-5/10 border-2 border-chart-5 rounded-lg p-4">
+                  <div className="text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                    <span className="text-chart-5">●</span>
+                    This Word's Level
+                  </div>
+                  <div className="text-sm leading-relaxed text-foreground">
+                    {detailedDescription}
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="flex items-center gap-3 py-2">
+                  <div className="h-px bg-border flex-1" />
+                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                    All CEFR Levels
+                  </div>
+                  <div className="h-px bg-border flex-1" />
+                </div>
+
+                {/* All levels in compact format */}
+                <div className="space-y-2">
+                  {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CEFRLevel[]).map((lvl) => {
+                    const lvlDescription = getCEFRDescription(lvl)
+                    const lvlColor = getCEFRColor(lvl)
+                    const isCurrentLevel = lvl === level
+
+                    return (
+                      <div
+                        key={lvl}
+                        className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                          isCurrentLevel
+                            ? 'bg-chart-5/5 border-2 border-chart-5/30'
+                            : 'bg-muted/30 border border-transparent'
+                        }`}
+                      >
+                        <span className={`inline-flex items-center justify-center w-12 px-2 py-1.5 rounded-full font-bold text-sm flex-shrink-0 ${lvlColor}`}>
+                          {lvl}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className={`font-semibold text-sm leading-tight ${
+                            isCurrentLevel ? 'text-foreground' : 'text-muted-foreground'
+                          }`}>
+                            {lvlDescription}
+                          </div>
+                        </div>
+                        {isCurrentLevel && (
+                          <div className="flex-shrink-0">
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-chart-5">
+                              <span className="w-2 h-2 rounded-full bg-chart-5 animate-pulse" />
+                              This word
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Footer note */}
+                <div className="text-center pt-4 pb-2">
+                  <div className="text-xs text-muted-foreground italic">
+                    Common European Framework of Reference
+                  </div>
+                  <div className="text-xs text-muted-foreground italic">
+                    for Languages (CEFR)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </>
+    )
+  }
+
   const BadgeContent = () => (
     <span
       className={`
-        inline-flex items-center gap-1.5 rounded-full font-medium cursor-pointer transition-all active:scale-95
-        ${isMobile ? 'hover:scale-100' : 'hover:scale-105 cursor-help'}
+        inline-flex items-center gap-1.5 rounded-full font-medium cursor-help transition-all hover:scale-105
         ${colorClasses}
         ${sizeClasses[size]}
         ${className}
       `}
-      onClick={isMobile ? handleMobileClick : undefined}
       style={{
         WebkitTapHighlightColor: 'transparent',
-        touchAction: 'manipulation',
         userSelect: 'none',
         WebkitUserSelect: 'none'
       }}
@@ -71,9 +202,6 @@ export default function CEFRBadge({
         <span className="hidden sm:inline">
           {description}
         </span>
-      )}
-      {isMobile && (
-        <Info className="h-3 w-3 opacity-70" />
       )}
     </span>
   )
@@ -144,113 +272,6 @@ export default function CEFRBadge({
     )
   }
 
-  // Mobile: Use Sheet (Bottom Drawer)
-  const allLevels: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-
-  return (
-    <>
-      <BadgeContent />
-      <Sheet open={showMobileSheet} onOpenChange={setShowMobileSheet}>
-        <SheetContent
-          side="bottom"
-          className="h-auto max-h-[85vh] pb-8"
-          style={{
-            WebkitOverflowScrolling: 'touch',
-            overscrollBehavior: 'contain'
-          }}
-        >
-          <SheetHeader className="text-left pb-4 border-b border-border sticky top-0 bg-background z-10">
-            <div className="flex items-center gap-2 mb-3">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm ${colorClasses}`}>
-                {level}
-              </span>
-              <div>
-                <SheetTitle className="text-base font-bold">CEFR Level {level}</SheetTitle>
-                <div className="text-xs text-muted-foreground">{description}</div>
-              </div>
-            </div>
-          </SheetHeader>
-
-          <div
-            className="overflow-y-auto max-h-[calc(85vh-120px)] pt-4 pb-4"
-            style={{
-              WebkitOverflowScrolling: 'touch',
-              overscrollBehavior: 'contain'
-            }}
-          >
-            <div className="space-y-4">
-              {/* Current word's explanation */}
-              <div className="bg-chart-5/10 border-2 border-chart-5 rounded-lg p-4">
-                <div className="text-sm font-bold text-foreground mb-2 flex items-center gap-2">
-                  <span className="text-chart-5">●</span>
-                  This Word's Level
-                </div>
-                <div className="text-sm leading-relaxed text-foreground">
-                  {detailedDescription}
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="flex items-center gap-3 py-2">
-                <div className="h-px bg-border flex-1" />
-                <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                  All CEFR Levels
-                </div>
-                <div className="h-px bg-border flex-1" />
-              </div>
-
-              {/* All levels in compact format */}
-              <div className="space-y-2">
-                {allLevels.map((lvl) => {
-                  const lvlDescription = getCEFRDescription(lvl)
-                  const lvlColor = getCEFRColor(lvl)
-                  const isCurrentLevel = lvl === level
-
-                  return (
-                    <div
-                      key={lvl}
-                      className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
-                        isCurrentLevel
-                          ? 'bg-chart-5/5 border-2 border-chart-5/30'
-                          : 'bg-muted/30 border border-transparent'
-                      }`}
-                    >
-                      <span className={`inline-flex items-center justify-center w-12 px-2 py-1.5 rounded-full font-bold text-sm flex-shrink-0 ${lvlColor}`}>
-                        {lvl}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className={`font-semibold text-sm leading-tight ${
-                          isCurrentLevel ? 'text-foreground' : 'text-muted-foreground'
-                        }`}>
-                          {lvlDescription}
-                        </div>
-                      </div>
-                      {isCurrentLevel && (
-                        <div className="flex-shrink-0">
-                          <span className="inline-flex items-center gap-1 text-xs font-bold text-chart-5">
-                            <span className="w-2 h-2 rounded-full bg-chart-5 animate-pulse" />
-                            This word
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Footer note */}
-              <div className="text-center pt-4 pb-2">
-                <div className="text-xs text-muted-foreground italic">
-                  Common European Framework of Reference
-                </div>
-                <div className="text-xs text-muted-foreground italic">
-                  for Languages (CEFR)
-                </div>
-              </div>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </>
-  )
+  // This should never be reached since we return early for both mobile and desktop
+  return null
 }
