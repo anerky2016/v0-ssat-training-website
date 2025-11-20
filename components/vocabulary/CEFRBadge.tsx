@@ -43,18 +43,31 @@ export default function CEFRBadge({
     lg: 'text-base px-3 py-1.5'
   }
 
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (isMobile) {
+      setShowMobileSheet(true)
+    }
+  }
+
   const BadgeContent = () => (
     <span
       className={`
-        inline-flex items-center gap-1.5 rounded-full font-medium cursor-help transition-all hover:scale-105 active:scale-95
+        inline-flex items-center gap-1.5 rounded-full font-medium cursor-pointer transition-all active:scale-95
+        ${isMobile ? 'hover:scale-100' : 'hover:scale-105 cursor-help'}
         ${colorClasses}
         ${sizeClasses[size]}
         ${className}
       `}
-      onClick={isMobile ? (e) => {
-        e.stopPropagation()
-        setShowMobileSheet(true)
-      } : undefined}
+      onClick={handleClick}
+      onTouchEnd={isMobile ? handleClick : undefined}
+      style={{
+        WebkitTapHighlightColor: 'transparent',
+        touchAction: 'manipulation',
+        userSelect: 'none',
+        WebkitUserSelect: 'none'
+      }}
     >
       <span className="font-semibold">{level}</span>
       {showDescription && (
@@ -141,7 +154,14 @@ export default function CEFRBadge({
     <>
       <BadgeContent />
       <Sheet open={showMobileSheet} onOpenChange={setShowMobileSheet}>
-        <SheetContent side="bottom" className="h-auto max-h-[85vh] pb-8">
+        <SheetContent
+          side="bottom"
+          className="h-auto max-h-[85vh] pb-8"
+          style={{
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+          }}
+        >
           <SheetHeader className="text-left pb-4 border-b border-border sticky top-0 bg-background z-10">
             <div className="flex items-center gap-2 mb-3">
               <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm ${colorClasses}`}>
@@ -154,7 +174,13 @@ export default function CEFRBadge({
             </div>
           </SheetHeader>
 
-          <div className="overflow-y-auto max-h-[calc(85vh-120px)] pt-4 pb-4">
+          <div
+            className="overflow-y-auto max-h-[calc(85vh-120px)] pt-4 pb-4"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain'
+            }}
+          >
             <div className="space-y-4">
               {/* Current word's explanation */}
               <div className="bg-chart-5/10 border-2 border-chart-5 rounded-lg p-4">
