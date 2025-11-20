@@ -141,59 +141,91 @@ export default function CEFRBadge({
     <>
       <BadgeContent />
       <Sheet open={showMobileSheet} onOpenChange={setShowMobileSheet}>
-        <SheetContent side="bottom" className="h-auto max-h-[70vh] overflow-y-auto">
-          <SheetHeader className="text-left">
-            <div className="flex items-center gap-3 mb-2">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold ${colorClasses}`}>
+        <SheetContent side="bottom" className="h-auto max-h-[85vh] pb-8">
+          <SheetHeader className="text-left pb-4 border-b border-border sticky top-0 bg-background z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm ${colorClasses}`}>
                 {level}
               </span>
-              <SheetTitle className="text-lg">This word is CEFR Level {level}</SheetTitle>
+              <div>
+                <SheetTitle className="text-base font-bold">CEFR Level {level}</SheetTitle>
+                <div className="text-xs text-muted-foreground">{description}</div>
+              </div>
             </div>
-            <SheetDescription className="text-left space-y-4 pt-3">
-              <div className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">
-                All CEFR Levels:
+          </SheetHeader>
+
+          <div className="overflow-y-auto max-h-[calc(85vh-120px)] pt-4 pb-4">
+            <div className="space-y-4">
+              {/* Current word's explanation */}
+              <div className="bg-chart-5/10 border-2 border-chart-5 rounded-lg p-4">
+                <div className="text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                  <span className="text-chart-5">●</span>
+                  This Word's Level
+                </div>
+                <div className="text-sm leading-relaxed text-foreground">
+                  {detailedDescription}
+                </div>
               </div>
 
-              <div className="space-y-3">
+              {/* Divider */}
+              <div className="flex items-center gap-3 py-2">
+                <div className="h-px bg-border flex-1" />
+                <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                  All CEFR Levels
+                </div>
+                <div className="h-px bg-border flex-1" />
+              </div>
+
+              {/* All levels in compact format */}
+              <div className="space-y-2">
                 {allLevels.map((lvl) => {
                   const lvlDescription = getCEFRDescription(lvl)
-                  const lvlDetailedDescription = getCEFRDetailedDescription(lvl)
                   const lvlColor = getCEFRColor(lvl)
                   const isCurrentLevel = lvl === level
 
                   return (
                     <div
                       key={lvl}
-                      className={`p-3 rounded-lg border transition-colors ${
-                        isCurrentLevel ? 'bg-muted/50 border-border' : 'border-transparent'
+                      className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                        isCurrentLevel
+                          ? 'bg-chart-5/5 border-2 border-chart-5/30'
+                          : 'bg-muted/30 border border-transparent'
                       }`}
                     >
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-semibold text-xs ${lvlColor}`}>
-                          {lvl}
-                        </span>
-                        <div className={`font-semibold text-sm ${isCurrentLevel ? 'text-foreground' : 'text-muted-foreground'}`}>
+                      <span className={`inline-flex items-center justify-center w-12 px-2 py-1.5 rounded-full font-bold text-sm flex-shrink-0 ${lvlColor}`}>
+                        {lvl}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className={`font-semibold text-sm leading-tight ${
+                          isCurrentLevel ? 'text-foreground' : 'text-muted-foreground'
+                        }`}>
                           {lvlDescription}
                         </div>
-                        {isCurrentLevel && (
-                          <span className="ml-auto text-xs bg-chart-5 text-white px-2 py-0.5 rounded-full">
+                      </div>
+                      {isCurrentLevel && (
+                        <div className="flex-shrink-0">
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-chart-5">
+                            <span className="w-2 h-2 rounded-full bg-chart-5 animate-pulse" />
                             This word
                           </span>
-                        )}
-                      </div>
-                      <div className="text-xs text-muted-foreground leading-relaxed">
-                        {lvlDetailedDescription}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   )
                 })}
               </div>
 
-              <div className="text-xs italic border-t border-border pt-3 mt-3 opacity-70">
-                Common European Framework of Reference for Languages
+              {/* Footer note */}
+              <div className="text-center pt-4 pb-2">
+                <div className="text-xs text-muted-foreground italic">
+                  Common European Framework of Reference
+                </div>
+                <div className="text-xs text-muted-foreground italic">
+                  for Languages (CEFR)
+                </div>
               </div>
-            </SheetDescription>
-          </SheetHeader>
+            </div>
+          </div>
         </SheetContent>
       </Sheet>
     </>
