@@ -43,12 +43,10 @@ export default function CEFRBadge({
     lg: 'text-base px-3 py-1.5'
   }
 
-  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMobileClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (isMobile) {
-      setShowMobileSheet(true)
-    }
+    setShowMobileSheet(true)
   }
 
   const BadgeContent = () => (
@@ -60,8 +58,7 @@ export default function CEFRBadge({
         ${sizeClasses[size]}
         ${className}
       `}
-      onClick={handleClick}
-      onTouchEnd={isMobile ? handleClick : undefined}
+      onClick={isMobile ? handleMobileClick : undefined}
       style={{
         WebkitTapHighlightColor: 'transparent',
         touchAction: 'manipulation',
