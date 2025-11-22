@@ -3,7 +3,9 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, XCircle } from "lucide-react"
+import { CheckCircle2, XCircle, ExternalLink } from "lucide-react"
+import Link from "next/link"
+import { getWordInfo } from "@/lib/vocabulary-lookup"
 
 export interface SentenceCompletionQuestionData {
   id: string
@@ -169,14 +171,65 @@ export function SentenceCompletionQuestion({
                 </p>
               </div>
             )}
-            {question.explanation && (
-              <div className="mt-3 pt-3 border-t border-current/20">
-                <p className="text-sm font-semibold mb-1">Explanation:</p>
-                <p className="text-sm whitespace-pre-line bg-white/50 dark:bg-black/20 p-2 rounded">
-                  {question.explanation}
-                </p>
-              </div>
-            )}
+            {isSubmitted && (() => {
+              const wordInfo = getWordInfo(question.answer)
+
+              return (
+                <div className="mt-3 pt-3 border-t border-current/20">
+                  <p className="text-sm font-semibold mb-2">Word Information:</p>
+
+                  {wordInfo.exists ? (
+                    <div className="bg-white/50 dark:bg-black/20 p-3 rounded space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1">
+                          <div className="font-semibold text-base mb-1">
+                            {wordInfo.word}
+                            {wordInfo.pronunciation && (
+                              <span className="ml-2 text-sm font-normal text-muted-foreground">
+                                {wordInfo.pronunciation}
+                              </span>
+                            )}
+                          </div>
+                          {wordInfo.partOfSpeech && (
+                            <div className="text-xs text-muted-foreground italic mb-2">
+                              {wordInfo.partOfSpeech}
+                            </div>
+                          )}
+                          {wordInfo.meaning && (
+                            <div className="text-sm">
+                              {wordInfo.meaning}
+                            </div>
+                          )}
+                        </div>
+                        {wordInfo.url && (
+                          <Link
+                            href={wordInfo.url}
+                            className="flex-shrink-0 text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
+                            title="View word card"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-white/50 dark:bg-black/20 p-3 rounded">
+                      <div className="text-sm font-semibold mb-1">{question.answer}</div>
+                      <div className="text-xs text-muted-foreground">[TBD - Word card not yet available]</div>
+                    </div>
+                  )}
+
+                  {question.explanation && (
+                    <div className="mt-3 pt-3 border-t border-current/10">
+                      <p className="text-xs font-semibold mb-1">Additional Notes:</p>
+                      <p className="text-xs whitespace-pre-line opacity-75">
+                        {question.explanation}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
           </div>
         )}
       </CardContent>
