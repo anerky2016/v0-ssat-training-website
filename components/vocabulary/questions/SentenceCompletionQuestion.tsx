@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle2, XCircle, ExternalLink, Sparkles, Loader2, ThumbsUp, ThumbsDown } from "lucide-react"
 import Link from "next/link"
 import { getWordInfo } from "@/lib/vocabulary-lookup"
+import ReactMarkdown from "react-markdown"
 
 export interface SentenceCompletionQuestionData {
   id: string
@@ -39,22 +40,6 @@ export function SentenceCompletionQuestion({
   const [loadingExplanation, setLoadingExplanation] = useState(false)
   const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
   const [regenerationAttempt, setRegenerationAttempt] = useState(0)
-
-  // Simple markdown renderer for AI explanations
-  const renderMarkdown = (text: string) => {
-    if (!text) return null
-
-    // Convert **bold** to <strong>bold</strong>
-    const parts = text.split(/(\*\*.*?\*\*)/g)
-
-    return parts.map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        const boldText = part.slice(2, -2)
-        return <strong key={index} className="font-bold">{boldText}</strong>
-      }
-      return <span key={index}>{part}</span>
-    })
-  }
 
   // Use external selection if provided, otherwise use internal state
   const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
@@ -420,9 +405,20 @@ export function SentenceCompletionQuestion({
                           </div>
                         ) : (
                           <>
-                            <p className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed mb-2">
-                              {renderMarkdown(aiExplanation || '')}
-                            </p>
+                            <div className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed mb-2 prose prose-sm max-w-none">
+                              <ReactMarkdown
+                                components={{
+                                  // Style paragraph tags
+                                  p: ({children}) => <p className="mb-2 last:mb-0">{children}</p>,
+                                  // Style strong/bold tags
+                                  strong: ({children}) => <strong className="font-bold text-purple-950 dark:text-purple-50">{children}</strong>,
+                                  // Style em/italic tags
+                                  em: ({children}) => <em className="italic">{children}</em>,
+                                }}
+                              >
+                                {aiExplanation || ''}
+                              </ReactMarkdown>
+                            </div>
                             {feedbackGiven === 'up' && (
                               <div className="flex items-center gap-1 mt-2 pt-2 border-t border-purple-200 dark:border-purple-800">
                                 <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400" />

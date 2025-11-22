@@ -82,14 +82,14 @@ ${optionsList}
 Correct Answer: ${correctAnswer}
 ${userAnswer && userAnswer !== correctAnswer ? `Student's Wrong Answer: ${userAnswer}` : ''}${wordContext}${regenerationContext}
 
-Provide a CONCISE, ACCURATE explanation (2-3 sentences max) for a middle school student that:
+Provide a CLEAR, ACCURATE explanation (3-5 sentences) for a middle school student that:
 1. Explains why "${correctAnswer}" is the BEST fit for the sentence context
-2. ${allOptions && allOptions.length > 1 ? `Briefly contrasts why the other choices don't work as well` : ''}
+2. ${allOptions && allOptions.length > 1 ? `Contrasts why each of the other choices doesn't work as well` : ''}
 3. ${userAnswer && userAnswer !== correctAnswer ? `Specifically addresses why "${userAnswer}" is incorrect` : ''}
-4. Uses simple, clear language
+4. Uses simple, clear language with examples when helpful
 ${isRegeneration ? '5. Uses a DIFFERENT teaching approach than before' : ''}
 
-Keep it SHORT and FOCUSED. Quality over quantity.`
+Be thorough but concise. Use *italics* for emphasis and **bold** for key vocabulary words.`
 
     console.log('🤖 [Answer Explanation] Calling OpenAI API...')
     const apiStartTime = Date.now()
