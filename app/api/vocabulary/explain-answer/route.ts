@@ -9,12 +9,13 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { question, correctAnswer, userAnswer, wordInfo } = await request.json()
+    const { question, correctAnswer, userAnswer, wordInfo, isRegeneration, previousExplanation } = await request.json()
 
     console.log('💡 [Answer Explanation] Request received:', {
       question: question?.substring(0, 50) + '...',
       correctAnswer,
       userAnswer,
+      isRegeneration: isRegeneration || false,
       timestamp: new Date().toISOString()
     })
 
@@ -36,12 +37,26 @@ export async function POST(request: NextRequest) {
 - Definition: ${wordInfo.meaning || 'N/A'}`
     }
 
-    const prompt = `A student is working on a sentence completion question and needs help understanding why the correct answer makes sense.
+    // Add regeneration context if this is a retry
+    let regenerationContext = ''
+    if (isRegeneration && previousExplanation) {
+      regenerationContext = `\n\nIMPORTANT: The student found the previous explanation unhelpful. Here's what you said before:
+"${previousExplanation}"
+
+Please provide a DIFFERENT explanation using:
+- A different angle or perspective
+- More concrete examples
+- Simpler language
+- Different teaching strategy (e.g., if you used definition first, try examples first)
+- Focus on what might have been unclear in the previous explanation`
+    }
+
+    const prompt = `A student is working on a sentence completion question and needs help understanding why the correct answer makes sense.${isRegeneration ? ' This is a REGENERATED explanation - the student needs a different approach.' : ''}
 
 Question: ${question}
 
 Correct Answer: ${correctAnswer}
-${userAnswer ? `Student's Answer: ${userAnswer}` : ''}${wordContext}
+${userAnswer ? `Student's Answer: ${userAnswer}` : ''}${wordContext}${regenerationContext}
 
 Please provide a clear, helpful explanation for a middle school student (10-14 years old) that:
 1. Explains why "${correctAnswer}" is the best choice for this sentence
@@ -49,6 +64,7 @@ Please provide a clear, helpful explanation for a middle school student (10-14 y
 3. ${userAnswer && userAnswer !== correctAnswer ? `Briefly explains why "${userAnswer}" doesn't work as well` : ''}
 4. Uses simple language and examples if helpful
 5. Keeps it concise (3-5 sentences maximum)
+${isRegeneration ? '6. Takes a DIFFERENT APPROACH than the previous explanation' : ''}
 
 Focus on making it easy to understand and educational.`
 
@@ -56,18 +72,18 @@ Focus on making it easy to understand and educational.`
     const apiStartTime = Date.now()
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o', // Using stronger model for better accuracy and explanation quality
       messages: [
         {
           role: 'system',
-          content: 'You are a helpful, patient teacher explaining vocabulary and sentence completion to middle school students. Your explanations are clear, educational, and age-appropriate. Always focus on helping students understand WHY an answer is correct, not just THAT it is correct.'
+          content: `You are a helpful, patient teacher explaining vocabulary and sentence completion to middle school students. Your explanations are clear, educational, and age-appropriate. Always focus on helping students understand WHY an answer is correct, not just THAT it is correct.${isRegeneration ? ' When regenerating, you MUST provide a fresh perspective and different teaching approach than before.' : ''}`
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: 0.7,
+      temperature: isRegeneration ? 0.9 : 0.7, // Higher temperature for more variety on regeneration
       max_tokens: 300,
     })
 
@@ -82,11 +98,13 @@ Focus on making it easy to understand and educational.`
     const totalDuration = Date.now() - startTime
     console.log('✅ [Answer Explanation] Success:', {
       correctAnswer,
+      isRegeneration: isRegeneration || false,
       explanationLength: explanation.length,
       preview: explanation.substring(0, 100) + '...',
       apiDuration: `${apiDuration}ms`,
       totalDuration: `${totalDuration}ms`,
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
+      temperature: isRegeneration ? 0.9 : 0.7,
       tokensUsed: completion.usage?.total_tokens || 'N/A'
     })
 

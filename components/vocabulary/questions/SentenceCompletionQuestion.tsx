@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, XCircle, ExternalLink, Sparkles, Loader2 } from "lucide-react"
+import { CheckCircle2, XCircle, ExternalLink, Sparkles, Loader2, ThumbsUp, ThumbsDown } from "lucide-react"
 import Link from "next/link"
 import { getWordInfo } from "@/lib/vocabulary-lookup"
 
@@ -37,13 +37,19 @@ export function SentenceCompletionQuestion({
   const [hasAnswered, setHasAnswered] = useState(false)
   const [aiExplanation, setAiExplanation] = useState<string | null>(null)
   const [loadingExplanation, setLoadingExplanation] = useState(false)
+  const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
+  const [regenerationAttempt, setRegenerationAttempt] = useState(0)
 
   // Use external selection if provided, otherwise use internal state
   const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
   const isSubmitted = submitted || hasAnswered
 
-  const requestAIExplanation = async () => {
+  const requestAIExplanation = async (isRegeneration = false) => {
     setLoadingExplanation(true)
+    if (isRegeneration) {
+      setRegenerationAttempt(prev => prev + 1)
+    }
+
     try {
       const wordInfo = getWordInfo(question.answer)
 
@@ -57,6 +63,8 @@ export function SentenceCompletionQuestion({
           correctAnswer: question.answer,
           userAnswer: selectedOption !== question.answer ? selectedOption : undefined,
           wordInfo: wordInfo.exists ? wordInfo : undefined,
+          isRegeneration,
+          previousExplanation: isRegeneration ? aiExplanation : undefined,
         }),
       })
 
@@ -66,11 +74,44 @@ export function SentenceCompletionQuestion({
 
       const data = await response.json()
       setAiExplanation(data.explanation)
+      if (isRegeneration) {
+        setFeedbackGiven(null) // Reset feedback for new explanation
+      }
     } catch (error) {
       console.error('Error getting AI explanation:', error)
       setAiExplanation('Sorry, we could not generate an explanation at this time. Please try again later.')
     } finally {
       setLoadingExplanation(false)
+    }
+  }
+
+  const handleFeedback = async (feedback: 'up' | 'down') => {
+    setFeedbackGiven(feedback)
+
+    // Save feedback to database (optional - for analytics)
+    try {
+      await fetch('/api/vocabulary/save-explanation-feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          questionId: question.id,
+          explanation: aiExplanation,
+          feedback,
+          regenerationAttempt,
+        }),
+      })
+    } catch (error) {
+      console.error('Error saving feedback:', error)
+      // Non-critical error, don't show to user
+    }
+
+    // If thumbs down, automatically regenerate
+    if (feedback === 'down') {
+      setTimeout(() => {
+        requestAIExplanation(true)
+      }, 500) // Small delay for better UX
     }
   }
 
@@ -286,15 +327,71 @@ export function SentenceCompletionQuestion({
                       </Button>
                     ) : (
                       <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 p-3 rounded border border-purple-200 dark:border-purple-800">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-                          <p className="text-xs font-semibold text-purple-900 dark:text-purple-100">
-                            AI Tutor Explanation:
-                          </p>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                            <p className="text-xs font-semibold text-purple-900 dark:text-purple-100">
+                              AI Tutor Explanation:
+                              {regenerationAttempt > 0 && (
+                                <span className="ml-2 text-[10px] opacity-60">
+                                  (Attempt {regenerationAttempt + 1})
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              onClick={() => handleFeedback('up')}
+                              disabled={feedbackGiven !== null || loadingExplanation}
+                              variant="ghost"
+                              size="sm"
+                              className={`h-6 w-6 p-0 ${
+                                feedbackGiven === 'up'
+                                  ? 'text-green-600 dark:text-green-400'
+                                  : 'text-purple-600 dark:text-purple-400 hover:text-green-600 dark:hover:text-green-400'
+                              }`}
+                              title="Helpful explanation"
+                            >
+                              <ThumbsUp className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              onClick={() => handleFeedback('down')}
+                              disabled={feedbackGiven !== null || loadingExplanation}
+                              variant="ghost"
+                              size="sm"
+                              className={`h-6 w-6 p-0 ${
+                                feedbackGiven === 'down'
+                                  ? 'text-red-600 dark:text-red-400'
+                                  : 'text-purple-600 dark:text-purple-400 hover:text-red-600 dark:hover:text-red-400'
+                              }`}
+                              title="Not helpful - generate new explanation"
+                            >
+                              <ThumbsDown className="h-3 w-3" />
+                            </Button>
+                          </div>
                         </div>
-                        <p className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed">
-                          {aiExplanation}
-                        </p>
+                        {loadingExplanation && feedbackGiven === 'down' ? (
+                          <div className="flex items-center justify-center py-4">
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin text-purple-600 dark:text-purple-400" />
+                            <span className="text-xs text-purple-900 dark:text-purple-100">
+                              Generating a better explanation...
+                            </span>
+                          </div>
+                        ) : (
+                          <>
+                            <p className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed mb-2">
+                              {aiExplanation}
+                            </p>
+                            {feedbackGiven === 'up' && (
+                              <div className="flex items-center gap-1 mt-2 pt-2 border-t border-purple-200 dark:border-purple-800">
+                                <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                <span className="text-[10px] text-purple-900 dark:text-purple-100 opacity-75">
+                                  Thank you for your feedback!
+                                </span>
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
                     )}
                   </div>
