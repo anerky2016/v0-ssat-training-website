@@ -7,8 +7,8 @@
       "id": "chapter2-q1",
       "question": "The new technological______ promises faster processing times and increased efficiency in data management.",
       "options": [
-        "barrier",
         "branch",
+        "barrier",
         "basement",
         "block"
       ],
@@ -19,8 +19,8 @@
       "id": "chapter2-q2",
       "question": "The company's______ office is located in New York,serving as a hub for all eastern operations.",
       "options": [
-        "base",
         "bite",
+        "base",
         "bun",
         "basement"
       ],
@@ -31,8 +31,8 @@
       "id": "chapter2-q3",
       "question": "Measuring the______ of a product is crucial to ensure that it meets the desired quality standards.",
       "options": [
-        "accuracy",
         "cherry",
+        "accuracy",
         "aubergine",
         "block"
       ],
@@ -67,8 +67,8 @@
       "id": "chapter2-q6",
       "question": "She enjoyed her breakfast______ along with a hot cup of coffee, savoring the soft and sweet flavor.",
       "options": [
-        "bun",
         "block",
+        "bun",
         "base",
         "barrier"
       ],
@@ -91,8 +91,8 @@
       "id": "chapter2-q8",
       "question": "The______ in the garden was an eye-catching shade of purple, its skin glossy and smooth to the touch.",
       "options": [
-        "aubergine",
         "cherry",
+        "aubergine",
         "barrier",
         "basement"
       ],
@@ -103,8 +103,8 @@
       "id": "chapter2-q9",
       "question": "During construction, a concrete______ was erected to prevent pedestrians from accessing the dangerous area.",
       "options": [
-        "barrier",
         "branch",
+        "barrier",
         "basement",
         "block"
       ],
@@ -115,9 +115,9 @@
       "id": "chapter2-q10",
       "question": "The______ of the building provided cool storage for perishable goods, essential for maintaining their freshness during hot summer days.",
       "options": [
-        "basement",
-        "branch",
         "barrier",
+        "branch",
+        "basement",
         "block"
       ],
       "answer": "basement",
@@ -151,9 +151,9 @@
       "id": "chapter2-q13",
       "question": "The artist received an______ at the annual art exhibition, recognizing his contributions to the field of sculpture.",
       "options": [
-        "award",
-        "bench",
         "chimney",
+        "bench",
+        "award",
         "cellar"
       ],
       "answer": "award",
@@ -175,9 +175,9 @@
       "id": "chapter2-q15",
       "question": "The______ outside the town hall was where citizens would gather to discuss local issues, often leading to lively debates.",
       "options": [
-        "bench",
-        "cabinet",
         "budget",
+        "cabinet",
+        "bench",
         "chimney"
       ],
       "answer": "bench",
@@ -187,9 +187,9 @@
       "id": "chapter2-q16",
       "question": "The______ of the house extended upwards, allowing smoke from the fireplace to escape and ensuring proper ventilation.",
       "options": [
-        "chimney",
-        "cabinet",
         "bench",
+        "cabinet",
+        "chimney",
         "cellar"
       ],
       "answer": "chimney",
@@ -199,9 +199,9 @@
       "id": "chapter2-q17",
       "question": "The delicate______ felt soft against her skin, its intricate patterns adding a touch of elegance to her attire.",
       "options": [
-        "cloth",
-        "cabinet",
         "bench",
+        "cabinet",
+        "cloth",
         "cellar"
       ],
       "answer": "cloth",
@@ -211,9 +211,9 @@
       "id": "chapter2-q18",
       "question": "The______ inside the conference room was tense as executives from rival companies prepared to discuss a potential merger.",
       "options": [
-        "atmosphere",
-        "bench",
         "budget",
+        "bench",
+        "atmosphere",
         "cellar"
       ],
       "answer": "atmosphere",
@@ -223,10 +223,10 @@
       "id": "chapter2-q19",
       "question": "The______ scales were essential in the laboratory to ensure precise measurements were made during experiments.",
       "options": [
-        "balance",
+        "bench",
         "budget",
         "cellar",
-        "bench"
+        "balance"
       ],
       "answer": "balance",
       "explanation": "balance: noun, /ˈbæləns/, means a device used for weighing things, with a beam balanced on a pivot and two scales suspended from it.\n\nNotes："
@@ -247,10 +247,10 @@
       "id": "chapter2-q21",
       "question": "The______ was dense and gray, suggesting that a storm might be approaching from the west.",
       "options": [
-        "cloud",
+        "bank",
         "bush",
         "berry",
-        "bank"
+        "cloud"
       ],
       "answer": "cloud",
       "explanation": "cloud: noun, /klaud/, means a visible mass of condensed water vapor floating in the atmosphere, typically high above the ground.\n\nNotes："
@@ -259,10 +259,10 @@
       "id": "chapter2-q22",
       "question": "The______ of the new smartphone model was touted for its exceptional durability and resistance to corrosion.",
       "options": [
-        "aluminium",
+        "berry",
         "carbon",
         "bank",
-        "berry"
+        "aluminium"
       ],
       "answer": "aluminium",
       "explanation": "aluminium: noun, /əˈluːmɪniəm/, means a chemical element that is a light silvery metal with great tensile strength.\n\nNotes："
@@ -271,10 +271,10 @@
       "id": "chapter2-q23",
       "question": "The______ produced by the factory was measured and found to be significantly higher than the industry standard.",
       "options": [
-        "carbon footprint",
+        "berry",
         "carbon monoxide",
         "carbon dioxide",
-        "berry"
+        "carbon footprint"
       ],
       "answer": "carbon footprint",
       "explanation": "carbon footprint: noun, means the total amount of greenhouse gases, especially carbon dioxide, emitted directly or indirectly by an inpidual, organization, event, or product.\n\nNotes："
@@ -283,10 +283,10 @@
       "id": "chapter2-q24",
       "question": "The______ at the edge of the garden provided shade and shelter for various bird species throughout the year.",
       "options": [
-        "bush",
+        "aluminium",
         "bank",
         "cloud",
-        "aluminium"
+        "bush"
       ],
       "answer": "bush",
       "explanation": "bush: noun, /bʊʃ/, means a low thick plant with multiple stems arising from or near the ground.\n\nNotes："
@@ -295,10 +295,10 @@
       "id": "chapter2-q25",
       "question": "The______ growing in the wild were ripe and sweet,making them perfect for harvesting and preserving.",
       "options": [
-        "berry",
+        "bush",
         "bank",
         "aluminium",
-        "bush"
+        "berry"
       ],
       "answer": "berry",
       "explanation": "berry: noun, /ˈbɛri/, means a small round fruit that grows on plants such as raspberries, strawberries, and blackberries.\n\nNotes："
@@ -319,10 +319,10 @@
       "id": "chapter2-q27",
       "question": "The soft______ glow of the evening sky was caused by the sun's rays scattering through the Earth's atmosphere.",
       "options": [
-        "cloud",
+        "bank",
         "carbon footprint",
         "aluminium",
-        "bank"
+        "cloud"
       ],
       "answer": "cloud",
       "explanation": "cloud: noun, /klaud/, means a visible mass of condensed water vapor floating in the atmosphere, typically high above the ground.\n\nNotes："
@@ -331,10 +331,10 @@
       "id": "chapter2-q28",
       "question": "______dioxide is a colorless gas that is released by burning carbon-based fuels and is a major contributor to global warming.",
       "options": [
-        "Carbon",
+        "Sulfur",
         "Oxygen",
         "Nitrogen",
-        "Sulfur"
+        "Carbon"
       ],
       "answer": "Carbon",
       "explanation": "carbon dioxide: noun, /ˈkɑrbən daɪˌoksɪd/, means an odorless and insipid gas that is a heavy, colorless gas consisting of one part carbon and two parts oxygen (CO₂), produced by the combustion of carb"
@@ -343,10 +343,10 @@
       "id": "chapter2-q29",
       "question": "______ monoxide is a colorless and odorless gas that is highly toxic to animals and humans when inhaled.",
       "options": [
-        "Carbon",
+        "Sulfur",
         "Oxygen",
         "Nitrogen",
-        "Sulfur"
+        "Carbon"
       ],
       "answer": "Carbon",
       "explanation": "carbon monoxide: noun, /ˈkɑrbən ˈmɒnɔksaɪd/, means a colorless and odorless gas that is highly toxic to animals and humans when inhaled.\n\nNotes："
@@ -355,10 +355,10 @@
       "id": "chapter2-q30",
       "question": "Reducing one's______ involves taking actions to decrease the amount of carbon dioxide released into the atmosphere, such as using renewable energy sources and practicing energy conservation.",
       "options": [
-        "carbon footprint",
+        "cloud",
         "bank",
         "aluminium",
-        "cloud"
+        "carbon footprint"
       ],
       "answer": "carbon footprint",
       "explanation": "carbon footprint: noun, means the total amount of greenhouse gases, especially carbon dioxide, emitted directly or indirectly by an inpidual, organization, event, or product.\n\nNotes："
@@ -367,10 +367,10 @@
       "id": "chapter2-q31",
       "question": "The international community is urgently calling for______ to address the increasingly severe consequences of global warming.",
       "options": [
-        "act",
+        "adjust",
         "attempt",
         "adopt",
-        "adjust"
+        "act"
       ],
       "answer": "act",
       "explanation": "\"Act\" means taking a specific action or set of actions to address the issue.\nNotes："
@@ -379,10 +379,10 @@
       "id": "chapter2-q32",
       "question": "Many species have had to______ to their environments, showing remarkable resilience in the face of habitat loss and pollution.",
       "options": [
-        "adapt",
+        "adopt",
         "acquire",
         "adjust",
-        "adopt"
+        "adapt"
       ],
       "answer": "adapt",
       "explanation": "adapt: verb, /əˈdæpt/, means to change your behavior or way of life to make it suitable for a new situation.\n\nNotes："
@@ -403,10 +403,10 @@
       "id": "chapter2-q34",
       "question": "The government is considering______ new regulations that would mandate more sustainable practices across industries.",
       "options": [
-        "adopting",
+        "adjusting",
         "acquiring",
         "acting",
-        "adjusting"
+        "adopting"
       ],
       "answer": "adopting",
       "explanation": "In the context of your sentence, \"adopting\" refers to the government's process of formally accepting and implementing new regulations. It implies that these regulations will be put into effect or enac"
@@ -463,10 +463,10 @@
       "id": "chapter2-q39",
       "question": "To mitigate the effects of______, global leaders are pushing for renewable energy sources to replace fossil fuels.",
       "options": [
-        "climate change",
+        "attempt",
         "acid",
         "act",
-        "attempt"
+        "climate change"
       ],
       "answer": "climate change",
       "explanation": "climate change: noun, means significant and lasting changes in the Earth's weather patterns caused by human activities or natural phenomena.\n\nNotes："
@@ -487,10 +487,10 @@
       "id": "chapter2-q41",
       "question": "The detective was called to______ the scene of the crime, looking for any evidence that might have been overlooked.",
       "options": [
-        "analyse",
+        "burgle",
         "arrange",
         "capture",
-        "burgle"
+        "analyse"
       ],
       "answer": "analyse",
       "explanation": "analyse: verb, /ˈænəlaɪz/, means to study or examine something in detail in order to understand it better.\n\nNotes："
@@ -499,10 +499,10 @@
       "id": "chapter2-q42",
       "question": "To prevent further damage, emergency services were urgently______ to help evacuate residents from the flood-affected areas.",
       "options": [
-        "assist",
+        "capture",
         "assess",
         "calculate",
-        "capture"
+        "assist"
       ],
       "answer": "assist",
       "explanation": "assist: verb, /əˈsɪst/, means to help someone to do something, especially by giving them information, advice, or physical help.\n\nNotes："
@@ -511,10 +511,10 @@
       "id": "chapter2-q43",
       "question": "The financial analyst was tasked with______ the potential risks and returns of the new investment portfolio.",
       "options": [
-        "assessing",
+        "burying",
         "avoiding",
         "arranging",
-        "burying"
+        "assessing"
       ],
       "answer": "assessing",
       "explanation": "assess: verb, /əˈsɛs/, means to make a judgment about something after thinking carefully about it.\n\nNotes："
@@ -535,10 +535,10 @@
       "id": "chapter2-q45",
       "question": "The archaeologist spent months______ the artifacts found at the ancient site, determining their age and cultural significance.",
       "options": [
-        "analysing",
+        "burying",
         "capturing",
         "arranging",
-        "burying"
+        "analysing"
       ],
       "answer": "analysing",
       "explanation": "analyse: verb, /ˈænəlaɪz/, means to study or examine something in detail in order to understand it better.\n\nNotes："
@@ -547,10 +547,10 @@
       "id": "chapter2-q46",
       "question": "The team worked tirelessly to______ the data from the latest research study and present their findings.",
       "options": [
-        "calculate",
+        "arrange",
         "avoid",
         "assess",
-        "arrange"
+        "calculate"
       ],
       "answer": "calculate",
       "explanation": "calculate: verb, /ˈkælkjəˌleɪt/, means to work out a number or amount using math.\n\nNotes："
@@ -559,10 +559,10 @@
       "id": "chapter2-q47",
       "question": "The security firm was hired to______ the value of the jewels for insurance purposes before the exhibition.",
       "options": [
-        "calculate",
+        "beat",
         "analyse",
         "capture",
-        "beat"
+        "calculate"
       ],
       "answer": "calculate",
       "explanation": "calculate: verb, /ˈkælkjəˌleɪt/, means to work out a number or amount using math.\n\nNotes："
@@ -571,10 +571,10 @@
       "id": "chapter2-q48",
       "question": "The couple decided to______ their wedding photos in chronological order to create a visual story of their special day.",
       "options": [
-        "arrange",
+        "bury",
         "assess",
         "avoid",
-        "bury"
+        "arrange"
       ],
       "answer": "arrange",
       "explanation": "arrange: verb, /əˈreɪndʒ/, means to put things in a particular order or position, especially neatly or systematically.\n\nNotes："
@@ -595,10 +595,10 @@
       "id": "chapter2-q50",
       "question": "The police successfully______ the suspect who had been evading them for weeks, thanks to an anonymous tip-off.",
       "options": [
-        "captured",
+        "buried",
         "assessed",
         "arranged",
-        "buried"
+        "captured"
       ],
       "answer": "captured",
       "explanation": "capture: verb, /ˈkæptʃər/, means to catch or take someone or something using force or violence.\n\nNotes："
@@ -607,10 +607,10 @@
       "id": "chapter2-q51",
       "question": "The acrobat showcased an impressive routine, effortlessly______ from one apparatus to another with grace and precision.",
       "options": [
-        "balancing",
+        "brushing",
         "banging",
         "bending",
-        "brushing"
+        "balancing"
       ],
       "answer": "balancing",
       "explanation": "balancing: verb, /ˈbælənsɪŋ/, means to remain steady in a position where your weight is evenly pided on either side of the body or on two supports.\n\nNotes："
@@ -619,10 +619,10 @@
       "id": "chapter2-q52",
       "question": "In the silent night, the sound of a door______ echoed through the empty house, making her jump with fright.",
       "options": [
-        "banging",
+        "balancing",
         "bending",
         "brushing",
-        "balancing"
+        "banging"
       ],
       "answer": "banging",
       "explanation": "banging: verb, /ˈbæŋɪŋ/, means hitting something hard and repeatedly, making a loud noise.\n\nNotes："
@@ -667,10 +667,10 @@
       "id": "chapter2-q56",
       "question": "The lawyer hoped to______ the judge's decision by presenting compelling new evidence during the trial.",
       "options": [
-        "appeal to",
+        "anxiety",
         "charge",
         "anger",
-        "anxiety"
+        "appeal to"
       ],
       "answer": "appeal to",
       "explanation": "appeal to: verb, /əˈpiːl/, means to make an urgent request for help, money, or action, especially to the public.\n\nNotes："
