@@ -5,15 +5,18 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, CheckCircle2, Calendar, TrendingUp, History as HistoryIcon } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Calendar, TrendingUp, History as HistoryIcon, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import {
   getCompletedQuestionsWithTimestamps,
   getProgressStats,
+  getTotalCompletedCount,
   isUserLoggedIn,
   type CompletedQuestionRecord,
 } from "@/lib/sentence-completion-progress"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
+
+const ITEMS_PER_PAGE = 20
 
 export default function SentenceCompletionHistoryPage() {
   const [completedRecords, setCompletedRecords] = useState<CompletedQuestionRecord[]>([])
@@ -24,10 +27,12 @@ export default function SentenceCompletionHistoryPage() {
   })
   const [loading, setLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
 
   useEffect(() => {
     loadHistory()
-  }, [])
+  }, [currentPage])
 
   const loadHistory = async () => {
     setLoading(true)
@@ -39,13 +44,16 @@ export default function SentenceCompletionHistoryPage() {
     }
 
     try {
-      const [records, statsData] = await Promise.all([
-        getCompletedQuestionsWithTimestamps(),
+      const offset = (currentPage - 1) * ITEMS_PER_PAGE
+      const [records, statsData, total] = await Promise.all([
+        getCompletedQuestionsWithTimestamps(ITEMS_PER_PAGE, offset),
         getProgressStats(),
+        getTotalCompletedCount(),
       ])
 
       setCompletedRecords(records)
       setStats(statsData)
+      setTotalCount(total)
     } catch (error) {
       console.error('Failed to load history:', error)
     } finally {
@@ -72,6 +80,57 @@ export default function SentenceCompletionHistoryPage() {
   const getQuestionAnswer = (questionId: string): string => {
     const question = chapter2Questions.questions.find(q => q.id === questionId)
     return question?.answer || '?'
+  }
+
+  // Pagination helpers
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
+  const canGoPrevious = currentPage > 1
+  const canGoNext = currentPage < totalPages
+
+  const handlePreviousPage = () => {
+    if (canGoPrevious) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (canGoNext) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  // Generate page numbers to display (show max 5 page numbers)
+  const getPageNumbers = () => {
+    const pages: number[] = []
+    const maxPagesToShow = 5
+
+    if (totalPages <= maxPagesToShow) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      // Show current page with 2 pages on each side
+      let startPage = Math.max(1, currentPage - 2)
+      let endPage = Math.min(totalPages, currentPage + 2)
+
+      // Adjust if we're near the beginning or end
+      if (currentPage <= 3) {
+        endPage = maxPagesToShow
+      } else if (currentPage >= totalPages - 2) {
+        startPage = totalPages - maxPagesToShow + 1
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i)
+      }
+    }
+
+    return pages
   }
 
   if (!isLoggedIn) {
@@ -180,7 +239,7 @@ export default function SentenceCompletionHistoryPage() {
               {/* Completed Questions List */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Completed Questions ({completedRecords.length})</CardTitle>
+                  <CardTitle>Completed Questions ({totalCount})</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading ? (
@@ -196,33 +255,74 @@ export default function SentenceCompletionHistoryPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-2 max-h-[600px] overflow-y-auto">
-                      {completedRecords.map((record, index) => (
-                        <div
-                          key={`${record.questionId}-${index}`}
-                          className="flex items-start justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
-                        >
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-                              <span className="text-sm font-semibold text-teal-600 dark:text-teal-400">
-                                {getQuestionAnswer(record.questionId)}
-                              </span>
+                    <>
+                      <div className="space-y-2">
+                        {completedRecords.map((record, index) => (
+                          <div
+                            key={`${record.questionId}-${index}`}
+                            className="flex items-start justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+                                <span className="text-sm font-semibold text-teal-600 dark:text-teal-400">
+                                  {getQuestionAnswer(record.questionId)}
+                                </span>
+                              </div>
+                              <p className="text-sm text-foreground mb-1">
+                                {getQuestionText(record.questionId)}
+                              </p>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <Calendar className="h-3 w-3" />
+                                <span>{formatDate(record.completedAt)}</span>
+                              </div>
                             </div>
-                            <p className="text-sm text-foreground mb-1">
-                              {getQuestionText(record.questionId)}
-                            </p>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <Calendar className="h-3 w-3" />
-                              <span>{formatDate(record.completedAt)}</span>
-                            </div>
+                            <span className="text-xs text-muted-foreground ml-4 flex-shrink-0">
+                              #{record.questionId.replace('chapter2-q', '')}
+                            </span>
                           </div>
-                          <span className="text-xs text-muted-foreground ml-4 flex-shrink-0">
-                            #{record.questionId.replace('chapter2-q', '')}
-                          </span>
+                        ))}
+                      </div>
+
+                      {/* Pagination Controls */}
+                      {totalPages > 1 && (
+                        <div className="flex items-center justify-center gap-2 mt-6 pt-6 border-t">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handlePreviousPage}
+                            disabled={!canGoPrevious}
+                          >
+                            <ChevronLeft className="h-4 w-4 mr-1" />
+                            Previous
+                          </Button>
+
+                          <div className="flex items-center gap-1">
+                            {getPageNumbers().map((pageNum) => (
+                              <Button
+                                key={pageNum}
+                                variant={currentPage === pageNum ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => handlePageClick(pageNum)}
+                                className="min-w-[40px]"
+                              >
+                                {pageNum}
+                              </Button>
+                            ))}
+                          </div>
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleNextPage}
+                            disabled={!canGoNext}
+                          >
+                            Next
+                            <ChevronRight className="h-4 w-4 ml-1" />
+                          </Button>
                         </div>
-                      ))}
-                    </div>
+                      )}
+                    </>
                   )}
                 </CardContent>
               </Card>

@@ -180,7 +180,10 @@ export interface CompletedQuestionRecord {
  * Get all completed questions with timestamps for the current user
  * Returns most recently completed first
  */
-export async function getCompletedQuestionsWithTimestamps(): Promise<CompletedQuestionRecord[]> {
+export async function getCompletedQuestionsWithTimestamps(
+  limit?: number,
+  offset?: number
+): Promise<CompletedQuestionRecord[]> {
   const userId = getCurrentUserId()
 
   if (!userId || !supabase) {
@@ -188,11 +191,21 @@ export async function getCompletedQuestionsWithTimestamps(): Promise<CompletedQu
   }
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('sentence_completion_progress')
       .select('question_id, completed_at')
       .eq('user_id', userId)
       .order('completed_at', { ascending: false })
+
+    // Apply pagination if specified
+    if (limit !== undefined) {
+      query = query.limit(limit)
+    }
+    if (offset !== undefined) {
+      query = query.range(offset, offset + (limit || 10) - 1)
+    }
+
+    const { data, error } = await query
 
     if (error) {
       console.error('Error loading completed questions with timestamps:', error)
@@ -206,5 +219,33 @@ export async function getCompletedQuestionsWithTimestamps(): Promise<CompletedQu
   } catch (error) {
     console.error('Error loading completed questions with timestamps:', error)
     return []
+  }
+}
+
+/**
+ * Get total count of completed questions for the current user
+ */
+export async function getTotalCompletedCount(): Promise<number> {
+  const userId = getCurrentUserId()
+
+  if (!userId || !supabase) {
+    return 0
+  }
+
+  try {
+    const { count, error } = await supabase
+      .from('sentence_completion_progress')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error getting total count:', error)
+      return 0
+    }
+
+    return count || 0
+  } catch (error) {
+    console.error('Error getting total count:', error)
+    return 0
   }
 }
