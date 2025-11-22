@@ -206,34 +206,30 @@ export default function SentenceCompletionPage() {
                 </Link>
 
                 <div className="mb-8">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/10 text-teal-500">
-                        <Brain className="h-6 w-6" />
-                      </div>
-                      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-                        Sentence Completion Quiz
-                      </h1>
-                      <p className="text-lg text-muted-foreground">
-                        Practice fill-in-the-blank vocabulary questions from Chapter 2
-                      </p>
-                    </div>
-                    {isUserLoggedIn() && (
-                      <div className="flex gap-2 mt-4">
-                        <Link href="/vocabulary/sentence-completion/history">
-                          <Button variant="outline" size="sm">
-                            <History className="h-4 w-4 mr-2" />
-                            View History
-                          </Button>
-                        </Link>
-                        <Link href="/vocabulary/sentence-completion/review">
-                          <Button variant="outline" size="sm">
-                            <BookOpen className="h-4 w-4 mr-2" />
-                            Review Mistakes
-                          </Button>
-                        </Link>
-                      </div>
-                    )}
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/10 text-teal-500">
+                    <Brain className="h-6 w-6" />
+                  </div>
+                  <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
+                    Sentence Completion Quiz
+                  </h1>
+                  <p className="text-lg text-muted-foreground mb-6">
+                    Practice fill-in-the-blank vocabulary questions from Chapter 2
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap gap-3">
+                    <Link href="/vocabulary/sentence-completion/history">
+                      <Button variant="outline">
+                        <History className="h-4 w-4 mr-2" />
+                        View History
+                      </Button>
+                    </Link>
+                    <Link href="/vocabulary/sentence-completion/review">
+                      <Button variant="outline">
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        Review Mistakes
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 
