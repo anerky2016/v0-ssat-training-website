@@ -5,7 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen } from "lucide-react"
+import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen, History } from "lucide-react"
 import Link from "next/link"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
@@ -219,12 +219,20 @@ export default function SentenceCompletionPage() {
                       </p>
                     </div>
                     {isUserLoggedIn() && (
-                      <Link href="/vocabulary/sentence-completion/review">
-                        <Button variant="outline" size="sm" className="mt-4">
-                          <BookOpen className="h-4 w-4 mr-2" />
-                          Review Mistakes
-                        </Button>
-                      </Link>
+                      <div className="flex gap-2 mt-4">
+                        <Link href="/vocabulary/sentence-completion/history">
+                          <Button variant="outline" size="sm">
+                            <History className="h-4 w-4 mr-2" />
+                            View History
+                          </Button>
+                        </Link>
+                        <Link href="/vocabulary/sentence-completion/review">
+                          <Button variant="outline" size="sm">
+                            <BookOpen className="h-4 w-4 mr-2" />
+                            Review Mistakes
+                          </Button>
+                        </Link>
+                      </div>
                     )}
                   </div>
                 </div>

@@ -167,3 +167,44 @@ export async function getProgressStats(): Promise<{
     return { totalCompleted: 0, completedToday: 0, completedThisWeek: 0 }
   }
 }
+
+/**
+ * Completed question record with timestamp
+ */
+export interface CompletedQuestionRecord {
+  questionId: string
+  completedAt: string
+}
+
+/**
+ * Get all completed questions with timestamps for the current user
+ * Returns most recently completed first
+ */
+export async function getCompletedQuestionsWithTimestamps(): Promise<CompletedQuestionRecord[]> {
+  const userId = getCurrentUserId()
+
+  if (!userId || !supabase) {
+    return []
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('sentence_completion_progress')
+      .select('question_id, completed_at')
+      .eq('user_id', userId)
+      .order('completed_at', { ascending: false })
+
+    if (error) {
+      console.error('Error loading completed questions with timestamps:', error)
+      return []
+    }
+
+    return data?.map(row => ({
+      questionId: row.question_id,
+      completedAt: row.completed_at,
+    })) || []
+  } catch (error) {
+    console.error('Error loading completed questions with timestamps:', error)
+    return []
+  }
+}
