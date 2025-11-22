@@ -40,6 +40,22 @@ export function SentenceCompletionQuestion({
   const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
   const [regenerationAttempt, setRegenerationAttempt] = useState(0)
 
+  // Simple markdown renderer for AI explanations
+  const renderMarkdown = (text: string) => {
+    if (!text) return null
+
+    // Convert **bold** to <strong>bold</strong>
+    const parts = text.split(/(\*\*.*?\*\*)/g)
+
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2)
+        return <strong key={index} className="font-bold">{boldText}</strong>
+      }
+      return <span key={index}>{part}</span>
+    })
+  }
+
   // Use external selection if provided, otherwise use internal state
   const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
   const isSubmitted = submitted || hasAnswered
@@ -405,7 +421,7 @@ export function SentenceCompletionQuestion({
                         ) : (
                           <>
                             <p className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed mb-2">
-                              {aiExplanation}
+                              {renderMarkdown(aiExplanation || '')}
                             </p>
                             {feedbackGiven === 'up' && (
                               <div className="flex items-center gap-1 mt-2 pt-2 border-t border-purple-200 dark:border-purple-800">
