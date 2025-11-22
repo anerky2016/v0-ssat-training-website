@@ -18,12 +18,32 @@ export default function SentenceCompletionPage() {
   const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
   const [shuffleSeed, setShuffleSeed] = useState(0) // Trigger to reshuffle questions
+  const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
 
-  // Generate quiz questions by shuffling and limiting
+  // Load completed questions from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('sentence-completion-completed')
+    if (saved) {
+      try {
+        const completed = JSON.parse(saved)
+        setCompletedQuestions(new Set(completed))
+      } catch (e) {
+        console.error('Failed to load completed questions:', e)
+      }
+    }
+  }, [])
+
+  // Generate quiz questions by filtering completed, shuffling, and limiting
   const quizQuestions = useMemo(() => {
-    const shuffled = [...chapter2Questions.questions].sort(() => Math.random() - 0.5)
-    return shuffled.slice(0, numberOfQuestions)
-  }, [numberOfQuestions, shuffleSeed])
+    // Filter out completed questions
+    const available = chapter2Questions.questions.filter(q => !completedQuestions.has(q.id))
+
+    // Shuffle available questions
+    const shuffled = [...available].sort(() => Math.random() - 0.5)
+
+    // Limit to requested number (or all available if less)
+    return shuffled.slice(0, Math.min(numberOfQuestions, shuffled.length))
+  }, [numberOfQuestions, shuffleSeed, completedQuestions])
 
   const handleSelectAnswer = (questionId: string, answer: string) => {
     setUserAnswers({
@@ -62,6 +82,14 @@ export default function SentenceCompletionPage() {
     setScore(correctCount)
     setQuizSubmitted(true)
 
+    // Mark all questions in this quiz as completed
+    const newCompleted = new Set(completedQuestions)
+    quizQuestions.forEach(q => newCompleted.add(q.id))
+    setCompletedQuestions(newCompleted)
+
+    // Save to localStorage
+    localStorage.setItem('sentence-completion-completed', JSON.stringify(Array.from(newCompleted)))
+
     // Save mistakes to database (if user is logged in)
     if (isUserLoggedIn() && mistakes.length > 0) {
       const savedCount = await saveMistakes(mistakes)
@@ -83,10 +111,24 @@ export default function SentenceCompletionPage() {
     setShuffleSeed(prev => prev + 1) // Trigger reshuffle on reset
   }
 
+  const resetProgress = () => {
+    if (confirm('Are you sure you want to reset all progress? This will clear all completed questions and you will start fresh.')) {
+      setCompletedQuestions(new Set())
+      localStorage.removeItem('sentence-completion-completed')
+      setShuffleSeed(prev => prev + 1) // Trigger reshuffle
+    }
+  }
+
   const startQuiz = () => {
     setShuffleSeed(prev => prev + 1) // Trigger reshuffle on start
     setQuizStarted(true)
   }
+
+  // Calculate progress stats
+  const totalQuestions = chapter2Questions.questions.length
+  const completedCount = completedQuestions.size
+  const remainingCount = totalQuestions - completedCount
+  const progressPercentage = (completedCount / totalQuestions * 100).toFixed(1)
 
   // Setup screen
   if (!quizStarted) {
@@ -131,14 +173,52 @@ export default function SentenceCompletionPage() {
 
                 <Card>
                   <CardContent className="pt-6 space-y-6">
+                    {/* Progress Stats */}
+                    {completedCount > 0 && (
+                      <div className="p-4 bg-gradient-to-r from-teal-50 to-green-50 dark:from-teal-950/20 dark:to-green-950/20 border border-teal-200 dark:border-teal-800 rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="font-semibold text-teal-900 dark:text-teal-100">
+                            Your Progress
+                          </h3>
+                          <Button
+                            onClick={resetProgress}
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                          >
+                            <RotateCcw className="h-3 w-3 mr-1" />
+                            Reset Progress
+                          </Button>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-teal-800 dark:text-teal-200">Completed:</span>
+                            <span className="font-semibold text-teal-900 dark:text-teal-100">
+                              {completedCount} / {totalQuestions} ({progressPercentage}%)
+                            </span>
+                          </div>
+                          <div className="w-full bg-teal-100 dark:bg-teal-900/30 rounded-full h-2">
+                            <div
+                              className="bg-teal-500 h-2 rounded-full transition-all"
+                              style={{ width: `${progressPercentage}%` }}
+                            />
+                          </div>
+                          <p className="text-xs text-teal-700 dark:text-teal-300">
+                            {remainingCount} questions remaining
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Quiz Info */}
                     <div className="p-4 bg-teal-50 dark:bg-teal-950/20 border border-teal-200 dark:border-teal-800 rounded-lg">
                       <h3 className="font-semibold text-teal-900 dark:text-teal-100 mb-2">
                         About This Quiz
                       </h3>
                       <p className="text-sm text-teal-800 dark:text-teal-200">
-                        This quiz contains {chapter2Questions.totalQuestions} fill-in-the-blank vocabulary questions.
+                        This quiz contains {totalQuestions} fill-in-the-blank vocabulary questions.
                         Each question tests your understanding of word meanings in context.
+                        {completedCount > 0 && ' Only unanswered questions will be shown.'}
                       </p>
                     </div>
 
@@ -163,16 +243,42 @@ export default function SentenceCompletionPage() {
                     </div>
 
                     <div className="pt-4 border-t">
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {quizQuestions.length} questions ready
-                      </p>
-                      <Button
-                        onClick={startQuiz}
-                        size="lg"
-                        className="w-full bg-teal-500 hover:bg-teal-600"
-                      >
-                        Start Quiz
-                      </Button>
+                      {quizQuestions.length > 0 ? (
+                        <>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            {quizQuestions.length} questions ready
+                            {remainingCount < numberOfQuestions && remainingCount > 0 && (
+                              <span className="text-amber-600 dark:text-amber-400">
+                                {' '}(only {remainingCount} unanswered questions left)
+                              </span>
+                            )}
+                          </p>
+                          <Button
+                            onClick={startQuiz}
+                            size="lg"
+                            className="w-full bg-teal-500 hover:bg-teal-600"
+                          >
+                            Start Quiz
+                          </Button>
+                        </>
+                      ) : (
+                        <div className="text-center py-6">
+                          <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-3" />
+                          <p className="font-semibold text-lg mb-2">All Questions Completed!</p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            You've answered all {totalQuestions} questions. Great job!
+                          </p>
+                          <Button
+                            onClick={resetProgress}
+                            size="lg"
+                            variant="outline"
+                            className="w-full"
+                          >
+                            <RotateCcw className="h-4 w-4 mr-2" />
+                            Start Over
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
