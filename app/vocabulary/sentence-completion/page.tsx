@@ -17,12 +17,13 @@ export default function SentenceCompletionPage() {
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({})
   const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
+  const [shuffleSeed, setShuffleSeed] = useState(0) // Trigger to reshuffle questions
 
   // Generate quiz questions by shuffling and limiting
   const quizQuestions = useMemo(() => {
     const shuffled = [...chapter2Questions.questions].sort(() => Math.random() - 0.5)
     return shuffled.slice(0, numberOfQuestions)
-  }, [numberOfQuestions])
+  }, [numberOfQuestions, shuffleSeed])
 
   const handleSelectAnswer = (questionId: string, answer: string) => {
     setUserAnswers({
@@ -79,9 +80,11 @@ export default function SentenceCompletionPage() {
     setScore(0)
     setUserAnswers({})
     setQuizSubmitted(false)
+    setShuffleSeed(prev => prev + 1) // Trigger reshuffle on reset
   }
 
   const startQuiz = () => {
+    setShuffleSeed(prev => prev + 1) // Trigger reshuffle on start
     setQuizStarted(true)
   }
 
