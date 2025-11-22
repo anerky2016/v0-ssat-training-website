@@ -16,20 +16,38 @@ interface SentenceCompletionQuestionProps {
   question: SentenceCompletionQuestionData
   onAnswer?: (isCorrect: boolean) => void
   showFeedback?: boolean
+  // New props for deferred feedback mode
+  selectedAnswer?: string | null
+  onSelectAnswer?: (answer: string) => void
+  submitted?: boolean
 }
 
 export function SentenceCompletionQuestion({
   question,
   onAnswer,
-  showFeedback = true
+  showFeedback = true,
+  selectedAnswer: externalSelectedAnswer,
+  onSelectAnswer,
+  submitted = false
 }: SentenceCompletionQuestionProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [internalSelectedOption, setInternalSelectedOption] = useState<string | null>(null)
   const [hasAnswered, setHasAnswered] = useState(false)
 
+  // Use external selection if provided, otherwise use internal state
+  const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
+  const isSubmitted = submitted || hasAnswered
+
   const handleOptionSelect = (option: string) => {
+    // If using external control (deferred mode)
+    if (onSelectAnswer !== undefined) {
+      onSelectAnswer(option)
+      return
+    }
+
+    // Original immediate feedback mode
     if (hasAnswered) return
 
-    setSelectedOption(option)
+    setInternalSelectedOption(option)
     setHasAnswered(true)
 
     const isCorrect = option === question.answer
@@ -40,23 +58,30 @@ export function SentenceCompletionQuestion({
   }
 
   const getOptionStyle = (option: string) => {
-    if (!hasAnswered) {
-      return "bg-card hover:bg-muted/50 border-2 border-border cursor-pointer transition-all hover:scale-[1.02]"
+    // If submitted or answered, show feedback
+    if (isSubmitted && showFeedback) {
+      if (option === question.answer) {
+        return "bg-green-100 dark:bg-green-900/30 border-2 border-green-500"
+      }
+
+      if (option === selectedOption && option !== question.answer) {
+        return "bg-red-100 dark:bg-red-900/30 border-2 border-red-500"
+      }
+
+      return "bg-muted/30 border-2 border-border opacity-60"
     }
 
-    if (option === question.answer) {
-      return "bg-green-100 dark:bg-green-900/30 border-2 border-green-500"
+    // If selected but not submitted, show selection highlight
+    if (option === selectedOption) {
+      return "bg-teal-100 dark:bg-teal-900/30 border-2 border-teal-500 cursor-pointer transition-all"
     }
 
-    if (option === selectedOption && option !== question.answer) {
-      return "bg-red-100 dark:bg-red-900/30 border-2 border-red-500"
-    }
-
-    return "bg-muted/30 border-2 border-border opacity-60"
+    return "bg-card hover:bg-muted/50 border-2 border-border cursor-pointer transition-all hover:scale-[1.02]"
   }
 
   const getOptionIcon = (option: string) => {
-    if (!hasAnswered) return null
+    // Only show icons after submission
+    if (!isSubmitted || !showFeedback) return null
 
     if (option === question.answer) {
       return <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
@@ -108,7 +133,7 @@ export function SentenceCompletionQuestion({
           <button
             key={index}
             onClick={() => handleOptionSelect(option)}
-            disabled={hasAnswered}
+            disabled={isSubmitted && showFeedback}
             className={`w-full p-4 rounded-lg text-left flex items-center justify-between ${getOptionStyle(option)}`}
           >
             <span className="font-medium">{option}</span>
@@ -116,7 +141,7 @@ export function SentenceCompletionQuestion({
           </button>
         ))}
 
-        {showFeedback && hasAnswered && (
+        {showFeedback && isSubmitted && (
           <div className={`mt-4 p-4 rounded-lg ${
             selectedOption === question.answer
               ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200"

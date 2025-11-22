@@ -12,10 +12,9 @@ import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/Se
 
 export default function SentenceCompletionPage() {
   const [quizStarted, setQuizStarted] = useState(false)
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
-  const [answers, setAnswers] = useState<boolean[]>([])
-  const [quizComplete, setQuizComplete] = useState(false)
+  const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({})
+  const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
 
   // Generate quiz questions by shuffling and limiting
@@ -24,30 +23,36 @@ export default function SentenceCompletionPage() {
     return shuffled.slice(0, numberOfQuestions)
   }, [numberOfQuestions])
 
-  const currentQuestion = quizQuestions[currentQuestionIndex]
-
-  const handleAnswer = (isCorrect: boolean) => {
-    setAnswers([...answers, isCorrect])
-    if (isCorrect) {
-      setScore(score + 1)
-    }
-
-    // Move to next question after a delay
-    setTimeout(() => {
-      if (currentQuestionIndex + 1 < quizQuestions.length) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1)
-      } else {
-        setQuizComplete(true)
-      }
-    }, 2000)
+  const handleSelectAnswer = (questionId: string, answer: string) => {
+    setUserAnswers({
+      ...userAnswers,
+      [questionId]: answer
+    })
   }
+
+  const handleSubmit = () => {
+    // Calculate score
+    let correctCount = 0
+    quizQuestions.forEach((q) => {
+      if (userAnswers[q.id] === q.answer) {
+        correctCount++
+      }
+    })
+    setScore(correctCount)
+    setQuizSubmitted(true)
+
+    // Scroll to top to see results
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const answeredCount = Object.keys(userAnswers).length
+  const allAnswered = answeredCount === quizQuestions.length
 
   const resetQuiz = () => {
     setQuizStarted(false)
-    setCurrentQuestionIndex(0)
     setScore(0)
-    setAnswers([])
-    setQuizComplete(false)
+    setUserAnswers({})
+    setQuizSubmitted(false)
   }
 
   const startQuiz = () => {
@@ -139,84 +144,6 @@ export default function SentenceCompletionPage() {
     )
   }
 
-  // Quiz complete screen
-  if (quizComplete) {
-    const percentage = Math.round((score / quizQuestions.length) * 100)
-    return (
-      <div className="min-h-screen">
-        <Header />
-        <main>
-          <section className="py-12 sm:py-16 lg:py-20">
-            <div className="container mx-auto px-4 sm:px-6">
-              <div className="mx-auto max-w-3xl">
-                <Card className="text-center">
-                  <CardContent className="pt-12 pb-8">
-                    <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-teal-500/10 text-teal-500">
-                      <Trophy className="h-10 w-10" />
-                    </div>
-                    <h2 className="text-3xl font-bold mb-4">Quiz Complete!</h2>
-
-                    <div className="text-6xl font-bold text-teal-500 mb-2">
-                      {percentage}%
-                    </div>
-                    <p className="text-xl text-muted-foreground mb-8">
-                      You got {score} out of {quizQuestions.length} correct
-                    </p>
-
-                    {/* Performance message */}
-                    <div className="mb-8 p-4 rounded-lg bg-muted/50">
-                      <p className="text-lg">
-                        {percentage >= 90 && "Outstanding! You have excellent vocabulary knowledge! 🎉"}
-                        {percentage >= 70 && percentage < 90 && "Great job! Keep practicing to perfect your skills! 👏"}
-                        {percentage >= 50 && percentage < 70 && "Good effort! Review the words and try again! 💪"}
-                        {percentage < 50 && "Keep studying! Practice makes perfect! 📚"}
-                      </p>
-                    </div>
-
-                    {/* Answer summary */}
-                    <div className="mb-8">
-                      <h3 className="font-semibold mb-3">Answer Summary</h3>
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {answers.map((isCorrect, idx) => (
-                          <div
-                            key={idx}
-                            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                              isCorrect
-                                ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
-                                : "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
-                            }`}
-                          >
-                            {isCorrect ? (
-                              <CheckCircle2 className="h-5 w-5" />
-                            ) : (
-                              <XCircle className="h-5 w-5" />
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3 justify-center flex-wrap">
-                      <Button onClick={resetQuiz} size="lg" variant="outline">
-                        <RotateCcw className="h-5 w-5 mr-2" />
-                        Try Again
-                      </Button>
-                      <Link href="/vocabulary">
-                        <Button size="lg" className="bg-teal-500 hover:bg-teal-600">
-                          Back to Vocabulary
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </section>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
 
   // Quiz in progress
   return (
@@ -226,8 +153,8 @@ export default function SentenceCompletionPage() {
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="mx-auto max-w-3xl">
-              {/* Progress header */}
-              <div className="mb-6 flex items-center justify-between">
+              {/* Header */}
+              <div className="mb-6 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-10 py-4 -mt-4">
                 <div className="flex items-center gap-4">
                   <Button
                     onClick={resetQuiz}
@@ -238,36 +165,100 @@ export default function SentenceCompletionPage() {
                     Exit Quiz
                   </Button>
                   <div className="text-sm font-semibold text-muted-foreground">
-                    Question {currentQuestionIndex + 1} of {quizQuestions.length}
+                    {answeredCount} of {quizQuestions.length} answered
                   </div>
                 </div>
-                <div className="text-sm font-semibold">
-                  Score: <span className="text-teal-500">{score}/{currentQuestionIndex + 1}</span>
+                {quizSubmitted && (
+                  <div className="text-sm font-semibold">
+                    Score: <span className="text-teal-500">{score}/{quizQuestions.length}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Results Summary (shown after submission) */}
+              {quizSubmitted && (
+                <Card className="mb-8 border-teal-500 bg-teal-50 dark:bg-teal-950/20">
+                  <CardContent className="pt-6">
+                    <div className="text-center">
+                      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-teal-500/10 text-teal-500">
+                        <Trophy className="h-8 w-8" />
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2">Quiz Complete!</h2>
+                      <div className="text-5xl font-bold text-teal-500 mb-2">
+                        {Math.round((score / quizQuestions.length) * 100)}%
+                      </div>
+                      <p className="text-lg text-muted-foreground mb-4">
+                        You got {score} out of {quizQuestions.length} correct
+                      </p>
+                      <div className="p-4 rounded-lg bg-background/50">
+                        <p className="text-sm">
+                          {Math.round((score / quizQuestions.length) * 100) >= 90 && "Outstanding! You have excellent vocabulary knowledge!"}
+                          {Math.round((score / quizQuestions.length) * 100) >= 70 && Math.round((score / quizQuestions.length) * 100) < 90 && "Great job! Keep practicing to perfect your skills!"}
+                          {Math.round((score / quizQuestions.length) * 100) >= 50 && Math.round((score / quizQuestions.length) * 100) < 70 && "Good effort! Review the words and try again!"}
+                          {Math.round((score / quizQuestions.length) * 100) < 50 && "Keep studying! Practice makes perfect!"}
+                        </p>
+                      </div>
+                      <div className="mt-4 flex gap-2 justify-center">
+                        <Button onClick={resetQuiz} variant="outline">
+                          <RotateCcw className="h-4 w-4 mr-2" />
+                          Try Again
+                        </Button>
+                        <Link href="/vocabulary">
+                          <Button className="bg-teal-500 hover:bg-teal-600">
+                            Back to Vocabulary
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Questions */}
+              <div className="space-y-6 mb-8">
+                {quizQuestions.map((question, index) => (
+                  <div key={question.id}>
+                    <div className="text-sm font-semibold text-muted-foreground mb-2">
+                      Question {index + 1} of {quizQuestions.length}
+                    </div>
+                    <SentenceCompletionQuestion
+                      question={{
+                        id: question.id,
+                        question: question.question,
+                        options: question.options,
+                        answer: question.answer
+                      }}
+                      selectedAnswer={userAnswers[question.id] || null}
+                      onSelectAnswer={(answer) => handleSelectAnswer(question.id, answer)}
+                      submitted={quizSubmitted}
+                      showFeedback={quizSubmitted}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Submit Button */}
+              {!quizSubmitted && (
+                <div className="sticky bottom-4 bg-background/95 backdrop-blur-sm rounded-lg border-2 border-teal-500 p-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-sm">
+                      <span className="font-semibold">{answeredCount}</span> of {quizQuestions.length} questions answered
+                    </div>
+                    <Button
+                      onClick={handleSubmit}
+                      disabled={!allAnswered}
+                      size="lg"
+                      className="bg-teal-500 hover:bg-teal-600"
+                    >
+                      Submit Quiz
+                    </Button>
+                  </div>
+                  {!allAnswered && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Please answer all questions before submitting
+                    </p>
+                  )}
                 </div>
-              </div>
-
-              {/* Progress bar */}
-              <div className="mb-8 h-2 bg-muted rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-teal-500 transition-all duration-300"
-                  style={{
-                    width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`
-                  }}
-                />
-              </div>
-
-              {/* Question */}
-              {currentQuestion && (
-                <SentenceCompletionQuestion
-                  question={{
-                    id: currentQuestion.id,
-                    question: currentQuestion.question,
-                    options: currentQuestion.options,
-                    answer: currentQuestion.answer
-                  }}
-                  onAnswer={handleAnswer}
-                  showFeedback={true}
-                />
               )}
             </div>
           </div>
