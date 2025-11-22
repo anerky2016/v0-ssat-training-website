@@ -5,7 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, CheckCircle2, Calendar, TrendingUp, History as HistoryIcon, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Calendar, TrendingUp, History as HistoryIcon, ChevronLeft, ChevronRight, Filter } from "lucide-react"
 import Link from "next/link"
 import {
   getCompletedQuestionsWithTimestamps,
@@ -15,8 +15,16 @@ import {
   type CompletedQuestionRecord,
 } from "@/lib/sentence-completion-progress"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const ITEMS_PER_PAGE = 20
+type DateFilter = "all" | "7days" | "30days" | "90days"
 
 export default function SentenceCompletionHistoryPage() {
   const [completedRecords, setCompletedRecords] = useState<CompletedQuestionRecord[]>([])
@@ -29,10 +37,31 @@ export default function SentenceCompletionHistoryPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
+  const [dateFilter, setDateFilter] = useState<DateFilter>("all")
 
   useEffect(() => {
     loadHistory()
-  }, [currentPage])
+  }, [currentPage, dateFilter])
+
+  const getDateRange = (): { startDate?: Date; endDate?: Date } => {
+    const now = new Date()
+    const endDate = now
+
+    switch (dateFilter) {
+      case "7days":
+        const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+        return { startDate: sevenDaysAgo, endDate }
+      case "30days":
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+        return { startDate: thirtyDaysAgo, endDate }
+      case "90days":
+        const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
+        return { startDate: ninetyDaysAgo, endDate }
+      case "all":
+      default:
+        return {}
+    }
+  }
 
   const loadHistory = async () => {
     setLoading(true)
@@ -44,11 +73,12 @@ export default function SentenceCompletionHistoryPage() {
     }
 
     try {
+      const { startDate, endDate } = getDateRange()
       const offset = (currentPage - 1) * ITEMS_PER_PAGE
       const [records, statsData, total] = await Promise.all([
-        getCompletedQuestionsWithTimestamps(ITEMS_PER_PAGE, offset),
-        getProgressStats(),
-        getTotalCompletedCount(),
+        getCompletedQuestionsWithTimestamps(ITEMS_PER_PAGE, offset, startDate, endDate),
+        getProgressStats(startDate, endDate),
+        getTotalCompletedCount(startDate, endDate),
       ])
 
       setCompletedRecords(records)
@@ -189,6 +219,25 @@ export default function SentenceCompletionHistoryPage() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* Date Filter */}
+              <div className="mb-6 flex items-center gap-3">
+                <Filter className="h-5 w-5 text-muted-foreground" />
+                <Select value={dateFilter} onValueChange={(value) => {
+                  setDateFilter(value as DateFilter)
+                  setCurrentPage(1) // Reset to first page when filter changes
+                }}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select time period" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Time</SelectItem>
+                    <SelectItem value="7days">Last 7 Days</SelectItem>
+                    <SelectItem value="30days">Last 30 Days</SelectItem>
+                    <SelectItem value="90days">Last 90 Days</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Statistics Cards */}

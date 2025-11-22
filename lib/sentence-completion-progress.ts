@@ -119,9 +119,12 @@ export async function resetProgress(): Promise<boolean> {
 }
 
 /**
- * Get progress statistics for the current user
+ * Get progress statistics for the current user with optional date filtering
  */
-export async function getProgressStats(): Promise<{
+export async function getProgressStats(
+  startDate?: Date,
+  endDate?: Date
+): Promise<{
   totalCompleted: number
   completedToday: number
   completedThisWeek: number
@@ -137,25 +140,48 @@ export async function getProgressStats(): Promise<{
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
-    // Get total count
-    const { count: totalCompleted } = await supabase
+    // Get total count (with optional date filtering)
+    let totalQuery = supabase
       .from('sentence_completion_progress')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
 
-    // Get today's count
-    const { count: completedToday } = await supabase
-      .from('sentence_completion_progress')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .gte('completed_at', today.toISOString())
+    if (startDate) {
+      totalQuery = totalQuery.gte('completed_at', startDate.toISOString())
+    }
+    if (endDate) {
+      totalQuery = totalQuery.lte('completed_at', endDate.toISOString())
+    }
 
-    // Get this week's count
-    const { count: completedThisWeek } = await supabase
+    const { count: totalCompleted } = await totalQuery
+
+    // Get today's count (respecting date filters if they're more restrictive)
+    const todayStartDate = startDate && startDate > today ? startDate : today
+    let todayQuery = supabase
       .from('sentence_completion_progress')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .gte('completed_at', weekAgo.toISOString())
+      .gte('completed_at', todayStartDate.toISOString())
+
+    if (endDate) {
+      todayQuery = todayQuery.lte('completed_at', endDate.toISOString())
+    }
+
+    const { count: completedToday } = await todayQuery
+
+    // Get this week's count (respecting date filters if they're more restrictive)
+    const weekStartDate = startDate && startDate > weekAgo ? startDate : weekAgo
+    let weekQuery = supabase
+      .from('sentence_completion_progress')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .gte('completed_at', weekStartDate.toISOString())
+
+    if (endDate) {
+      weekQuery = weekQuery.lte('completed_at', endDate.toISOString())
+    }
+
+    const { count: completedThisWeek } = await weekQuery
 
     return {
       totalCompleted: totalCompleted || 0,
@@ -182,7 +208,9 @@ export interface CompletedQuestionRecord {
  */
 export async function getCompletedQuestionsWithTimestamps(
   limit?: number,
-  offset?: number
+  offset?: number,
+  startDate?: Date,
+  endDate?: Date
 ): Promise<CompletedQuestionRecord[]> {
   const userId = getCurrentUserId()
 
@@ -195,7 +223,16 @@ export async function getCompletedQuestionsWithTimestamps(
       .from('sentence_completion_progress')
       .select('question_id, completed_at')
       .eq('user_id', userId)
-      .order('completed_at', { ascending: false })
+
+    // Apply date filters if provided
+    if (startDate) {
+      query = query.gte('completed_at', startDate.toISOString())
+    }
+    if (endDate) {
+      query = query.lte('completed_at', endDate.toISOString())
+    }
+
+    query = query.order('completed_at', { ascending: false })
 
     // Apply pagination if specified
     if (limit !== undefined) {
@@ -225,7 +262,10 @@ export async function getCompletedQuestionsWithTimestamps(
 /**
  * Get total count of completed questions for the current user
  */
-export async function getTotalCompletedCount(): Promise<number> {
+export async function getTotalCompletedCount(
+  startDate?: Date,
+  endDate?: Date
+): Promise<number> {
   const userId = getCurrentUserId()
 
   if (!userId || !supabase) {
@@ -233,10 +273,20 @@ export async function getTotalCompletedCount(): Promise<number> {
   }
 
   try {
-    const { count, error } = await supabase
+    let query = supabase
       .from('sentence_completion_progress')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
+
+    // Apply date filters if provided
+    if (startDate) {
+      query = query.gte('completed_at', startDate.toISOString())
+    }
+    if (endDate) {
+      query = query.lte('completed_at', endDate.toISOString())
+    }
+
+    const { count, error } = await query
 
     if (error) {
       console.error('Error getting total count:', error)

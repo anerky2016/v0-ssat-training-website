@@ -125,8 +125,11 @@ export async function saveMistakes(
   }
 }
 
-// Get all mistakes for current user
-export async function getAllMistakes(): Promise<SentenceCompletionMistake[]> {
+// Get all mistakes for current user with optional date filtering
+export async function getAllMistakes(
+  startDate?: Date,
+  endDate?: Date
+): Promise<SentenceCompletionMistake[]> {
   const userId = getCurrentUserId()
 
   if (!userId) {
@@ -140,11 +143,22 @@ export async function getAllMistakes(): Promise<SentenceCompletionMistake[]> {
   }
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('sentence_completion_mistakes')
       .select('*')
       .eq('user_id', userId)
-      .order('created_at', { ascending: false })
+
+    // Apply date filters if provided
+    if (startDate) {
+      query = query.gte('created_at', startDate.toISOString())
+    }
+    if (endDate) {
+      query = query.lte('created_at', endDate.toISOString())
+    }
+
+    query = query.order('created_at', { ascending: false })
+
+    const { data, error } = await query
 
     if (error) {
       console.error('Error fetching mistakes:', error)
@@ -294,8 +308,11 @@ export async function clearAllMistakes(): Promise<boolean> {
   }
 }
 
-// Get mistake statistics
-export async function getMistakeStats(): Promise<{
+// Get mistake statistics with optional date filtering
+export async function getMistakeStats(
+  startDate?: Date,
+  endDate?: Date
+): Promise<{
   total: number
   lastWeek: number
   lastMonth: number
@@ -313,7 +330,7 @@ export async function getMistakeStats(): Promise<{
   }
 
   try {
-    const allMistakes = await getAllMistakes()
+    const allMistakes = await getAllMistakes(startDate, endDate)
     const now = new Date()
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
     const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)

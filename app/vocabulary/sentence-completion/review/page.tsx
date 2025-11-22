@@ -5,7 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, BookOpen, Trash2, Calendar, TrendingDown } from "lucide-react"
+import { ArrowLeft, BookOpen, Trash2, Calendar, TrendingDown, Filter } from "lucide-react"
 import Link from "next/link"
 import {
   getAllMistakes,
@@ -15,6 +15,15 @@ import {
   type SentenceCompletionMistake,
 } from "@/lib/sentence-completion-mistakes"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+type DateFilter = "all" | "7days" | "30days" | "90days"
 
 export default function SentenceCompletionReviewPage() {
   const [mistakes, setMistakes] = useState<SentenceCompletionMistake[]>([])
@@ -26,10 +35,31 @@ export default function SentenceCompletionReviewPage() {
   })
   const [loading, setLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [dateFilter, setDateFilter] = useState<DateFilter>("all")
 
   useEffect(() => {
     loadMistakes()
-  }, [])
+  }, [dateFilter])
+
+  const getDateRange = (): { startDate?: Date; endDate?: Date } => {
+    const now = new Date()
+    const endDate = now
+
+    switch (dateFilter) {
+      case "7days":
+        const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+        return { startDate: sevenDaysAgo, endDate }
+      case "30days":
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+        return { startDate: thirtyDaysAgo, endDate }
+      case "90days":
+        const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
+        return { startDate: ninetyDaysAgo, endDate }
+      case "all":
+      default:
+        return {}
+    }
+  }
 
   const loadMistakes = async () => {
     setLoading(true)
@@ -41,9 +71,10 @@ export default function SentenceCompletionReviewPage() {
     }
 
     try {
+      const { startDate, endDate } = getDateRange()
       const [mistakesData, statsData] = await Promise.all([
-        getAllMistakes(),
-        getMistakeStats(),
+        getAllMistakes(startDate, endDate),
+        getMistakeStats(startDate, endDate),
       ])
 
       setMistakes(mistakesData)
@@ -167,6 +198,22 @@ export default function SentenceCompletionReviewPage() {
                 <p className="text-lg text-muted-foreground">
                   Review your incorrect answers to improve your vocabulary
                 </p>
+              </div>
+
+              {/* Date Filter */}
+              <div className="mb-6 flex items-center gap-3">
+                <Filter className="h-5 w-5 text-muted-foreground" />
+                <Select value={dateFilter} onValueChange={(value) => setDateFilter(value as DateFilter)}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select time period" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Time</SelectItem>
+                    <SelectItem value="7days">Last 7 Days</SelectItem>
+                    <SelectItem value="30days">Last 30 Days</SelectItem>
+                    <SelectItem value="90days">Last 90 Days</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Statistics */}
