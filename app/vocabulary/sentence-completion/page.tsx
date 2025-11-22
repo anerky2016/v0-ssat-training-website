@@ -226,7 +226,8 @@ export default function SentenceCompletionPage() {
                         id: question.id,
                         question: question.question,
                         options: question.options,
-                        answer: question.answer
+                        answer: question.answer,
+                        explanation: question.explanation
                       }}
                       selectedAnswer={userAnswers[question.id] || null}
                       onSelectAnswer={(answer) => handleSelectAnswer(question.id, answer)}

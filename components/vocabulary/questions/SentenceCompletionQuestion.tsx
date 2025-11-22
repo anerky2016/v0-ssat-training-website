@@ -10,6 +10,7 @@ export interface SentenceCompletionQuestionData {
   question: string
   options: string[]
   answer: string
+  explanation?: string
 }
 
 interface SentenceCompletionQuestionProps {
@@ -147,7 +148,7 @@ export function SentenceCompletionQuestion({
               ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200"
               : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200"
           }`}>
-            <div className="flex items-center gap-2 font-semibold mb-1">
+            <div className="flex items-center gap-2 font-semibold mb-2">
               {selectedOption === question.answer ? (
                 <>
                   <CheckCircle2 className="h-5 w-5" />
@@ -161,9 +162,20 @@ export function SentenceCompletionQuestion({
               )}
             </div>
             {selectedOption !== question.answer && (
-              <p className="text-sm">
-                The correct answer is: <strong>{question.answer}</strong>
-              </p>
+              <div className="mb-3">
+                <p className="text-sm font-semibold mb-1">Correct Answer:</p>
+                <p className="text-sm bg-white/50 dark:bg-black/20 p-2 rounded">
+                  <strong>{question.answer}</strong>
+                </p>
+              </div>
+            )}
+            {question.explanation && (
+              <div className="mt-3 pt-3 border-t border-current/20">
+                <p className="text-sm font-semibold mb-1">Explanation:</p>
+                <p className="text-sm whitespace-pre-line bg-white/50 dark:bg-black/20 p-2 rounded">
+                  {question.explanation}
+                </p>
+              </div>
             )}
           </div>
         )}
