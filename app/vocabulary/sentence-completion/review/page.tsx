@@ -350,6 +350,7 @@ export default function SentenceCompletionReviewPage() {
                           selectedAnswer={mistake.user_answer}
                           submitted={true}
                           showFeedback={true}
+                          initialAiExplanation={mistake.explanation}
                         />
                       </div>
                     ))}

@@ -26,6 +26,8 @@ interface SentenceCompletionQuestionProps {
   submitted?: boolean
   // Callback to send AI explanation to parent
   onAiExplanation?: (questionId: string, explanation: string) => void
+  // Pre-populate AI explanation (e.g., from database)
+  initialAiExplanation?: string | null
 }
 
 export function SentenceCompletionQuestion({
@@ -35,11 +37,12 @@ export function SentenceCompletionQuestion({
   selectedAnswer: externalSelectedAnswer,
   onSelectAnswer,
   submitted = false,
-  onAiExplanation
+  onAiExplanation,
+  initialAiExplanation = null
 }: SentenceCompletionQuestionProps) {
   const [internalSelectedOption, setInternalSelectedOption] = useState<string | null>(null)
   const [hasAnswered, setHasAnswered] = useState(false)
-  const [aiExplanation, setAiExplanation] = useState<string | null>(null)
+  const [aiExplanation, setAiExplanation] = useState<string | null>(initialAiExplanation)
   const [loadingExplanation, setLoadingExplanation] = useState(false)
   const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
   const [regenerationAttempt, setRegenerationAttempt] = useState(0)
