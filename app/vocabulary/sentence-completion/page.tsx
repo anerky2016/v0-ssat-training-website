@@ -10,6 +10,7 @@ import Link from "next/link"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
 import { saveMistakes, isUserLoggedIn } from "@/lib/sentence-completion-mistakes"
+import { getCompletedQuestions, markQuestionsCompleted, resetProgress as resetProgressDB } from "@/lib/sentence-completion-progress"
 
 export default function SentenceCompletionPage() {
   const [quizStarted, setQuizStarted] = useState(false)
@@ -20,17 +21,54 @@ export default function SentenceCompletionPage() {
   const [shuffleSeed, setShuffleSeed] = useState(0) // Trigger to reshuffle questions
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
 
-  // Load completed questions from localStorage on mount
+  // Load completed questions from database (or localStorage fallback) on mount
   useEffect(() => {
-    const saved = localStorage.getItem('sentence-completion-completed')
-    if (saved) {
-      try {
-        const completed = JSON.parse(saved)
-        setCompletedQuestions(new Set(completed))
-      } catch (e) {
-        console.error('Failed to load completed questions:', e)
+    async function loadCompletedQuestions() {
+      const localStorageKey = 'sentence-completion-completed'
+
+      if (isUserLoggedIn()) {
+        // Logged-in user: Load from database
+        const dbCompleted = await getCompletedQuestions()
+
+        // Also check localStorage for any local progress
+        const localSaved = localStorage.getItem(localStorageKey)
+        let localCompleted: string[] = []
+        if (localSaved) {
+          try {
+            localCompleted = JSON.parse(localSaved)
+          } catch (e) {
+            console.error('Failed to parse localStorage:', e)
+          }
+        }
+
+        // Merge database and localStorage (union)
+        const merged = new Set([...dbCompleted, ...localCompleted])
+        setCompletedQuestions(merged)
+
+        // If there were local-only items, sync them to database
+        const localOnly = localCompleted.filter(id => !dbCompleted.includes(id))
+        if (localOnly.length > 0) {
+          console.log(`Syncing ${localOnly.length} local questions to database...`)
+          await markQuestionsCompleted(localOnly)
+        }
+
+        console.log(`Loaded ${merged.size} completed questions for logged-in user`)
+      } else {
+        // Anonymous user: Use localStorage only
+        const saved = localStorage.getItem(localStorageKey)
+        if (saved) {
+          try {
+            const completed = JSON.parse(saved)
+            setCompletedQuestions(new Set(completed))
+            console.log(`Loaded ${completed.length} completed questions from localStorage`)
+          } catch (e) {
+            console.error('Failed to load completed questions:', e)
+          }
+        }
       }
     }
+
+    loadCompletedQuestions()
   }, [])
 
   // Generate quiz questions by filtering out completed ones, then shuffling
@@ -84,12 +122,19 @@ export default function SentenceCompletionPage() {
 
     // Mark all questions in this quiz as completed
     const newCompleted = new Set(completedQuestions)
-    quizQuestions.forEach(q => newCompleted.add(q.id))
+    const questionIds = quizQuestions.map(q => q.id)
+    questionIds.forEach(id => newCompleted.add(id))
     setCompletedQuestions(newCompleted)
 
-    // Save completed questions to localStorage
+    // Save completed questions to localStorage (always, as backup)
     localStorage.setItem('sentence-completion-completed', JSON.stringify(Array.from(newCompleted)))
-    console.log(`Marked ${quizQuestions.length} questions as completed. Total completed: ${newCompleted.size}`)
+    console.log(`Marked ${questionIds.length} questions as completed. Total completed: ${newCompleted.size}`)
+
+    // Save completed questions to database (if user is logged in)
+    if (isUserLoggedIn()) {
+      const savedCount = await markQuestionsCompleted(questionIds)
+      console.log(`Saved ${savedCount} completed questions to database`)
+    }
 
     // Save mistakes to database (if user is logged in)
     if (isUserLoggedIn() && mistakes.length > 0) {
@@ -117,10 +162,23 @@ export default function SentenceCompletionPage() {
     setQuizStarted(true)
   }
 
-  const resetProgress = () => {
+  const resetProgress = async () => {
     if (confirm('Are you sure you want to reset all progress? This will clear all completed questions.')) {
+      // Clear state
       setCompletedQuestions(new Set())
+
+      // Clear localStorage
       localStorage.removeItem('sentence-completion-completed')
+
+      // Clear database (if logged in)
+      if (isUserLoggedIn()) {
+        const success = await resetProgressDB()
+        if (success) {
+          console.log('Successfully reset progress in database')
+        }
+      }
+
+      // Trigger re-shuffle
       setShuffleSeed(prev => prev + 1)
     }
   }
