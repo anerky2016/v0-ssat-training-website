@@ -299,3 +299,53 @@ export async function getTotalCompletedCount(
     return 0
   }
 }
+
+/**
+ * Get daily completion counts for calendar view
+ * Returns a map of date (YYYY-MM-DD) to count
+ */
+export async function getDailyCompletionCounts(
+  startDate?: Date,
+  endDate?: Date
+): Promise<Record<string, number>> {
+  const userId = getCurrentUserId()
+
+  if (!userId || !supabase) {
+    return {}
+  }
+
+  try {
+    let query = supabase
+      .from('sentence_completion_progress')
+      .select('completed_at')
+      .eq('user_id', userId)
+
+    // Apply date filters if provided
+    if (startDate) {
+      query = query.gte('completed_at', startDate.toISOString())
+    }
+    if (endDate) {
+      query = query.lte('completed_at', endDate.toISOString())
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error('Error getting daily counts:', error)
+      return {}
+    }
+
+    // Group by date
+    const counts: Record<string, number> = {}
+    data?.forEach(row => {
+      const date = new Date(row.completed_at)
+      const dateKey = date.toISOString().split('T')[0] // YYYY-MM-DD
+      counts[dateKey] = (counts[dateKey] || 0) + 1
+    })
+
+    return counts
+  } catch (error) {
+    console.error('Error getting daily counts:', error)
+    return {}
+  }
+}

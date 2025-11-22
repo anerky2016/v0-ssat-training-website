@@ -11,6 +11,7 @@ import {
   getCompletedQuestionsWithTimestamps,
   getProgressStats,
   getTotalCompletedCount,
+  getDailyCompletionCounts,
   isUserLoggedIn,
   type CompletedQuestionRecord,
 } from "@/lib/sentence-completion-progress"
@@ -22,9 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { ActivityCalendar } from "@/components/ActivityCalendar"
 
 const ITEMS_PER_PAGE = 20
-type DateFilter = "all" | "7days" | "30days" | "90days"
+type DateFilter = "all" | "7days" | "30days" | "90days" | "custom"
 
 export default function SentenceCompletionHistoryPage() {
   const [completedRecords, setCompletedRecords] = useState<CompletedQuestionRecord[]>([])
@@ -38,12 +40,38 @@ export default function SentenceCompletionHistoryPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
   const [dateFilter, setDateFilter] = useState<DateFilter>("all")
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState<Date | null>(null)
+  const [dailyCounts, setDailyCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
     loadHistory()
-  }, [currentPage, dateFilter])
+  }, [currentPage, dateFilter, selectedCalendarDate])
+
+  useEffect(() => {
+    loadDailyCounts()
+  }, [])
+
+  const loadDailyCounts = async () => {
+    if (!isUserLoggedIn()) return
+
+    try {
+      const counts = await getDailyCompletionCounts()
+      setDailyCounts(counts)
+    } catch (error) {
+      console.error('Failed to load daily counts:', error)
+    }
+  }
 
   const getDateRange = (): { startDate?: Date; endDate?: Date } => {
+    // If a calendar date is selected, use that specific date
+    if (selectedCalendarDate && dateFilter === "custom") {
+      const startOfDay = new Date(selectedCalendarDate)
+      startOfDay.setHours(0, 0, 0, 0)
+      const endOfDay = new Date(selectedCalendarDate)
+      endOfDay.setHours(23, 59, 59, 999)
+      return { startDate: startOfDay, endDate: endOfDay }
+    }
+
     const now = new Date()
     const endDate = now
 
@@ -61,6 +89,16 @@ export default function SentenceCompletionHistoryPage() {
       default:
         return {}
     }
+  }
+
+  const handleCalendarDateSelect = (date: Date | null) => {
+    setSelectedCalendarDate(date)
+    if (date) {
+      setDateFilter("custom")
+    } else {
+      setDateFilter("all")
+    }
+    setCurrentPage(1)
   }
 
   const loadHistory = async () => {
@@ -224,8 +262,9 @@ export default function SentenceCompletionHistoryPage() {
               {/* Date Filter */}
               <div className="mb-6 flex items-center gap-3">
                 <Filter className="h-5 w-5 text-muted-foreground" />
-                <Select value={dateFilter} onValueChange={(value) => {
+                <Select value={dateFilter === "custom" ? "all" : dateFilter} onValueChange={(value) => {
                   setDateFilter(value as DateFilter)
+                  setSelectedCalendarDate(null) // Clear calendar selection
                   setCurrentPage(1) // Reset to first page when filter changes
                 }}>
                   <SelectTrigger className="w-[200px]">
@@ -238,6 +277,16 @@ export default function SentenceCompletionHistoryPage() {
                     <SelectItem value="90days">Last 90 Days</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Activity Calendar */}
+              <div className="mb-8">
+                <ActivityCalendar
+                  dailyCounts={dailyCounts}
+                  onDateSelect={handleCalendarDateSelect}
+                  selectedDate={selectedCalendarDate}
+                  title="Completion Activity"
+                />
               </div>
 
               {/* Statistics Cards */}

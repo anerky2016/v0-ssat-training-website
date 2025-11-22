@@ -10,6 +10,7 @@ import Link from "next/link"
 import {
   getAllMistakes,
   getMistakeStats,
+  getDailyMistakeCounts,
   clearAllMistakes,
   isUserLoggedIn,
   type SentenceCompletionMistake,
@@ -22,8 +23,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { ActivityCalendar } from "@/components/ActivityCalendar"
 
-type DateFilter = "all" | "7days" | "30days" | "90days"
+type DateFilter = "all" | "7days" | "30days" | "90days" | "custom"
 
 export default function SentenceCompletionReviewPage() {
   const [mistakes, setMistakes] = useState<SentenceCompletionMistake[]>([])
@@ -36,12 +38,38 @@ export default function SentenceCompletionReviewPage() {
   const [loading, setLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [dateFilter, setDateFilter] = useState<DateFilter>("all")
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState<Date | null>(null)
+  const [dailyCounts, setDailyCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
     loadMistakes()
-  }, [dateFilter])
+  }, [dateFilter, selectedCalendarDate])
+
+  useEffect(() => {
+    loadDailyCounts()
+  }, [])
+
+  const loadDailyCounts = async () => {
+    if (!isUserLoggedIn()) return
+
+    try {
+      const counts = await getDailyMistakeCounts()
+      setDailyCounts(counts)
+    } catch (error) {
+      console.error('Failed to load daily counts:', error)
+    }
+  }
 
   const getDateRange = (): { startDate?: Date; endDate?: Date } => {
+    // If a calendar date is selected, use that specific date
+    if (selectedCalendarDate && dateFilter === "custom") {
+      const startOfDay = new Date(selectedCalendarDate)
+      startOfDay.setHours(0, 0, 0, 0)
+      const endOfDay = new Date(selectedCalendarDate)
+      endOfDay.setHours(23, 59, 59, 999)
+      return { startDate: startOfDay, endDate: endOfDay }
+    }
+
     const now = new Date()
     const endDate = now
 
@@ -58,6 +86,15 @@ export default function SentenceCompletionReviewPage() {
       case "all":
       default:
         return {}
+    }
+  }
+
+  const handleCalendarDateSelect = (date: Date | null) => {
+    setSelectedCalendarDate(date)
+    if (date) {
+      setDateFilter("custom")
+    } else {
+      setDateFilter("all")
     }
   }
 
@@ -203,7 +240,10 @@ export default function SentenceCompletionReviewPage() {
               {/* Date Filter */}
               <div className="mb-6 flex items-center gap-3">
                 <Filter className="h-5 w-5 text-muted-foreground" />
-                <Select value={dateFilter} onValueChange={(value) => setDateFilter(value as DateFilter)}>
+                <Select value={dateFilter === "custom" ? "all" : dateFilter} onValueChange={(value) => {
+                  setDateFilter(value as DateFilter)
+                  setSelectedCalendarDate(null) // Clear calendar selection
+                }}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Select time period" />
                   </SelectTrigger>
@@ -214,6 +254,16 @@ export default function SentenceCompletionReviewPage() {
                     <SelectItem value="90days">Last 90 Days</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Activity Calendar */}
+              <div className="mb-8">
+                <ActivityCalendar
+                  dailyCounts={dailyCounts}
+                  onDateSelect={handleCalendarDateSelect}
+                  selectedDate={selectedCalendarDate}
+                  title="Mistake Activity"
+                />
               </div>
 
               {/* Statistics */}
