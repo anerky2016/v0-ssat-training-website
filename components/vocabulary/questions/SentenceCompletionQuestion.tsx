@@ -57,6 +57,7 @@ export function SentenceCompletionQuestion({
       const requestBody: any = {
         question: question.question,
         correctAnswer: question.answer,
+        allOptions: question.options, // Include all answer choices for comparison
         wordInfo: wordInfo.exists ? wordInfo : null,
       }
 

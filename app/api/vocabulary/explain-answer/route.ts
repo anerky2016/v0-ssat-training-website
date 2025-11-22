@@ -21,11 +21,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { question, correctAnswer, userAnswer, wordInfo, isRegeneration, previousExplanation } = body
+    const { question, correctAnswer, allOptions, userAnswer, wordInfo, isRegeneration, previousExplanation } = body
 
     console.log('💡 [Answer Explanation] Request received:', {
       question: question?.substring(0, 50) + '...',
       correctAnswer,
+      optionsCount: allOptions?.length || 0,
       userAnswer,
       hasWordInfo: !!wordInfo,
       isRegeneration: isRegeneration || false,
@@ -68,40 +69,40 @@ Please provide a DIFFERENT explanation using:
 - Focus on what might have been unclear in the previous explanation`
     }
 
-    const prompt = `A student is working on a sentence completion question and needs help understanding why the correct answer makes sense.${isRegeneration ? ' This is a REGENERATED explanation - the student needs a different approach.' : ''}
+    // Build options list for comparison
+    const optionsList = allOptions && allOptions.length > 0
+      ? `\n\nAll Answer Choices:\n${allOptions.map((opt: string, i: number) => `${String.fromCharCode(65 + i)}. ${opt}`).join('\n')}`
+      : ''
+
+    const prompt = `A student is working on a sentence completion question and needs to understand why one answer is BETTER than the others.${isRegeneration ? ' This is a REGENERATED explanation - provide a different approach.' : ''}
 
 Question: ${question}
+${optionsList}
 
 Correct Answer: ${correctAnswer}
-${userAnswer ? `Student's Answer: ${userAnswer}` : ''}${wordContext}${regenerationContext}
+${userAnswer && userAnswer !== correctAnswer ? `Student's Wrong Answer: ${userAnswer}` : ''}${wordContext}${regenerationContext}
 
-Please provide a clear, helpful explanation for a middle school student (10-14 years old) that:
-1. Explains why "${correctAnswer}" is the best choice for this sentence
-2. Breaks down the meaning of the sentence and how "${correctAnswer}" fits the context
-3. ${userAnswer && userAnswer !== correctAnswer ? `Briefly explains why "${userAnswer}" doesn't work as well` : ''}
-4. Uses simple language and examples if helpful
-5. Keeps it concise (3-5 sentences maximum)
-${isRegeneration ? '6. Takes a DIFFERENT APPROACH than the previous explanation' : ''}
+Provide a CONCISE, ACCURATE explanation (2-3 sentences max) for a middle school student that:
+1. Explains why "${correctAnswer}" is the BEST fit for the sentence context
+2. ${allOptions && allOptions.length > 1 ? `Briefly contrasts why the other choices don't work as well` : ''}
+3. ${userAnswer && userAnswer !== correctAnswer ? `Specifically addresses why "${userAnswer}" is incorrect` : ''}
+4. Uses simple, clear language
+${isRegeneration ? '5. Uses a DIFFERENT teaching approach than before' : ''}
 
-Focus on making it easy to understand and educational.`
+Keep it SHORT and FOCUSED. Quality over quantity.`
 
     console.log('🤖 [Answer Explanation] Calling OpenAI API...')
     const apiStartTime = Date.now()
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o', // Using stronger model for better accuracy and explanation quality
+      model: 'gpt-5.1', // Using OpenAI's latest GPT-5.1 model with advanced reasoning
       messages: [
-        {
-          role: 'system',
-          content: `You are a helpful, patient teacher explaining vocabulary and sentence completion to middle school students. Your explanations are clear, educational, and age-appropriate. Always focus on helping students understand WHY an answer is correct, not just THAT it is correct.${isRegeneration ? ' When regenerating, you MUST provide a fresh perspective and different teaching approach than before.' : ''}`
-        },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: isRegeneration ? 0.9 : 0.7, // Higher temperature for more variety on regeneration
-      max_tokens: 300,
+      // GPT-5.1 supports adaptive reasoning and multimodal capabilities
     })
 
     const apiDuration = Date.now() - apiStartTime
@@ -120,9 +121,9 @@ Focus on making it easy to understand and educational.`
       preview: explanation.substring(0, 100) + '...',
       apiDuration: `${apiDuration}ms`,
       totalDuration: `${totalDuration}ms`,
-      model: 'gpt-4o',
-      temperature: isRegeneration ? 0.9 : 0.7,
-      tokensUsed: completion.usage?.total_tokens || 'N/A'
+      model: 'gpt-5.1',
+      tokensUsed: completion.usage?.total_tokens || 'N/A',
+      reasoningTokens: completion.usage?.completion_tokens_details?.reasoning_tokens || 'N/A'
     })
 
     return NextResponse.json({ explanation })
