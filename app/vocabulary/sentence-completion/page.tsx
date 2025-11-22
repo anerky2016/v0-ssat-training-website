@@ -20,6 +20,7 @@ export default function SentenceCompletionPage() {
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
   const [shuffleSeed, setShuffleSeed] = useState(0) // Trigger to reshuffle questions
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
+  const [aiExplanations, setAiExplanations] = useState<{ [key: string]: string }>({})
 
   // Load completed questions from database (or localStorage fallback) on mount
   useEffect(() => {
@@ -90,6 +91,13 @@ export default function SentenceCompletionPage() {
     })
   }
 
+  const handleAiExplanation = (questionId: string, explanation: string) => {
+    setAiExplanations({
+      ...aiExplanations,
+      [questionId]: explanation
+    })
+  }
+
   const handleSubmit = async () => {
     // Calculate score and collect mistakes
     let correctCount = 0
@@ -106,13 +114,15 @@ export default function SentenceCompletionPage() {
       if (userAnswer === q.answer) {
         correctCount++
       } else {
-        // Record the mistake
+        // Record the mistake with AI explanation if available
+        const aiExplanation = aiExplanations[q.id]
         mistakes.push({
           questionId: q.id,
           question: q.question,
           correctAnswer: q.answer,
           userAnswer: userAnswer || '',
-          explanation: q.explanation,
+          // Prefer AI explanation over static explanation
+          explanation: aiExplanation || q.explanation,
         })
       }
     })
@@ -154,6 +164,7 @@ export default function SentenceCompletionPage() {
     setScore(0)
     setUserAnswers({})
     setQuizSubmitted(false)
+    setAiExplanations({}) // Clear AI explanations
     setShuffleSeed(prev => prev + 1) // Trigger reshuffle on reset
   }
 
@@ -438,6 +449,7 @@ export default function SentenceCompletionPage() {
                       onSelectAnswer={(answer) => handleSelectAnswer(question.id, answer)}
                       submitted={quizSubmitted}
                       showFeedback={quizSubmitted}
+                      onAiExplanation={handleAiExplanation}
                     />
                   </div>
                 ))}

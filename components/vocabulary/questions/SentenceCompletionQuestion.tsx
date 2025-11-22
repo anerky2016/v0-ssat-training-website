@@ -24,6 +24,8 @@ interface SentenceCompletionQuestionProps {
   selectedAnswer?: string | null
   onSelectAnswer?: (answer: string) => void
   submitted?: boolean
+  // Callback to send AI explanation to parent
+  onAiExplanation?: (questionId: string, explanation: string) => void
 }
 
 export function SentenceCompletionQuestion({
@@ -32,7 +34,8 @@ export function SentenceCompletionQuestion({
   showFeedback = true,
   selectedAnswer: externalSelectedAnswer,
   onSelectAnswer,
-  submitted = false
+  submitted = false,
+  onAiExplanation
 }: SentenceCompletionQuestionProps) {
   const [internalSelectedOption, setInternalSelectedOption] = useState<string | null>(null)
   const [hasAnswered, setHasAnswered] = useState(false)
@@ -102,6 +105,11 @@ export function SentenceCompletionQuestion({
       setAiExplanation(data.explanation)
       if (isRegeneration) {
         setFeedbackGiven(null) // Reset feedback for new explanation
+      }
+
+      // Notify parent component of the AI explanation
+      if (onAiExplanation) {
+        onAiExplanation(question.id, data.explanation)
       }
     } catch (error) {
       console.error('Error getting AI explanation:', error)
