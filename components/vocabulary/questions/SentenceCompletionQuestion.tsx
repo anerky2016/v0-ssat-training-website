@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, XCircle, ExternalLink } from "lucide-react"
+import { CheckCircle2, XCircle, ExternalLink, Sparkles, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getWordInfo } from "@/lib/vocabulary-lookup"
 
@@ -35,10 +35,44 @@ export function SentenceCompletionQuestion({
 }: SentenceCompletionQuestionProps) {
   const [internalSelectedOption, setInternalSelectedOption] = useState<string | null>(null)
   const [hasAnswered, setHasAnswered] = useState(false)
+  const [aiExplanation, setAiExplanation] = useState<string | null>(null)
+  const [loadingExplanation, setLoadingExplanation] = useState(false)
 
   // Use external selection if provided, otherwise use internal state
   const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
   const isSubmitted = submitted || hasAnswered
+
+  const requestAIExplanation = async () => {
+    setLoadingExplanation(true)
+    try {
+      const wordInfo = getWordInfo(question.answer)
+
+      const response = await fetch('/api/vocabulary/explain-answer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          question: question.question,
+          correctAnswer: question.answer,
+          userAnswer: selectedOption !== question.answer ? selectedOption : undefined,
+          wordInfo: wordInfo.exists ? wordInfo : undefined,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate explanation')
+      }
+
+      const data = await response.json()
+      setAiExplanation(data.explanation)
+    } catch (error) {
+      console.error('Error getting AI explanation:', error)
+      setAiExplanation('Sorry, we could not generate an explanation at this time. Please try again later.')
+    } finally {
+      setLoadingExplanation(false)
+    }
+  }
 
   const handleOptionSelect = (option: string) => {
     // If using external control (deferred mode)
@@ -227,6 +261,43 @@ export function SentenceCompletionQuestion({
                       </p>
                     </div>
                   )}
+
+                  {/* AI Explanation Section */}
+                  <div className="mt-3 pt-3 border-t border-current/10">
+                    {!aiExplanation ? (
+                      <Button
+                        onClick={requestAIExplanation}
+                        disabled={loadingExplanation}
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs"
+                      >
+                        {loadingExplanation ? (
+                          <>
+                            <Loader2 className="h-3 w-3 mr-2 animate-spin" />
+                            Generating explanation...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="h-3 w-3 mr-2" />
+                            Still confused? Get AI explanation
+                          </>
+                        )}
+                      </Button>
+                    ) : (
+                      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 p-3 rounded border border-purple-200 dark:border-purple-800">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                          <p className="text-xs font-semibold text-purple-900 dark:text-purple-100">
+                            AI Tutor Explanation:
+                          </p>
+                        </div>
+                        <p className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed">
+                          {aiExplanation}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )
             })()}
