@@ -9,11 +9,13 @@ import { Button } from "@/components/ui/button"
 import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy } from "lucide-react"
 import Link from "next/link"
 import vocabularyData from "@/data/vocabulary-words.json"
+import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SynonymQuestion } from "@/components/vocabulary/questions/SynonymQuestion"
 import { AntonymQuestion } from "@/components/vocabulary/questions/AntonymQuestion"
 import { AnalogyQuestion } from "@/components/vocabulary/questions/AnalogyQuestion"
+import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
 
-type QuestionType = "synonyms" | "antonyms" | "analogies"
+type QuestionType = "synonyms" | "antonyms" | "analogies" | "sentence-completion"
 
 interface QuizQuestion {
   id: string
@@ -34,7 +36,7 @@ export default function VocabularyQuizPage() {
   const [quizComplete, setQuizComplete] = useState(false)
 
   // Quiz settings
-  const [selectedTypes, setSelectedTypes] = useState<QuestionType[]>(["synonyms", "antonyms", "analogies"])
+  const [selectedTypes, setSelectedTypes] = useState<QuestionType[]>(["synonyms", "antonyms", "analogies", "sentence-completion"])
   const [numberOfQuestions, setNumberOfQuestions] = useState(10)
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
 
@@ -104,6 +106,21 @@ export default function VocabularyQuizPage() {
         })
       }
     })
+
+    // Add Chapter 2 sentence completion questions
+    if (selectedTypes.includes("sentence-completion")) {
+      chapter2Questions.questions.forEach((q) => {
+        allQuestions.push({
+          id: q.id,
+          type: "sentence-completion",
+          word: "", // No specific word association
+          question: q.question,
+          options: q.options,
+          answer: q.answer,
+          explanation: q.explanation
+        })
+      })
+    }
 
     // Shuffle and limit to requested number
     const shuffled = allQuestions.sort(() => Math.random() - 0.5)
@@ -216,6 +233,13 @@ export default function VocabularyQuizPage() {
                           className={selectedTypes.includes("analogies") ? "bg-purple-500 hover:bg-purple-600" : ""}
                         >
                           Analogies
+                        </Button>
+                        <Button
+                          onClick={() => toggleQuestionType("sentence-completion")}
+                          variant={selectedTypes.includes("sentence-completion") ? "default" : "outline"}
+                          className={selectedTypes.includes("sentence-completion") ? "bg-teal-500 hover:bg-teal-600" : ""}
+                        >
+                          Sentence Completion
                         </Button>
                       </div>
                     </div>
@@ -442,6 +466,18 @@ export default function VocabularyQuizPage() {
                         options: currentQuestion.options,
                         answer: currentQuestion.answer,
                         explanation: currentQuestion.explanation
+                      }}
+                      onAnswer={handleAnswer}
+                      showFeedback={true}
+                    />
+                  )}
+                  {currentQuestion.type === "sentence-completion" && (
+                    <SentenceCompletionQuestion
+                      question={{
+                        id: currentQuestion.id,
+                        question: currentQuestion.question,
+                        options: currentQuestion.options,
+                        answer: currentQuestion.answer
                       }}
                       onAnswer={handleAnswer}
                       showFeedback={true}
