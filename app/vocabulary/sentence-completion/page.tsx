@@ -5,10 +5,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy } from "lucide-react"
+import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen } from "lucide-react"
 import Link from "next/link"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
+import { saveMistakes, isUserLoggedIn } from "@/lib/sentence-completion-mistakes"
 
 export default function SentenceCompletionPage() {
   const [quizStarted, setQuizStarted] = useState(false)
@@ -30,16 +31,41 @@ export default function SentenceCompletionPage() {
     })
   }
 
-  const handleSubmit = () => {
-    // Calculate score
+  const handleSubmit = async () => {
+    // Calculate score and collect mistakes
     let correctCount = 0
+    const mistakes: Array<{
+      questionId: string
+      question: string
+      correctAnswer: string
+      userAnswer: string
+      explanation?: string
+    }> = []
+
     quizQuestions.forEach((q) => {
-      if (userAnswers[q.id] === q.answer) {
+      const userAnswer = userAnswers[q.id]
+      if (userAnswer === q.answer) {
         correctCount++
+      } else {
+        // Record the mistake
+        mistakes.push({
+          questionId: q.id,
+          question: q.question,
+          correctAnswer: q.answer,
+          userAnswer: userAnswer || '',
+          explanation: q.explanation,
+        })
       }
     })
+
     setScore(correctCount)
     setQuizSubmitted(true)
+
+    // Save mistakes to database (if user is logged in)
+    if (isUserLoggedIn() && mistakes.length > 0) {
+      const savedCount = await saveMistakes(mistakes)
+      console.log(`Saved ${savedCount} mistakes for review`)
+    }
 
     // Scroll to top to see results
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -77,15 +103,27 @@ export default function SentenceCompletionPage() {
                 </Link>
 
                 <div className="mb-8">
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/10 text-teal-500">
-                    <Brain className="h-6 w-6" />
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/10 text-teal-500">
+                        <Brain className="h-6 w-6" />
+                      </div>
+                      <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
+                        Sentence Completion Quiz
+                      </h1>
+                      <p className="text-lg text-muted-foreground">
+                        Practice fill-in-the-blank vocabulary questions from Chapter 2
+                      </p>
+                    </div>
+                    {isUserLoggedIn() && (
+                      <Link href="/vocabulary/sentence-completion/review">
+                        <Button variant="outline" size="sm" className="mt-4">
+                          <BookOpen className="h-4 w-4 mr-2" />
+                          Review Mistakes
+                        </Button>
+                      </Link>
+                    )}
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-3">
-                    Sentence Completion Quiz
-                  </h1>
-                  <p className="text-lg text-muted-foreground">
-                    Practice fill-in-the-blank vocabulary questions from Chapter 2
-                  </p>
                 </div>
 
                 <Card>
@@ -198,11 +236,19 @@ export default function SentenceCompletionPage() {
                           {Math.round((score / quizQuestions.length) * 100) < 50 && "Keep studying! Practice makes perfect!"}
                         </p>
                       </div>
-                      <div className="mt-4 flex gap-2 justify-center">
+                      <div className="mt-4 flex gap-2 justify-center flex-wrap">
                         <Button onClick={resetQuiz} variant="outline">
                           <RotateCcw className="h-4 w-4 mr-2" />
                           Try Again
                         </Button>
+                        {isUserLoggedIn() && (
+                          <Link href="/vocabulary/sentence-completion/review">
+                            <Button variant="outline">
+                              <BookOpen className="h-4 w-4 mr-2" />
+                              Review Mistakes
+                            </Button>
+                          </Link>
+                        )}
                         <Link href="/vocabulary">
                           <Button className="bg-teal-500 hover:bg-teal-600">
                             Back to Vocabulary

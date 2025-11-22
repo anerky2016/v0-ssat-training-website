@@ -1,0 +1,352 @@
+// Sentence completion mistake tracking
+// Records incorrect answers for future review
+
+import { auth } from './firebase'
+import { supabase } from './supabase'
+
+export interface SentenceCompletionMistake {
+  id?: string
+  user_id: string
+  question_id: string
+  question: string
+  correct_answer: string
+  user_answer: string
+  explanation?: string
+  created_at: string
+}
+
+// Helper to get current user ID
+function getCurrentUserId(): string | null {
+  return auth?.currentUser?.uid || null
+}
+
+// Check if user is logged in
+export function isUserLoggedIn(): boolean {
+  return getCurrentUserId() !== null
+}
+
+// Save a mistake to Supabase
+export async function saveMistake(
+  questionId: string,
+  question: string,
+  correctAnswer: string,
+  userAnswer: string,
+  explanation?: string
+): Promise<boolean> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot save mistake')
+    return false
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot save mistake')
+    return false
+  }
+
+  try {
+    const { error } = await supabase
+      .from('sentence_completion_mistakes')
+      .insert({
+        user_id: userId,
+        question_id: questionId,
+        question,
+        correct_answer: correctAnswer,
+        user_answer: userAnswer,
+        explanation,
+        created_at: new Date().toISOString(),
+      })
+
+    if (error) {
+      console.error('Error saving mistake:', error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to save mistake:', error)
+    return false
+  }
+}
+
+// Save multiple mistakes at once (batch operation)
+export async function saveMistakes(
+  mistakes: Array<{
+    questionId: string
+    question: string
+    correctAnswer: string
+    userAnswer: string
+    explanation?: string
+  }>
+): Promise<number> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot save mistakes')
+    return 0
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot save mistakes')
+    return 0
+  }
+
+  if (mistakes.length === 0) {
+    return 0
+  }
+
+  try {
+    const now = new Date().toISOString()
+    const records = mistakes.map(m => ({
+      user_id: userId,
+      question_id: m.questionId,
+      question: m.question,
+      correct_answer: m.correctAnswer,
+      user_answer: m.userAnswer,
+      explanation: m.explanation,
+      created_at: now,
+    }))
+
+    const { data, error } = await supabase
+      .from('sentence_completion_mistakes')
+      .insert(records)
+      .select()
+
+    if (error) {
+      console.error('Error saving mistakes:', error)
+      return 0
+    }
+
+    return data?.length || 0
+  } catch (error) {
+    console.error('Failed to save mistakes:', error)
+    return 0
+  }
+}
+
+// Get all mistakes for current user
+export async function getAllMistakes(): Promise<SentenceCompletionMistake[]> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot fetch mistakes')
+    return []
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot fetch mistakes')
+    return []
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('sentence_completion_mistakes')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching mistakes:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch mistakes:', error)
+    return []
+  }
+}
+
+// Get mistakes by question ID
+export async function getMistakesByQuestion(questionId: string): Promise<SentenceCompletionMistake[]> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot fetch mistakes')
+    return []
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot fetch mistakes')
+    return []
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('sentence_completion_mistakes')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('question_id', questionId)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching mistakes for question:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch mistakes for question:', error)
+    return []
+  }
+}
+
+// Get recent mistakes (last N days)
+export async function getRecentMistakes(days: number = 7): Promise<SentenceCompletionMistake[]> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot fetch mistakes')
+    return []
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot fetch mistakes')
+    return []
+  }
+
+  try {
+    const cutoffDate = new Date()
+    cutoffDate.setDate(cutoffDate.getDate() - days)
+
+    const { data, error } = await supabase
+      .from('sentence_completion_mistakes')
+      .select('*')
+      .eq('user_id', userId)
+      .gte('created_at', cutoffDate.toISOString())
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching recent mistakes:', error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error('Failed to fetch recent mistakes:', error)
+    return []
+  }
+}
+
+// Delete a specific mistake
+export async function deleteMistake(id: string): Promise<boolean> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot delete mistake')
+    return false
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot delete mistake')
+    return false
+  }
+
+  try {
+    const { error } = await supabase
+      .from('sentence_completion_mistakes')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error deleting mistake:', error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to delete mistake:', error)
+    return false
+  }
+}
+
+// Clear all mistakes for current user
+export async function clearAllMistakes(): Promise<boolean> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot clear mistakes')
+    return false
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot clear mistakes')
+    return false
+  }
+
+  try {
+    const { error } = await supabase
+      .from('sentence_completion_mistakes')
+      .delete()
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error clearing mistakes:', error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error('Failed to clear mistakes:', error)
+    return false
+  }
+}
+
+// Get mistake statistics
+export async function getMistakeStats(): Promise<{
+  total: number
+  lastWeek: number
+  lastMonth: number
+  mostCommonMistakes: Array<{ question: string; count: number }>
+}> {
+  const userId = getCurrentUserId()
+
+  if (!userId || !supabase) {
+    return {
+      total: 0,
+      lastWeek: 0,
+      lastMonth: 0,
+      mostCommonMistakes: [],
+    }
+  }
+
+  try {
+    const allMistakes = await getAllMistakes()
+    const now = new Date()
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+
+    const lastWeek = allMistakes.filter(m => new Date(m.created_at) >= weekAgo).length
+    const lastMonth = allMistakes.filter(m => new Date(m.created_at) >= monthAgo).length
+
+    // Count mistakes by question
+    const mistakeCounts: Record<string, { question: string; count: number }> = {}
+    allMistakes.forEach(m => {
+      if (!mistakeCounts[m.question_id]) {
+        mistakeCounts[m.question_id] = { question: m.question, count: 0 }
+      }
+      mistakeCounts[m.question_id].count++
+    })
+
+    const mostCommonMistakes = Object.values(mistakeCounts)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10)
+
+    return {
+      total: allMistakes.length,
+      lastWeek,
+      lastMonth,
+      mostCommonMistakes,
+    }
+  } catch (error) {
+    console.error('Failed to get mistake stats:', error)
+    return {
+      total: 0,
+      lastWeek: 0,
+      lastMonth: 0,
+      mostCommonMistakes: [],
+    }
+  }
+}
