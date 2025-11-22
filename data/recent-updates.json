@@ -1,6 +1,117 @@
 {
   "updates": [
     {
+      "id": "update-012",
+      "date": "2025-11-22",
+      "lesson_path": "/vocabulary/sentence-completion",
+      "lesson_title": "Sentence Completion Quiz with GPT-5.1 AI Tutor",
+      "chapter": "Vocabulary",
+      "update_type": "major_feature",
+      "summary": "Comprehensive sentence completion quiz system with 100 Chapter 2 questions, AI-powered explanations using OpenAI's GPT-5.1, intelligent feedback loop, and mistake tracking for targeted review",
+      "features": [
+        {
+          "title": "100 Chapter 2 Vocabulary Questions",
+          "description": "Complete collection of fill-in-the-blank sentence completion questions from Chapter 2 SSAT vocabulary with 4 answer choices each",
+          "examples": [
+            "Purple-themed question cards with visual blank indicators",
+            "Multiple-choice format with A, B, C, D options",
+            "Teal highlight for selected answers before submission",
+            "All questions displayed at once for comprehensive practice"
+          ]
+        },
+        {
+          "title": "Deferred Feedback Mode",
+          "description": "Answer all questions first, then submit to see results - mimics real test-taking experience and prevents answer peeking",
+          "examples": [
+            "Select answers for all 100 questions at your own pace",
+            "Submit button only enables when all questions answered",
+            "Results shown after submission with full explanations",
+            "Green/red highlighting shows correct/incorrect answers",
+            "Smooth scroll to top after submission for score review"
+          ]
+        },
+        {
+          "title": "GPT-5.1 AI Tutor Explanations",
+          "description": "On-demand AI-powered explanations using OpenAI's latest GPT-5.1 model with advanced reasoning capabilities to explain why the correct answer is better than alternatives",
+          "examples": [
+            "'Still confused? Get AI explanation' button after submission",
+            "Purple gradient card design for AI tutor responses",
+            "Compares ALL answer choices (A, B, C, D) in explanation",
+            "Concise 2-3 sentence explanations focused on accuracy",
+            "Model: gpt-5.1 with adaptive reasoning for educational use"
+          ]
+        },
+        {
+          "title": "Intelligent Feedback Loop with Auto-Regeneration",
+          "description": "Thumbs up/down feedback system that automatically generates new explanations if the first one isn't helpful, using different teaching approaches",
+          "examples": [
+            "Thumbs up: Marks explanation as helpful and thanks user",
+            "Thumbs down: Automatically generates NEW explanation with different angle",
+            "Regeneration counter shows attempt number (Attempt 1, 2, 3...)",
+            "Feedback saved to database for analytics and improvement",
+            "Loading state shows 'Generating a better explanation...' during retry"
+          ]
+        },
+        {
+          "title": "Markdown Formatting Support",
+          "description": "AI explanations render with proper formatting including bold text for emphasized words and concepts",
+          "examples": [
+            "**bold** words render as bold text with font-bold class",
+            "Maintains readability in purple gradient card background",
+            "Example: 'follow a **budget**' shows 'budget' in bold",
+            "Helps students identify key vocabulary terms in explanations"
+          ]
+        },
+        {
+          "title": "Word Card Integration",
+          "description": "Links to full vocabulary word cards with pronunciation, definitions, examples, and etymology for deeper learning",
+          "examples": [
+            "Shows word pronunciation (e.g., /ˈbæriər/)",
+            "Part of speech indicator (noun, verb, adjective)",
+            "Primary definition from vocabulary database",
+            "External link icon to view full word card",
+            "'[TBD]' placeholder if word not yet in database"
+          ]
+        },
+        {
+          "title": "Mistake Tracking with Review System",
+          "description": "Automatically records incorrect answers with timestamps for future targeted review and progress tracking",
+          "examples": [
+            "Mistakes saved to Supabase database with user ID",
+            "Tracks question ID, correct answer, user's wrong answer",
+            "Timestamp recorded for spaced repetition scheduling",
+            "Dedicated /vocabulary/sentence-completion/review page",
+            "Statistics: Total mistakes, Last 7 days, Last 30 days",
+            "Review page shows all past mistakes with explanations"
+          ]
+        },
+        {
+          "title": "Comparative Analysis in Explanations",
+          "description": "AI explanations specifically focus on why the correct answer is BETTER than the other three choices, not just why it's right",
+          "examples": [
+            "All 4 answer choices labeled A, B, C, D in prompt",
+            "Explains why correct answer fits the context",
+            "Contrasts why other choices don't work as well",
+            "Specifically addresses student's wrong answer if different",
+            "Middle school friendly language (ages 11-14)"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Deferred feedback mimics real SSAT test conditions, reducing test anxiety",
+        "GPT-5.1's advanced reasoning provides more accurate and nuanced explanations than previous models",
+        "Comparative analysis helps students understand subtle word differences",
+        "Auto-regeneration ensures students get helpful explanations eventually",
+        "Mistake tracking enables targeted review of weak areas",
+        "Word card integration connects quiz practice to comprehensive vocabulary study",
+        "Markdown formatting makes key concepts stand out visually",
+        "Feedback analytics help improve explanation quality over time",
+        "Purple gradient design creates engaging, modern learning interface",
+        "100 questions provide comprehensive Chapter 2 coverage in one session"
+      ],
+      "tags": ["vocabulary", "sentence-completion", "ai-explanations", "gpt-5.1", "quiz", "mistake-tracking", "feedback-loop", "word-cards", "comparative-analysis", "deferred-feedback", "openai", "markdown-rendering"]
+    },
+    {
       "id": "update-011",
       "date": "2025-01-20",
       "lesson_path": "/vocabulary/story-generator",
@@ -900,7 +1011,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-01-20",
-    "total_updates": 11
+    "last_updated": "2025-11-22",
+    "total_updates": 12
   }
 }
