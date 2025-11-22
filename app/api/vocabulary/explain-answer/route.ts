@@ -9,18 +9,35 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { question, correctAnswer, userAnswer, wordInfo, isRegeneration, previousExplanation } = await request.json()
+    // Parse request body
+    let body
+    try {
+      body = await request.json()
+    } catch (parseError) {
+      console.error('❌ [Answer Explanation] Failed to parse request body:', parseError)
+      return NextResponse.json(
+        { error: 'Invalid request body' },
+        { status: 400 }
+      )
+    }
+
+    const { question, correctAnswer, userAnswer, wordInfo, isRegeneration, previousExplanation } = body
 
     console.log('💡 [Answer Explanation] Request received:', {
       question: question?.substring(0, 50) + '...',
       correctAnswer,
       userAnswer,
+      hasWordInfo: !!wordInfo,
       isRegeneration: isRegeneration || false,
+      hasPreviousExplanation: !!previousExplanation,
       timestamp: new Date().toISOString()
     })
 
     if (!question || !correctAnswer) {
-      console.warn('⚠️ [Answer Explanation] Missing required parameters')
+      console.warn('⚠️ [Answer Explanation] Missing required parameters:', {
+        hasQuestion: !!question,
+        hasCorrectAnswer: !!correctAnswer
+      })
       return NextResponse.json(
         { error: 'Question and correct answer are required' },
         { status: 400 }

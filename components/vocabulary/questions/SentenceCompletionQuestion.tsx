@@ -53,26 +53,50 @@ export function SentenceCompletionQuestion({
     try {
       const wordInfo = getWordInfo(question.answer)
 
+      // Build clean request body
+      const requestBody: any = {
+        question: question.question,
+        correctAnswer: question.answer,
+        wordInfo: wordInfo.exists ? wordInfo : null,
+      }
+
+      // Only add userAnswer if it exists and is different from correct answer
+      if (selectedOption && selectedOption !== question.answer) {
+        requestBody.userAnswer = selectedOption
+      }
+
+      // Only add regeneration fields if this is a regeneration
+      if (isRegeneration) {
+        requestBody.isRegeneration = true
+        requestBody.previousExplanation = aiExplanation || ''
+      }
+
+      console.log('Requesting AI explanation:', {
+        isRegeneration,
+        hasUserAnswer: !!requestBody.userAnswer,
+        hasPreviousExplanation: !!requestBody.previousExplanation
+      })
+
       const response = await fetch('/api/vocabulary/explain-answer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          question: question.question,
-          correctAnswer: question.answer,
-          userAnswer: selectedOption !== question.answer ? selectedOption : undefined,
-          wordInfo: wordInfo.exists ? wordInfo : undefined,
-          isRegeneration,
-          previousExplanation: isRegeneration ? aiExplanation : undefined,
-        }),
+        body: JSON.stringify(requestBody),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to generate explanation')
+        const errorText = await response.text()
+        console.error('API error response:', errorText)
+        throw new Error(`Server error: ${response.status}`)
       }
 
       const data = await response.json()
+
+      if (!data.explanation) {
+        throw new Error('No explanation in response')
+      }
+
       setAiExplanation(data.explanation)
       if (isRegeneration) {
         setFeedbackGiven(null) // Reset feedback for new explanation
