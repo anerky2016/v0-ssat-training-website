@@ -9,7 +9,7 @@ import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen, H
 import Link from "next/link"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
-import { saveMistakes, isUserLoggedIn } from "@/lib/sentence-completion-mistakes"
+import { saveMistakes, isUserLoggedIn, updateMistakeExplanation } from "@/lib/sentence-completion-mistakes"
 import { getCompletedQuestions, markQuestionsCompleted, resetProgress as resetProgressDB } from "@/lib/sentence-completion-progress"
 
 export default function SentenceCompletionPage() {
@@ -91,11 +91,27 @@ export default function SentenceCompletionPage() {
     })
   }
 
-  const handleAiExplanation = (questionId: string, explanation: string) => {
+  const handleAiExplanation = async (questionId: string, explanation: string) => {
+    // Update local state
     setAiExplanations({
       ...aiExplanations,
       [questionId]: explanation
     })
+
+    // If quiz is submitted and user is logged in, update the database
+    if (quizSubmitted && isUserLoggedIn()) {
+      // Find the question to check if it was answered incorrectly
+      const question = quizQuestions.find(q => q.id === questionId)
+      const userAnswer = userAnswers[questionId]
+
+      // Only update database if this was a mistake (wrong answer)
+      if (question && userAnswer !== question.answer) {
+        const success = await updateMistakeExplanation(questionId, explanation)
+        if (success) {
+          console.log(`Updated AI explanation for mistake ${questionId} in database`)
+        }
+      }
+    }
   }
 
   const handleSubmit = async () => {

@@ -125,6 +125,63 @@ export async function saveMistakes(
   }
 }
 
+// Update the explanation for the most recent mistake of a specific question
+export async function updateMistakeExplanation(
+  questionId: string,
+  explanation: string
+): Promise<boolean> {
+  const userId = getCurrentUserId()
+
+  if (!userId) {
+    console.warn('User not logged in - cannot update mistake')
+    return false
+  }
+
+  if (!supabase) {
+    console.warn('Supabase not configured - cannot update mistake')
+    return false
+  }
+
+  try {
+    // Get the most recent mistake for this question
+    const { data: mistakes, error: fetchError } = await supabase
+      .from('sentence_completion_mistakes')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('question_id', questionId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+
+    if (fetchError) {
+      console.error('Error fetching mistake:', fetchError)
+      return false
+    }
+
+    if (!mistakes || mistakes.length === 0) {
+      console.warn('No mistake found for question:', questionId)
+      return false
+    }
+
+    // Update the explanation
+    const { error: updateError } = await supabase
+      .from('sentence_completion_mistakes')
+      .update({ explanation })
+      .eq('id', mistakes[0].id)
+      .eq('user_id', userId)
+
+    if (updateError) {
+      console.error('Error updating mistake explanation:', updateError)
+      return false
+    }
+
+    console.log(`Updated explanation for mistake ${mistakes[0].id}`)
+    return true
+  } catch (error) {
+    console.error('Failed to update mistake explanation:', error)
+    return false
+  }
+}
+
 // Get all mistakes for current user with optional date filtering
 export async function getAllMistakes(
   startDate?: Date,
