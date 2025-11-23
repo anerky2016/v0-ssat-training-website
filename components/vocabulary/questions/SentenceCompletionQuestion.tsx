@@ -416,15 +416,79 @@ export function SentenceCompletionQuestion({
                           </div>
                         ) : (
                           <>
-                            <div className="text-xs text-purple-900 dark:text-purple-100 leading-relaxed mb-2 prose prose-sm max-w-none">
+                            <div className="text-xs leading-relaxed mb-2">
                               <ReactMarkdown
+                                className="prose prose-sm prose-purple max-w-none dark:prose-invert"
                                 components={{
                                   // Style paragraph tags
-                                  p: ({children}) => <p className="mb-2 last:mb-0">{children}</p>,
+                                  p: ({children}) => (
+                                    <p className="mb-3 last:mb-0 text-purple-900 dark:text-purple-100">
+                                      {children}
+                                    </p>
+                                  ),
                                   // Style strong/bold tags
-                                  strong: ({children}) => <strong className="font-bold text-purple-950 dark:text-purple-50">{children}</strong>,
+                                  strong: ({children}) => (
+                                    <strong className="font-bold text-purple-950 dark:text-purple-50">
+                                      {children}
+                                    </strong>
+                                  ),
                                   // Style em/italic tags
-                                  em: ({children}) => <em className="italic">{children}</em>,
+                                  em: ({children}) => (
+                                    <em className="italic text-purple-800 dark:text-purple-200">
+                                      {children}
+                                    </em>
+                                  ),
+                                  // Style unordered lists
+                                  ul: ({children}) => (
+                                    <ul className="list-disc list-inside mb-3 space-y-1 text-purple-900 dark:text-purple-100">
+                                      {children}
+                                    </ul>
+                                  ),
+                                  // Style ordered lists
+                                  ol: ({children}) => (
+                                    <ol className="list-decimal list-inside mb-3 space-y-1 text-purple-900 dark:text-purple-100">
+                                      {children}
+                                    </ol>
+                                  ),
+                                  // Style list items
+                                  li: ({children}) => (
+                                    <li className="text-purple-900 dark:text-purple-100">
+                                      {children}
+                                    </li>
+                                  ),
+                                  // Style code blocks
+                                  code: ({inline, children, ...props}: any) =>
+                                    inline ? (
+                                      <code className="px-1.5 py-0.5 bg-purple-100 dark:bg-purple-900/50 rounded text-purple-950 dark:text-purple-50 font-mono text-xs">
+                                        {children}
+                                      </code>
+                                    ) : (
+                                      <code className="block p-2 bg-purple-100 dark:bg-purple-900/50 rounded text-purple-950 dark:text-purple-50 font-mono text-xs overflow-x-auto mb-3" {...props}>
+                                        {children}
+                                      </code>
+                                    ),
+                                  // Style headings
+                                  h1: ({children}) => (
+                                    <h1 className="text-base font-bold mb-2 text-purple-950 dark:text-purple-50">
+                                      {children}
+                                    </h1>
+                                  ),
+                                  h2: ({children}) => (
+                                    <h2 className="text-sm font-bold mb-2 text-purple-950 dark:text-purple-50">
+                                      {children}
+                                    </h2>
+                                  ),
+                                  h3: ({children}) => (
+                                    <h3 className="text-xs font-bold mb-1 text-purple-950 dark:text-purple-50">
+                                      {children}
+                                    </h3>
+                                  ),
+                                  // Style blockquotes
+                                  blockquote: ({children}) => (
+                                    <blockquote className="border-l-4 border-purple-300 dark:border-purple-700 pl-3 italic mb-3 text-purple-800 dark:text-purple-200">
+                                      {children}
+                                    </blockquote>
+                                  ),
                                 }}
                               >
                                 {aiExplanation || ''}
