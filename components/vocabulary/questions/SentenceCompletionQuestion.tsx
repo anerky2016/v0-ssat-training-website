@@ -291,11 +291,19 @@ export function SentenceCompletionQuestion({
               )}
             </div>
             {selectedOption !== question.answer && (
-              <div className="mb-3">
-                <p className="text-sm font-semibold mb-1">Correct Answer:</p>
-                <p className="text-sm bg-white/50 dark:bg-black/20 p-2 rounded">
-                  <strong>{question.answer}</strong>
-                </p>
+              <div className="mb-3 space-y-2">
+                <div>
+                  <p className="text-sm font-semibold mb-1">Your Answer:</p>
+                  <p className="text-sm bg-white/50 dark:bg-black/20 p-2 rounded">
+                    <strong>{selectedOption || '(No answer selected)'}</strong>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold mb-1">Correct Answer:</p>
+                  <p className="text-sm bg-white/50 dark:bg-black/20 p-2 rounded">
+                    <strong>{question.answer}</strong>
+                  </p>
+                </div>
               </div>
             )}
             {isSubmitted && (() => {

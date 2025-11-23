@@ -107,15 +107,10 @@ export default function SentenceCompletionPage() {
   }, [numberOfQuestions, shuffleSeed, completedQuestions])
 
   const handleSelectAnswer = (questionId: string, answer: string) => {
-    console.log('[Quiz] Answer selected:', { questionId, answer })
-    setUserAnswers(prev => {
-      const updated = {
-        ...prev,
-        [questionId]: answer
-      }
-      console.log('[Quiz] Updated answers:', updated)
-      return updated
-    })
+    setUserAnswers(prev => ({
+      ...prev,
+      [questionId]: answer
+    }))
   }
 
   const handleAiExplanation = async (questionId: string, explanation: string) => {
@@ -163,10 +158,6 @@ export default function SentenceCompletionPage() {
   }
 
   const handleSubmit = async () => {
-    console.log('[Quiz] Submitting quiz...')
-    console.log('[Quiz] Current userAnswers:', userAnswers)
-    console.log('[Quiz] Total questions:', quizQuestions.length)
-
     // Calculate score and collect mistakes
     let correctCount = 0
     const mistakes: Array<{
@@ -180,19 +171,6 @@ export default function SentenceCompletionPage() {
     quizQuestions.forEach((q) => {
       const userAnswer = userAnswers[q.id]
       const isCorrect = userAnswer === q.answer
-
-      console.log('[Quiz] Evaluating question:', {
-        questionId: q.id,
-        userAnswer: userAnswer,
-        userAnswerType: typeof userAnswer,
-        userAnswerLength: userAnswer?.length,
-        correctAnswer: q.answer,
-        correctAnswerType: typeof q.answer,
-        correctAnswerLength: q.answer?.length,
-        isCorrect: isCorrect,
-        strictEqual: userAnswer === q.answer,
-        trimmedEqual: userAnswer?.trim() === q.answer?.trim()
-      })
 
       if (isCorrect) {
         correctCount++
@@ -210,27 +188,11 @@ export default function SentenceCompletionPage() {
       }
     })
 
-    console.log('[Quiz] Final score:', correctCount, '/', quizQuestions.length)
-    console.log('[Quiz] Mistakes:', mistakes.length)
-
     setScore(correctCount)
     setQuizSubmitted(true)
 
-    // Mark all questions in this quiz as completed
-    const newCompleted = new Set(completedQuestions)
-    const questionIds = quizQuestions.map(q => q.id)
-    questionIds.forEach(id => newCompleted.add(id))
-    setCompletedQuestions(newCompleted)
-
-    // Save completed questions to localStorage (always, as backup)
-    localStorage.setItem('sentence-completion-completed', JSON.stringify(Array.from(newCompleted)))
-    console.log(`Marked ${questionIds.length} questions as completed. Total completed: ${newCompleted.size}`)
-
-    // Save completed questions to database (if user is logged in)
-    if (isUserLoggedIn()) {
-      const savedCount = await markQuestionsCompleted(questionIds)
-      console.log(`Saved ${savedCount} completed questions to database`)
-    }
+    // Note: Questions are marked as completed when user exits the quiz (in resetQuiz)
+    // This prevents the quizQuestions array from changing while viewing results
 
     // Save mistakes to database (if user is logged in)
     if (isUserLoggedIn() && mistakes.length > 0) {
@@ -246,6 +208,23 @@ export default function SentenceCompletionPage() {
   const allAnswered = answeredCount === quizQuestions.length
 
   const resetQuiz = () => {
+    // Mark questions as completed when leaving the quiz
+    if (quizSubmitted) {
+      const newCompleted = new Set(completedQuestions)
+      const questionIds = quizQuestions.map(q => q.id)
+      questionIds.forEach(id => newCompleted.add(id))
+      setCompletedQuestions(newCompleted)
+
+      // Save to localStorage
+      localStorage.setItem('sentence-completion-completed', JSON.stringify(Array.from(newCompleted)))
+      console.log(`Marked ${questionIds.length} questions as completed on exit. Total completed: ${newCompleted.size}`)
+
+      // Save to database if logged in
+      if (isUserLoggedIn()) {
+        markQuestionsCompleted(questionIds)
+      }
+    }
+
     setQuizStarted(false)
     setScore(0)
     setUserAnswers({})

@@ -82,6 +82,14 @@ export async function saveMistakes(
 ): Promise<number> {
   const userId = getCurrentUserId()
 
+  console.log('[saveMistakes] Called with:', {
+    mistakesCount: mistakes.length,
+    userId,
+    hasSupabase: !!supabase,
+    hasAuth: !!auth,
+    currentUser: auth?.currentUser?.uid
+  })
+
   if (!userId) {
     console.warn('User not logged in - cannot save mistakes')
     return 0
@@ -93,6 +101,7 @@ export async function saveMistakes(
   }
 
   if (mistakes.length === 0) {
+    console.log('[saveMistakes] No mistakes to save')
     return 0
   }
 
@@ -108,19 +117,22 @@ export async function saveMistakes(
       created_at: now,
     }))
 
+    console.log('[saveMistakes] Inserting records:', records.length)
+
     const { data, error } = await supabase
       .from('sentence_completion_mistakes')
       .insert(records)
       .select()
 
     if (error) {
-      console.error('Error saving mistakes:', error)
+      console.error('[saveMistakes] Error saving mistakes:', error)
       return 0
     }
 
+    console.log('[saveMistakes] Successfully saved:', data?.length || 0, 'mistakes')
     return data?.length || 0
   } catch (error) {
-    console.error('Failed to save mistakes:', error)
+    console.error('[saveMistakes] Failed to save mistakes:', error)
     return 0
   }
 }
