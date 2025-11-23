@@ -114,6 +114,13 @@ export default function SentenceCompletionPage() {
   }
 
   const handleAiExplanation = async (questionId: string, explanation: string) => {
+    console.log('[Quiz Page] handleAiExplanation called:', {
+      questionId,
+      explanationLength: explanation.length,
+      quizSubmitted,
+      isLoggedIn: isUserLoggedIn()
+    })
+
     // Update local state
     setAiExplanations({
       ...aiExplanations,
@@ -126,13 +133,27 @@ export default function SentenceCompletionPage() {
       const question = quizQuestions.find(q => q.id === questionId)
       const userAnswer = userAnswers[questionId]
 
+      console.log('[Quiz Page] Checking if mistake:', {
+        questionFound: !!question,
+        userAnswer,
+        correctAnswer: question?.answer,
+        isMistake: question && userAnswer !== question.answer
+      })
+
       // Only update database if this was a mistake (wrong answer)
       if (question && userAnswer !== question.answer) {
+        console.log('[Quiz Page] Calling updateMistakeExplanation...')
         const success = await updateMistakeExplanation(questionId, explanation)
         if (success) {
-          console.log(`Updated AI explanation for mistake ${questionId} in database`)
+          console.log(`[Quiz Page] ✅ Updated AI explanation for mistake ${questionId} in database`)
+        } else {
+          console.error(`[Quiz Page] ❌ Failed to update AI explanation for ${questionId}`)
         }
+      } else {
+        console.log('[Quiz Page] Not a mistake, skipping database update')
       }
+    } else {
+      console.log('[Quiz Page] Quiz not submitted or user not logged in, skipping database update')
     }
   }
 

@@ -143,24 +143,28 @@ export async function updateMistakeExplanation(
   }
 
   try {
+    console.log(`[updateMistakeExplanation] Attempting to update for question: ${questionId}`)
+
     // Get the most recent mistake for this question
     const { data: mistakes, error: fetchError } = await supabase
       .from('sentence_completion_mistakes')
-      .select('id')
+      .select('id, explanation')
       .eq('user_id', userId)
       .eq('question_id', questionId)
       .order('created_at', { ascending: false })
       .limit(1)
 
     if (fetchError) {
-      console.error('Error fetching mistake:', fetchError)
+      console.error('[updateMistakeExplanation] Error fetching mistake:', fetchError)
       return false
     }
 
     if (!mistakes || mistakes.length === 0) {
-      console.warn('No mistake found for question:', questionId)
+      console.warn('[updateMistakeExplanation] No mistake found for question:', questionId)
       return false
     }
+
+    console.log(`[updateMistakeExplanation] Found mistake with ID: ${mistakes[0].id}, current explanation length: ${mistakes[0].explanation?.length || 0}`)
 
     // Update the explanation
     const { error: updateError } = await supabase
@@ -170,11 +174,11 @@ export async function updateMistakeExplanation(
       .eq('user_id', userId)
 
     if (updateError) {
-      console.error('Error updating mistake explanation:', updateError)
+      console.error('[updateMistakeExplanation] Error updating mistake explanation:', updateError)
       return false
     }
 
-    console.log(`Updated explanation for mistake ${mistakes[0].id}`)
+    console.log(`[updateMistakeExplanation] ✅ Successfully updated explanation for mistake ${mistakes[0].id}, new length: ${explanation.length}`)
     return true
   } catch (error) {
     console.error('Failed to update mistake explanation:', error)

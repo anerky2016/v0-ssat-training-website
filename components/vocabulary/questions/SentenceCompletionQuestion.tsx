@@ -116,8 +116,17 @@ export function SentenceCompletionQuestion({
       }
 
       // Notify parent component of the AI explanation
+      console.log('[SentenceCompletionQuestion] AI explanation generated:', {
+        questionId: question.id,
+        explanationLength: data.explanation.length,
+        hasCallback: !!onAiExplanation
+      })
+
       if (onAiExplanation) {
+        console.log('[SentenceCompletionQuestion] Calling onAiExplanation callback...')
         onAiExplanation(question.id, data.explanation)
+      } else {
+        console.warn('[SentenceCompletionQuestion] No onAiExplanation callback provided!')
       }
     } catch (error) {
       console.error('Error getting AI explanation:', error)

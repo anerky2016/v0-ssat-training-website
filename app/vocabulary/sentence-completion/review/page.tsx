@@ -142,10 +142,17 @@ export default function SentenceCompletionReviewPage() {
   }
 
   const handleAiExplanation = async (questionId: string, explanation: string) => {
+    console.log('[Review Page] handleAiExplanation called:', {
+      questionId,
+      explanationLength: explanation.length,
+      isLoggedIn: isUserLoggedIn()
+    })
+
     // Update the database with the new AI explanation
+    console.log('[Review Page] Calling updateMistakeExplanation...')
     const success = await updateMistakeExplanation(questionId, explanation)
     if (success) {
-      console.log(`Updated AI explanation for mistake ${questionId} in database`)
+      console.log(`[Review Page] ✅ Updated AI explanation for mistake ${questionId} in database`)
 
       // Also update local state to reflect the change
       setMistakes(prevMistakes =>
@@ -155,6 +162,8 @@ export default function SentenceCompletionReviewPage() {
             : mistake
         )
       )
+    } else {
+      console.error(`[Review Page] ❌ Failed to update AI explanation for ${questionId}`)
     }
   }
 
