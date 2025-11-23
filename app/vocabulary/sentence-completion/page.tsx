@@ -183,9 +183,15 @@ export default function SentenceCompletionPage() {
 
       console.log('[Quiz] Evaluating question:', {
         questionId: q.id,
-        userAnswer,
+        userAnswer: userAnswer,
+        userAnswerType: typeof userAnswer,
+        userAnswerLength: userAnswer?.length,
         correctAnswer: q.answer,
-        isCorrect
+        correctAnswerType: typeof q.answer,
+        correctAnswerLength: q.answer?.length,
+        isCorrect: isCorrect,
+        strictEqual: userAnswer === q.answer,
+        trimmedEqual: userAnswer?.trim() === q.answer?.trim()
       })
 
       if (isCorrect) {
