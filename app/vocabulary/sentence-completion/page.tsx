@@ -5,12 +5,14 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen, History } from "lucide-react"
+import { Brain, ArrowLeft, RotateCcw, CheckCircle2, XCircle, Trophy, BookOpen, History, Loader2 } from "lucide-react"
 import Link from "next/link"
 import chapter2Questions from "@/data/vocabulary-chapter2-questions.json"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
 import { saveMistakes, isUserLoggedIn, updateMistakeExplanation } from "@/lib/sentence-completion-mistakes"
 import { getCompletedQuestions, markQuestionsCompleted, resetProgress as resetProgressDB } from "@/lib/sentence-completion-progress"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged } from "firebase/auth"
 
 export default function SentenceCompletionPage() {
   const [quizStarted, setQuizStarted] = useState(false)
@@ -21,9 +23,29 @@ export default function SentenceCompletionPage() {
   const [shuffleSeed, setShuffleSeed] = useState(0) // Trigger to reshuffle questions
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
   const [aiExplanations, setAiExplanations] = useState<{ [key: string]: string }>({})
+  const [authLoading, setAuthLoading] = useState(true) // Wait for auth to initialize
+
+  // Wait for Firebase auth to initialize
+  useEffect(() => {
+    if (!auth) {
+      // If Firebase is not configured, consider auth as loaded
+      setAuthLoading(false)
+      return
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('Auth state changed:', user ? 'logged in' : 'not logged in')
+      setAuthLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   // Load completed questions from database (or localStorage fallback) on mount
   useEffect(() => {
+    // Don't load until auth is ready
+    if (authLoading) return
+
     async function loadCompletedQuestions() {
       const localStorageKey = 'sentence-completion-completed'
 
@@ -70,7 +92,7 @@ export default function SentenceCompletionPage() {
     }
 
     loadCompletedQuestions()
-  }, [])
+  }, [authLoading])
 
   // Generate quiz questions by filtering out completed ones, then shuffling
   const quizQuestions = useMemo(() => {
@@ -214,6 +236,28 @@ export default function SentenceCompletionPage() {
   const totalQuestions = chapter2Questions.questions.length
   const completedCount = completedQuestions.size
   const remainingCount = totalQuestions - completedCount
+
+  // Show loading screen while auth initializes
+  if (authLoading) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          <section className="py-12 sm:py-16 lg:py-20">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="mx-auto max-w-3xl">
+                <div className="flex flex-col items-center justify-center py-20">
+                  <Loader2 className="h-12 w-12 animate-spin text-teal-500 mb-4" />
+                  <p className="text-lg text-muted-foreground">Loading...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   // Setup screen
   if (!quizStarted) {
