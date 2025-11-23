@@ -13,6 +13,7 @@ import {
   getDailyMistakeCounts,
   clearAllMistakes,
   isUserLoggedIn,
+  updateMistakeExplanation,
   type SentenceCompletionMistake,
 } from "@/lib/sentence-completion-mistakes"
 import { SentenceCompletionQuestion } from "@/components/vocabulary/questions/SentenceCompletionQuestion"
@@ -137,6 +138,23 @@ export default function SentenceCompletionReviewPage() {
         lastMonth: 0,
         mostCommonMistakes: [],
       })
+    }
+  }
+
+  const handleAiExplanation = async (questionId: string, explanation: string) => {
+    // Update the database with the new AI explanation
+    const success = await updateMistakeExplanation(questionId, explanation)
+    if (success) {
+      console.log(`Updated AI explanation for mistake ${questionId} in database`)
+
+      // Also update local state to reflect the change
+      setMistakes(prevMistakes =>
+        prevMistakes.map(mistake =>
+          mistake.question_id === questionId
+            ? { ...mistake, explanation }
+            : mistake
+        )
+      )
     }
   }
 
@@ -351,6 +369,7 @@ export default function SentenceCompletionReviewPage() {
                           submitted={true}
                           showFeedback={true}
                           initialAiExplanation={mistake.explanation}
+                          onAiExplanation={handleAiExplanation}
                         />
                       </div>
                     ))}
