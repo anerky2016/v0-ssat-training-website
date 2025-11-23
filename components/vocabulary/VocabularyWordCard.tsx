@@ -26,6 +26,7 @@ import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import CEFRBadge from "./CEFRBadge"
+import LexileBadge from "./LexileBadge"
 import {
   Sheet,
   SheetContent,
@@ -44,6 +45,7 @@ export interface VocabularyWord {
   further_information: string[]
   tip?: string
   cefr_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  lexile_level?: "500L-700L" | "700L-900L" | "800L-1000L" | "900L-1100L" | "1000L-1200L" | "1100L-1300L"
 }
 
 interface VocabularyWordCardProps {
@@ -612,6 +614,9 @@ export function VocabularyWordCard({
                 ))}
                 {word.cefr_level && (
                   <CEFRBadge level={word.cefr_level} size="sm" />
+                )}
+                {word.lexile_level && (
+                  <LexileBadge level={word.lexile_level} size="sm" />
                 )}
               </div>
             </CardDescription>

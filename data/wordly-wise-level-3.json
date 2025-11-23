@@ -30,7 +30,8 @@
         "wait"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "additional",
@@ -60,7 +61,8 @@
         "main"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "adopt",
@@ -89,7 +91,8 @@
         "reject"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "advice",
@@ -118,7 +121,8 @@
         "opposition"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "amaze",
@@ -149,7 +153,8 @@
         "familiarize"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "ambition",
@@ -180,7 +185,8 @@
         "indifference"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "arctic",
@@ -212,7 +218,8 @@
         "tropical"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "arouse",
@@ -242,7 +249,8 @@
         "bore"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "arrange",
@@ -273,7 +281,8 @@
         "disorganize"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "attitude",
@@ -303,7 +312,8 @@
         "neglect"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "attract",
@@ -333,7 +343,8 @@
         "push"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "auction",
@@ -363,7 +374,8 @@
         "free"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "average",
@@ -392,7 +404,8 @@
         "exceptional"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "bold",
@@ -423,7 +436,8 @@
         "cautious"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "border",
@@ -452,7 +466,8 @@
         "inside"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "cable",
@@ -480,7 +495,8 @@
         "gap"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "calendar",
@@ -508,7 +524,8 @@
         "disorder"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "carnival",
@@ -538,7 +555,8 @@
         "solitude"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "cathedral",
@@ -566,7 +584,8 @@
         "school"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "cell",
@@ -594,7 +613,8 @@
         "entirety"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "chasm",
@@ -623,7 +643,8 @@
         "unity"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "coast",
@@ -652,7 +673,8 @@
         "desert"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "cocoon",
@@ -681,7 +703,8 @@
         "danger"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "confess",
@@ -710,7 +733,8 @@
         "keep secret"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "contain",
@@ -740,7 +764,8 @@
         "remove"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "continent",
@@ -769,7 +794,8 @@
         "small area"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "convey",
@@ -799,7 +825,8 @@
         "silence"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "court",
@@ -827,7 +854,8 @@
         "fight"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "credit",
@@ -858,7 +886,8 @@
         "neglect"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "crew",
@@ -886,7 +915,8 @@
         "loner"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "crumple",
@@ -917,7 +947,8 @@
         "smooth"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "cunning",
@@ -948,7 +979,8 @@
         "foolish"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "current",
@@ -977,7 +1009,8 @@
         "ancient"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "cylinder",
@@ -1005,7 +1038,8 @@
         "square"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "dangle",
@@ -1034,7 +1068,8 @@
         "rise"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "deed",
@@ -1065,7 +1100,8 @@
         "wrongdoing"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "defend",
@@ -1095,7 +1131,8 @@
         "abandon"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "device",
@@ -1125,7 +1162,8 @@
         "natural"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "diagram",
@@ -1155,7 +1193,8 @@
         "story"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "digest",
@@ -1184,7 +1223,8 @@
         "reject"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "division",
@@ -1213,7 +1253,8 @@
         "joining"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "doze",
@@ -1243,7 +1284,8 @@
         "active"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "drift",
@@ -1274,7 +1316,8 @@
         "anchor"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "elect",
@@ -1303,7 +1346,8 @@
         "dismiss"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "enable",
@@ -1334,7 +1378,8 @@
         "block"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "event",
@@ -1365,7 +1410,8 @@
         "nothing special"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "examine",
@@ -1396,7 +1442,8 @@
         "neglect"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "experience",
@@ -1426,7 +1473,8 @@
         "newness"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "fan",
@@ -1455,7 +1503,8 @@
         "critic"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "fatal",
@@ -1484,7 +1533,8 @@
         "protective"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "feature",
@@ -1514,7 +1564,8 @@
         "normal"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "finicky",
@@ -1543,7 +1594,8 @@
         "simple"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "flutter",
@@ -1575,7 +1627,8 @@
         "land"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "foul",
@@ -1606,7 +1659,8 @@
         "nice"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "frail",
@@ -1637,7 +1691,8 @@
         "tough"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "freight",
@@ -1665,7 +1720,8 @@
         "light"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "frustrate",
@@ -1697,7 +1753,8 @@
         "comfort"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "govern",
@@ -1728,7 +1785,8 @@
         "serve"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "gradual",
@@ -1757,7 +1815,8 @@
         "quick"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "graduate",
@@ -1787,7 +1846,8 @@
         "drop out"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "grasp",
@@ -1817,7 +1877,8 @@
         "drop"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "gulf",
@@ -1845,7 +1906,8 @@
         "continent"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "gust",
@@ -1873,7 +1935,8 @@
         "stillness"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "habit",
@@ -1903,7 +1966,8 @@
         "exception"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "haste",
@@ -1934,7 +1998,8 @@
         "take time"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "hinge",
@@ -1962,7 +2027,8 @@
         "barrier"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "hint",
@@ -1992,7 +2058,8 @@
         "confusion"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "individual",
@@ -2021,7 +2088,8 @@
         "crowd"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "infection",
@@ -2050,7 +2118,8 @@
         "strength"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "influence",
@@ -2080,7 +2149,8 @@
         "deny"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "injure",
@@ -2111,7 +2181,8 @@
         "protect"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "intelligent",
@@ -2142,7 +2213,8 @@
         "dull"
       ],
       "further_information": [],
-      "cefr_level": "C2"
+      "cefr_level": "C2",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "interval",
@@ -2172,7 +2244,8 @@
         "together"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "jagged",
@@ -2202,7 +2275,8 @@
         "flat"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "jet",
@@ -2231,7 +2305,8 @@
         "train"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "landmark",
@@ -2259,7 +2334,8 @@
         "empty space"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "launch",
@@ -2291,7 +2367,8 @@
         "pause"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "league",
@@ -2321,7 +2398,8 @@
         "loner"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "limit",
@@ -2351,7 +2429,8 @@
         "open"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "malice",
@@ -2381,7 +2460,8 @@
         "goodness"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "marine",
@@ -2411,7 +2491,8 @@
         "dry"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "marsh",
@@ -2440,7 +2521,8 @@
         "dry land"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "memorize",
@@ -2470,7 +2552,8 @@
         "overlook"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "mental",
@@ -2501,7 +2584,8 @@
         "unthinking"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "method",
@@ -2532,7 +2616,8 @@
         "disorder"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "milestone",
@@ -2561,7 +2646,8 @@
         "setback"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "misery",
@@ -2590,7 +2676,8 @@
         "comfort"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "moisture",
@@ -2619,7 +2706,8 @@
         "desert"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "mystify",
@@ -2650,7 +2738,8 @@
         "understand"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "nation",
@@ -2678,7 +2767,8 @@
         "stranger"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "nectar",
@@ -2707,7 +2797,8 @@
         "salt"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "novel",
@@ -2736,7 +2827,8 @@
         "fact"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "nursery",
@@ -2764,7 +2856,8 @@
         "alone"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "opposite",
@@ -2792,7 +2885,8 @@
         "alike"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "ordeal",
@@ -2822,7 +2916,8 @@
         "happiness"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "outcome",
@@ -2850,7 +2945,8 @@
         "beginning"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "800L-1000L"
     },
     {
       "word": "pastime",
@@ -2880,7 +2976,8 @@
         "task"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "pattern",
@@ -2911,7 +3008,8 @@
         "disorder"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "pause",
@@ -2941,7 +3039,8 @@
         "start"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "plateau",
@@ -2970,7 +3069,8 @@
         "dip"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "positive",
@@ -3002,7 +3102,8 @@
         "worried"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "prank",
@@ -3032,7 +3133,8 @@
         "sincerity"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "primary",
@@ -3061,7 +3163,8 @@
         "minor"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "process",
@@ -3091,7 +3194,8 @@
         "end"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "promote",
@@ -3122,7 +3226,8 @@
         "discourage"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "rate",
@@ -3152,7 +3257,8 @@
         "overlook"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "recreation",
@@ -3183,7 +3289,8 @@
         "duty"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "regret",
@@ -3212,7 +3319,8 @@
         "celebrate"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "rely",
@@ -3241,7 +3349,8 @@
         "shun"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "resident",
@@ -3269,7 +3378,8 @@
         "stranger"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "respect",
@@ -3299,7 +3409,8 @@
         "neglect"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "responsible",
@@ -3330,7 +3441,8 @@
         "unreliable"
       ],
       "further_information": [],
-      "cefr_level": "C2"
+      "cefr_level": "C2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "reverse",
@@ -3359,7 +3471,8 @@
         "advance"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "rig",
@@ -3389,7 +3502,8 @@
         "be honest"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "risk",
@@ -3420,7 +3534,8 @@
         "surety"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "rod",
@@ -3448,7 +3563,8 @@
         "circle"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "scar",
@@ -3477,7 +3593,8 @@
         "unmarked"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "scatter",
@@ -3506,7 +3623,8 @@
         "bring together"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "schedule",
@@ -3537,7 +3655,8 @@
         "confusion"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "series",
@@ -3567,7 +3686,8 @@
         "alone"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "shaft",
@@ -3596,7 +3716,8 @@
         "block"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "signal",
@@ -3625,7 +3746,8 @@
         "confusion"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "smuggle",
@@ -3654,7 +3776,8 @@
         "show"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "solution",
@@ -3683,7 +3806,8 @@
         "trouble"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "span",
@@ -3711,7 +3835,8 @@
         "shortness"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "spine",
@@ -3739,7 +3864,8 @@
         "stomach"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "starve",
@@ -3768,7 +3894,8 @@
         "satisfy"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "steer",
@@ -3797,7 +3924,8 @@
         "stop"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "stress",
@@ -3827,7 +3955,8 @@
         "happiness"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "structure",
@@ -3856,7 +3985,8 @@
         "chaos"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "suitable",
@@ -3886,7 +4016,8 @@
         "unfit"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "surrender",
@@ -3916,7 +4047,8 @@
         "keep going"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "survey",
@@ -3945,7 +4077,8 @@
         "neglect"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "tackle",
@@ -3975,7 +4108,8 @@
         "avoid"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "talent",
@@ -4005,7 +4139,8 @@
         "weakness"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "900L-1100L"
     },
     {
       "word": "tentacle",
@@ -4033,7 +4168,8 @@
         "head"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "theory",
@@ -4061,7 +4197,8 @@
         "truth"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "thrill",
@@ -4091,7 +4228,8 @@
         "disappointment"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "thrive",
@@ -4123,7 +4261,8 @@
         "decline"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "timber",
@@ -4151,7 +4290,8 @@
         "plastic"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "tournament",
@@ -4181,7 +4321,8 @@
         "cooperation"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     },
     {
       "word": "transparent",
@@ -4211,7 +4352,8 @@
         "muddy"
       ],
       "further_information": [],
-      "cefr_level": "C2"
+      "cefr_level": "C2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "urge",
@@ -4240,7 +4382,8 @@
         "dissuade"
       ],
       "further_information": [],
-      "cefr_level": "B1"
+      "cefr_level": "B1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "vacant",
@@ -4269,7 +4412,8 @@
         "taken"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "vanish",
@@ -4300,7 +4444,8 @@
         "arrive"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "version",
@@ -4329,7 +4474,8 @@
         "original"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "vessel",
@@ -4358,7 +4504,8 @@
         "hole"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "1000L-1200L"
     },
     {
       "word": "vigorous",
@@ -4389,7 +4536,8 @@
         "slow"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "1100L-1300L"
     },
     {
       "word": "vision",
@@ -4418,7 +4566,8 @@
         "fact"
       ],
       "further_information": [],
-      "cefr_level": "B2"
+      "cefr_level": "B2",
+      "lexile_level": "500L-700L"
     },
     {
       "word": "volunteer",
@@ -4446,7 +4595,8 @@
         "receiver"
       ],
       "further_information": [],
-      "cefr_level": "C1"
+      "cefr_level": "C1",
+      "lexile_level": "700L-900L"
     }
   ]
 }

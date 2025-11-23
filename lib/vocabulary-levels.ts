@@ -12,6 +12,15 @@ export type VocabularyLevel = "SSAT" | 2 | 3 | 4 | 5 | 6 | 7
 // CEFR (Common European Framework of Reference for Languages) levels
 export type CEFRLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
 
+// Lexile level ranges (approximate grade-level bands)
+export type LexileLevel =
+  | "500L-700L"   // Grades 3-4
+  | "700L-900L"   // Grades 4-6
+  | "800L-1000L"  // Grades 6-7
+  | "900L-1100L"  // Grades 7-8
+  | "1000L-1200L" // Grades 8-10
+  | "1100L-1300L" // Grades 9-12
+
 export interface VocabularyWord {
   word: string
   pronunciation: string
@@ -22,6 +31,7 @@ export interface VocabularyWord {
   antonyms: string[]
   further_information: string[]
   cefr_level?: CEFRLevel
+  lexile_level?: LexileLevel
 }
 
 export interface VocabularyData {
@@ -201,5 +211,108 @@ export function getAllCEFRLevels(): CEFRLevel[] {
 export function getWordsByCEFRLevel(level: CEFRLevel, vocabularyLevels: VocabularyLevel[] = ["SSAT"]): VocabularyWord[] {
   const words = loadVocabularyWords(vocabularyLevels)
   return words.filter(word => word.cefr_level === level)
+}
+
+// ============================================================================
+// Lexile Level Utilities
+// ============================================================================
+
+// Get human-readable Lexile level description
+export function getLexileDescription(level: LexileLevel): string {
+  const descriptions: Record<LexileLevel, string> = {
+    "500L-700L": "Grades 3-4",
+    "700L-900L": "Grades 4-6",
+    "800L-1000L": "Grades 6-7",
+    "900L-1100L": "Grades 7-8",
+    "1000L-1200L": "Grades 8-10",
+    "1100L-1300L": "Grades 9-12"
+  }
+  return descriptions[level]
+}
+
+// Get detailed Lexile level description
+export function getLexileDetailedDescription(level: LexileLevel): string {
+  const descriptions: Record<LexileLevel, string> = {
+    "500L-700L": "Elementary level vocabulary - basic, high-frequency words",
+    "700L-900L": "Upper elementary to middle school - common everyday words",
+    "800L-1000L": "Middle school level - moderate academic vocabulary",
+    "900L-1100L": "Upper middle school - academic and subject-specific words",
+    "1000L-1200L": "High school level - advanced academic vocabulary",
+    "1100L-1300L": "College preparatory - sophisticated and specialized words"
+  }
+  return descriptions[level]
+}
+
+// Get Lexile level color for UI display
+export function getLexileColor(level: LexileLevel): string {
+  const colors: Record<LexileLevel, string> = {
+    "500L-700L": "text-green-600 dark:text-green-400 bg-green-500/10",
+    "700L-900L": "text-blue-600 dark:text-blue-400 bg-blue-500/10",
+    "800L-1000L": "text-cyan-600 dark:text-cyan-400 bg-cyan-500/10",
+    "900L-1100L": "text-yellow-600 dark:text-yellow-400 bg-yellow-500/10",
+    "1000L-1200L": "text-orange-600 dark:text-orange-400 bg-orange-500/10",
+    "1100L-1300L": "text-red-600 dark:text-red-400 bg-red-500/10"
+  }
+  return colors[level]
+}
+
+// Get numeric value for Lexile level (for sorting)
+export function getLexileNumericValue(level: LexileLevel): number {
+  const values: Record<LexileLevel, number> = {
+    "500L-700L": 1,
+    "700L-900L": 2,
+    "800L-1000L": 3,
+    "900L-1100L": 4,
+    "1000L-1200L": 5,
+    "1100L-1300L": 6
+  }
+  return values[level]
+}
+
+// Sort words by Lexile level
+export function sortWordsByLexile(words: VocabularyWord[]): VocabularyWord[] {
+  return [...words].sort((a, b) => {
+    if (!a.lexile_level && !b.lexile_level) return 0
+    if (!a.lexile_level) return 1
+    if (!b.lexile_level) return -1
+    return getLexileNumericValue(a.lexile_level) - getLexileNumericValue(b.lexile_level)
+  })
+}
+
+// Filter words by Lexile level
+export function filterWordsByLexile(words: VocabularyWord[], levels: LexileLevel[]): VocabularyWord[] {
+  return words.filter(word => word.lexile_level && levels.includes(word.lexile_level))
+}
+
+// Get Lexile distribution for a set of words
+export function getLexileDistribution(words: VocabularyWord[]): Record<LexileLevel, number> {
+  const distribution: Record<LexileLevel, number> = {
+    "500L-700L": 0,
+    "700L-900L": 0,
+    "800L-1000L": 0,
+    "900L-1100L": 0,
+    "1000L-1200L": 0,
+    "1100L-1300L": 0
+  }
+
+  words.forEach(word => {
+    if (word.lexile_level) {
+      distribution[word.lexile_level]++
+    }
+  })
+
+  return distribution
+}
+
+// Get all Lexile levels
+export function getAllLexileLevels(): LexileLevel[] {
+  return ["500L-700L", "700L-900L", "800L-1000L", "900L-1100L", "1000L-1200L", "1100L-1300L"]
+}
+
+// Get words by Lexile level from loaded data
+export function getWordsByLexileLevel(level: LexileLevel, vocabularyLevels: VocabularyLevel[] = ["SSAT"]): VocabularyWord[] {
+  const words = loadVocabularyWords(vocabularyLevels)
+  return words.filter(word => word.lexile_level === level
+)
 }
 

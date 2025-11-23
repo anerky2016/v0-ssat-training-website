@@ -21,6 +21,7 @@ import { useAuth } from "@/contexts/firebase-auth-context"
 import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import CEFRBadge from "./CEFRBadge"
+import LexileBadge from "./LexileBadge"
 import {
   Sheet,
   SheetContent,
@@ -39,6 +40,7 @@ export interface VocabularyWord {
   further_information: string[]
   tip?: string
   cefr_level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  lexile_level?: "500L-700L" | "700L-900L" | "800L-1000L" | "900L-1100L" | "1000L-1200L" | "1100L-1300L"
 }
 
 interface VocabularyFlashcardProps {
@@ -317,12 +319,15 @@ export function VocabularyFlashcard({
           style={{ backfaceVisibility: "hidden" }}
         >
           <CardContent className="text-center p-8 w-full">
-            {/* CEFR Badge - Front (Top Left) */}
-            {word.cefr_level && (
-              <div className="absolute top-4 left-4" onClick={(e) => e.stopPropagation()}>
+            {/* CEFR and Lexile Badges - Front (Top Left) */}
+            <div className="absolute top-4 left-4 flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+              {word.cefr_level && (
                 <CEFRBadge level={word.cefr_level} size="sm" />
-              </div>
-            )}
+              )}
+              {word.lexile_level && (
+                <LexileBadge level={word.lexile_level} size="sm" />
+              )}
+            </div>
 
             {/* Personal Difficulty Badge - Front (Top Right) */}
             <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
