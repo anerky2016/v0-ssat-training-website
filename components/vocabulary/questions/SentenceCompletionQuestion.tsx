@@ -382,37 +382,50 @@ export function SentenceCompletionQuestion({
                               )}
                             </p>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <Button
                               onClick={() => handleFeedback('up')}
                               disabled={feedbackGiven !== null || loadingExplanation}
                               variant="ghost"
                               size="sm"
-                              className={`h-6 w-6 p-0 ${
+                              className={`h-7 px-2 flex items-center gap-1 ${
                                 feedbackGiven === 'up'
                                   ? 'text-green-600 dark:text-green-400'
                                   : 'text-purple-600 dark:text-purple-400 hover:text-green-600 dark:hover:text-green-400'
                               }`}
-                              title="Helpful explanation"
+                              title="This explanation is helpful"
                             >
                               <ThumbsUp className="h-3 w-3" />
+                              <span className="text-[10px] font-medium">Helpful</span>
                             </Button>
                             <Button
                               onClick={() => handleFeedback('down')}
                               disabled={feedbackGiven !== null || loadingExplanation}
                               variant="ghost"
                               size="sm"
-                              className={`h-6 w-6 p-0 ${
+                              className={`h-7 px-2 flex items-center gap-1 ${
                                 feedbackGiven === 'down'
                                   ? 'text-red-600 dark:text-red-400'
-                                  : 'text-purple-600 dark:text-purple-400 hover:text-red-600 dark:hover:text-red-400'
+                                  : 'text-purple-600 dark:text-purple-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20'
                               }`}
-                              title="Not helpful - generate new thought with AI"
+                              title="Generate a new explanation with AI"
                             >
                               <ThumbsDown className="h-3 w-3" />
+                              <span className="text-[10px] font-medium">Try Again</span>
                             </Button>
                           </div>
                         </div>
+
+                        {/* Hint about thumb down functionality */}
+                        {!feedbackGiven && !loadingExplanation && (
+                          <div className="flex items-center gap-1 mt-2 pt-2 border-t border-purple-200 dark:border-purple-800">
+                            <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                            <span className="text-[10px] text-purple-800 dark:text-purple-200 italic">
+                              Click "Try Again" to get a different AI-generated explanation
+                            </span>
+                          </div>
+                        )}
+
                         {loadingExplanation && feedbackGiven === 'down' ? (
                           <div className="flex items-center justify-center py-4">
                             <Loader2 className="h-4 w-4 mr-2 animate-spin text-purple-600 dark:text-purple-400" />
