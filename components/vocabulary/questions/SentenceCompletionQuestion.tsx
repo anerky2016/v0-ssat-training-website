@@ -42,10 +42,14 @@ export function SentenceCompletionQuestion({
 }: SentenceCompletionQuestionProps) {
   const [internalSelectedOption, setInternalSelectedOption] = useState<string | null>(null)
   const [hasAnswered, setHasAnswered] = useState(false)
-  const [aiExplanation, setAiExplanation] = useState<string | null>(initialAiExplanation)
+  // Initialize with saved AI explanation, or fallback to static explanation
+  const [currentThought, setCurrentThought] = useState<string | null>(
+    initialAiExplanation || question.explanation || null
+  )
   const [loadingExplanation, setLoadingExplanation] = useState(false)
   const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
   const [regenerationAttempt, setRegenerationAttempt] = useState(0)
+  const [isAiGenerated, setIsAiGenerated] = useState(!!initialAiExplanation) // Track if current thought is AI-generated
 
   // Use external selection if provided, otherwise use internal state
   const selectedOption = externalSelectedAnswer !== undefined ? externalSelectedAnswer : internalSelectedOption
@@ -76,7 +80,7 @@ export function SentenceCompletionQuestion({
       // Only add regeneration fields if this is a regeneration
       if (isRegeneration) {
         requestBody.isRegeneration = true
-        requestBody.previousExplanation = aiExplanation || ''
+        requestBody.previousExplanation = currentThought || ''
       }
 
       console.log('Requesting AI explanation:', {
@@ -105,7 +109,8 @@ export function SentenceCompletionQuestion({
         throw new Error('No explanation in response')
       }
 
-      setAiExplanation(data.explanation)
+      setCurrentThought(data.explanation)
+      setIsAiGenerated(true) // Mark as AI-generated
       if (isRegeneration) {
         setFeedbackGiven(null) // Reset feedback for new explanation
       }
@@ -116,7 +121,8 @@ export function SentenceCompletionQuestion({
       }
     } catch (error) {
       console.error('Error getting AI explanation:', error)
-      setAiExplanation('Sorry, we could not generate an explanation at this time. Please try again later.')
+      setCurrentThought('Sorry, we could not generate an explanation at this time. Please try again later.')
+      setIsAiGenerated(true)
     } finally {
       setLoadingExplanation(false)
     }
@@ -134,7 +140,7 @@ export function SentenceCompletionQuestion({
         },
         body: JSON.stringify({
           questionId: question.id,
-          explanation: aiExplanation,
+          explanation: currentThought,
           feedback,
           regenerationAttempt,
         }),
@@ -144,7 +150,7 @@ export function SentenceCompletionQuestion({
       // Non-critical error, don't show to user
     }
 
-    // If thumbs down, automatically regenerate
+    // If thumbs down, automatically regenerate with AI
     if (feedback === 'down') {
       setTimeout(() => {
         requestAIExplanation(true)
@@ -331,20 +337,11 @@ export function SentenceCompletionQuestion({
                     </div>
                   )}
 
-                  {question.explanation && (
-                    <div className="mt-3 pt-3 border-t border-current/10">
-                      <p className="text-xs font-semibold mb-1">Additional Notes:</p>
-                      <p className="text-xs whitespace-pre-line opacity-75">
-                        {question.explanation}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* AI Explanation Section */}
+                  {/* Thoughts Section - Combines static notes and AI explanations */}
                   <div className="mt-3 pt-3 border-t border-current/10">
-                    {!aiExplanation ? (
+                    {!currentThought ? (
                       <Button
-                        onClick={requestAIExplanation}
+                        onClick={() => requestAIExplanation(false)}
                         disabled={loadingExplanation}
                         variant="outline"
                         size="sm"
@@ -353,12 +350,12 @@ export function SentenceCompletionQuestion({
                         {loadingExplanation ? (
                           <>
                             <Loader2 className="h-3 w-3 mr-2 animate-spin" />
-                            Generating explanation...
+                            Generating thoughts...
                           </>
                         ) : (
                           <>
                             <Sparkles className="h-3 w-3 mr-2" />
-                            Still confused? Get AI explanation
+                            Get AI thoughts
                           </>
                         )}
                       </Button>
@@ -368,10 +365,10 @@ export function SentenceCompletionQuestion({
                           <div className="flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                             <p className="text-xs font-semibold text-purple-900 dark:text-purple-100">
-                              AI Tutor Explanation:
-                              {regenerationAttempt > 0 && (
+                              Thoughts:
+                              {isAiGenerated && regenerationAttempt > 0 && (
                                 <span className="ml-2 text-[10px] opacity-60">
-                                  (Attempt {regenerationAttempt + 1})
+                                  (Regeneration {regenerationAttempt})
                                 </span>
                               )}
                             </p>
@@ -401,7 +398,7 @@ export function SentenceCompletionQuestion({
                                   ? 'text-red-600 dark:text-red-400'
                                   : 'text-purple-600 dark:text-purple-400 hover:text-red-600 dark:hover:text-red-400'
                               }`}
-                              title="Not helpful - generate new explanation"
+                              title="Not helpful - generate new thought with AI"
                             >
                               <ThumbsDown className="h-3 w-3" />
                             </Button>
@@ -411,7 +408,7 @@ export function SentenceCompletionQuestion({
                           <div className="flex items-center justify-center py-4">
                             <Loader2 className="h-4 w-4 mr-2 animate-spin text-purple-600 dark:text-purple-400" />
                             <span className="text-xs text-purple-900 dark:text-purple-100">
-                              Generating a better explanation...
+                              Generating new thoughts...
                             </span>
                           </div>
                         ) : (
@@ -491,7 +488,7 @@ export function SentenceCompletionQuestion({
                                   ),
                                 }}
                               >
-                                {aiExplanation || ''}
+                                {currentThought || ''}
                               </ReactMarkdown>
                             </div>
                             {feedbackGiven === 'up' && (
