@@ -1,6 +1,116 @@
 {
   "updates": [
     {
+      "id": "update-013",
+      "date": "2025-11-23",
+      "lesson_path": "/vocabulary/word-lists",
+      "lesson_title": "Lexile Reading Level Classification for All Vocabulary Words",
+      "chapter": "Vocabulary",
+      "update_type": "major_feature",
+      "summary": "All 1,863 vocabulary words now include Lexile reading level badges (500L-1300L) based on word frequency analysis, helping students understand grade-level difficulty from elementary to college-prep",
+      "features": [
+        {
+          "title": "Lexile Level Badges on Every Word",
+          "description": "Interactive badges show Lexile reading levels next to CEFR levels, with detailed tooltips and mobile sheets explaining difficulty",
+          "examples": [
+            "500L-700L: Grades 3-4 (elementary, high-frequency words)",
+            "700L-900L: Grades 4-6 (common everyday words)",
+            "800L-1000L: Grades 6-7 (moderate academic vocabulary)",
+            "900L-1100L: Grades 7-8 (academic/subject-specific words)",
+            "1000L-1200L: Grades 8-10 (advanced academic vocabulary)",
+            "1100L-1300L: Grades 9-12 (college-prep/sophisticated words)"
+          ]
+        },
+        {
+          "title": "Word Frequency-Based Classification",
+          "description": "Scientifically determined difficulty levels using Google's 10,000 most common English words database",
+          "examples": [
+            "Words ranked 1-2000: Elementary level (500L-700L)",
+            "Words ranked 2000-4000: Upper elementary (700L-900L)",
+            "Words ranked 4000-6500: Middle school (900L-1100L)",
+            "Words not in top 10k: Advanced/college-prep (1100L-1300L)",
+            "Methodology based on Lexile Framework principles"
+          ]
+        },
+        {
+          "title": "Interactive Lexile Tooltips & Mobile Sheets",
+          "description": "Click or hover badges to see detailed explanations of all Lexile levels with grade-level context",
+          "examples": [
+            "Desktop: Hover tooltips show all 6 Lexile levels with descriptions",
+            "Mobile: Bottom sheets with smooth animations and touch-friendly interface",
+            "Current word highlighted with pulse animation",
+            "Detailed description for each level (e.g., 'College preparatory - sophisticated and specialized words')",
+            "Info icon indicates interactivity"
+          ]
+        },
+        {
+          "title": "Complete Coverage: 1,863 Words Classified",
+          "description": "Every vocabulary word across all levels now has a Lexile classification",
+          "examples": [
+            "513 SSAT words (89% are advanced 1100L-1300L level)",
+            "150 Wordly Wise Level 3 words",
+            "300 Wordly Wise Level 4 words",
+            "300 Wordly Wise Level 5 words",
+            "300 Wordly Wise Level 6 words",
+            "300 Wordly Wise Level 7 words"
+          ]
+        },
+        {
+          "title": "Color-Coded Difficulty System",
+          "description": "Six distinct colors make it easy to identify word difficulty at a glance",
+          "examples": [
+            "Green (500L-700L): Easiest, elementary level",
+            "Blue (700L-900L): Upper elementary",
+            "Cyan (800L-1000L): Middle school",
+            "Yellow (900L-1100L): Upper middle school",
+            "Orange (1000L-1200L): High school",
+            "Red (1100L-1300L): Most challenging, college-prep"
+          ]
+        },
+        {
+          "title": "Visible on Word Cards & Flashcards",
+          "description": "Lexile badges appear on both vocabulary word cards and flashcard interfaces",
+          "examples": [
+            "Word card: Badge shown in header next to CEFR level",
+            "Flashcard: Stacked badges in top-left corner (CEFR above, Lexile below)",
+            "Consistent sizing and styling across all interfaces",
+            "Non-intrusive design maintains focus on word content"
+          ]
+        },
+        {
+          "title": "Automated Classification Script",
+          "description": "Created reusable script for future vocabulary additions and updates",
+          "examples": [
+            "Node.js script: scripts/add-lexile-levels.js",
+            "Processes all vocabulary files automatically",
+            "Statistics output shows distribution by level",
+            "Can be re-run to update classifications as needed"
+          ]
+        },
+        {
+          "title": "SSAT Word Difficulty Insights",
+          "description": "Analysis reveals that most SSAT words are college-preparatory level, confirming the test's challenge",
+          "examples": [
+            "89% of SSAT words are 1100L-1300L (grades 9-12)",
+            "Only 4 words at elementary level (500L-700L)",
+            "66 words found in top 10k most common words",
+            "447 words are rare/advanced (not in top 10k)"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Lexile levels help students understand exactly how challenging each word is for their grade level",
+        "Parents can see if vocabulary is appropriately challenging for their child's reading ability",
+        "Students can track their progress from elementary to college-prep vocabulary",
+        "Color-coding enables quick visual assessment of word difficulty",
+        "Complements CEFR levels to provide dual difficulty frameworks",
+        "Scientifically-based classification ensures accurate difficulty ratings",
+        "Helps students set realistic vocabulary learning goals",
+        "Reveals that SSAT requires sophisticated, college-level vocabulary mastery"
+      ],
+      "tags": ["vocabulary", "lexile-levels", "reading-difficulty", "grade-levels", "word-frequency", "classification", "badges", "interactive-tooltips", "ssat", "wordly-wise", "college-prep"]
+    },
+    {
       "id": "update-012",
       "date": "2025-11-22",
       "lesson_path": "/vocabulary/sentence-completion",
@@ -1011,7 +1121,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-11-22",
-    "total_updates": 12
+    "last_updated": "2025-11-23",
+    "total_updates": 13
   }
 }
