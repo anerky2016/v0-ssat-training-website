@@ -107,9 +107,14 @@ export default function SentenceCompletionPage() {
   }, [numberOfQuestions, shuffleSeed, completedQuestions])
 
   const handleSelectAnswer = (questionId: string, answer: string) => {
-    setUserAnswers({
-      ...userAnswers,
-      [questionId]: answer
+    console.log('[Quiz] Answer selected:', { questionId, answer })
+    setUserAnswers(prev => {
+      const updated = {
+        ...prev,
+        [questionId]: answer
+      }
+      console.log('[Quiz] Updated answers:', updated)
+      return updated
     })
   }
 
@@ -158,6 +163,10 @@ export default function SentenceCompletionPage() {
   }
 
   const handleSubmit = async () => {
+    console.log('[Quiz] Submitting quiz...')
+    console.log('[Quiz] Current userAnswers:', userAnswers)
+    console.log('[Quiz] Total questions:', quizQuestions.length)
+
     // Calculate score and collect mistakes
     let correctCount = 0
     const mistakes: Array<{
@@ -170,7 +179,16 @@ export default function SentenceCompletionPage() {
 
     quizQuestions.forEach((q) => {
       const userAnswer = userAnswers[q.id]
-      if (userAnswer === q.answer) {
+      const isCorrect = userAnswer === q.answer
+
+      console.log('[Quiz] Evaluating question:', {
+        questionId: q.id,
+        userAnswer,
+        correctAnswer: q.answer,
+        isCorrect
+      })
+
+      if (isCorrect) {
         correctCount++
       } else {
         // Record the mistake with AI explanation if available
@@ -185,6 +203,9 @@ export default function SentenceCompletionPage() {
         })
       }
     })
+
+    console.log('[Quiz] Final score:', correctCount, '/', quizQuestions.length)
+    console.log('[Quiz] Mistakes:', mistakes.length)
 
     setScore(correctCount)
     setQuizSubmitted(true)
