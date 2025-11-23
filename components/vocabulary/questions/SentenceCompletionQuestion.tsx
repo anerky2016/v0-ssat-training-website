@@ -435,9 +435,8 @@ export function SentenceCompletionQuestion({
                           </div>
                         ) : (
                           <>
-                            <div className="text-xs leading-relaxed mb-2">
+                            <div className="text-xs leading-relaxed mb-2 prose prose-sm prose-purple max-w-none dark:prose-invert">
                               <ReactMarkdown
-                                className="prose prose-sm prose-purple max-w-none dark:prose-invert"
                                 components={{
                                   // Style paragraph tags
                                   p: ({children}) => (
