@@ -5,10 +5,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, RotateCcw, Trophy } from "lucide-react"
+import { Brain, ArrowLeft, RotateCcw, Trophy, Trash2 } from "lucide-react"
 import Link from "next/link"
-import { SynonymQuestion } from "@/components/ssat/SynonymQuestion"
+import { SynonymQuestion, type SynonymQuestionData } from "@/components/ssat/SynonymQuestion"
 import test8Data from "@/data/ssat-test8-questions.json"
+import { getCompletedQuestions, markQuestionsCompleted, resetProgress, isUserLoggedIn } from "@/lib/ssat-progress"
 
 export default function SynonymPracticePage() {
   const [quizStarted, setQuizStarted] = useState(false)
@@ -17,10 +18,27 @@ export default function SynonymPracticePage() {
   const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
   const [shuffleSeed, setShuffleSeed] = useState(0)
+  const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Load completed questions on mount
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        const completed = await getCompletedQuestions('SYNONYM')
+        setCompletedQuestions(new Set(completed))
+      } catch (error) {
+        console.error('Error loading progress:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadProgress()
+  }, [])
 
   // Filter synonym questions only
   const allSynonymQuestions = useMemo(() => {
-    return test8Data.questions.filter(q => q.questionType === 'SYNONYM')
+    return test8Data.questions.filter(q => q.questionType === 'SYNONYM') as SynonymQuestionData[]
   }, [])
 
   // Generate quiz questions by shuffling
@@ -56,12 +74,35 @@ export default function SynonymPracticePage() {
   const answeredCount = Object.keys(userAnswers).length
   const allAnswered = answeredCount === quizQuestions.length
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
+    // Mark questions as completed before exiting
+    if (quizSubmitted) {
+      const questionIds = quizQuestions.map(q => q.id)
+      await markQuestionsCompleted(questionIds, 'SYNONYM')
+
+      // Update local state
+      const newCompleted = new Set(completedQuestions)
+      questionIds.forEach(id => newCompleted.add(id))
+      setCompletedQuestions(newCompleted)
+    }
+
     setQuizStarted(false)
     setScore(0)
     setUserAnswers({})
     setQuizSubmitted(false)
     setShuffleSeed(prev => prev + 1)
+  }
+
+  const handleResetProgress = async () => {
+    if (confirm('Are you sure you want to reset all synonym progress? This cannot be undone.')) {
+      const success = await resetProgress('SYNONYM')
+      if (success) {
+        setCompletedQuestions(new Set())
+        alert('Progress reset successfully!')
+      } else {
+        alert('Failed to reset progress. Please try again.')
+      }
+    }
   }
 
   const startQuiz = () => {
@@ -100,6 +141,40 @@ export default function SynonymPracticePage() {
 
                 <Card>
                   <CardContent className="pt-6 space-y-6">
+                    {/* Progress Stats */}
+                    <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-blue-900 dark:text-blue-100">
+                          Your Progress
+                        </h3>
+                        {completedQuestions.size > 0 && (
+                          <Button
+                            onClick={handleResetProgress}
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-3 w-3 mr-1" />
+                            Reset
+                          </Button>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-blue-800 dark:text-blue-200">Completed:</span>
+                          <span className="font-semibold text-blue-900 dark:text-blue-100">
+                            {completedQuestions.size} / {allSynonymQuestions.length}
+                          </span>
+                        </div>
+                        <div className="w-full bg-blue-200 dark:bg-blue-900 rounded-full h-2">
+                          <div
+                            className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${(completedQuestions.size / allSynonymQuestions.length) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Quiz Info */}
                     <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                       <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">

@@ -5,10 +5,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, ArrowLeft, RotateCcw, Trophy } from "lucide-react"
+import { Brain, ArrowLeft, RotateCcw, Trophy, Trash2 } from "lucide-react"
 import Link from "next/link"
-import { AnalogyQuestion } from "@/components/ssat/AnalogyQuestion"
+import { AnalogyQuestion, type AnalogyQuestionData } from "@/components/ssat/AnalogyQuestion"
 import test8Data from "@/data/ssat-test8-questions.json"
+import { getCompletedQuestions, markQuestionsCompleted, resetProgress, isUserLoggedIn } from "@/lib/ssat-progress"
 
 export default function AnalogyPracticePage() {
   const [quizStarted, setQuizStarted] = useState(false)
@@ -17,10 +18,27 @@ export default function AnalogyPracticePage() {
   const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [numberOfQuestions, setNumberOfQuestions] = useState(20)
   const [shuffleSeed, setShuffleSeed] = useState(0)
+  const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Load completed questions on mount
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        const completed = await getCompletedQuestions('ANALOGY')
+        setCompletedQuestions(new Set(completed))
+      } catch (error) {
+        console.error('Error loading progress:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadProgress()
+  }, [])
 
   // Filter analogy questions only
   const allAnalogyQuestions = useMemo(() => {
-    return test8Data.questions.filter(q => q.questionType === 'ANALOGY')
+    return test8Data.questions.filter(q => q.questionType === 'ANALOGY') as AnalogyQuestionData[]
   }, [])
 
   // Generate quiz questions by shuffling
@@ -56,12 +74,35 @@ export default function AnalogyPracticePage() {
   const answeredCount = Object.keys(userAnswers).length
   const allAnswered = answeredCount === quizQuestions.length
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
+    // Mark questions as completed before exiting
+    if (quizSubmitted) {
+      const questionIds = quizQuestions.map(q => q.id)
+      await markQuestionsCompleted(questionIds, 'ANALOGY')
+
+      // Update local state
+      const newCompleted = new Set(completedQuestions)
+      questionIds.forEach(id => newCompleted.add(id))
+      setCompletedQuestions(newCompleted)
+    }
+
     setQuizStarted(false)
     setScore(0)
     setUserAnswers({})
     setQuizSubmitted(false)
     setShuffleSeed(prev => prev + 1)
+  }
+
+  const handleResetProgress = async () => {
+    if (confirm('Are you sure you want to reset all analogy progress? This cannot be undone.')) {
+      const success = await resetProgress('ANALOGY')
+      if (success) {
+        setCompletedQuestions(new Set())
+        alert('Progress reset successfully!')
+      } else {
+        alert('Failed to reset progress. Please try again.')
+      }
+    }
   }
 
   const startQuiz = () => {
@@ -100,6 +141,40 @@ export default function AnalogyPracticePage() {
 
                 <Card>
                   <CardContent className="pt-6 space-y-6">
+                    {/* Progress Stats */}
+                    <div className="p-4 bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-purple-900 dark:text-purple-100">
+                          Your Progress
+                        </h3>
+                        {completedQuestions.size > 0 && (
+                          <Button
+                            onClick={handleResetProgress}
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-3 w-3 mr-1" />
+                            Reset
+                          </Button>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-purple-800 dark:text-purple-200">Completed:</span>
+                          <span className="font-semibold text-purple-900 dark:text-purple-100">
+                            {completedQuestions.size} / {allAnalogyQuestions.length}
+                          </span>
+                        </div>
+                        <div className="w-full bg-purple-200 dark:bg-purple-900 rounded-full h-2">
+                          <div
+                            className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${(completedQuestions.size / allAnalogyQuestions.length) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Quiz Info */}
                     <div className="p-4 bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800 rounded-lg">
                       <h3 className="font-semibold text-purple-900 dark:text-purple-100 mb-2">

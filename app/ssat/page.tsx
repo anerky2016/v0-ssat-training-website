@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,10 +8,33 @@ import { Button } from "@/components/ui/button"
 import { Brain, BookOpen, Link2, ArrowRight, GraduationCap } from "lucide-react"
 import Link from "next/link"
 import test8Data from "@/data/ssat-test8-questions.json"
+import { getCompletedQuestions } from "@/lib/ssat-progress"
 
 export default function SsatPracticePage() {
   const synonymCount = test8Data.questions.filter(q => q.questionType === 'SYNONYM').length
   const analogyCount = test8Data.questions.filter(q => q.questionType === 'ANALOGY').length
+
+  const [synonymProgress, setSynonymProgress] = useState(0)
+  const [analogyProgress, setAnalogyProgress] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadProgress = async () => {
+      try {
+        const [synonymCompleted, analogyCompleted] = await Promise.all([
+          getCompletedQuestions('SYNONYM'),
+          getCompletedQuestions('ANALOGY')
+        ])
+        setSynonymProgress(synonymCompleted.length)
+        setAnalogyProgress(analogyCompleted.length)
+      } catch (error) {
+        console.error('Error loading progress:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadProgress()
+  }, [])
 
   return (
     <div className="min-h-screen">
@@ -40,9 +64,22 @@ export default function SsatPracticePage() {
                       <div className="text-3xl font-bold text-blue-500 mb-1">
                         {synonymCount}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground mb-2">
                         Synonym Questions
                       </div>
+                      {!isLoading && synonymProgress > 0 && (
+                        <div className="space-y-1">
+                          <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold">
+                            {synonymProgress} completed ({Math.round((synonymProgress / synonymCount) * 100)}%)
+                          </div>
+                          <div className="w-full bg-blue-100 dark:bg-blue-900/30 rounded-full h-1.5">
+                            <div
+                              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                              style={{ width: `${(synonymProgress / synonymCount) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -52,9 +89,22 @@ export default function SsatPracticePage() {
                       <div className="text-3xl font-bold text-purple-500 mb-1">
                         {analogyCount}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground mb-2">
                         Analogy Questions
                       </div>
+                      {!isLoading && analogyProgress > 0 && (
+                        <div className="space-y-1">
+                          <div className="text-xs text-purple-600 dark:text-purple-400 font-semibold">
+                            {analogyProgress} completed ({Math.round((analogyProgress / analogyCount) * 100)}%)
+                          </div>
+                          <div className="w-full bg-purple-100 dark:bg-purple-900/30 rounded-full h-1.5">
+                            <div
+                              className="bg-purple-500 h-1.5 rounded-full transition-all duration-300"
+                              style={{ width: `${(analogyProgress / analogyCount) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -64,9 +114,22 @@ export default function SsatPracticePage() {
                       <div className="text-3xl font-bold text-teal-500 mb-1">
                         {test8Data.totalQuestions}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground mb-2">
                         Total Questions
                       </div>
+                      {!isLoading && (synonymProgress + analogyProgress) > 0 && (
+                        <div className="space-y-1">
+                          <div className="text-xs text-teal-600 dark:text-teal-400 font-semibold">
+                            {synonymProgress + analogyProgress} completed ({Math.round(((synonymProgress + analogyProgress) / test8Data.totalQuestions) * 100)}%)
+                          </div>
+                          <div className="w-full bg-teal-100 dark:bg-teal-900/30 rounded-full h-1.5">
+                            <div
+                              className="bg-teal-500 h-1.5 rounded-full transition-all duration-300"
+                              style={{ width: `${((synonymProgress + analogyProgress) / test8Data.totalQuestions) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

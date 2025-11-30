@@ -10,6 +10,11 @@ export interface SynonymQuestionData {
   options: string[]
   answer: string
   explanation?: string
+  questionType?: string
+  testNumber?: number
+  sectionName?: string
+  rangeText?: string
+  questionNumber?: number
 }
 
 interface SynonymQuestionProps {
