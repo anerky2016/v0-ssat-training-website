@@ -76,7 +76,14 @@ export function AnalogyQuestion({
 
   // Highlight the blank with purple underline
   const renderQuestion = () => {
-    const parts = question.question.split('___')
+    let text = question.question
+
+    // Replace various blank formats with a consistent marker
+    text = text.replace(/_{3,}/g, '___BLANK___')  // Replace 3+ underscores
+    text = text.replace(/\.\s*\.\s*\./g, '___BLANK___')  // Replace ". . ." pattern
+
+    const parts = text.split('___BLANK___')
+
     if (parts.length === 1) {
       return question.question
     }
