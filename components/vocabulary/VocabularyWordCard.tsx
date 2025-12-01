@@ -27,6 +27,8 @@ import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import CEFRBadge from "./CEFRBadge"
 import LexileBadge from "./LexileBadge"
+import WordlyWiseBadge from "./WordlyWiseBadge"
+import { getWordlyWiseLevel } from "@/lib/vocabulary-levels"
 import {
   Sheet,
   SheetContent,
@@ -612,6 +614,10 @@ export function VocabularyWordCard({
                     {iconData.label}
                   </span>
                 ))}
+                {(() => {
+                  const wordlyWiseLevel = getWordlyWiseLevel(word.word)
+                  return wordlyWiseLevel ? <WordlyWiseBadge level={wordlyWiseLevel} size="sm" /> : null
+                })()}
                 {word.cefr_level && (
                   <CEFRBadge level={word.cefr_level} size="sm" />
                 )}

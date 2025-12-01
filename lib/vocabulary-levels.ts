@@ -312,7 +312,50 @@ export function getAllLexileLevels(): LexileLevel[] {
 // Get words by Lexile level from loaded data
 export function getWordsByLexileLevel(level: LexileLevel, vocabularyLevels: VocabularyLevel[] = ["SSAT"]): VocabularyWord[] {
   const words = loadVocabularyWords(vocabularyLevels)
-  return words.filter(word => word.lexile_level === level
-)
+  return words.filter(word => word.lexile_level === level)
+}
+
+// ============================================================================
+// Wordly Wise Level Utilities
+// ============================================================================
+
+// Get the Wordly Wise level for a specific word
+export function getWordlyWiseLevel(word: string): VocabularyLevel | null {
+  const normalizedWord = word.toLowerCase().trim()
+
+  // Check each level's data
+  for (const [level, data] of Object.entries(levelDataMap)) {
+    if (data && data.words) {
+      const found = data.words.some(w => w.word.toLowerCase().trim() === normalizedWord)
+      if (found) {
+        return level === "SSAT" ? "SSAT" : parseInt(level) as VocabularyLevel
+      }
+    }
+  }
+
+  return null
+}
+
+// Get display name for Wordly Wise level
+export function getWordlyWiseLevelName(level: VocabularyLevel): string {
+  return level === "SSAT" ? "SSAT" : `Level ${level}`
+}
+
+// Get color for Wordly Wise level badge
+export function getWordlyWiseLevelColor(level: VocabularyLevel): string {
+  if (level === "SSAT") {
+    return "text-purple-600 dark:text-purple-400 bg-purple-500/10"
+  }
+
+  const colors: Record<number, string> = {
+    2: "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10",
+    3: "text-green-600 dark:text-green-400 bg-green-500/10",
+    4: "text-blue-600 dark:text-blue-400 bg-blue-500/10",
+    5: "text-cyan-600 dark:text-cyan-400 bg-cyan-500/10",
+    6: "text-indigo-600 dark:text-indigo-400 bg-indigo-500/10",
+    7: "text-violet-600 dark:text-violet-400 bg-violet-500/10"
+  }
+
+  return colors[level as number] || "text-gray-600 dark:text-gray-400 bg-gray-500/10"
 }
 
