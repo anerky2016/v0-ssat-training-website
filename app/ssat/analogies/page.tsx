@@ -20,6 +20,7 @@ export default function AnalogyPracticePage() {
   const [shuffleSeed, setShuffleSeed] = useState(0)
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set())
   const [isLoading, setIsLoading] = useState(true)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
 
   // Load completed questions on mount
   useEffect(() => {
@@ -108,7 +109,44 @@ export default function AnalogyPracticePage() {
   const startQuiz = () => {
     setShuffleSeed(prev => prev + 1)
     setQuizStarted(true)
+    setCurrentQuestionIndex(0)
   }
+
+  const goToQuestion = (index: number) => {
+    setCurrentQuestionIndex(index)
+  }
+
+  const goToPrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1)
+    }
+  }
+
+  const goToNext = () => {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1)
+    }
+  }
+
+  const currentQuestion = quizQuestions[currentQuestionIndex]
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!quizStarted) return
+
+      if (e.key === 'ArrowLeft' || e.key === '<') {
+        e.preventDefault()
+        goToPrevious()
+      } else if (e.key === 'ArrowRight' || e.key === '>') {
+        e.preventDefault()
+        goToNext()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [quizStarted, currentQuestionIndex, quizQuestions.length])
 
   // Setup screen
   if (!quizStarted) {
@@ -243,111 +281,156 @@ export default function AnalogyPracticePage() {
     <div className="min-h-screen">
       <Header />
       <main>
-        <section className="py-12 sm:py-16 lg:py-20">
+        <section className="py-6 sm:py-8">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="mx-auto max-w-3xl">
-              {/* Header */}
-              <div className="mb-6 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-10 py-4 -mt-4">
-                <div className="flex items-center gap-4">
-                  <Button
-                    onClick={resetQuiz}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Exit Quiz
-                  </Button>
-                  <div className="text-sm font-semibold text-muted-foreground">
-                    {answeredCount} of {quizQuestions.length} answered
-                  </div>
+            {/* Header */}
+            <div className="mb-6 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Button
+                  onClick={resetQuiz}
+                  variant="outline"
+                  size="sm"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Exit Quiz
+                </Button>
+                <div className="text-sm font-semibold text-muted-foreground">
+                  {answeredCount} of {quizQuestions.length} answered
                 </div>
-                {quizSubmitted && (
-                  <div className="text-sm font-semibold">
-                    Score: <span className="text-purple-500">{score}/{quizQuestions.length}</span>
-                  </div>
-                )}
               </div>
-
-              {/* Results Summary */}
               {quizSubmitted && (
-                <Card className="mb-8 border-purple-500 bg-purple-50 dark:bg-purple-950/20">
-                  <CardContent className="pt-6">
-                    <div className="text-center">
-                      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10 text-purple-500">
-                        <Trophy className="h-8 w-8" />
-                      </div>
-                      <h2 className="text-2xl font-bold mb-2">Quiz Complete!</h2>
-                      <div className="text-5xl font-bold text-purple-500 mb-2">
-                        {Math.round((score / quizQuestions.length) * 100)}%
-                      </div>
-                      <p className="text-lg text-muted-foreground mb-4">
-                        You got {score} out of {quizQuestions.length} correct
+                <div className="text-sm font-semibold">
+                  Score: <span className="text-purple-500">{score}/{quizQuestions.length}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Results Summary */}
+            {quizSubmitted && (
+              <Card className="mb-8 border-purple-500 bg-purple-50 dark:bg-purple-950/20">
+                <CardContent className="pt-6">
+                  <div className="text-center">
+                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10 text-purple-500">
+                      <Trophy className="h-8 w-8" />
+                    </div>
+                    <h2 className="text-2xl font-bold mb-2">Quiz Complete!</h2>
+                    <div className="text-5xl font-bold text-purple-500 mb-2">
+                      {Math.round((score / quizQuestions.length) * 100)}%
+                    </div>
+                    <p className="text-lg text-muted-foreground mb-4">
+                      You got {score} out of {quizQuestions.length} correct
+                    </p>
+                    <div className="p-4 rounded-lg bg-background/50">
+                      <p className="text-sm">
+                        {Math.round((score / quizQuestions.length) * 100) >= 90 && "Outstanding! You have excellent analogy skills!"}
+                        {Math.round((score / quizQuestions.length) * 100) >= 70 && Math.round((score / quizQuestions.length) * 100) < 90 && "Great job! Keep practicing to perfect your skills!"}
+                        {Math.round((score / quizQuestions.length) * 100) >= 50 && Math.round((score / quizQuestions.length) * 100) < 70 && "Good effort! Review the relationships and try again!"}
+                        {Math.round((score / quizQuestions.length) * 100) < 50 && "Keep studying! Practice makes perfect!"}
                       </p>
-                      <div className="p-4 rounded-lg bg-background/50">
-                        <p className="text-sm">
-                          {Math.round((score / quizQuestions.length) * 100) >= 90 && "Outstanding! You have excellent analogy skills!"}
-                          {Math.round((score / quizQuestions.length) * 100) >= 70 && Math.round((score / quizQuestions.length) * 100) < 90 && "Great job! Keep practicing to perfect your skills!"}
-                          {Math.round((score / quizQuestions.length) * 100) >= 50 && Math.round((score / quizQuestions.length) * 100) < 70 && "Good effort! Review the relationships and try again!"}
-                          {Math.round((score / quizQuestions.length) * 100) < 50 && "Keep studying! Practice makes perfect!"}
-                        </p>
-                      </div>
-                      <div className="mt-4 flex gap-2 justify-center flex-wrap">
-                        <Button onClick={resetQuiz} variant="outline">
-                          <RotateCcw className="h-4 w-4 mr-2" />
-                          Try Again
+                    </div>
+                    <div className="mt-4 flex gap-2 justify-center flex-wrap">
+                      <Button onClick={resetQuiz} variant="outline">
+                        <RotateCcw className="h-4 w-4 mr-2" />
+                        Try Again
+                      </Button>
+                      <Link href="/ssat">
+                        <Button className="bg-purple-500 hover:bg-purple-600">
+                          Back to SSAT Practice
                         </Button>
-                        <Link href="/ssat">
-                          <Button className="bg-purple-500 hover:bg-purple-600">
-                            Back to SSAT Practice
-                          </Button>
-                        </Link>
+                      </Link>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Split Screen Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Left Side - Question List */}
+              <div className="lg:col-span-3">
+                <Card className="sticky top-4">
+                  <CardContent className="pt-6">
+                    <h3 className="text-sm font-semibold mb-4">Questions</h3>
+                    <div className="grid grid-cols-5 lg:grid-cols-4 gap-2 max-h-[70vh] overflow-y-auto">
+                      {quizQuestions.map((question, index) => (
+                        <button
+                          key={question.id}
+                          onClick={() => goToQuestion(index)}
+                          className={`
+                            aspect-square rounded-md text-sm font-semibold transition-all
+                            ${currentQuestionIndex === index
+                              ? 'bg-purple-500 text-white ring-2 ring-purple-500 ring-offset-2'
+                              : userAnswers[question.id]
+                              ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+                              : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                            }
+                          `}
+                        >
+                          {index + 1}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Submit Button in Question List */}
+                    <div className="mt-4 pt-4 border-t">
+                      <div className="text-xs text-muted-foreground mb-2">
+                        {answeredCount} / {quizQuestions.length} answered
                       </div>
+                      {!quizSubmitted && (
+                        <Button
+                          onClick={handleSubmit}
+                          disabled={!allAnswered}
+                          size="sm"
+                          className="w-full bg-purple-500 hover:bg-purple-600"
+                        >
+                          Submit Quiz
+                        </Button>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
-              )}
-
-              {/* Questions */}
-              <div className="space-y-6 mb-8">
-                {quizQuestions.map((question, index) => (
-                  <div key={question.id}>
-                    <div className="text-sm font-semibold text-muted-foreground mb-2">
-                      Question {index + 1} of {quizQuestions.length}
-                    </div>
-                    <AnalogyQuestion
-                      question={question}
-                      selectedAnswer={userAnswers[question.id] || null}
-                      onSelectAnswer={(answer) => handleSelectAnswer(question.id, answer)}
-                      submitted={quizSubmitted}
-                      showFeedback={quizSubmitted}
-                    />
-                  </div>
-                ))}
               </div>
 
-              {/* Submit Button */}
-              {!quizSubmitted && (
-                <div className="sticky bottom-4 bg-background/95 backdrop-blur-sm rounded-lg border-2 border-purple-500 p-4">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="text-sm">
-                      <span className="font-semibold">{answeredCount}</span> of {quizQuestions.length} questions answered
-                    </div>
+              {/* Right Side - Current Question */}
+              <div className="lg:col-span-9">
+                <div className="space-y-4">
+                  {/* Question Counter */}
+                  <div className="text-sm font-semibold text-muted-foreground">
+                    Question {currentQuestionIndex + 1} of {quizQuestions.length}
+                  </div>
+
+                  {/* Question Card */}
+                  <AnalogyQuestion
+                    question={currentQuestion}
+                    selectedAnswer={userAnswers[currentQuestion.id] || null}
+                    onSelectAnswer={(answer) => handleSelectAnswer(currentQuestion.id, answer)}
+                    submitted={quizSubmitted}
+                    showFeedback={quizSubmitted}
+                  />
+
+                  {/* Navigation Buttons */}
+                  <div className="flex items-center justify-between pt-4">
                     <Button
-                      onClick={handleSubmit}
-                      disabled={!allAnswered}
+                      onClick={goToPrevious}
+                      disabled={currentQuestionIndex === 0}
+                      variant="outline"
                       size="lg"
-                      className="bg-purple-500 hover:bg-purple-600"
                     >
-                      Submit Quiz
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Previous
+                    </Button>
+                    <Button
+                      onClick={goToNext}
+                      disabled={currentQuestionIndex === quizQuestions.length - 1}
+                      variant="outline"
+                      size="lg"
+                    >
+                      Next
+                      <ArrowLeft className="h-4 w-4 ml-2 rotate-180" />
                     </Button>
                   </div>
-                  {!allAnswered && (
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Please answer all questions before submitting
-                    </p>
-                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </section>
