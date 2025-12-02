@@ -90,12 +90,19 @@ Return ONLY the JSON array, no other text.`
 
     console.log('[Generate Synonym] OpenAI response:', responseText.substring(0, 200) + '...')
 
+    // Strip markdown code blocks if present (OpenAI sometimes wraps JSON in ```json ... ```)
+    let cleanedText = responseText.trim()
+    if (cleanedText.startsWith('```')) {
+      // Remove opening ```json or ``` and closing ```
+      cleanedText = cleanedText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim()
+    }
+
     // Parse the JSON response
     let questions
     try {
-      questions = JSON.parse(responseText)
+      questions = JSON.parse(cleanedText)
     } catch (parseError) {
-      console.error('[Generate Synonym] Failed to parse JSON:', responseText)
+      console.error('[Generate Synonym] Failed to parse JSON:', cleanedText)
       throw new Error('Invalid JSON response from OpenAI')
     }
 

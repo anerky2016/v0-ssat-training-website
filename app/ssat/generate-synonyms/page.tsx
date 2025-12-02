@@ -110,8 +110,10 @@ export default function GenerateSynonymsPage() {
               allQuestions.push(...data.questions)
               console.log(`[Batch] Total questions so far: ${allQuestions.length}`)
             } else {
-              const errorText = await response.text()
-              console.error(`[Batch] Failed to generate questions for: ${currentWord}, Status: ${response.status}, Error: ${errorText}`)
+              const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+              console.error(`[Batch] Failed to generate questions for: ${currentWord}`)
+              console.error(`[Batch] Status: ${response.status}`)
+              console.error(`[Batch] Error details:`, errorData)
             }
 
             // Small delay to avoid rate limiting
