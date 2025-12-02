@@ -41,24 +41,27 @@ export async function POST(request: NextRequest) {
 ${wordContext}
 
 For each question, you must:
-1. Create a clear question asking for the best synonym
-2. Provide exactly 5 answer choices (A-E)
-3. Make sure ONE answer is clearly the best synonym
-4. Make the other 4 options plausible but incorrect (use related words, antonyms, or words in similar contexts)
-5. Ensure all options are appropriate for middle school students
-6. Add a brief explanation of why the correct answer is the best synonym
+1. Put a different word in the question stem (a word that is a synonym of the target word)
+2. Include the target word "${word}" as one of the 5 answer choices
+3. The target word "${word}" should be the correct answer
+4. Provide exactly 5 answer choices (A-E) including "${word}"
+5. Make the other 4 options plausible but incorrect (use related words, antonyms, or words in similar contexts)
+6. Ensure all options are appropriate for middle school students
+7. Add a brief explanation of why "${word}" is the correct synonym
 
 Return a JSON array with ${count} question object(s). Each object must have this EXACT structure:
 {
-  "question": "Which word is the best synonym for [WORD]?",
+  "question": "Which word is the best synonym for [SYNONYM_WORD]?",
   "originalWord": "${word}",
-  "options": ["option1", "option2", "option3", "option4", "option5"],
-  "answer": "the correct option from the list above",
-  "explanation": "Brief explanation of why this is the correct synonym"
+  "options": ["${word}", "option2", "option3", "option4", "option5"],
+  "answer": "${word}",
+  "explanation": "Brief explanation of why '${word}' is the correct synonym for [SYNONYM_WORD]"
 }
 
 IMPORTANT RULES:
-- The "answer" field must contain the EXACT text of one of the options
+- The question stem should contain a DIFFERENT word (a synonym of "${word}"), NOT "${word}" itself
+- "${word}" must appear in the options array as one of the 5 choices
+- The "answer" field must be exactly "${word}"
 - All 5 options must be single words or short phrases (2-3 words max)
 - Options should be in alphabetical order
 - Make the distractors (wrong answers) challenging but clearly distinguishable from the correct answer
