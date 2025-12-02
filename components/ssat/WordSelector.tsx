@@ -24,6 +24,7 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
   const [availableWords, setAvailableWords] = useState<VocabularyWord[]>([])
   const [visibleWords, setVisibleWords] = useState<VocabularyWord[]>([])
   const [loadMoreCount, setLoadMoreCount] = useState(50)
+  const [hasDifficultyData, setHasDifficultyData] = useState(false)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
@@ -58,13 +59,21 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         )
       }
 
-      // Filter by difficulty
+      // Filter by difficulty (only if user has rated words)
       if (selectedDifficulties.length > 0) {
         const userDifficulties = await getAllDifficulties()
-        filtered = filtered.filter(w => {
-          const diff = userDifficulties[w.word.toLowerCase()]
-          return diff !== undefined && selectedDifficulties.includes(diff)
-        })
+        const hasData = Object.keys(userDifficulties).length > 0
+        setHasDifficultyData(hasData)
+
+        if (hasData) {
+          filtered = filtered.filter(w => {
+            const diff = userDifficulties[w.word.toLowerCase()]
+            return diff !== undefined && selectedDifficulties.includes(diff)
+          })
+        }
+        // If no difficulty data exists, ignore the difficulty filter and show all words
+      } else {
+        setHasDifficultyData(false)
       }
 
       setAvailableWords(filtered)
@@ -164,7 +173,7 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         <CardHeader>
           <CardTitle className="text-lg">Filter by Difficulty</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-3">
           <div className="flex flex-wrap gap-2">
             {difficultyLabels.map((label, index) => (
               <Badge
@@ -196,6 +205,13 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
               </Button>
             )}
           </div>
+          {selectedDifficulties.length > 0 && !hasDifficultyData && (
+            <div className="p-3 bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+              <p className="text-xs text-yellow-800 dark:text-yellow-200">
+                <strong>Note:</strong> Difficulty filtering requires rating words first. Since no difficulty ratings exist, showing all words matching other filters.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
