@@ -95,7 +95,9 @@ export default function GenerateSynonymsPage() {
 
             if (response.ok) {
               const data = await response.json()
+              console.log(`[Batch] Generated ${data.questions.length} question(s) for word: ${currentWord}`)
               allQuestions.push(...data.questions)
+              console.log(`[Batch] Total questions so far: ${allQuestions.length}`)
             } else {
               console.error(`Failed to generate questions for: ${currentWord}`)
             }
@@ -109,6 +111,7 @@ export default function GenerateSynonymsPage() {
           }
         }
 
+        console.log(`[Batch] Batch complete! Setting ${allQuestions.length} total questions`)
         setGeneratedQuestions(allQuestions)
         setCurrentQuestionIndex(0)
         setIsPreviewing(false)
@@ -496,6 +499,8 @@ function ResultsPanel({
   onNext: () => void
   onExitPreview: () => void
 }) {
+  console.log(`[ResultsPanel] Rendering with ${generatedQuestions.length} questions, isPreviewing: ${isPreviewing}, currentIndex: ${currentQuestionIndex}`)
+
   return (
     <Card>
       <CardHeader>
@@ -550,7 +555,9 @@ function ResultsPanel({
             {!isPreviewing ? (
               // List view
               <div className="space-y-3 max-h-[500px] overflow-y-auto">
-                {generatedQuestions.map((q, index) => (
+                {generatedQuestions.map((q, index) => {
+                  console.log(`[ResultsPanel] Rendering list item ${index + 1}: ${q.originalWord}`)
+                  return (
                   <div key={q.id} className="p-4 bg-muted/50 rounded-lg space-y-2">
                     <div className="flex items-start justify-between">
                       <div className="font-semibold text-sm">Question {index + 1}</div>
@@ -570,7 +577,8 @@ function ResultsPanel({
                       </div>
                     </div>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             ) : (
               // Preview mode
