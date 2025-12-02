@@ -83,14 +83,9 @@ export function SynonymQuestion({
             SYNONYM
           </div>
         </div>
-        <CardTitle className="text-lg mt-3 leading-relaxed">
+        <CardTitle className="text-xl mt-3 leading-relaxed">
           {question.question}
         </CardTitle>
-        <div className="mt-2">
-          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-            {question.originalWord}
-          </span>
-        </div>
       </CardHeader>
 
       <CardContent className="space-y-3">
