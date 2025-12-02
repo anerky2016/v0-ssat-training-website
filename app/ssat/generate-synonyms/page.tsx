@@ -86,9 +86,11 @@ export default function GenerateSynonymsPage() {
 
         for (let i = 0; i < words.length; i++) {
           const currentWord = words[i]
+          console.log(`[Batch] Processing word ${i + 1}/${words.length}: ${currentWord}`)
           setBatchProgress({ current: i + 1, total: words.length, currentWord })
 
           try {
+            console.log(`[Batch] Calling API for word: ${currentWord}`)
             const response = await fetch('/api/ssat/generate-synonym-questions', {
               method: 'POST',
               headers: {
@@ -100,13 +102,16 @@ export default function GenerateSynonymsPage() {
               }),
             })
 
+            console.log(`[Batch] API response for ${currentWord}: status ${response.status}`)
+
             if (response.ok) {
               const data = await response.json()
               console.log(`[Batch] Generated ${data.questions.length} question(s) for word: ${currentWord}`)
               allQuestions.push(...data.questions)
               console.log(`[Batch] Total questions so far: ${allQuestions.length}`)
             } else {
-              console.error(`Failed to generate questions for: ${currentWord}`)
+              const errorText = await response.text()
+              console.error(`[Batch] Failed to generate questions for: ${currentWord}, Status: ${response.status}, Error: ${errorText}`)
             }
 
             // Small delay to avoid rate limiting
