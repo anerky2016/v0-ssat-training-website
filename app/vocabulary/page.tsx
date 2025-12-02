@@ -189,6 +189,40 @@ export default function VocabularyPage() {
                 </Card>
               </Link>
 
+              <Link href="/ssat/generate-synonyms">
+                <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/10 dark:to-pink-950/10">
+                  <CardHeader>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-xl text-card-foreground">
+                      <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        AI Synonym Generator
+                      </span>
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      Generate SSAT synonym questions for any word with AI
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex-shrink-0" />
+                        <span>Single or batch generation</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex-shrink-0" />
+                        <span>5-option SSAT format</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex-shrink-0" />
+                        <span>Instant explanations</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Link>
+
               <Link href="/verbal/exercises">
                 <Card className="border-border bg-card hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
