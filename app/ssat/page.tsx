@@ -5,7 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, BookOpen, Link2, ArrowRight, GraduationCap } from "lucide-react"
+import { Brain, BookOpen, Link2, ArrowRight, GraduationCap, Sparkles } from "lucide-react"
 import Link from "next/link"
 import test8Data from "@/data/ssat-test8-questions.json"
 import { getCompletedQuestions } from "@/lib/ssat-progress"
@@ -136,7 +136,7 @@ export default function SsatPracticePage() {
               </div>
 
               {/* Practice Options */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {/* Synonym Practice */}
                 <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
                   <CardHeader>
@@ -205,6 +205,50 @@ export default function SsatPracticePage() {
                         <Button className="w-full bg-purple-500 hover:bg-purple-600" size="lg">
                           Start Analogy Practice
                           <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* AI Question Generator */}
+                <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/10 dark:to-pink-950/10">
+                  <CardHeader>
+                    <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-2xl">
+                      <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        AI Generator
+                      </span>
+                    </CardTitle>
+                    <CardDescription className="text-base">
+                      Create custom synonym questions for any vocabulary word
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="p-3 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                        <p className="text-sm text-purple-900 dark:text-purple-100 mb-2">
+                          <strong>What you can do:</strong>
+                        </p>
+                        <ul className="text-sm text-purple-800 dark:text-purple-200 space-y-1 list-disc list-inside">
+                          <li>Generate unlimited practice questions</li>
+                          <li>Target specific vocabulary words</li>
+                          <li>Get AI-powered explanations</li>
+                        </ul>
+                      </div>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Sparkles className="h-3 w-3 text-purple-500" />
+                          Powered by AI
+                        </span>
+                        <span>• Unlimited</span>
+                      </div>
+                      <Link href="/ssat/generate-synonyms">
+                        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white" size="lg">
+                          Generate Questions
+                          <Sparkles className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>
                     </div>
