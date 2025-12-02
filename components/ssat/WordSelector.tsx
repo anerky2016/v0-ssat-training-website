@@ -25,10 +25,11 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
 
   // Load words when filters change
   useEffect(() => {
+    setLoadMoreCount(50) // Reset to initial count when filters change
     loadWords()
   }, [selectedLevels, selectedLetters])
 
-  const loadWords = async () => {
+  const loadWords = () => {
     if (selectedLevels.length === 0) {
       setAvailableWords([])
       setVisibleWords([])
@@ -40,9 +41,13 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
       const allWords: VocabularyWord[] = []
 
       for (const level of selectedLevels) {
-        const levelWords = await loadVocabularyWords(level)
+        const levelWords = loadVocabularyWords([level])
+        console.log(`[WordSelector] Loaded ${levelWords.length} words for level ${level}`)
         allWords.push(...levelWords.map(w => ({ ...w, level })))
       }
+
+      console.log(`[WordSelector] Total words loaded: ${allWords.length}`)
+      console.log(`[WordSelector] Selected letters: ${selectedLetters.join(', ')}`)
 
       // Apply filters
       let filtered = allWords
@@ -52,6 +57,10 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         filtered = filtered.filter(w =>
           selectedLetters.some(letter => w.word.toUpperCase().startsWith(letter))
         )
+        console.log(`[WordSelector] After letter filter: ${filtered.length} words`)
+        if (filtered.length > 0) {
+          console.log(`[WordSelector] First few words: ${filtered.slice(0, 5).map(w => w.word).join(', ')}`)
+        }
       }
 
       setAvailableWords(filtered)
