@@ -3,12 +3,9 @@
 import { useState, useEffect, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { LevelSelector } from "@/components/vocabulary/LevelSelector"
 import { VocabularyLevel, loadVocabularyWords, type VocabularyWord } from "@/lib/vocabulary-levels"
-import { getAllDifficulties } from "@/lib/vocabulary-difficulty"
 import { Loader2, CheckCircle2 } from "lucide-react"
 
 interface WordSelectorProps {
@@ -19,19 +16,17 @@ interface WordSelectorProps {
 export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorProps) {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
-  const [selectedDifficulties, setSelectedDifficulties] = useState<number[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [availableWords, setAvailableWords] = useState<VocabularyWord[]>([])
   const [visibleWords, setVisibleWords] = useState<VocabularyWord[]>([])
   const [loadMoreCount, setLoadMoreCount] = useState(50)
-  const [hasDifficultyData, setHasDifficultyData] = useState(false)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
   // Load words when filters change
   useEffect(() => {
     loadWords()
-  }, [selectedLevels, selectedLetters, selectedDifficulties])
+  }, [selectedLevels, selectedLetters])
 
   const loadWords = async () => {
     if (selectedLevels.length === 0) {
@@ -57,23 +52,6 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         filtered = filtered.filter(w =>
           selectedLetters.some(letter => w.word.toUpperCase().startsWith(letter))
         )
-      }
-
-      // Filter by difficulty (only if user has rated words)
-      if (selectedDifficulties.length > 0) {
-        const userDifficulties = await getAllDifficulties()
-        const hasData = Object.keys(userDifficulties).length > 0
-        setHasDifficultyData(hasData)
-
-        if (hasData) {
-          filtered = filtered.filter(w => {
-            const diff = userDifficulties[w.word.toLowerCase()]
-            return diff !== undefined && selectedDifficulties.includes(diff)
-          })
-        }
-        // If no difficulty data exists, ignore the difficulty filter and show all words
-      } else {
-        setHasDifficultyData(false)
       }
 
       setAvailableWords(filtered)
@@ -106,14 +84,6 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
   const handleClearAll = () => {
     onWordsSelected([])
   }
-
-  const difficultyLabels = ['Easy', 'Medium', 'Hard', 'Very Hard']
-  const difficultyColors = [
-    'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-    'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300',
-    'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-    'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
-  ]
 
   return (
     <div className="space-y-6">
@@ -168,52 +138,6 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         </CardContent>
       </Card>
 
-      {/* Difficulty Filter */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Filter by Difficulty</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            {difficultyLabels.map((label, index) => (
-              <Badge
-                key={index}
-                onClick={() => {
-                  setSelectedDifficulties(prev =>
-                    prev.includes(index)
-                      ? prev.filter(d => d !== index)
-                      : [...prev, index]
-                  )
-                }}
-                className={`cursor-pointer transition-opacity ${
-                  selectedDifficulties.includes(index)
-                    ? difficultyColors[index]
-                    : 'bg-muted text-muted-foreground opacity-50 hover:opacity-100'
-                }`}
-              >
-                {label}
-              </Badge>
-            ))}
-            {selectedDifficulties.length > 0 && (
-              <Button
-                onClick={() => setSelectedDifficulties([])}
-                variant="ghost"
-                size="sm"
-                className="text-red-600 hover:text-red-700 h-auto py-1"
-              >
-                Clear
-              </Button>
-            )}
-          </div>
-          {selectedDifficulties.length > 0 && !hasDifficultyData && (
-            <div className="p-3 bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-              <p className="text-xs text-yellow-800 dark:text-yellow-200">
-                <strong>Note:</strong> Difficulty filtering requires rating words first. Since no difficulty ratings exist, showing all words matching other filters.
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
 
       {/* Word List */}
       <Card>
