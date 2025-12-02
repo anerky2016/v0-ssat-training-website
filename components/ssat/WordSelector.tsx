@@ -82,6 +82,7 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
     const newSelected = selectedWords.includes(word)
       ? selectedWords.filter(w => w !== word)
       : [...selectedWords, word]
+    console.log(`[WordSelector] Word toggled: ${word}, New selection count: ${newSelected.length}`, newSelected)
     onWordsSelected(newSelected)
   }
 

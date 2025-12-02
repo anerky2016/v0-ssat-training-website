@@ -19,6 +19,12 @@ export default function GenerateSynonymsPage() {
   const [word, setWord] = useState("")
   const [selectedWords, setSelectedWords] = useState<string[]>([])
   const [meaning, setMeaning] = useState("")
+
+  // Log when selectedWords changes
+  const handleWordsSelected = (words: string[]) => {
+    console.log(`[GenerateSynonymsPage] selectedWords updated to ${words.length} words:`, words)
+    setSelectedWords(words)
+  }
   const [partOfSpeech, setPartOfSpeech] = useState("")
   const [questionCount, setQuestionCount] = useState(1)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -73,6 +79,7 @@ export default function GenerateSynonymsPage() {
       } else {
         // Batch generation
         const words = selectedWords
+        console.log(`[Batch] Starting batch generation for ${words.length} words:`, words)
 
         setBatchProgress({ current: 0, total: words.length, currentWord: '' })
         const allQuestions: SynonymQuestionData[] = []
@@ -318,7 +325,7 @@ export default function GenerateSynonymsPage() {
                     <div className="lg:col-span-2">
                       <WordSelector
                         selectedWords={selectedWords}
-                        onWordsSelected={setSelectedWords}
+                        onWordsSelected={handleWordsSelected}
                       />
                     </div>
 
