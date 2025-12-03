@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { LevelSelector } from "@/components/vocabulary/LevelSelector"
 import { VocabularyLevel, loadVocabularyWords, type VocabularyWord } from "@/lib/vocabulary-levels"
+import { getAllDifficulties, getDifficultyLabel, getDifficultyColor, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
 import { Loader2, CheckCircle2 } from "lucide-react"
 
 interface WordSelectorProps {
@@ -16,18 +17,34 @@ interface WordSelectorProps {
 export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorProps) {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
+  const [selectedDifficulties, setSelectedDifficulties] = useState<DifficultyLevel[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [availableWords, setAvailableWords] = useState<VocabularyWord[]>([])
   const [visibleWords, setVisibleWords] = useState<VocabularyWord[]>([])
   const [loadMoreCount, setLoadMoreCount] = useState(50)
+  const [wordDifficulties, setWordDifficulties] = useState<Record<string, DifficultyLevel>>({})
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+  const difficultyLevels: DifficultyLevel[] = [0, 1, 2, 3]
+
+  // Load difficulty data
+  useEffect(() => {
+    const loadDifficulties = async () => {
+      const difficulties = await getAllDifficulties()
+      const difficultyMap: Record<string, DifficultyLevel> = {}
+      Object.values(difficulties).forEach(d => {
+        difficultyMap[d.word.toLowerCase()] = d.difficulty
+      })
+      setWordDifficulties(difficultyMap)
+    }
+    loadDifficulties()
+  }, [])
 
   // Load words when filters change
   useEffect(() => {
     setLoadMoreCount(50) // Reset to initial count when filters change
     loadWords()
-  }, [selectedLevels, selectedLetters])
+  }, [selectedLevels, selectedLetters, selectedDifficulties])
 
   const loadWords = () => {
     if (selectedLevels.length === 0) {
@@ -61,6 +78,15 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         if (filtered.length > 0) {
           console.log(`[WordSelector] First few words: ${filtered.slice(0, 5).map(w => w.word).join(', ')}`)
         }
+      }
+
+      // Filter by difficulty
+      if (selectedDifficulties.length > 0) {
+        filtered = filtered.filter(w => {
+          const difficulty = wordDifficulties[w.word.toLowerCase()]
+          return difficulty !== undefined && selectedDifficulties.includes(difficulty)
+        })
+        console.log(`[WordSelector] After difficulty filter: ${filtered.length} words`)
       }
 
       setAvailableWords(filtered)
@@ -148,6 +174,52 @@ export function WordSelector({ onWordsSelected, selectedWords }: WordSelectorPro
         </CardContent>
       </Card>
 
+      {/* Difficulty Filter */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Filter by Difficulty</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {difficultyLevels.map((level) => {
+              const label = getDifficultyLabel(level, true)
+              const isSelected = selectedDifficulties.includes(level)
+              return (
+                <Button
+                  key={level}
+                  onClick={() => {
+                    setSelectedDifficulties(prev =>
+                      prev.includes(level)
+                        ? prev.filter(d => d !== level)
+                        : [...prev, level]
+                    )
+                  }}
+                  variant={isSelected ? "default" : "outline"}
+                  size="sm"
+                  className={isSelected ? "bg-purple-500 hover:bg-purple-600" : ""}
+                >
+                  {label}
+                </Button>
+              )
+            })}
+            {selectedDifficulties.length > 0 && (
+              <Button
+                onClick={() => setSelectedDifficulties([])}
+                variant="ghost"
+                size="sm"
+                className="text-red-600 hover:text-red-700"
+              >
+                Clear
+              </Button>
+            )}
+          </div>
+          {selectedDifficulties.length === 0 && (
+            <p className="text-xs text-muted-foreground mt-2">
+              No difficulty filter applied - showing all words
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Word List */}
       <Card>
