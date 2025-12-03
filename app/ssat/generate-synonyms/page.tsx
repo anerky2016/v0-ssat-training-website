@@ -32,7 +32,8 @@ export default function GenerateSynonymsPage() {
   const [error, setError] = useState<string | null>(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [isPreviewing, setIsPreviewing] = useState(false)
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({}) // Store answers by question index
+  const [isSubmitted, setIsSubmitted] = useState(false) // Track if user submitted all answers
   const [batchProgress, setBatchProgress] = useState({ current: 0, total: 0, currentWord: '' })
 
   const handleGenerate = async () => {
@@ -144,28 +145,42 @@ export default function GenerateSynonymsPage() {
   const handleStartPreview = () => {
     setIsPreviewing(true)
     setCurrentQuestionIndex(0)
-    setSelectedAnswer(null)
+    setUserAnswers({})
+    setIsSubmitted(false)
   }
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < generatedQuestions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1)
-      setSelectedAnswer(null)
     }
   }
 
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1)
-      setSelectedAnswer(null)
     }
+  }
+
+  const handleAnswerSelect = (answer: string) => {
+    if (!isSubmitted) {
+      setUserAnswers(prev => ({
+        ...prev,
+        [currentQuestionIndex]: answer
+      }))
+    }
+  }
+
+  const handleSubmitAnswers = () => {
+    setIsSubmitted(true)
+    setCurrentQuestionIndex(0) // Go back to first question to review
   }
 
   const handleClearAll = () => {
     setGeneratedQuestions([])
     setIsPreviewing(false)
     setCurrentQuestionIndex(0)
-    setSelectedAnswer(null)
+    setUserAnswers({})
+    setIsSubmitted(false)
   }
 
   const currentQuestion = generatedQuestions[currentQuestionIndex]
@@ -316,12 +331,14 @@ export default function GenerateSynonymsPage() {
                     isPreviewing={isPreviewing}
                     currentQuestionIndex={currentQuestionIndex}
                     currentQuestion={currentQuestion}
-                    selectedAnswer={selectedAnswer}
+                    userAnswers={userAnswers}
+                    isSubmitted={isSubmitted}
                     onStartPreview={handleStartPreview}
                     onClearAll={handleClearAll}
-                    onSelectAnswer={setSelectedAnswer}
+                    onSelectAnswer={handleAnswerSelect}
                     onPrevious={handlePreviousQuestion}
                     onNext={handleNextQuestion}
+                    onSubmit={handleSubmitAnswers}
                     onExitPreview={() => setIsPreviewing(false)}
                   />
                 </div>
@@ -427,12 +444,14 @@ export default function GenerateSynonymsPage() {
                       isPreviewing={isPreviewing}
                       currentQuestionIndex={currentQuestionIndex}
                       currentQuestion={currentQuestion}
-                      selectedAnswer={selectedAnswer}
+                      userAnswers={userAnswers}
+                      isSubmitted={isSubmitted}
                       onStartPreview={handleStartPreview}
                       onClearAll={handleClearAll}
-                      onSelectAnswer={setSelectedAnswer}
+                      onSelectAnswer={handleAnswerSelect}
                       onPrevious={handlePreviousQuestion}
                       onNext={handleNextQuestion}
+                      onSubmit={handleSubmitAnswers}
                       onExitPreview={() => setIsPreviewing(false)}
                     />
                   )}
@@ -493,27 +512,37 @@ function ResultsPanel({
   isPreviewing,
   currentQuestionIndex,
   currentQuestion,
-  selectedAnswer,
+  userAnswers,
+  isSubmitted,
   onStartPreview,
   onClearAll,
   onSelectAnswer,
   onPrevious,
   onNext,
+  onSubmit,
   onExitPreview,
 }: {
   generatedQuestions: SynonymQuestionData[]
   isPreviewing: boolean
   currentQuestionIndex: number
   currentQuestion: SynonymQuestionData
-  selectedAnswer: string | null
+  userAnswers: Record<number, string>
+  isSubmitted: boolean
   onStartPreview: () => void
   onClearAll: () => void
-  onSelectAnswer: (answer: string | null) => void
+  onSelectAnswer: (answer: string) => void
   onPrevious: () => void
   onNext: () => void
+  onSubmit: () => void
   onExitPreview: () => void
 }) {
   console.log(`[ResultsPanel] Rendering with ${generatedQuestions.length} questions, isPreviewing: ${isPreviewing}, currentIndex: ${currentQuestionIndex}`)
+
+  // Calculate score
+  const correctCount = generatedQuestions.filter((q, index) => userAnswers[index] === q.answer).length
+  const totalCount = generatedQuestions.length
+  const answeredCount = Object.keys(userAnswers).length
+  const percentage = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0
 
   return (
     <Card>
@@ -597,35 +626,38 @@ function ResultsPanel({
             ) : (
               // Preview mode
               <div className="space-y-4">
-                <SynonymQuestion
-                  question={currentQuestion}
-                  selectedAnswer={selectedAnswer}
-                  onSelectAnswer={onSelectAnswer}
-                  submitted={false}
-                  showFeedback={false}
-                />
-
-                {selectedAnswer && (
-                  <div className={`p-3 rounded-lg ${
-                    selectedAnswer === currentQuestion.answer
-                      ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                      : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
+                {/* Score Summary (only shown after submission) */}
+                {isSubmitted && (
+                  <div className={`p-4 rounded-lg ${
+                    percentage >= 80
+                      ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500'
+                      : percentage >= 60
+                      ? 'bg-yellow-100 dark:bg-yellow-900/30 border-2 border-yellow-500'
+                      : 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500'
                   }`}>
-                    <div className="text-sm font-semibold mb-1">
-                      {selectedAnswer === currentQuestion.answer ? 'Correct!' : 'Incorrect'}
+                    <div className="text-center mb-3">
+                      <div className="text-3xl font-bold mb-1">
+                        {correctCount} / {totalCount}
+                      </div>
+                      <div className="text-lg font-semibold">
+                        {percentage}% Correct
+                      </div>
                     </div>
-                    {selectedAnswer !== currentQuestion.answer && (
-                      <div className="text-sm">
-                        Correct answer: <strong>{currentQuestion.answer}</strong>
-                      </div>
-                    )}
-                    {currentQuestion.explanation && (
-                      <div className="text-sm mt-2 pt-2 border-t border-current/20">
-                        {currentQuestion.explanation}
-                      </div>
-                    )}
+                    <div className="text-sm text-center">
+                      {percentage >= 80 && "Excellent work! 🎉"}
+                      {percentage >= 60 && percentage < 80 && "Good job! Keep practicing! 👍"}
+                      {percentage < 60 && "Keep studying! You'll improve! 💪"}
+                    </div>
                   </div>
                 )}
+
+                <SynonymQuestion
+                  question={currentQuestion}
+                  selectedAnswer={userAnswers[currentQuestionIndex] || null}
+                  onSelectAnswer={onSelectAnswer}
+                  submitted={isSubmitted}
+                  showFeedback={isSubmitted}
+                />
 
                 {/* Navigation */}
                 <div className="flex items-center justify-between pt-2">
@@ -637,13 +669,27 @@ function ResultsPanel({
                   >
                     Previous
                   </Button>
-                  <Button
-                    onClick={onExitPreview}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    Exit Preview
-                  </Button>
+
+                  <div className="flex gap-2">
+                    {!isSubmitted && answeredCount === totalCount && (
+                      <Button
+                        onClick={onSubmit}
+                        variant="default"
+                        size="sm"
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        Submit All Answers
+                      </Button>
+                    )}
+                    <Button
+                      onClick={onExitPreview}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      Exit Preview
+                    </Button>
+                  </div>
+
                   <Button
                     onClick={onNext}
                     disabled={currentQuestionIndex === generatedQuestions.length - 1}
@@ -653,6 +699,18 @@ function ResultsPanel({
                     Next
                   </Button>
                 </div>
+
+                {/* Progress indicator */}
+                {!isSubmitted && (
+                  <div className="text-center text-sm text-muted-foreground">
+                    Answered: {answeredCount} / {totalCount}
+                    {answeredCount < totalCount && (
+                      <span className="ml-2 text-orange-600 dark:text-orange-400">
+                        (Answer all questions to submit)
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>
