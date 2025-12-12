@@ -1,6 +1,275 @@
 {
   "updates": [
     {
+      "id": "update-016",
+      "date": "2025-12-11",
+      "lesson_path": "/ssat/synonyms",
+      "lesson_title": "SSAT Quiz Interface with Split-Screen Navigation",
+      "chapter": "SSAT Practice",
+      "update_type": "major_enhancement",
+      "summary": "Revolutionary split-screen quiz interface with clickable question grid, keyboard navigation, and visual progress indicators for efficient SSAT practice on both Synonym and Analogy quizzes",
+      "features": [
+        {
+          "title": "Split-Screen Layout with Question Grid",
+          "description": "Left sidebar displays numbered question grid (1-378 for synonyms, 1-182 for analogies) while right side shows current question for focused practice",
+          "examples": [
+            "Left: Numbered grid showing all questions with status indicators",
+            "Right: Full question card with answer options",
+            "Sticky sidebar on desktop stays visible while scrolling",
+            "Mobile: 5-column grid, Desktop: 4-column grid"
+          ]
+        },
+        {
+          "title": "Visual Question Status Indicators",
+          "description": "Color-coded grid buttons show current question, answered vs unanswered questions at a glance",
+          "examples": [
+            "Current question: Blue/purple ring highlight with filled background",
+            "Answered: Light blue/purple background",
+            "Unanswered: Gray muted background",
+            "Hover effect: Border color changes for interactivity"
+          ]
+        },
+        {
+          "title": "Click-to-Navigate Question Jumping",
+          "description": "Click any question number in the grid to instantly jump to that question - no sequential navigation required",
+          "examples": [
+            "Jump from question 1 to question 50 with one click",
+            "Review earlier questions by clicking grid number",
+            "Random access to any question in the quiz"
+          ]
+        },
+        {
+          "title": "Keyboard Navigation Support",
+          "description": "Full keyboard shortcuts for power users - navigate questions without touching mouse",
+          "examples": [
+            "Arrow Left or '<' key: Go to previous question",
+            "Arrow Right or '>' key: Go to next question",
+            "Works only when quiz is active (not on setup screen)",
+            "Prevents interference with text input fields"
+          ]
+        },
+        {
+          "title": "Previous/Next Navigation Buttons",
+          "description": "Large, clear navigation buttons at bottom of question area with disabled states at quiz boundaries",
+          "examples": [
+            "Previous button disabled on first question",
+            "Next button disabled on last question",
+            "Arrow icons show direction clearly",
+            "Large touch targets for mobile users"
+          ]
+        },
+        {
+          "title": "Progress Tracking in Sidebar",
+          "description": "Real-time counter shows how many questions answered out of total with submit button",
+          "examples": [
+            "'15 / 20 answered' displayed in sidebar",
+            "Submit button only enabled when all answered",
+            "Small compact display doesn't clutter interface"
+          ]
+        },
+        {
+          "title": "Question Counter Display",
+          "description": "Shows current position in quiz with 'Question X of Y' text above each question",
+          "examples": [
+            "'Question 5 of 20' displayed prominently",
+            "Updates as you navigate between questions",
+            "Helps students track quiz progress"
+          ]
+        },
+        {
+          "title": "Responsive Grid Layout",
+          "description": "Question grid adapts to screen size with optimized column counts for mobile and desktop",
+          "examples": [
+            "Mobile (< 1024px): 5 columns for narrow screens",
+            "Desktop (≥ 1024px): 4 columns for better spacing",
+            "Scrollable grid when question count exceeds visible area",
+            "Max height 70vh with overflow scroll"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Split-screen design reduces cognitive load by showing full question list",
+        "Visual status indicators help students quickly identify unanswered questions",
+        "Keyboard navigation enables faster quiz completion for proficient typists",
+        "Click-to-navigate allows strategic question ordering (hard questions last)",
+        "Grid layout prevents students from accidentally skipping questions",
+        "Previous/Next buttons support sequential navigation when preferred",
+        "Sticky sidebar keeps progress visible without scrolling",
+        "Responsive design ensures consistent experience on all devices"
+      ],
+      "tags": ["ssat", "quiz-interface", "navigation", "keyboard-shortcuts", "split-screen", "ux", "progress-tracking", "visual-indicators", "responsive-design"]
+    },
+    {
+      "id": "update-015",
+      "date": "2025-12-11",
+      "lesson_path": "/vocabulary/word-lists",
+      "lesson_title": "Wordly Wise Level Badges on Vocabulary Cards",
+      "chapter": "Vocabulary",
+      "update_type": "major_feature",
+      "summary": "Added Wordly Wise level badges (Level 3-7, SSAT) to all vocabulary word cards for easy identification of word difficulty progression and curriculum source",
+      "features": [
+        {
+          "title": "Wordly Wise Level Detection",
+          "description": "Automatically determines which Wordly Wise level each word belongs to by searching all level data files",
+          "examples": [
+            "Searches Level 3, 4, 5, 6, 7, and SSAT word lists",
+            "Returns level badge only if word found in database",
+            "Function: getWordlyWiseLevel(word) in vocabulary-levels.ts"
+          ]
+        },
+        {
+          "title": "Color-Coded Level Badges",
+          "description": "Each level has distinct color for visual differentiation and curriculum progression tracking",
+          "examples": [
+            "Level 3: Green (elementary)",
+            "Level 4: Blue (upper elementary)",
+            "Level 5: Cyan (middle school)",
+            "Level 6: Indigo (upper middle school)",
+            "Level 7: Violet (advanced)",
+            "SSAT: Purple (college-prep)"
+          ]
+        },
+        {
+          "title": "BookOpen Icon with Level Name",
+          "description": "Badge displays book icon alongside level text ('Level 3', 'Level 4', etc.) for clear identification",
+          "examples": [
+            "BookOpen lucide icon in matching level color",
+            "Text: 'Level 5' or 'SSAT'",
+            "Small badge (sm size) for compact display"
+          ]
+        },
+        {
+          "title": "Interactive Tooltips & Mobile Sheets",
+          "description": "Desktop users see tooltips on hover, mobile users tap to see bottom sheet with level description",
+          "examples": [
+            "Desktop tooltip: 'Wordly Wise 3000 Level 5 - Vocabulary building program'",
+            "Mobile sheet: Full description with title and details",
+            "SSAT description: 'SSAT Vocabulary - Secondary School Admission Test words'"
+          ]
+        },
+        {
+          "title": "Badge Display Order",
+          "description": "Wordly Wise level badge appears first in badge row, before CEFR and Lexile levels",
+          "examples": [
+            "Order: Part of Speech → Wordly Wise Level → CEFR → Lexile",
+            "Example: [Noun] [Level 5] [B2] [900L-1100L]",
+            "Consistent hierarchy across all word cards"
+          ]
+        },
+        {
+          "title": "WordlyWiseBadge Component",
+          "description": "Reusable component with size options (sm, md, lg) and responsive behavior",
+          "examples": [
+            "Used on VocabularyWordCard with size='sm'",
+            "Can be reused on other pages with different sizes",
+            "Handles both tooltip (desktop) and sheet (mobile) modes"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Level badges help students understand curriculum progression from elementary to college-prep",
+        "Color-coding enables quick visual identification of word difficulty",
+        "Knowing the source level helps students focus on grade-appropriate vocabulary",
+        "SSAT badge highlights college-prep words that require extra attention",
+        "Parents can track whether child is working on appropriate difficulty level",
+        "Teachers can filter words by level for targeted lesson planning",
+        "Visual badge hierarchy prioritizes curriculum source over difficulty metrics"
+      ],
+      "tags": ["vocabulary", "wordly-wise", "ssat", "level-badges", "visual-indicators", "curriculum", "difficulty-progression", "tooltips", "mobile-sheets"]
+    },
+    {
+      "id": "update-014",
+      "date": "2025-12-11",
+      "lesson_path": "/ssat/synonyms",
+      "lesson_title": "SSAT Progress Tracking for Synonyms & Analogies",
+      "chapter": "SSAT Practice",
+      "update_type": "major_feature",
+      "summary": "Comprehensive progress tracking system for SSAT quizzes with dual storage (database + localStorage), visual progress bars, and reset functionality for both Synonym and Analogy practice",
+      "features": [
+        {
+          "title": "Dual Storage: Database + localStorage",
+          "description": "Progress saved to Supabase database for logged-in users, localStorage for anonymous users, with automatic sync when user logs in",
+          "examples": [
+            "Logged-in users: Progress saved to ssat_progress table",
+            "Anonymous users: Progress saved to browser localStorage",
+            "Auto-merge: Local progress synced to database on login",
+            "Separate tracking keys: ssat-synonym-completed, ssat-analogy-completed"
+          ]
+        },
+        {
+          "title": "Question Completion Tracking",
+          "description": "Marks questions as completed when quiz is submitted, tracking question IDs by type (SYNONYM or ANALOGY)",
+          "examples": [
+            "Tracks completed question IDs in Set data structure",
+            "Saves to database with timestamp (completed_at)",
+            "Prevents duplicate entries with upsert operation",
+            "Database schema: user_id, question_id, question_type, completed_at"
+          ]
+        },
+        {
+          "title": "Visual Progress Bars on Setup Screens",
+          "description": "Shows completion percentage with animated progress bar and numerical count on quiz setup pages",
+          "examples": [
+            "Text: 'Completed: 45 / 378' for synonyms",
+            "Animated progress bar showing percentage filled",
+            "Color-coded: Blue for synonyms, purple for analogies",
+            "Smooth transition animation when progress updates"
+          ]
+        },
+        {
+          "title": "Landing Page Progress Stats",
+          "description": "SSAT landing page displays overall progress for both question types with mini progress bars",
+          "examples": [
+            "Synonym stat: '145 completed (38%)' with blue progress bar",
+            "Analogy stat: '67 completed (37%)' with purple progress bar",
+            "Total progress: '212 completed (38%)' with teal progress bar",
+            "Only shows stats if user has completed at least one question"
+          ]
+        },
+        {
+          "title": "Reset Progress Functionality",
+          "description": "Users can reset their progress for each question type separately with confirmation dialog",
+          "examples": [
+            "Reset button with trash icon on setup screens",
+            "Confirmation: 'Are you sure? This cannot be undone'",
+            "Clears both database and localStorage",
+            "Success message: 'Progress reset successfully!'",
+            "Separate reset for synonyms vs analogies"
+          ]
+        },
+        {
+          "title": "Progress Statistics Functions",
+          "description": "Backend utilities for calculating completion stats including today, this week, and total counts",
+          "examples": [
+            "getProgressStats(questionType): Returns total, today, week counts",
+            "getCompletedQuestions(questionType): Returns array of completed IDs",
+            "markQuestionsCompleted(ids, type): Saves batch of completions",
+            "resetProgress(questionType): Clears all progress for type"
+          ]
+        },
+        {
+          "title": "Type-Safe Implementation",
+          "description": "TypeScript interfaces ensure correct data types throughout progress tracking system",
+          "examples": [
+            "SsatQuestionType: 'SYNONYM' | 'ANALOGY'",
+            "Progress functions typed with proper return values",
+            "Question data typed with optional fields for compatibility",
+            "Type casting for JSON data to component interfaces"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Progress tracking motivates students by showing tangible completion percentages",
+        "Dual storage ensures progress never lost (even for anonymous users)",
+        "Separate synonym/analogy tracking allows focused practice on weaker area",
+        "Visual progress bars provide immediate feedback on quiz completion",
+        "Reset functionality enables fresh start without creating new account",
+        "Landing page stats give quick overview of overall SSAT preparation progress",
+        "Auto-sync ensures seamless transition from anonymous to logged-in state"
+      ],
+      "tags": ["ssat", "progress-tracking", "database", "localStorage", "supabase", "statistics", "visual-progress", "reset-functionality", "type-safety"]
+    },
+    {
       "id": "update-013",
       "date": "2025-11-23",
       "lesson_path": "/vocabulary/word-lists",
@@ -1121,7 +1390,7 @@
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-11-23",
-    "total_updates": 13
+    "last_updated": "2025-12-11",
+    "total_updates": 16
   }
 }
