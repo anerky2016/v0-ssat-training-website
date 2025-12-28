@@ -365,6 +365,48 @@ export function StoryGenerator() {
     handleGenerate()
   }
 
+  const handleRegenerateWithSameWords = async () => {
+    if (!generatedStory) return
+
+    setIsGenerating(true)
+    setError(null)
+
+    try {
+      const userId = auth?.currentUser?.uid || null
+
+      const response = await fetch("/api/vocabulary/generate-story", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          words: generatedStory.words, // Use the same words from current story
+          storyLength,
+          storyType: selectedStoryType,
+          storySubtype: selectedStorySubtype,
+          userId,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to regenerate story")
+      }
+
+      const data = await response.json()
+      setGeneratedStory(data)
+
+      // Reload history if user is logged in
+      if (userLoggedIn) {
+        loadStoryHistory()
+      }
+    } catch (err) {
+      setError("Failed to regenerate story. Please try again.")
+      console.error(err)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   // Create a word lookup map with full vocabulary data
   const wordLookup = useMemo(() => {
     if (!generatedStory) return new Map()
@@ -806,15 +848,40 @@ export function StoryGenerator() {
                     </>
                   )}
                 </Button>
-                <Button
-                  onClick={handleRegenerate}
-                  variant="outline"
-                  size="sm"
-                  disabled={isGenerating}
-                >
-                  <RefreshCw className={cn("h-4 w-4", isGenerating && "animate-spin")} />
-                  Regenerate
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={handleRegenerateWithSameWords}
+                        variant="outline"
+                        size="sm"
+                        disabled={isGenerating}
+                      >
+                        <RefreshCw className={cn("h-4 w-4", isGenerating && "animate-spin")} />
+                        Same Words
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Regenerate story with the same vocabulary words</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={handleRegenerate}
+                        variant="outline"
+                        size="sm"
+                        disabled={isGenerating}
+                      >
+                        <RefreshCw className={cn("h-4 w-4", isGenerating && "animate-spin")} />
+                        New Words
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Generate new story with different vocabulary words</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
             <CardDescription>

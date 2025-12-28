@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype, userId } = await request.json()
+    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype, userId, words } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
@@ -23,17 +23,9 @@ export async function POST(request: NextRequest) {
       storyType,
       storySubtype,
       userId: userId ? userId.substring(0, 8) + '...' : 'anonymous',
+      useExistingWords: !!words,
       timestamp: new Date().toISOString()
     })
-
-    // Validate input
-    if (!levels || !Array.isArray(levels) || levels.length === 0) {
-      console.warn('⚠️ [Story Generation] Invalid or missing levels parameter')
-      return NextResponse.json(
-        { error: 'At least one difficulty level is required' },
-        { status: 400 }
-      )
-    }
 
     // Default values
     const wordsToUsePerLevel = wordsPerLevel || 3
@@ -46,48 +38,84 @@ export async function POST(request: NextRequest) {
       long: 40,
     }
 
-    // Validate word count limit
-    const totalWords = levels.length * wordsToUsePerLevel
-    const maxWords = MAX_WORDS_BY_LENGTH[targetLength] || 20
+    // If words are provided, use them directly (for regenerating with same words)
+    let selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
 
-    if (totalWords > maxWords) {
-      console.warn('⚠️ [Story Generation] Word count exceeds limit:', {
-        totalWords,
-        maxWords,
-        storyLength: targetLength
-      })
-      return NextResponse.json(
-        { error: `For ${targetLength} stories, you can use up to ${maxWords} vocabulary words. You selected ${totalWords} words. Please reduce the number of words per level or select fewer levels.` },
-        { status: 400 }
-      )
-    }
-
-    // Load words from all selected levels
-    const selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
-
-    for (const level of levels) {
-      let levelWords = loadVocabularyWords([level as VocabularyLevel])
-
-      // Filter by alphabet if letters are specified
-      if (letters && Array.isArray(letters) && letters.length > 0) {
-        const upperLetters = letters.map((l: string) => l.toUpperCase())
-        levelWords = levelWords.filter(word =>
-          upperLetters.includes(word.word.charAt(0).toUpperCase())
+    if (words && Array.isArray(words) && words.length > 0) {
+      // Use the provided words directly
+      selectedWords = words.map((w: any) => ({
+        word: w.word,
+        level: w.level as VocabularyLevel,
+        meaning: w.meaning || ''
+      }))
+      console.log('📝 [Story Generation] Using provided words:', selectedWords.map(w => w.word).join(', '))
+    } else {
+      // Validate input for new word selection
+      if (!levels || !Array.isArray(levels) || levels.length === 0) {
+        console.warn('⚠️ [Story Generation] Invalid or missing levels parameter')
+        return NextResponse.json(
+          { error: 'At least one difficulty level is required' },
+          { status: 400 }
         )
       }
 
-      // Note: Difficulty filtering is handled client-side since it requires user authentication
-      // The client can pass pre-filtered words if needed
+      // Validate word count limit
+      const totalWords = levels.length * wordsToUsePerLevel
+      const maxWords = MAX_WORDS_BY_LENGTH[targetLength] || 20
 
-      // Randomly select words from this level
-      const shuffled = levelWords.sort(() => 0.5 - Math.random())
-      const selected = shuffled.slice(0, wordsToUsePerLevel)
+      if (totalWords > maxWords) {
+        console.warn('⚠️ [Story Generation] Word count exceeds limit:', {
+          totalWords,
+          maxWords,
+          storyLength: targetLength
+        })
+        return NextResponse.json(
+          { error: `For ${targetLength} stories, you can use up to ${maxWords} vocabulary words. You selected ${totalWords} words. Please reduce the number of words per level or select fewer levels.` },
+          { status: 400 }
+        )
+      }
 
-      selectedWords.push(...selected.map(w => ({
-        word: w.word,
-        level: level as VocabularyLevel,
-        meaning: w.meanings[0] || ''
-      })))
+      // Load words from all selected levels
+      for (const level of levels) {
+        let levelWords = loadVocabularyWords([level as VocabularyLevel])
+
+        // Filter by alphabet if letters are specified
+        if (letters && Array.isArray(letters) && letters.length > 0) {
+          const upperLetters = letters.map((l: string) => l.toUpperCase())
+          levelWords = levelWords.filter(word =>
+            upperLetters.includes(word.word.charAt(0).toUpperCase())
+          )
+        }
+
+        // Note: Difficulty filtering is handled client-side since it requires user authentication
+        // The client can pass pre-filtered words if needed
+
+        // Randomly select words from this level
+        const shuffled = levelWords.sort(() => 0.5 - Math.random())
+        const selected = shuffled.slice(0, wordsToUsePerLevel)
+
+        selectedWords.push(...selected.map(w => ({
+          word: w.word,
+          level: level as VocabularyLevel,
+          meaning: w.meanings[0] || ''
+        })))
+      }
+    }
+
+    // Validate word count for provided words
+    if (selectedWords.length > 0) {
+      const maxWords = MAX_WORDS_BY_LENGTH[targetLength] || 20
+      if (selectedWords.length > maxWords) {
+        console.warn('⚠️ [Story Generation] Provided words exceed limit:', {
+          wordCount: selectedWords.length,
+          maxWords,
+          storyLength: targetLength
+        })
+        return NextResponse.json(
+          { error: `For ${targetLength} stories, you can use up to ${maxWords} vocabulary words. You provided ${selectedWords.length} words.` },
+          { status: 400 }
+        )
+      }
     }
 
     if (selectedWords.length === 0) {
