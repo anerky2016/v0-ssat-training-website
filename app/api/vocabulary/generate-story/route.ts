@@ -39,6 +39,29 @@ export async function POST(request: NextRequest) {
     const wordsToUsePerLevel = wordsPerLevel || 3
     const targetLength = storyLength || 'medium' // short, medium, long
 
+    // Maximum words allowed per story length
+    const MAX_WORDS_BY_LENGTH: Record<string, number> = {
+      short: 10,
+      medium: 20,
+      long: 40,
+    }
+
+    // Validate word count limit
+    const totalWords = levels.length * wordsToUsePerLevel
+    const maxWords = MAX_WORDS_BY_LENGTH[targetLength] || 20
+
+    if (totalWords > maxWords) {
+      console.warn('⚠️ [Story Generation] Word count exceeds limit:', {
+        totalWords,
+        maxWords,
+        storyLength: targetLength
+      })
+      return NextResponse.json(
+        { error: `For ${targetLength} stories, you can use up to ${maxWords} vocabulary words. You selected ${totalWords} words. Please reduce the number of words per level or select fewer levels.` },
+        { status: 400 }
+      )
+    }
+
     // Load words from all selected levels
     const selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
 

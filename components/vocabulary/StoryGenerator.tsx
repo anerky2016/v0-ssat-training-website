@@ -188,6 +188,18 @@ export function StoryGenerator() {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
+  // Maximum words allowed per story length
+  const MAX_WORDS_BY_LENGTH = {
+    short: 10,
+    medium: 20,
+    long: 40,
+  }
+
+  // Calculate total words and max allowed
+  const totalWords = selectedLevels.length * wordsPerLevel
+  const maxWords = MAX_WORDS_BY_LENGTH[storyLength]
+  const exceedsLimit = totalWords > maxWords
+
   // Check if user is logged in and load history
   useEffect(() => {
     // Subscribe to auth state changes
@@ -237,6 +249,14 @@ export function StoryGenerator() {
     })
   }, [userLoggedIn, storyHistory])
 
+  // Adjust words per level when levels or story length change to stay within limits
+  useEffect(() => {
+    const maxWordsPerLevel = Math.floor(maxWords / selectedLevels.length)
+    if (wordsPerLevel > maxWordsPerLevel && selectedLevels.length > 0) {
+      setWordsPerLevel(Math.max(1, maxWordsPerLevel))
+    }
+  }, [selectedLevels, storyLength, maxWords, wordsPerLevel])
+
   // Calculate available words when filters change
   useEffect(() => {
     const calculateAvailableWords = async () => {
@@ -281,6 +301,11 @@ export function StoryGenerator() {
   const handleGenerate = async () => {
     if (selectedLevels.length === 0) {
       setError("Please select at least one difficulty level")
+      return
+    }
+
+    if (exceedsLimit) {
+      setError(`For ${storyLength} stories, you can use up to ${maxWords} words. Please reduce the number of words per level or select fewer levels.`)
       return
     }
 
@@ -657,8 +682,8 @@ export function StoryGenerator() {
             <div className="flex items-center gap-4">
               <input
                 type="range"
-                min="2"
-                max="15"
+                min="1"
+                max={Math.min(15, Math.floor(maxWords / selectedLevels.length))}
                 value={wordsPerLevel}
                 onChange={(e) => setWordsPerLevel(Number(e.target.value))}
                 className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
@@ -667,9 +692,19 @@ export function StoryGenerator() {
                 {wordsPerLevel}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Total words: {selectedLevels.length * wordsPerLevel}
-            </p>
+            <div className="space-y-1">
+              <p className={cn(
+                "text-xs",
+                exceedsLimit ? "text-destructive font-semibold" : "text-muted-foreground"
+              )}>
+                Total words: {totalWords} / {maxWords} max
+              </p>
+              {exceedsLimit && (
+                <p className="text-xs text-destructive">
+                  ⚠️ Exceeds limit for {storyLength} stories. Maximum {maxWords} words allowed.
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Story Length */}
@@ -679,25 +714,33 @@ export function StoryGenerator() {
             </Label>
             <RadioGroup
               value={storyLength}
-              onValueChange={(value) => setStoryLength(value as "short" | "medium" | "long")}
+              onValueChange={(value) => {
+                setStoryLength(value as "short" | "medium" | "long")
+                // Adjust words per level if needed when changing story length
+                const newMaxWords = MAX_WORDS_BY_LENGTH[value as "short" | "medium" | "long"]
+                const maxWordsPerLevel = Math.floor(newMaxWords / selectedLevels.length)
+                if (wordsPerLevel > maxWordsPerLevel) {
+                  setWordsPerLevel(Math.max(1, maxWordsPerLevel))
+                }
+              }}
               className="flex flex-col space-y-2"
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="short" id="short" />
                 <Label htmlFor="short" className="font-normal cursor-pointer">
-                  Short (~500 words)
+                  Short (~500 words, up to 10 vocabulary words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="medium" id="medium" />
                 <Label htmlFor="medium" className="font-normal cursor-pointer">
-                  Medium (~1000 words)
+                  Medium (~1000 words, up to 20 vocabulary words)
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="long" id="long" />
                 <Label htmlFor="long" className="font-normal cursor-pointer">
-                  Long (~2000 words) - Epic story with rich detail
+                  Long (~2000 words, up to 40 vocabulary words) - Epic story with rich detail
                 </Label>
               </div>
             </RadioGroup>
@@ -713,7 +756,7 @@ export function StoryGenerator() {
           {/* Generate Button */}
           <Button
             onClick={handleGenerate}
-            disabled={isGenerating || selectedLevels.length === 0}
+            disabled={isGenerating || selectedLevels.length === 0 || exceedsLimit}
             className="w-full"
             size="lg"
           >
