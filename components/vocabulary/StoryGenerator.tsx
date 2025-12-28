@@ -688,7 +688,7 @@ export function StoryGenerator() {
               <input
                 type="range"
                 min="1"
-                max={Math.min(15, Math.floor(maxWords / selectedLevels.length))}
+                max={Math.max(1, Math.floor(maxWords / selectedLevels.length))}
                 value={wordsPerLevel}
                 onChange={(e) => setWordsPerLevel(Number(e.target.value))}
                 className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
