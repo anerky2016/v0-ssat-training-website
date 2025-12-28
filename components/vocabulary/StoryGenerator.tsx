@@ -676,9 +676,14 @@ export function StoryGenerator() {
 
           {/* Words Per Level */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-muted-foreground">
-              Words per level: {wordsPerLevel}
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-medium text-muted-foreground">
+                Total vocabulary words: {totalWords} / {maxWords} max
+              </Label>
+              <span className="text-xs text-muted-foreground">
+                {wordsPerLevel} per level × {selectedLevels.length} {selectedLevels.length === 1 ? 'level' : 'levels'}
+              </span>
+            </div>
             <div className="flex items-center gap-4">
               <input
                 type="range"
@@ -697,13 +702,12 @@ export function StoryGenerator() {
                 "text-xs",
                 exceedsLimit ? "text-destructive font-semibold" : "text-muted-foreground"
               )}>
-                Total words: {totalWords} / {maxWords} max
+                {exceedsLimit ? (
+                  <>⚠️ Exceeds limit for {storyLength} stories. Maximum {maxWords} words allowed.</>
+                ) : (
+                  <>Maximum {Math.floor(maxWords / selectedLevels.length)} words per level ({maxWords} total)</>
+                )}
               </p>
-              {exceedsLimit && (
-                <p className="text-xs text-destructive">
-                  ⚠️ Exceeds limit for {storyLength} stories. Maximum {maxWords} words allowed.
-                </p>
-              )}
             </div>
           </div>
 
