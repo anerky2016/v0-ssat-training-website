@@ -830,25 +830,32 @@ export function StoryGenerator() {
                 <BookOpen className="h-5 w-5 text-primary" />
                 <CardTitle>Your Story</CardTitle>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  onClick={handleCopy}
-                  variant="outline"
-                  size="sm"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-4 w-4" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4" />
-                      Copy
-                    </>
-                  )}
-                </Button>
-                <TooltipProvider>
+              <TooltipProvider>
+                <div className="flex gap-2">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={handleCopy}
+                        variant="outline"
+                        size="sm"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="h-4 w-4" />
+                            Copied!
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-4 w-4" />
+                            Copy
+                          </>
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Copy story to clipboard</p>
+                    </TooltipContent>
+                  </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -881,8 +888,8 @@ export function StoryGenerator() {
                       <p>Generate new story with different vocabulary words</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider>
-              </div>
+                </div>
+              </TooltipProvider>
             </div>
             <CardDescription>
               Generated on {new Date(generatedStory.metadata.generatedAt).toLocaleDateString()} at{" "}
