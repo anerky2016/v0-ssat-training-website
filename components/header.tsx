@@ -21,6 +21,8 @@ import { ResumeButton } from "@/components/resume-button"
 import { StudyReminder } from "@/components/study-reminder"
 import { NotesButton } from "@/components/notes-button"
 import { SettingsDialog } from "@/components/settings-dialog"
+import { StreakDisplay } from "@/components/streak-display"
+import { BadgesButton } from "@/components/badges-display"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -94,6 +96,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          {user && <StreakDisplay className="hidden lg:flex" />}
+          {user && <BadgesButton />}
           <ResumeButton />
           <StudyReminder compact />
           <NotesButton />

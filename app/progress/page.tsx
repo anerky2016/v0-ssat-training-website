@@ -37,6 +37,9 @@ import {
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { NotificationSettings } from "@/components/notification-settings"
 import { VocabularyWordReviews } from "@/components/VocabularyWordReviews"
+import { StreakCard } from "@/components/streak-display"
+import { DailyGoalsCard } from "@/components/daily-goals"
+import { RecentBadges } from "@/components/badges-display"
 import Link from "next/link"
 
 export default function ProgressPage() {
@@ -224,6 +227,15 @@ export default function ProgressPage() {
                       </CardHeader>
                     </Card>
                   </div>
+
+                  {/* Streaks, Goals, and Badges */}
+                  {user && (
+                    <div className="grid gap-6 lg:grid-cols-3 mb-12">
+                      <StreakCard />
+                      <DailyGoalsCard />
+                      <RecentBadges />
+                    </div>
+                  )}
 
                   {/* Subject-Specific Progress */}
                   <div className="grid gap-8 lg:grid-cols-2 mb-12">
