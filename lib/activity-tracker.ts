@@ -5,6 +5,43 @@
 
 import { recordStudyActivity, updateDailyGoalProgress } from './streaks'
 
+// TypeScript declarations for analytics
+declare global {
+  interface Window {
+    gtag?: (
+      command: string,
+      eventName: string,
+      params?: Record<string, any>
+    ) => void
+    umami?: {
+      track: (eventName: string, params?: Record<string, any>) => void
+    }
+  }
+}
+
+/**
+ * Send event to Google Analytics 4 and Umami
+ */
+function trackAnalyticsEvent(
+  eventName: string,
+  params: Record<string, any> = {}
+): void {
+  if (typeof window === 'undefined') return
+
+  // Google Analytics 4
+  if (window.gtag) {
+    window.gtag('event', eventName, {
+      event_category: 'engagement',
+      ...params
+    })
+  }
+
+  // Umami
+  if (window.umami) {
+    window.umami.track(eventName, params)
+  }
+}
+
 /**
  * Track vocabulary word review
  * Call this when user reviews vocabulary words (flashcards, word lists, etc.)
@@ -17,6 +54,12 @@ export async function trackWordReview(wordCount: number = 1): Promise<void> {
     // Update daily goal
     await updateDailyGoalProgress({
       words_reviewed_actual: wordCount,
+    })
+
+    // Send to analytics
+    trackAnalyticsEvent('word_review', {
+      word_count: wordCount,
+      event_label: 'vocabulary'
     })
   } catch (error) {
     console.error('Error tracking word review:', error)
@@ -36,6 +79,12 @@ export async function trackQuizCompletion(questionCount: number = 1): Promise<vo
     await updateDailyGoalProgress({
       questions_answered_actual: questionCount,
     })
+
+    // Send to analytics
+    trackAnalyticsEvent('quiz_completed', {
+      question_count: questionCount,
+      event_label: 'quiz'
+    })
   } catch (error) {
     console.error('Error tracking quiz completion:', error)
   }
@@ -53,6 +102,12 @@ export async function trackSentenceCompletion(questionCount: number = 1): Promis
     // Update daily goal
     await updateDailyGoalProgress({
       questions_answered_actual: questionCount,
+    })
+
+    // Send to analytics
+    trackAnalyticsEvent('sentence_completion', {
+      question_count: questionCount,
+      event_label: 'sentence_completion'
     })
   } catch (error) {
     console.error('Error tracking sentence completion:', error)
@@ -72,6 +127,12 @@ export async function trackFlashcardSession(cardCount: number = 1): Promise<void
     await updateDailyGoalProgress({
       words_reviewed_actual: cardCount,
     })
+
+    // Send to analytics
+    trackAnalyticsEvent('flashcard_session', {
+      card_count: cardCount,
+      event_label: 'flashcards'
+    })
   } catch (error) {
     console.error('Error tracking flashcard session:', error)
   }
@@ -90,6 +151,12 @@ export async function trackStoryReading(minutesSpent: number = 5): Promise<void>
     await updateDailyGoalProgress({
       minutes_studied_actual: minutesSpent,
     })
+
+    // Send to analytics
+    trackAnalyticsEvent('story_read', {
+      minutes_spent: minutesSpent,
+      event_label: 'story'
+    })
   } catch (error) {
     console.error('Error tracking story reading:', error)
   }
@@ -107,6 +174,12 @@ export async function trackReadingCompletion(minutesSpent: number = 10): Promise
     // Update daily goal
     await updateDailyGoalProgress({
       minutes_studied_actual: minutesSpent,
+    })
+
+    // Send to analytics
+    trackAnalyticsEvent('reading_completed', {
+      minutes_spent: minutesSpent,
+      event_label: 'reading'
     })
   } catch (error) {
     console.error('Error tracking reading completion:', error)
@@ -145,7 +218,19 @@ export async function trackVocabularyActivity(
       words_reviewed_actual: wordCount,
       minutes_studied_actual: minutesSpent,
     })
+
+    // Send to analytics
+    trackAnalyticsEvent('vocabulary_activity', {
+      word_count: wordCount,
+      minutes_spent: minutesSpent,
+      event_label: 'vocabulary'
+    })
   } catch (error) {
     console.error('Error tracking vocabulary activity:', error)
   }
 }
+
+/**
+ * Export trackAnalyticsEvent for use in other components
+ */
+export { trackAnalyticsEvent }
