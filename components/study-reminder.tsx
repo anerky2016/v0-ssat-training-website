@@ -43,14 +43,15 @@ export function StudyReminder({ showHeader = true, compact = false }: StudyRemin
   // Compact version for header badge
   if (compact) {
     return (
-      <Link href="/progress">
-        <Button variant="ghost" size="sm" className="relative">
+      <Link href="/progress" className="cursor-pointer">
+        <Button variant="ghost" size="sm" className="relative cursor-pointer hover:bg-accent">
           <Bell className="h-5 w-5" />
           {dueCount > 0 && (
             <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center font-bold">
               {dueCount}
             </span>
           )}
+          <span className="sr-only">Study reminders</span>
         </Button>
       </Link>
     )
