@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Menu, LogOut, TrendingUp, UserPlus } from "lucide-react"
+import { BookOpen, Menu, LogOut, TrendingUp, UserPlus, Book } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { AcademicCap, BookOpen as BookOpenIcon } from "@/components/ui/icon"
@@ -74,6 +74,12 @@ export function Header() {
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             How To
+          </Link>
+          <Link
+            href="/e-reader"
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            E-Reader
           </Link>
           <Link
             href="/progress"
@@ -156,6 +162,13 @@ export function Header() {
                 >
                   <BookOpen className="h-5 w-5" />
                   How To
+                </Link>
+                <Link
+                  href="/e-reader"
+                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-2"
+                >
+                  <Book className="h-5 w-5" />
+                  E-Reader
                 </Link>
                 <Link
                   href="/progress"
