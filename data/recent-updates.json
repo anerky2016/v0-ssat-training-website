@@ -1,6 +1,119 @@
 {
   "updates": [
     {
+      "id": "update-017",
+      "date": "2026-01-31",
+      "lesson_path": "/vocabulary/story-generator",
+      "lesson_title": "Story Generator: Manual Word Selection & Smart Controls",
+      "chapter": "Vocabulary",
+      "update_type": "major_enhancement",
+      "summary": "Enhanced story generator with manual word selection from letter-filtered lists, difficulty-based color coding, filled selection states, automatic slider synchronization, and story generation tracking for streaks and badges",
+      "features": [
+        {
+          "title": "Manual Word Selection from Letter-Filtered Lists",
+          "description": "Select letters to see matching vocabulary words, then click individual words to manually build your story instead of random selection",
+          "examples": [
+            "Select letters A, B, C to see all words starting with those letters",
+            "Click any word to add it to your story selection",
+            "Visual grid shows all available words matching your filters",
+            "Max selection enforced based on story length (10/20/40 words)",
+            "Click selected word again to deselect it"
+          ]
+        },
+        {
+          "title": "Difficulty-Based Color Coding",
+          "description": "Words colored by your personal difficulty ratings using 5 distinct colors to help identify challenging vocabulary",
+          "examples": [
+            "Purple border/background: Very Hard words (difficulty 3)",
+            "Red border/background: Hard words (difficulty 2)",
+            "Orange border/background: Medium difficulty words (difficulty 1)",
+            "Green border/background: Easy words (difficulty 0)",
+            "Blue border/background: Not yet rated words (no difficulty set)",
+            "Light background when unselected, solid fill when selected"
+          ]
+        },
+        {
+          "title": "Filled Selection State with White Text",
+          "description": "Selected words display solid colored backgrounds with white text for high contrast and clear visual feedback",
+          "examples": [
+            "Unselected: Light background (bg-green-50) with dark text",
+            "Selected: Solid background (bg-green-600) with white text",
+            "All 5 difficulty colors support filled selection states",
+            "Font weight increases to medium when selected",
+            "Clear visual distinction between selected/unselected"
+          ]
+        },
+        {
+          "title": "Automatic Slider Synchronization",
+          "description": "Total vocabulary words slider automatically updates and disables when words are manually selected, providing clear feedback",
+          "examples": [
+            "Slider value shows number of manually selected words",
+            "Slider becomes disabled (grayed out) during manual selection",
+            "Label changes to 'X manually selected' in primary color",
+            "Display number shows manual selection count",
+            "Clear button resets slider back to default value (3 per level)"
+          ]
+        },
+        {
+          "title": "Story Generation Activity Tracking",
+          "description": "Story generation now automatically tracks reading time and word count for streaks, daily goals, and badge progress",
+          "examples": [
+            "Short stories: 5 minutes reading time tracked",
+            "Medium stories: 10 minutes reading time tracked",
+            "Long stories: 15 minutes reading time tracked",
+            "Word count from vocabulary tracked for Words badges",
+            "Contributes to daily study goals automatically",
+            "Updates streak when generating stories"
+          ]
+        },
+        {
+          "title": "Difficulty Color Legend",
+          "description": "Visual legend shows all 5 difficulty colors with labels to help users understand the color coding system",
+          "examples": [
+            "Legend displays: Very Hard (purple), Hard (red), Medium (orange), Easy (green), Not rated (blue)",
+            "Compact display with color swatches and text labels",
+            "Only shown for logged-in users who have difficulty tracking",
+            "Positioned below word selection grid for easy reference"
+          ]
+        },
+        {
+          "title": "Smart Clear Button Reset",
+          "description": "Clear button now resets both selected words and slider value to provide complete reset functionality",
+          "examples": [
+            "Clears all selected words instantly",
+            "Resets slider to default value (3 per level)",
+            "Re-enables slider for filter-based selection",
+            "Single click returns to initial state"
+          ]
+        }
+      ],
+      "learning_improvements": [
+        "Manual word selection enables targeted vocabulary practice for specific words",
+        "Difficulty color coding helps students focus on challenging words that need more practice",
+        "Filled selection states provide immediate visual confirmation of word choices",
+        "Automatic slider sync prevents confusion about word count in different modes",
+        "Story generation tracking motivates consistent practice through streaks and badges",
+        "Activity tracking helps students see progress toward daily goals",
+        "Color legend reduces cognitive load by making color system immediately clear",
+        "Clear button reset enables quick start-over without reloading page",
+        "Personal difficulty ratings create individualized learning paths",
+        "Visual feedback systems reduce friction in the story generation workflow"
+      ],
+      "tags": [
+        "vocabulary",
+        "story-generator",
+        "manual-selection",
+        "difficulty-colors",
+        "activity-tracking",
+        "streaks",
+        "badges",
+        "slider-sync",
+        "color-coding",
+        "visual-feedback",
+        "user-experience"
+      ]
+    },
+    {
       "id": "update-016",
       "date": "2025-12-11",
       "lesson_path": "/ssat/synonyms",
@@ -81,7 +194,7 @@
           "description": "Question grid adapts to screen size with optimized column counts for mobile and desktop",
           "examples": [
             "Mobile (< 1024px): 5 columns for narrow screens",
-            "Desktop (≥ 1024px): 4 columns for better spacing",
+            "Desktop (\u2265 1024px): 4 columns for better spacing",
             "Scrollable grid when question count exceeds visible area",
             "Max height 70vh with overflow scroll"
           ]
@@ -97,7 +210,17 @@
         "Sticky sidebar keeps progress visible without scrolling",
         "Responsive design ensures consistent experience on all devices"
       ],
-      "tags": ["ssat", "quiz-interface", "navigation", "keyboard-shortcuts", "split-screen", "ux", "progress-tracking", "visual-indicators", "responsive-design"]
+      "tags": [
+        "ssat",
+        "quiz-interface",
+        "navigation",
+        "keyboard-shortcuts",
+        "split-screen",
+        "ux",
+        "progress-tracking",
+        "visual-indicators",
+        "responsive-design"
+      ]
     },
     {
       "id": "update-015",
@@ -151,7 +274,7 @@
           "title": "Badge Display Order",
           "description": "Wordly Wise level badge appears first in badge row, before CEFR and Lexile levels",
           "examples": [
-            "Order: Part of Speech → Wordly Wise Level → CEFR → Lexile",
+            "Order: Part of Speech \u2192 Wordly Wise Level \u2192 CEFR \u2192 Lexile",
             "Example: [Noun] [Level 5] [B2] [900L-1100L]",
             "Consistent hierarchy across all word cards"
           ]
@@ -175,7 +298,17 @@
         "Teachers can filter words by level for targeted lesson planning",
         "Visual badge hierarchy prioritizes curriculum source over difficulty metrics"
       ],
-      "tags": ["vocabulary", "wordly-wise", "ssat", "level-badges", "visual-indicators", "curriculum", "difficulty-progression", "tooltips", "mobile-sheets"]
+      "tags": [
+        "vocabulary",
+        "wordly-wise",
+        "ssat",
+        "level-badges",
+        "visual-indicators",
+        "curriculum",
+        "difficulty-progression",
+        "tooltips",
+        "mobile-sheets"
+      ]
     },
     {
       "id": "update-014",
@@ -267,7 +400,17 @@
         "Landing page stats give quick overview of overall SSAT preparation progress",
         "Auto-sync ensures seamless transition from anonymous to logged-in state"
       ],
-      "tags": ["ssat", "progress-tracking", "database", "localStorage", "supabase", "statistics", "visual-progress", "reset-functionality", "type-safety"]
+      "tags": [
+        "ssat",
+        "progress-tracking",
+        "database",
+        "localStorage",
+        "supabase",
+        "statistics",
+        "visual-progress",
+        "reset-functionality",
+        "type-safety"
+      ]
     },
     {
       "id": "update-013",
@@ -377,7 +520,19 @@
         "Helps students set realistic vocabulary learning goals",
         "Reveals that SSAT requires sophisticated, college-level vocabulary mastery"
       ],
-      "tags": ["vocabulary", "lexile-levels", "reading-difficulty", "grade-levels", "word-frequency", "classification", "badges", "interactive-tooltips", "ssat", "wordly-wise", "college-prep"]
+      "tags": [
+        "vocabulary",
+        "lexile-levels",
+        "reading-difficulty",
+        "grade-levels",
+        "word-frequency",
+        "classification",
+        "badges",
+        "interactive-tooltips",
+        "ssat",
+        "wordly-wise",
+        "college-prep"
+      ]
     },
     {
       "id": "update-012",
@@ -445,7 +600,7 @@
           "title": "Word Card Integration",
           "description": "Links to full vocabulary word cards with pronunciation, definitions, examples, and etymology for deeper learning",
           "examples": [
-            "Shows word pronunciation (e.g., /ˈbæriər/)",
+            "Shows word pronunciation (e.g., /\u02c8b\u00e6ri\u0259r/)",
             "Part of speech indicator (noun, verb, adjective)",
             "Primary definition from vocabulary database",
             "External link icon to view full word card",
@@ -488,7 +643,20 @@
         "Purple gradient design creates engaging, modern learning interface",
         "100 questions provide comprehensive Chapter 2 coverage in one session"
       ],
-      "tags": ["vocabulary", "sentence-completion", "ai-explanations", "gpt-5.1", "quiz", "mistake-tracking", "feedback-loop", "word-cards", "comparative-analysis", "deferred-feedback", "openai", "markdown-rendering"]
+      "tags": [
+        "vocabulary",
+        "sentence-completion",
+        "ai-explanations",
+        "gpt-5.1",
+        "quiz",
+        "mistake-tracking",
+        "feedback-loop",
+        "word-cards",
+        "comparative-analysis",
+        "deferred-feedback",
+        "openai",
+        "markdown-rendering"
+      ]
     },
     {
       "id": "update-011",
@@ -503,15 +671,15 @@
           "title": "9 Story Genre Types with 30+ Subtypes",
           "description": "Choose from kid-friendly story genres each with specialized subtypes that guide AI to create genre-appropriate narratives",
           "examples": [
-            "🌟 Adventure: Quest, Treasure Hunt, Survival, Exploring Unknown Worlds, Mystery Adventure",
-            "🕵️ Mystery & Detective: Clues & Red Herrings, Kid Detective, Neighborhood Secrets, School Mystery",
-            "🧙‍♂️ Fantasy: Magical Creatures, Spells & Powers, Portal Worlds, Talking Animals",
-            "😂 Humor: Diary-Style, School Mischief, Funny Problems",
-            "❤️ Friendship: Friend Drama, New Kid, Bullying & Kindness, Sibling Relationships",
-            "🦸 Personal Growth: Overcoming Fear, Standing Up to Bullies, Learning Skills, Finding Confidence",
-            "👽 Sci-Fi: Robots, Time Travel, Space Missions, Virtual Reality",
-            "🐻 Animal Stories: Talking Animals, Pet Adventures, Wild Survival",
-            "🧩 STEM: Building Inventions, Science Fair, Math Puzzles, Engineering Challenges"
+            "\ud83c\udf1f Adventure: Quest, Treasure Hunt, Survival, Exploring Unknown Worlds, Mystery Adventure",
+            "\ud83d\udd75\ufe0f Mystery & Detective: Clues & Red Herrings, Kid Detective, Neighborhood Secrets, School Mystery",
+            "\ud83e\uddd9\u200d\u2642\ufe0f Fantasy: Magical Creatures, Spells & Powers, Portal Worlds, Talking Animals",
+            "\ud83d\ude02 Humor: Diary-Style, School Mischief, Funny Problems",
+            "\u2764\ufe0f Friendship: Friend Drama, New Kid, Bullying & Kindness, Sibling Relationships",
+            "\ud83e\uddb8 Personal Growth: Overcoming Fear, Standing Up to Bullies, Learning Skills, Finding Confidence",
+            "\ud83d\udc7d Sci-Fi: Robots, Time Travel, Space Missions, Virtual Reality",
+            "\ud83d\udc3b Animal Stories: Talking Animals, Pet Adventures, Wild Survival",
+            "\ud83e\udde9 STEM: Building Inventions, Science Fair, Math Puzzles, Engineering Challenges"
           ]
         },
         {
@@ -529,7 +697,7 @@
           "description": "Incorporate up to 15 words per vocabulary level for comprehensive practice (up from previous limit of 10)",
           "examples": [
             "Single level: 15 SSAT words in one story",
-            "Multiple levels: 2 levels × 15 words = 30 total words in one story",
+            "Multiple levels: 2 levels \u00d7 15 words = 30 total words in one story",
             "Words are bolded (**word**) throughout the story for easy identification"
           ]
         },
@@ -599,7 +767,19 @@
         "AI-generated stories are unique each time, preventing memorization",
         "Bolded vocabulary words make it easy to identify target words while reading"
       ],
-      "tags": ["vocabulary", "ai-story-generator", "story-genres", "text-to-speech", "volcengine-tts", "difficulty-filtering", "gpt-4o-mini", "reading-practice", "personalized-learning", "audio-caching", "last-location"]
+      "tags": [
+        "vocabulary",
+        "ai-story-generator",
+        "story-genres",
+        "text-to-speech",
+        "volcengine-tts",
+        "difficulty-filtering",
+        "gpt-4o-mini",
+        "reading-practice",
+        "personalized-learning",
+        "audio-caching",
+        "last-location"
+      ]
     },
     {
       "id": "update-010",
@@ -685,7 +865,18 @@
         "Visual feedback confirms user actions immediately",
         "Unified purple color scheme creates cohesive, professional appearance"
       ],
-      "tags": ["vocabulary", "ui-enhancement", "difficulty-tracking", "icons", "visual-design", "database-sync", "accessibility", "user-experience", "flashcards", "word-lists"]
+      "tags": [
+        "vocabulary",
+        "ui-enhancement",
+        "difficulty-tracking",
+        "icons",
+        "visual-design",
+        "database-sync",
+        "accessibility",
+        "user-experience",
+        "flashcards",
+        "word-lists"
+      ]
     },
     {
       "id": "update-009",
@@ -768,7 +959,17 @@
         "Phone-first authentication improves security and reduces friction",
         "Color-coded difficulty system provides quick visual assessment"
       ],
-      "tags": ["vocabulary", "keyboard-navigation", "difficulty-tracking", "filtering", "authentication", "flashcards", "word-lists", "review-status", "firebase"]
+      "tags": [
+        "vocabulary",
+        "keyboard-navigation",
+        "difficulty-tracking",
+        "filtering",
+        "authentication",
+        "flashcards",
+        "word-lists",
+        "review-status",
+        "firebase"
+      ]
     },
     {
       "id": "update-008",
@@ -873,7 +1074,18 @@
         "Local storage ensures privacy - notes stay on student's device",
         "Sidebar access enables note-taking without interrupting lesson flow"
       ],
-      "tags": ["notes", "screenshots", "annotation", "drawing", "touch-pen", "zoom", "study-tools", "organization", "localStorage", "canvas"]
+      "tags": [
+        "notes",
+        "screenshots",
+        "annotation",
+        "drawing",
+        "touch-pen",
+        "zoom",
+        "study-tools",
+        "organization",
+        "localStorage",
+        "canvas"
+      ]
     },
     {
       "id": "update-007",
@@ -898,7 +1110,7 @@
           "title": "Random Question Selection System",
           "description": "Intelligent randomization picks one question of each type per vocabulary word, ensuring varied practice every visit",
           "examples": [
-            "5 words × 4 question types = 20 questions per session",
+            "5 words \u00d7 4 question types = 20 questions per session",
             "Different questions each time you reload the page",
             "Covers all 4 question formats for balanced skill development"
           ]
@@ -926,8 +1138,8 @@
           "title": "Instant Visual Feedback",
           "description": "Color-coded correct/incorrect indicators with checkmarks and X icons, plus explanations showing correct answer",
           "examples": [
-            "Green highlight with ✓ for correct answers",
-            "Red highlight with × for incorrect selections",
+            "Green highlight with \u2713 for correct answers",
+            "Red highlight with \u00d7 for incorrect selections",
             "Correct answer revealed after submission",
             "Disabled state prevents answer changes"
           ]
@@ -948,7 +1160,7 @@
           "examples": [
             "Shows 'Answered 8/12' during quiz",
             "Final score: 'Your Score: 10/12 (83%)'",
-            "Feedback: '🌟 Excellent! You have a strong vocabulary.'",
+            "Feedback: '\ud83c\udf1f Excellent! You have a strong vocabulary.'",
             "Submit button only enables when all questions answered"
           ]
         },
@@ -974,7 +1186,19 @@
         "Progress tracking motivates students with clear visual feedback",
         "Flashcard component provides alternative study method for different learning styles"
       ],
-      "tags": ["vocabulary", "verbal-section", "questions", "quiz", "flashcards", "search", "pagination", "mobile-friendly", "interactive", "spaced-repetition", "practice-exercises"]
+      "tags": [
+        "vocabulary",
+        "verbal-section",
+        "questions",
+        "quiz",
+        "flashcards",
+        "search",
+        "pagination",
+        "mobile-friendly",
+        "interactive",
+        "spaced-repetition",
+        "practice-exercises"
+      ]
     },
     {
       "id": "update-006",
@@ -1061,7 +1285,17 @@
         "Review count tracking motivates students to keep reviewing",
         "Parent-friendly - emails can remind parents to check in with students"
       ],
-      "tags": ["notifications", "browser-notifications", "email-reminders", "spaced-repetition", "study-tracking", "cron-jobs", "smtp", "progress-tracking", "user-engagement"]
+      "tags": [
+        "notifications",
+        "browser-notifications",
+        "email-reminders",
+        "spaced-repetition",
+        "study-tracking",
+        "cron-jobs",
+        "smtp",
+        "progress-tracking",
+        "user-engagement"
+      ]
     },
     {
       "id": "update-005",
@@ -1076,15 +1310,15 @@
           "title": "Interactive Decimal Multiplication Animation",
           "description": "Animated step-by-step visualization showing how to multiply decimals by ignoring decimal points, multiplying whole numbers, then placing the decimal",
           "examples": [
-            "2.3 × 1.4: Shows 23×14=322, then placing decimal (2 places) → 3.22",
-            "0.6 × 0.5: Animates 6×5=30, then adds 2 decimal places → 0.30"
+            "2.3 \u00d7 1.4: Shows 23\u00d714=322, then placing decimal (2 places) \u2192 3.22",
+            "0.6 \u00d7 0.5: Animates 6\u00d75=30, then adds 2 decimal places \u2192 0.30"
           ]
         },
         {
           "title": "Interactive Decimal Division Animation",
           "description": "Animated visualization demonstrating the decimal-shifting technique for division with step-by-step progression",
           "examples": [
-            "4.2 ÷ 0.7: Shows shifting both by 1 place (42 ÷ 7), then performing division → 6",
+            "4.2 \u00f7 0.7: Shows shifting both by 1 place (42 \u00f7 7), then performing division \u2192 6",
             "Visual arrow indicators show decimal movement in real-time"
           ]
         },
@@ -1092,42 +1326,42 @@
           "title": "Step-by-Step Procedures",
           "description": "Clear, numbered steps for both multiplication and division with decimals, breaking down complex operations into simple rules",
           "examples": [
-            "Multiplication: Ignore decimals → count total decimal places → place decimal in product",
-            "Division: Shift divisor to whole number → shift dividend same amount → divide normally"
+            "Multiplication: Ignore decimals \u2192 count total decimal places \u2192 place decimal in product",
+            "Division: Shift divisor to whole number \u2192 shift dividend same amount \u2192 divide normally"
           ]
         },
         {
           "title": "LaTeX-Rendered Examples",
           "description": "Professional mathematical notation for all formulas and examples using MathJax",
           "examples": [
-            "2.3 × 1.4 = 3.22 (multiplication example)",
-            "4.2 ÷ 0.7 = 6 (division example with fraction notation)"
+            "2.3 \u00d7 1.4 = 3.22 (multiplication example)",
+            "4.2 \u00f7 0.7 = 6 (division example with fraction notation)"
           ]
         },
         {
           "title": "Worked Examples with Detailed Solutions",
           "description": "Two complete examples showing step-by-step reasoning from start to finish with interactive animations",
           "examples": [
-            "Multiply 0.6 × 0.5: Animated visualization + written steps showing ignoring decimals (6×5=30), counting decimal places (2 total), final answer (0.30)",
-            "Divide 12.6 ÷ 0.3: Shows decimal shifting (0.3→3, 12.6→126), division (126÷3=42)"
+            "Multiply 0.6 \u00d7 0.5: Animated visualization + written steps showing ignoring decimals (6\u00d75=30), counting decimal places (2 total), final answer (0.30)",
+            "Divide 12.6 \u00f7 0.3: Shows decimal shifting (0.3\u21923, 12.6\u2192126), division (126\u00f73=42)"
           ]
         },
         {
           "title": "16 Practice Problems Across 4 Difficulty Levels",
           "description": "Progressive difficulty from basic single-decimal operations to extreme precision with many decimal places",
           "examples": [
-            "Easy: 0.4 × 0.2, 4.5 ÷ 1.5 (4 problems)",
-            "Medium: 1.23 × 0.4, 9.36 ÷ 0.12 (4 problems)",
-            "Challenge: 0.007 × 0.8, 0.063 ÷ 0.009 (4 problems)",
-            "Extreme: 0.0045 × 0.003, 123.456 ÷ 0.0072 (4 problems)"
+            "Easy: 0.4 \u00d7 0.2, 4.5 \u00f7 1.5 (4 problems)",
+            "Medium: 1.23 \u00d7 0.4, 9.36 \u00f7 0.12 (4 problems)",
+            "Challenge: 0.007 \u00d7 0.8, 0.063 \u00f7 0.009 (4 problems)",
+            "Extreme: 0.0045 \u00d7 0.003, 123.456 \u00f7 0.0072 (4 problems)"
           ]
         },
         {
           "title": "Answer Explanations for Every Problem",
           "description": "Each practice problem includes both the answer and a step-by-step explanation showing the reasoning",
           "examples": [
-            "0.4 × 0.2 = 0.08 | Explanation: 4 × 2 = 8, two decimal places → 0.08",
-            "4.5 ÷ 1.5 = 3 | Explanation: Shift both → 45 ÷ 15 = 3"
+            "0.4 \u00d7 0.2 = 0.08 | Explanation: 4 \u00d7 2 = 8, two decimal places \u2192 0.08",
+            "4.5 \u00f7 1.5 = 3 | Explanation: Shift both \u2192 45 \u00f7 15 = 3"
           ]
         },
         {
@@ -1135,7 +1369,7 @@
           "description": "Practical guidance for parents and tutors including real-world contexts and visual aids",
           "examples": [
             "Always double-check decimal placement at the end",
-            "Practice with money (like $2.30 × 1.4)",
+            "Practice with money (like $2.30 \u00d7 1.4)",
             "Use grid or area models for younger kids to visualize multiplication"
           ]
         },
@@ -1154,7 +1388,19 @@
         "Answer explanations allow students to learn from mistakes independently",
         "Extreme problems prepare advanced students for scientific notation and precision"
       ],
-      "tags": ["decimals", "multiplication", "division", "decimal-places", "decimal-shifting", "step-by-step", "latex", "practice-problems", "interactive", "animations", "visualization"]
+      "tags": [
+        "decimals",
+        "multiplication",
+        "division",
+        "decimal-places",
+        "decimal-shifting",
+        "step-by-step",
+        "latex",
+        "practice-problems",
+        "interactive",
+        "animations",
+        "visualization"
+      ]
     },
     {
       "id": "update-004",
@@ -1176,10 +1422,10 @@
         },
         {
           "title": "Symbolic and Numeric Answer Format",
-          "description": "Teaches proper mathematical notation by requiring both exact (with π) and approximate decimal answers",
+          "description": "Teaches proper mathematical notation by requiring both exact (with \u03c0) and approximate decimal answers",
           "examples": [
-            "Volume: 32π cm³ (symbolic) ≈ 100.48 cm³ (numeric)",
-            "Surface Area: 40π cm² (symbolic) ≈ 125.6 cm² (numeric)",
+            "Volume: 32\u03c0 cm\u00b3 (symbolic) \u2248 100.48 cm\u00b3 (numeric)",
+            "Surface Area: 40\u03c0 cm\u00b2 (symbolic) \u2248 125.6 cm\u00b2 (numeric)",
             "Emphasizes mathematical precision and real-world application"
           ]
         },
@@ -1187,24 +1433,24 @@
           "title": "Volume and Surface Area Formulas",
           "description": "LaTeX-rendered formulas with kid-friendly explanations: 'Volume stacks the top circle through the whole height'",
           "examples": [
-            "V = πr²h (volume formula)",
-            "S = 2πr² + 2πrh (surface area: top + bottom + wrap-around side)"
+            "V = \u03c0r\u00b2h (volume formula)",
+            "S = 2\u03c0r\u00b2 + 2\u03c0rh (surface area: top + bottom + wrap-around side)"
           ]
         },
         {
           "title": "Key Terms with Definitions",
-          "description": "Clear definitions for radius, height, and π tailored for ages 9-13",
+          "description": "Clear definitions for radius, height, and \u03c0 tailored for ages 9-13",
           "examples": [
             "radius (r): Half the width of the circle on top",
             "height (h): How tall the cylinder is",
-            "π (pi): About 3.14, used for circles"
+            "\u03c0 (pi): About 3.14, used for circles"
           ]
         },
         {
           "title": "Advanced Practice Problems",
           "description": "Progression from basic calculations to optimization and reverse engineering, totaling 7 problems across 4 difficulty levels",
           "examples": [
-            "Easy: Direct calculation (r=3cm, h=5cm → find V)",
+            "Easy: Direct calculation (r=3cm, h=5cm \u2192 find V)",
             "Medium: Special case where r=h (both volume and surface area)",
             "Challenge: Volume scaling (how many times larger?), reverse from circumference",
             "Extreme: Given surface area find height, optimization (h=2r maximizes volume for fixed surface area)"
@@ -1227,7 +1473,17 @@
         "Real-world context (soup can, label wrapping) makes abstract formulas relatable",
         "Consistent diagram style across all problems reduces cognitive load"
       ],
-      "tags": ["geometry", "3d-shapes", "cylinders", "volume", "surface-area", "svg", "pi", "optimization", "latex"]
+      "tags": [
+        "geometry",
+        "3d-shapes",
+        "cylinders",
+        "volume",
+        "surface-area",
+        "svg",
+        "pi",
+        "optimization",
+        "latex"
+      ]
     },
     {
       "id": "update-003",
@@ -1249,15 +1505,15 @@
         },
         {
           "title": "Volume and Surface Area Formulas",
-          "description": "LaTeX-rendered key formulas: V = s³ (volume) and SA = 6s² (surface area) with clear explanations",
+          "description": "LaTeX-rendered key formulas: V = s\u00b3 (volume) and SA = 6s\u00b2 (surface area) with clear explanations",
           "examples": [
-            "V = s³ for cubic volume",
-            "SA = 6s² for total surface area of 6 square faces"
+            "V = s\u00b3 for cubic volume",
+            "SA = 6s\u00b2 for total surface area of 6 square faces"
           ]
         },
         {
           "title": "Units Emphasis",
-          "description": "Dedicated tip section teaching proper unit usage: cubic units (cm³, m³) for volume, square units (cm², m²) for surface area"
+          "description": "Dedicated tip section teaching proper unit usage: cubic units (cm\u00b3, m\u00b3) for volume, square units (cm\u00b2, m\u00b2) for surface area"
         },
         {
           "title": "Multi-Level Practice with Visuals",
@@ -1266,7 +1522,7 @@
             "Easy: Direct calculation problems (s=3cm, s=5m, s=2in)",
             "Medium: Reverse problems (given SA, find s and V)",
             "Challenge: Nested cubes word problem (64 small cubes fit in big cube)",
-            "Extreme: Cube root problems (given V=3.375m³, find s and SA)"
+            "Extreme: Cube root problems (given V=3.375m\u00b3, find s and SA)"
           ]
         },
         {
@@ -1285,7 +1541,16 @@
         "Progression from basic calculation to cube roots builds mathematical confidence",
         "Visual diagrams reduce abstract thinking burden for young learners (ages 9-12)"
       ],
-      "tags": ["geometry", "3d-shapes", "cubes", "volume", "surface-area", "svg", "visualizations", "latex"]
+      "tags": [
+        "geometry",
+        "3d-shapes",
+        "cubes",
+        "volume",
+        "surface-area",
+        "svg",
+        "visualizations",
+        "latex"
+      ]
     },
     {
       "id": "update-002",
@@ -1301,7 +1566,7 @@
           "description": "Professional mathematical typesetting using MathJax for all formulas, ratios, and equations",
           "examples": [
             "Proportion definition: a/b = c/d",
-            "Cross multiplication: a × d = b × c",
+            "Cross multiplication: a \u00d7 d = b \u00d7 c",
             "Worked examples with step-by-step LaTeX rendering"
           ]
         },
@@ -1343,7 +1608,14 @@
         "Real-world examples make abstract ratios concrete and relatable",
         "Teaching tips help parents and tutors guide students effectively"
       ],
-      "tags": ["ratios", "proportions", "cross-multiplication", "latex", "practice-problems", "word-problems"]
+      "tags": [
+        "ratios",
+        "proportions",
+        "cross-multiplication",
+        "latex",
+        "practice-problems",
+        "word-problems"
+      ]
     },
     {
       "id": "update-001",
@@ -1356,18 +1628,18 @@
       "features": [
         {
           "title": "Bucket Cancellation Visualization",
-          "description": "Interactive animations showing how x^a ÷ x^b works by canceling matching 'buckets' of the base",
+          "description": "Interactive animations showing how x^a \u00f7 x^b works by canceling matching 'buckets' of the base",
           "examples": [
-            "x⁵ ÷ x² (more buckets on top)",
-            "y³ ÷ y⁶ (more buckets on bottom)",
-            "a⁴ ÷ a⁴ (equal buckets - all cancel)"
+            "x\u2075 \u00f7 x\u00b2 (more buckets on top)",
+            "y\u00b3 \u00f7 y\u2076 (more buckets on bottom)",
+            "a\u2074 \u00f7 a\u2074 (equal buckets - all cancel)"
           ]
         },
         {
           "title": "Negative Exponent Visualization",
           "description": "Step-by-step animation explaining why leftover buckets on the bottom create negative exponents and how they flip to the denominator",
           "examples": [
-            "x² ÷ x⁵ → x⁻³ → 1/x³"
+            "x\u00b2 \u00f7 x\u2075 \u2192 x\u207b\u00b3 \u2192 1/x\u00b3"
           ]
         },
         {
@@ -1385,12 +1657,18 @@
         "Clear connection between bucket cancellation and exponent subtraction",
         "Negative exponents explained through the same bucket metaphor"
       ],
-      "tags": ["visualization", "interactive", "exponents", "division", "negative-exponents"]
+      "tags": [
+        "visualization",
+        "interactive",
+        "exponents",
+        "division",
+        "negative-exponents"
+      ]
     }
   ],
   "metadata": {
     "version": "1.0",
-    "last_updated": "2025-12-11",
-    "total_updates": 16
+    "last_updated": "2026-01-31",
+    "total_updates": 17
   }
 }

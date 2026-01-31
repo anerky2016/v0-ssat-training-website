@@ -14,6 +14,7 @@ import { storyTypes, type StoryType, type StorySubtype } from "@/lib/story-types
 import { getAllDifficulties, isUserLoggedIn } from "@/lib/vocabulary-difficulty"
 import { getUserStoryHistory, deleteStoryFromHistory, type StoryHistoryRecord } from "@/lib/story-history"
 import { auth } from "@/lib/firebase"
+import { trackStoryReading, trackWordReview } from "@/lib/activity-tracker"
 import {
   Tooltip,
   TooltipContent,
@@ -171,6 +172,7 @@ export function StoryGenerator() {
   const [selectedLevels, setSelectedLevels] = useState<VocabularyLevel[]>(["SSAT"])
   const [selectedLetters, setSelectedLetters] = useState<string[]>([])
   const [selectedDifficulties, setSelectedDifficulties] = useState<number[]>([]) // 0=Easy, 1=Medium, 2=Hard, 3=Very Hard
+  const [selectedWords, setSelectedWords] = useState<string[]>([]) // Manually selected words for story
   const [wordsPerLevel, setWordsPerLevel] = useState(3)
   const [storyLength, setStoryLength] = useState<"short" | "medium" | "long">("medium")
   const [selectedStoryType, setSelectedStoryType] = useState<string | null>(null)
@@ -184,6 +186,7 @@ export function StoryGenerator() {
   const [storyHistory, setStoryHistory] = useState<StoryHistoryRecord[]>([])
   const [showHistory, setShowHistory] = useState(false)
   const [expandedStoryId, setExpandedStoryId] = useState<string | null>(null)
+  const [wordDifficulties, setWordDifficulties] = useState<Record<string, number>>({}) // word -> difficulty level
   const storyDisplayRef = useRef<HTMLDivElement>(null)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
@@ -195,8 +198,25 @@ export function StoryGenerator() {
     long: 40,
   }
 
+  // Calculate available words based on filters
+  const availableWords = useMemo(() => {
+    if (selectedLetters.length === 0) return []
+
+    let words = loadVocabularyWords(selectedLevels)
+
+    // Filter by selected letters
+    words = words.filter(word =>
+      selectedLetters.includes(word.word.charAt(0).toUpperCase())
+    )
+
+    // Sort alphabetically
+    words.sort((a, b) => a.word.localeCompare(b.word))
+
+    return words
+  }, [selectedLevels, selectedLetters])
+
   // Calculate total words and max allowed
-  const totalWords = selectedLevels.length * wordsPerLevel
+  const totalWords = selectedWords.length > 0 ? selectedWords.length : selectedLevels.length * wordsPerLevel
   const maxWords = MAX_WORDS_BY_LENGTH[storyLength]
   const exceedsLimit = totalWords > maxWords
 
@@ -221,14 +241,29 @@ export function StoryGenerator() {
 
       if (loggedIn) {
         loadStoryHistory()
+        loadWordDifficulties()
       } else {
         setStoryHistory([])
+        setWordDifficulties({})
       }
     })
 
     // Cleanup subscription
     return () => unsubscribe()
   }, [])
+
+  const loadWordDifficulties = async () => {
+    try {
+      const difficulties = await getAllDifficulties()
+      const difficultyMap: Record<string, number> = {}
+      Object.entries(difficulties).forEach(([word, data]) => {
+        difficultyMap[word.toLowerCase()] = data.difficulty
+      })
+      setWordDifficulties(difficultyMap)
+    } catch (error) {
+      console.error('Error loading word difficulties:', error)
+    }
+  }
 
   const loadStoryHistory = async () => {
     console.log('📖 [StoryGenerator] Loading story history...')
@@ -315,21 +350,34 @@ export function StoryGenerator() {
     try {
       const userId = auth?.currentUser?.uid || null
 
+      // If specific words are selected, use those instead of filters
+      const requestBody = selectedWords.length > 0
+        ? {
+            // Use selected words directly
+            specificWords: selectedWords,
+            storyLength,
+            storyType: selectedStoryType,
+            storySubtype: selectedStorySubtype,
+            userId,
+          }
+        : {
+            // Use filters to randomly select words
+            levels: selectedLevels,
+            letters: selectedLetters,
+            difficulties: selectedDifficulties,
+            wordsPerLevel,
+            storyLength,
+            storyType: selectedStoryType,
+            storySubtype: selectedStorySubtype,
+            userId,
+          }
+
       const response = await fetch("/api/vocabulary/generate-story", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          levels: selectedLevels,
-          letters: selectedLetters,
-          difficulties: selectedDifficulties,
-          wordsPerLevel,
-          storyLength,
-          storyType: selectedStoryType,
-          storySubtype: selectedStorySubtype,
-          userId,
-        }),
+        body: JSON.stringify(requestBody),
       })
 
       if (!response.ok) {
@@ -338,6 +386,17 @@ export function StoryGenerator() {
 
       const data = await response.json()
       setGeneratedStory(data)
+
+      // Track story generation activity
+      // Estimate 5 minutes reading time for short, 10 for medium, 15 for long
+      const estimatedMinutes = storyLength === 'short' ? 5 : storyLength === 'medium' ? 10 : 15
+      const wordCount = data.words?.length || 0
+
+      // Track both words reviewed (from vocabulary) and reading time
+      if (wordCount > 0) {
+        await trackWordReview(wordCount)
+      }
+      await trackStoryReading(estimatedMinutes)
 
       // Reload history if user is logged in
       if (userLoggedIn) {
@@ -394,6 +453,16 @@ export function StoryGenerator() {
 
       const data = await response.json()
       setGeneratedStory(data)
+
+      // Track story regeneration activity
+      const estimatedMinutes = storyLength === 'short' ? 5 : storyLength === 'medium' ? 10 : 15
+      const wordCount = data.words?.length || 0
+
+      // Track both words reviewed (from vocabulary) and reading time
+      if (wordCount > 0) {
+        await trackWordReview(wordCount)
+      }
+      await trackStoryReading(estimatedMinutes)
 
       // Reload history if user is logged in
       if (userLoggedIn) {
@@ -640,6 +709,160 @@ export function StoryGenerator() {
             </p>
           </div>
 
+          {/* Word Selection List - Shows when letters are selected */}
+          {availableWords.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-muted-foreground">
+                  Select specific words ({selectedWords.length} / {maxWords} max)
+                </Label>
+                {selectedWords.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedWords([])
+                      // Reset slider to default when clearing selected words
+                      setWordsPerLevel(3)
+                    }}
+                    className="text-xs h-7"
+                  >
+                    Clear ({selectedWords.length})
+                  </Button>
+                )}
+              </div>
+              <div className="border rounded-lg p-4 max-h-64 overflow-y-auto bg-muted/30">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  {availableWords.map((word) => {
+                    const isSelected = selectedWords.includes(word.word)
+                    const difficulty = wordDifficulties[word.word.toLowerCase()]
+
+                    // Get difficulty color: 0=Easy(green), 1=Medium(orange), 2=Hard(red), 3=Very Hard(purple), unset=blue(wait for decision)
+                    const getDifficultyColor = () => {
+                      if (difficulty === undefined || difficulty === null) {
+                        return {
+                          border: 'border-blue-400',
+                          bg: 'bg-blue-50 dark:bg-blue-950/20',
+                          hoverBorder: 'hover:border-blue-500',
+                          selectedBorder: 'border-blue-600',
+                          selectedBg: 'bg-blue-600',
+                          selectedText: 'text-white'
+                        }
+                      }
+                      switch (difficulty) {
+                        case 0: // Easy - Green
+                          return {
+                            border: 'border-green-400',
+                            bg: 'bg-green-50 dark:bg-green-950/20',
+                            hoverBorder: 'hover:border-green-500',
+                            selectedBorder: 'border-green-600',
+                            selectedBg: 'bg-green-600',
+                            selectedText: 'text-white'
+                          }
+                        case 1: // Medium - Orange
+                          return {
+                            border: 'border-orange-400',
+                            bg: 'bg-orange-50 dark:bg-orange-950/20',
+                            hoverBorder: 'hover:border-orange-500',
+                            selectedBorder: 'border-orange-600',
+                            selectedBg: 'bg-orange-600',
+                            selectedText: 'text-white'
+                          }
+                        case 2: // Hard - Red
+                          return {
+                            border: 'border-red-400',
+                            bg: 'bg-red-50 dark:bg-red-950/20',
+                            hoverBorder: 'hover:border-red-500',
+                            selectedBorder: 'border-red-600',
+                            selectedBg: 'bg-red-600',
+                            selectedText: 'text-white'
+                          }
+                        case 3: // Very Hard - Purple
+                          return {
+                            border: 'border-purple-400',
+                            bg: 'bg-purple-50 dark:bg-purple-950/20',
+                            hoverBorder: 'hover:border-purple-500',
+                            selectedBorder: 'border-purple-600',
+                            selectedBg: 'bg-purple-600',
+                            selectedText: 'text-white'
+                          }
+                        default:
+                          return {
+                            border: 'border-blue-400',
+                            bg: 'bg-blue-50 dark:bg-blue-950/20',
+                            hoverBorder: 'hover:border-blue-500',
+                            selectedBorder: 'border-blue-600',
+                            selectedBg: 'bg-blue-600',
+                            selectedText: 'text-white'
+                          }
+                      }
+                    }
+
+                    const colors = getDifficultyColor()
+
+                    return (
+                      <button
+                        key={word.word}
+                        onClick={() => {
+                          if (isSelected) {
+                            setSelectedWords(selectedWords.filter(w => w !== word.word))
+                          } else {
+                            if (selectedWords.length < maxWords) {
+                              setSelectedWords([...selectedWords, word.word])
+                            }
+                          }
+                        }}
+                        disabled={!isSelected && selectedWords.length >= maxWords}
+                        className={cn(
+                          "text-left px-3 py-2 rounded-md border-2 transition-all text-sm",
+                          isSelected
+                            ? `${colors.selectedBorder} ${colors.selectedBg} ${colors.selectedText} font-medium`
+                            : `${colors.border} ${colors.bg} ${colors.hoverBorder} text-foreground`,
+                          !isSelected && selectedWords.length >= maxWords && "opacity-40 cursor-not-allowed"
+                        )}
+                        title={word.meanings[0]}
+                      >
+                        {word.word}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground">
+                  {selectedWords.length === 0
+                    ? `Click words to select them for your story (max ${maxWords})`
+                    : `${selectedWords.length} ${selectedWords.length === 1 ? 'word' : 'words'} selected. ${maxWords - selectedWords.length} more available.`}
+                </p>
+                {userLoggedIn && (
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                    <span className="text-muted-foreground font-medium">Difficulty colors:</span>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded border-2 border-purple-400 bg-purple-50 dark:bg-purple-950/20"></div>
+                      <span className="text-muted-foreground">Very Hard</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded border-2 border-red-400 bg-red-50 dark:bg-red-950/20"></div>
+                      <span className="text-muted-foreground">Hard</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded border-2 border-orange-400 bg-orange-50 dark:bg-orange-950/20"></div>
+                      <span className="text-muted-foreground">Medium</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded border-2 border-green-400 bg-green-50 dark:bg-green-950/20"></div>
+                      <span className="text-muted-foreground">Easy</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 rounded border-2 border-blue-400 bg-blue-50 dark:bg-blue-950/20"></div>
+                      <span className="text-muted-foreground">Not rated</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Word Difficulty Filter */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -722,21 +945,31 @@ export function StoryGenerator() {
               <Label className="text-sm font-medium text-muted-foreground">
                 Total vocabulary words: {totalWords} / {maxWords} max
               </Label>
-              <span className="text-xs text-muted-foreground">
-                {wordsPerLevel} per level × {selectedLevels.length} {selectedLevels.length === 1 ? 'level' : 'levels'}
-              </span>
+              {selectedWords.length > 0 ? (
+                <span className="text-xs text-primary font-medium">
+                  {selectedWords.length} manually selected
+                </span>
+              ) : (
+                <span className="text-xs text-muted-foreground">
+                  {wordsPerLevel} per level × {selectedLevels.length} {selectedLevels.length === 1 ? 'level' : 'levels'}
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-4">
               <input
                 type="range"
                 min="1"
                 max={Math.max(1, Math.floor(maxWords / selectedLevels.length))}
-                value={wordsPerLevel}
+                value={selectedWords.length > 0 ? selectedWords.length : wordsPerLevel}
                 onChange={(e) => setWordsPerLevel(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+                disabled={selectedWords.length > 0}
+                className={cn(
+                  "w-full h-2 bg-muted rounded-lg appearance-none accent-primary",
+                  selectedWords.length > 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                )}
               />
               <span className="text-sm font-medium min-w-[2rem] text-center">
-                {wordsPerLevel}
+                {selectedWords.length > 0 ? selectedWords.length : wordsPerLevel}
               </span>
             </div>
             <div className="space-y-1">

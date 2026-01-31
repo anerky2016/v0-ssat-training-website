@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getUserBadges, getBadgeStats, type Badge } from '@/lib/streaks'
-import { Award, Trophy, Star } from 'lucide-react'
+import { Award, Trophy, Star, Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   Dialog,
@@ -14,6 +14,11 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 
 export function BadgesButton() {
   const [stats, setStats] = useState<{ total: number } | null>(null)
@@ -86,11 +91,16 @@ function BadgesGrid() {
 
   if (badges.length === 0) {
     return (
-      <div className="py-12 text-center">
-        <Star className="h-12 w-12 mx-auto text-muted-foreground/50" />
-        <p className="mt-4 text-sm text-muted-foreground">
-          No badges yet. Keep studying to earn your first badge!
-        </p>
+      <div className="space-y-6">
+        {/* How to Earn Badges Section */}
+        <BadgeInstructions />
+
+        <div className="py-12 text-center">
+          <Star className="h-12 w-12 mx-auto text-muted-foreground/50" />
+          <p className="mt-4 text-sm text-muted-foreground">
+            No badges yet. Keep studying to earn your first badge!
+          </p>
+        </div>
       </div>
     )
   }
@@ -105,15 +115,19 @@ function BadgesGrid() {
   }, {} as Record<string, Badge[]>)
 
   return (
-    <Tabs defaultValue="all" className="w-full">
-      <TabsList className="grid w-full grid-cols-6">
-        <TabsTrigger value="all">All</TabsTrigger>
-        <TabsTrigger value="streak">Streak</TabsTrigger>
-        <TabsTrigger value="words">Words</TabsTrigger>
-        <TabsTrigger value="time">Time</TabsTrigger>
-        <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
-        <TabsTrigger value="milestone">Milestone</TabsTrigger>
-      </TabsList>
+    <div className="space-y-4">
+      {/* How to Earn Badges Section */}
+      <BadgeInstructions />
+
+      <Tabs defaultValue="all" className="w-full">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="streak">Streak</TabsTrigger>
+          <TabsTrigger value="words">Words</TabsTrigger>
+          <TabsTrigger value="time">Time</TabsTrigger>
+          <TabsTrigger value="accuracy">Accuracy</TabsTrigger>
+          <TabsTrigger value="milestone">Milestone</TabsTrigger>
+        </TabsList>
 
       <TabsContent value="all" className="mt-4">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -132,7 +146,110 @@ function BadgesGrid() {
           </div>
         </TabsContent>
       ))}
-    </Tabs>
+      </Tabs>
+    </div>
+  )
+}
+
+function BadgeInstructions() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen} className="rounded-lg border bg-muted/50 p-4">
+      <CollapsibleTrigger className="flex items-center justify-between w-full">
+        <div className="flex items-center gap-2">
+          <Info className="h-4 w-4 text-primary" />
+          <span className="text-sm font-medium">How to Earn Badges</span>
+        </div>
+        <Button variant="ghost" size="sm" className="h-6 px-2">
+          {open ? 'Hide' : 'Show'}
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="mt-4 space-y-4 text-sm">
+        <div>
+          <h4 className="font-semibold mb-2 flex items-center gap-2">
+            <span className="text-lg">🔥</span> Streak Badges
+          </h4>
+          <p className="text-muted-foreground mb-2">
+            <strong>How to earn:</strong> Complete ANY study activity (math practice, vocabulary quiz, flashcards, reading, etc.) on consecutive days.
+            You must study at least once per day to maintain your streak.
+          </p>
+          <p className="text-muted-foreground text-xs mb-2 italic">Activities that count: Math exercises, vocabulary quizzes, flashcard sessions, sentence completion, story reading</p>
+          <ul className="space-y-1 text-muted-foreground ml-6 list-disc">
+            <li><strong>3 days in a row</strong> → Getting Started 🔥</li>
+            <li><strong>7 days in a row</strong> → Week Warrior ⚡</li>
+            <li><strong>14 days in a row</strong> → Two Week Champion 💪</li>
+            <li><strong>30 days in a row</strong> → Monthly Master 🏆</li>
+            <li><strong>50 days in a row</strong> → Dedication Expert 🌟</li>
+            <li><strong>100 days in a row</strong> → Century Club 💯</li>
+            <li><strong>365 days in a row</strong> → Year Legend 👑</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-2 flex items-center gap-2">
+            <span className="text-lg">📚</span> Words Badges
+          </h4>
+          <p className="text-muted-foreground mb-2">
+            <strong>How to earn:</strong> Review vocabulary words through any vocabulary activity. Total word reviews are cumulative (lifetime count).
+          </p>
+          <p className="text-muted-foreground text-xs mb-2 italic">Activities that count: Vocabulary flashcards, word lists, vocabulary quiz</p>
+          <ul className="space-y-1 text-muted-foreground ml-6 list-disc">
+            <li><strong>Review 100 words total</strong> → Vocabulary Starter 📚</li>
+            <li><strong>Review 500 words total</strong> → Word Collector 📖</li>
+            <li><strong>Review 1,000 words total</strong> → Vocabulary Master 🎓</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-2 flex items-center gap-2">
+            <span className="text-lg">⏰</span> Time Badges
+          </h4>
+          <p className="text-muted-foreground mb-2">
+            <strong>How to earn:</strong> Accumulate total study time across all activities. Time is tracked automatically when you complete exercises, read stories, or practice.
+          </p>
+          <p className="text-muted-foreground text-xs mb-2 italic">Activities that count: All study activities - math practice, vocabulary sessions, reading, quizzes</p>
+          <ul className="space-y-1 text-muted-foreground ml-6 list-disc">
+            <li><strong>Study for 10 hours total</strong> → Time Investor ⏰</li>
+            <li><strong>Study for 50 hours total</strong> → Dedicated Learner ⏳</li>
+            <li><strong>Study for 100 hours total</strong> → Study Marathon 🏅</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-2 flex items-center gap-2">
+            <span className="text-lg">🌱</span> Milestone Badges
+          </h4>
+          <p className="text-muted-foreground mb-2">
+            <strong>How to earn:</strong> Special achievements triggered by specific accomplishments:
+          </p>
+          <ul className="space-y-2 text-muted-foreground ml-6 list-disc">
+            <li>
+              <strong>First Steps 🌱</strong> → Complete any study activity for the first time (math, vocabulary, etc.)
+            </li>
+            <li>
+              <strong>Comeback Kid 🔄</strong> → Break a 3+ day streak, then start studying again (automatic when you return)
+            </li>
+            <li>
+              <strong>Perfect Week ✨</strong> → Meet ALL daily goals (words, time, questions) for 7 consecutive days
+              <div className="text-xs mt-1 ml-4">Default daily goals: 10 words reviewed, 15 minutes studied, 5 questions answered</div>
+            </li>
+          </ul>
+        </div>
+
+        <div className="pt-2 border-t">
+          <p className="text-xs text-muted-foreground">
+            <strong>💡 Quick Start Guide:</strong>
+          </p>
+          <ul className="text-xs text-muted-foreground space-y-1 ml-4 mt-2">
+            <li>• Start any math or vocabulary activity to begin your streak</li>
+            <li>• Practice vocabulary flashcards or quizzes to earn Words badges</li>
+            <li>• Keep studying daily to earn Time badges and build your streak</li>
+            <li>• All progress is tracked automatically - just keep learning!</li>
+          </ul>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
 

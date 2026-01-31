@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype, userId, words } = await request.json()
+    const { levels, letters, difficulties, wordsPerLevel, storyLength, storyType, storySubtype, userId, words, specificWords } = await request.json()
 
     console.log('📚 [Story Generation] Request received:', {
       levels,
@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
       storySubtype,
       userId: userId ? userId.substring(0, 8) + '...' : 'anonymous',
       useExistingWords: !!words,
+      useSpecificWords: !!specificWords,
       timestamp: new Date().toISOString()
     })
 
@@ -42,13 +43,32 @@ export async function POST(request: NextRequest) {
     let selectedWords: { word: string; level: VocabularyLevel; meaning: string }[] = []
 
     if (words && Array.isArray(words) && words.length > 0) {
-      // Use the provided words directly
+      // Use the provided words directly (full word objects)
       selectedWords = words.map((w: any) => ({
         word: w.word,
         level: w.level as VocabularyLevel,
         meaning: w.meaning || ''
       }))
       console.log('📝 [Story Generation] Using provided words:', selectedWords.map(w => w.word).join(', '))
+    } else if (specificWords && Array.isArray(specificWords) && specificWords.length > 0) {
+      // User manually selected specific words by name
+      // Load all words from all levels to find the selected ones
+      const allLevels = levels || ['SSAT', '7', '8', '9', '10', '11', '12']
+      const allWords = loadVocabularyWords(allLevels as VocabularyLevel[])
+
+      // Find the full word data for each selected word
+      specificWords.forEach((wordName: string) => {
+        const wordData = allWords.find(w => w.word.toLowerCase() === wordName.toLowerCase())
+        if (wordData) {
+          selectedWords.push({
+            word: wordData.word,
+            level: wordData.level || 'SSAT',
+            meaning: wordData.meanings[0] || ''
+          })
+        }
+      })
+
+      console.log('📝 [Story Generation] Using user-selected words:', selectedWords.map(w => w.word).join(', '))
     } else {
       // Validate input for new word selection
       if (!levels || !Array.isArray(levels) || levels.length === 0) {

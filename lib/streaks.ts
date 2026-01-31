@@ -768,3 +768,87 @@ export async function getBadgeStats(): Promise<{
     recentBadges,
   }
 }
+
+// ============================================
+// WORDS AND TIME BADGE CHECKING
+// ============================================
+
+/**
+ * Check and award words badges based on total vocabulary reviews
+ * Call this after vocabulary review activities
+ */
+export async function checkWordsBadges(): Promise<void> {
+  const userId = getCurrentUserId()
+  if (!userId) return
+
+  try {
+    // Get total words reviewed from vocabulary_review_history
+    const { data, error } = await supabase
+      .from('vocabulary_review_history')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error checking words count:', error)
+      return
+    }
+
+    const totalWordsReviewed = data || 0
+
+    // Check milestones
+    const milestones = [
+      { count: 100, badgeId: 'words_100' },
+      { count: 500, badgeId: 'words_500' },
+      { count: 1000, badgeId: 'words_1000' },
+    ]
+
+    for (const milestone of milestones) {
+      if (totalWordsReviewed >= milestone.count) {
+        await awardBadge(milestone.badgeId)
+      }
+    }
+  } catch (error) {
+    console.error('Error checking words badges:', error)
+  }
+}
+
+/**
+ * Check and award time badges based on total study time
+ * Call this after any timed study activity
+ */
+export async function checkTimeBadges(): Promise<void> {
+  const userId = getCurrentUserId()
+  if (!userId) return
+
+  try {
+    // Get total minutes studied from daily_goals
+    const { data, error } = await supabase
+      .from('daily_goals')
+      .select('minutes_studied_actual')
+      .eq('user_id', userId)
+
+    if (error) {
+      console.error('Error checking study time:', error)
+      return
+    }
+
+    // Calculate total minutes
+    const totalMinutes = data?.reduce((sum, goal) => sum + goal.minutes_studied_actual, 0) || 0
+    const totalHours = totalMinutes / 60
+
+    // Check milestones
+    const milestones = [
+      { hours: 10, badgeId: 'time_10h' },
+      { hours: 50, badgeId: 'time_50h' },
+      { hours: 100, badgeId: 'time_100h' },
+    ]
+
+    for (const milestone of milestones) {
+      if (totalHours >= milestone.hours) {
+        await awardBadge(milestone.badgeId)
+      }
+    }
+  } catch (error) {
+    console.error('Error checking time badges:', error)
+  }
+}

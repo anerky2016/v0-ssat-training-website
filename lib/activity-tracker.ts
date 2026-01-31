@@ -3,7 +3,7 @@
  * Import and call these functions whenever a user completes a learning activity
  */
 
-import { recordStudyActivity, updateDailyGoalProgress } from './streaks'
+import { recordStudyActivity, updateDailyGoalProgress, checkWordsBadges, checkTimeBadges } from './streaks'
 
 // TypeScript declarations for analytics
 declare global {
@@ -55,6 +55,9 @@ export async function trackWordReview(wordCount: number = 1): Promise<void> {
     await updateDailyGoalProgress({
       words_reviewed_actual: wordCount,
     })
+
+    // Check for words badges
+    await checkWordsBadges()
 
     // Send to analytics
     trackAnalyticsEvent('word_review', {
@@ -128,6 +131,9 @@ export async function trackFlashcardSession(cardCount: number = 1): Promise<void
       words_reviewed_actual: cardCount,
     })
 
+    // Check for words badges
+    await checkWordsBadges()
+
     // Send to analytics
     trackAnalyticsEvent('flashcard_session', {
       card_count: cardCount,
@@ -151,6 +157,9 @@ export async function trackStoryReading(minutesSpent: number = 5): Promise<void>
     await updateDailyGoalProgress({
       minutes_studied_actual: minutesSpent,
     })
+
+    // Check for time badges
+    await checkTimeBadges()
 
     // Send to analytics
     trackAnalyticsEvent('story_read', {
@@ -176,6 +185,9 @@ export async function trackReadingCompletion(minutesSpent: number = 10): Promise
       minutes_studied_actual: minutesSpent,
     })
 
+    // Check for time badges
+    await checkTimeBadges()
+
     // Send to analytics
     trackAnalyticsEvent('reading_completed', {
       minutes_spent: minutesSpent,
@@ -196,6 +208,9 @@ export async function trackStudyTime(minutesSpent: number): Promise<void> {
     await updateDailyGoalProgress({
       minutes_studied_actual: minutesSpent,
     })
+
+    // Check for time badges
+    await checkTimeBadges()
   } catch (error) {
     console.error('Error tracking study time:', error)
   }
@@ -218,6 +233,10 @@ export async function trackVocabularyActivity(
       words_reviewed_actual: wordCount,
       minutes_studied_actual: minutesSpent,
     })
+
+    // Check for words and time badges
+    await checkWordsBadges()
+    await checkTimeBadges()
 
     // Send to analytics
     trackAnalyticsEvent('vocabulary_activity', {
