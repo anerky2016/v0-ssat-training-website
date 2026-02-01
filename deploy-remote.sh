@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deployment script for SSAT Training Website
-# Connects to remote server and runs deployment
+# Builds locally and syncs to remote server
 # Usage: ./deploy-remote.sh [--force]
 
 set -e  # Exit on any error
@@ -17,23 +17,82 @@ fi
 SERVER_IP="205.198.69.199"
 SERVER_USER="root"
 SERVER_PATH="/v0-ssat-training-website"
-DEPLOY_SCRIPT="./deploy.sh"
 
-echo "🚀 Starting deployment to $SERVER_IP..."
+echo "🚀 Starting local build and deployment to $SERVER_IP..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# SSH to server and run deployment script
+# Step 1: Build locally
+echo "🔨 Building project locally..."
+npm run build
+
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed!"
+    exit 1
+fi
+
+echo "✅ Build completed successfully!"
+echo ""
+
+# Step 2: Sync .next directory to server
+echo "📦 Syncing .next build directory to server..."
+rsync -avz --delete .next/ ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/.next/
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to sync .next directory!"
+    exit 1
+fi
+
+echo "✅ .next directory synced successfully!"
+echo ""
+
+# Step 3: Sync necessary runtime files (no node_modules, no source rebuilding needed)
+echo "📦 Syncing runtime files to server..."
+rsync -avz \
+    --exclude 'node_modules' \
+    --exclude '.git' \
+    --exclude '.env.local' \
+    --exclude '.next' \
+    --exclude 'dist' \
+    --exclude 'out' \
+    --exclude '.DS_Store' \
+    --exclude 'components' \
+    --exclude 'app' \
+    --exclude 'scripts' \
+    --exclude 'supabase' \
+    --exclude 'supabase-migrations' \
+    --include 'package.json' \
+    --include 'package-lock.json' \
+    --include 'next.config.js' \
+    --include 'public/**' \
+    --include 'data/**' \
+    --include 'lib/**' \
+    --include 'styles/**' \
+    . ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to sync runtime files!"
+    exit 1
+fi
+
+echo "✅ Runtime files synced successfully!"
+echo ""
+
+# Step 4: Restart PM2 on server (no npm install, no build)
+echo "🔄 Restarting application on server..."
 ssh ${SERVER_USER}@${SERVER_IP} << ENDSSH
 set -e
 
 echo "📂 Navigating to project directory..."
-cd ./v0-ssat-training-website
+cd ${SERVER_PATH}
 
-echo "🔄 Running deployment script..."
-./deploy.sh $FORCE_FLAG
+echo "🔄 Restarting PM2 application..."
+pm2 restart midssat 2>/dev/null || pm2 start npm --name midssat -- start
 
-echo "✅ Deployment completed successfully!"
+echo "✅ Application restarted successfully!"
 ENDSSH
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "✨ Deployment finished!"
+echo "✨ Deployment completed successfully!"
+echo ""
+echo "🌐 Website: http://$SERVER_IP"
+echo "📊 PM2 Status: ssh $SERVER_USER@$SERVER_IP 'pm2 status'"
