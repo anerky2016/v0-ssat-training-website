@@ -53,7 +53,7 @@ echo ""
 
 # Step 3: Sync entire .next directory to server (including BUILD_ID, server/, static/)
 echo "📦 Syncing complete .next build directory to server..."
-rsync -avz --progress .next/ ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/.next/
+rsync -avz --delete --progress .next/ ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/.next/
 
 if [ $? -ne 0 ]; then
     echo "❌ Failed to sync .next directory!"
