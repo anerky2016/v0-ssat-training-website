@@ -1159,6 +1159,11 @@ export function StoryGenerator() {
                     : 'Not rated'
                   const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
 
+                  // Debug: Log tooltip to console
+                  if (index === 0) {
+                    console.log('Sample tooltip:', tooltipText, 'Word:', word.word, 'Raw difficulty:', difficulty)
+                  }
+
                   return (
                     <Badge
                       key={index}
