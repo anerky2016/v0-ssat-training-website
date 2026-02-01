@@ -1157,7 +1157,7 @@ export function StoryGenerator() {
                     : difficulty === 2 ? 'Hard'
                     : difficulty === 3 ? 'Very Hard'
                     : 'Not rated'
-                  const tooltipText = `${word.meaning}\nDifficulty: ${difficultyLabel}`
+                  const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
 
                   return (
                     <Badge
@@ -1280,7 +1280,7 @@ export function StoryGenerator() {
                                 : difficulty === 2 ? 'Hard'
                                 : difficulty === 3 ? 'Very Hard'
                                 : 'Not rated'
-                              const tooltipText = `${word.meaning}\nDifficulty: ${difficultyLabel}`
+                              const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
 
                               return (
                                 <Badge
