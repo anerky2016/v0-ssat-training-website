@@ -1150,19 +1150,29 @@ export function StoryGenerator() {
                 Vocabulary Words Used ({generatedStory.words.length})
               </h3>
               <div className="flex flex-wrap gap-2">
-                {generatedStory.words.map((word, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="text-sm px-3 py-1"
-                    title={word.meaning}
-                  >
-                    {word.word}
-                    <span className="ml-1.5 text-xs opacity-70">
-                      {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
-                    </span>
-                  </Badge>
-                ))}
+                {generatedStory.words.map((word, index) => {
+                  const difficulty = wordDifficulties[word.word.toLowerCase()]
+                  const difficultyLabel = difficulty === 0 ? 'Easy'
+                    : difficulty === 1 ? 'Medium'
+                    : difficulty === 2 ? 'Hard'
+                    : difficulty === 3 ? 'Very Hard'
+                    : 'Not rated'
+                  const tooltipText = `${word.meaning}\nDifficulty: ${difficultyLabel}`
+
+                  return (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="text-sm px-3 py-1"
+                      title={tooltipText}
+                    >
+                      {word.word}
+                      <span className="ml-1.5 text-xs opacity-70">
+                        {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
+                      </span>
+                    </Badge>
+                  )
+                })}
               </div>
             </div>
           </CardContent>
@@ -1263,19 +1273,29 @@ export function StoryGenerator() {
                             Vocabulary Words ({record.words_used.length})
                           </h4>
                           <div className="flex flex-wrap gap-2">
-                            {record.words_used.map((word, index) => (
-                              <Badge
-                                key={index}
-                                variant="secondary"
-                                className="text-sm px-3 py-1"
-                                title={word.meaning}
-                              >
-                                {word.word}
-                                <span className="ml-1.5 text-xs opacity-70">
-                                  {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
-                                </span>
-                              </Badge>
-                            ))}
+                            {record.words_used.map((word, index) => {
+                              const difficulty = wordDifficulties[word.word.toLowerCase()]
+                              const difficultyLabel = difficulty === 0 ? 'Easy'
+                                : difficulty === 1 ? 'Medium'
+                                : difficulty === 2 ? 'Hard'
+                                : difficulty === 3 ? 'Very Hard'
+                                : 'Not rated'
+                              const tooltipText = `${word.meaning}\nDifficulty: ${difficultyLabel}`
+
+                              return (
+                                <Badge
+                                  key={index}
+                                  variant="secondary"
+                                  className="text-sm px-3 py-1"
+                                  title={tooltipText}
+                                >
+                                  {word.word}
+                                  <span className="ml-1.5 text-xs opacity-70">
+                                    {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
+                                  </span>
+                                </Badge>
+                              )
+                            })}
                           </div>
                         </div>
                       </div>
