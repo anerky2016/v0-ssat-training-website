@@ -206,6 +206,45 @@ export default function WordListsPage() {
     return counts
   }, [vocabularyData])
 
+  // Calculate difficulty statistics per letter
+  const letterDifficultyStats = useMemo(() => {
+    const stats: Record<string, { total: number; unreviewed: number; easy: number; medium: number; hard: number; veryHard: number }> = {}
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+
+    // Initialize stats for each letter
+    alphabet.forEach(letter => {
+      stats[letter] = {
+        total: 0,
+        unreviewed: 0,
+        easy: 0,
+        medium: 0,
+        hard: 0,
+        veryHard: 0
+      }
+    })
+
+    // Count words by letter and difficulty
+    vocabularyData.words.forEach(word => {
+      const firstLetter = word.word.charAt(0).toUpperCase()
+      if (stats[firstLetter]) {
+        stats[firstLetter].total++
+
+        const isReviewed = wordReviewStatus[word.word]
+        if (!isReviewed) {
+          stats[firstLetter].unreviewed++
+        } else {
+          const difficulty = wordDifficulties[word.word]
+          if (difficulty === 0) stats[firstLetter].easy++
+          else if (difficulty === 1) stats[firstLetter].medium++
+          else if (difficulty === 2) stats[firstLetter].hard++
+          else if (difficulty === 3) stats[firstLetter].veryHard++
+        }
+      }
+    })
+
+    return stats
+  }, [vocabularyData, wordReviewStatus, wordDifficulties])
+
   const filteredWords = vocabularyData.words.filter(word => {
     // Check if filtering by review words from URL
     const reviewWordsParam = searchParams.get('reviewWords')
@@ -664,6 +703,7 @@ export default function WordListsPage() {
                       selectedLetter={selectedLetter}
                       onLetterClick={handleLetterClick}
                       letterCounts={letterCounts}
+                      letterDifficultyStats={letterDifficultyStats}
                       className="mb-6"
                     />
 
@@ -693,6 +733,7 @@ export default function WordListsPage() {
                       selectedLetter={selectedLetter}
                       onLetterClick={handleLetterClick}
                       letterCounts={letterCounts}
+                      letterDifficultyStats={letterDifficultyStats}
                       className="mb-4"
                     />
 
