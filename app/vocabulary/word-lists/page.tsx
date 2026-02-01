@@ -74,6 +74,11 @@ export default function WordListsPage() {
     return { words }
   }, [selectedLevels])
 
+  // Component mount logging
+  useEffect(() => {
+    console.log('📊 [Word Lists] Component mounted')
+  }, [])
+
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
@@ -96,7 +101,7 @@ export default function WordListsPage() {
       }
 
       try {
-        console.log('Loading latest difficulty data from Supabase...')
+        console.log('📊 [Word Lists] Loading latest difficulty data from Supabase...')
         // Load all difficulties from Supabase
         const allDifficulties = await getAllDifficulties()
 
@@ -116,16 +121,19 @@ export default function WordListsPage() {
           }
         })
 
-        setWordDifficulties(difficulties)
-        setWordReviewStatus(reviewStatus)
-        setDifficultiesLoaded(true)
-        console.log('Difficulty data loaded successfully', {
+        console.log('📊 [Word Lists] Setting difficulty state...', {
           totalWords: vocabularyData.words.length,
           wordsWithDifficulty: Object.keys(difficulties).length,
           reviewedWords: Object.values(reviewStatus).filter(Boolean).length
         })
+
+        setWordDifficulties(difficulties)
+        setWordReviewStatus(reviewStatus)
+        setDifficultiesLoaded(true)
+
+        console.log('✅ [Word Lists] Difficulty data loaded and difficultiesLoaded flag set to true')
       } catch (error) {
-        console.error('Failed to load difficulties:', error)
+        console.error('❌ [Word Lists] Failed to load difficulties:', error)
       }
     }
     loadDifficulties()
