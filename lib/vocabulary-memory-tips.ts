@@ -38,7 +38,7 @@ export async function getCustomMemoryTip(word: string): Promise<string | null> {
       .select('tip')
       .eq('user_id', userId)
       .eq('word', normalizedWord)
-      .single()
+      .maybeSingle()
 
     if (error) {
       if (error.code === 'PGRST116') {
