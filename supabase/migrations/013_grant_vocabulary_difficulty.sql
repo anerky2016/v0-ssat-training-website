@@ -6,8 +6,8 @@
 -- Grant full access to vocabulary_difficulty table
 GRANT ALL ON vocabulary_difficulty TO anon, authenticated;
 
--- Grant usage on the sequence (needed for INSERT with auto-incrementing id)
-GRANT USAGE, SELECT ON SEQUENCE vocabulary_difficulty_id_seq TO anon, authenticated;
+-- Reload PostgREST schema cache
+NOTIFY pgrst, 'reload schema';
 
 -- Verify grants were applied
 SELECT
