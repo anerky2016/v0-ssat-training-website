@@ -209,11 +209,20 @@ export function StoryGenerator() {
       selectedLetters.includes(word.word.charAt(0).toUpperCase())
     )
 
+    // Filter by selected difficulties (if any)
+    if (selectedDifficulties.length > 0 && userLoggedIn) {
+      words = words.filter(word => {
+        const difficulty = wordDifficulties[word.word.toLowerCase()]
+        // Include words with undefined difficulty or matching selected difficulties
+        return difficulty === undefined || selectedDifficulties.includes(difficulty)
+      })
+    }
+
     // Sort alphabetically
     words.sort((a, b) => a.word.localeCompare(b.word))
 
     return words
-  }, [selectedLevels, selectedLetters])
+  }, [selectedLevels, selectedLetters, selectedDifficulties, wordDifficulties, userLoggedIn])
 
   // Calculate total words and max allowed
   const totalWords = selectedWords.length > 0 ? selectedWords.length : selectedLevels.length * wordsPerLevel
