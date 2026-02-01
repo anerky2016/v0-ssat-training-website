@@ -16,7 +16,7 @@ fi
 # Server configuration
 SERVER_IP="205.198.69.199"
 SERVER_USER="root"
-SERVER_PATH="/v0-ssat-training-website"
+SERVER_PATH="/root/v0-ssat-training-website"
 
 echo "🚀 Starting local build and deployment to $SERVER_IP..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
