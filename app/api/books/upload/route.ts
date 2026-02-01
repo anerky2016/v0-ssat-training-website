@@ -47,14 +47,8 @@ export async function POST(request: NextRequest) {
     // Determine file type
     const fileType = file.name.endsWith('.epub') ? 'epub' : 'pdf'
 
-    // Create Supabase client
+    // Create Supabase client (service role for server-side operations)
     const supabase = createClient()
-
-    // Set user context for RLS
-    await supabase.rpc('set_config', {
-      setting: 'app.current_user_id',
-      value: userId
-    })
 
     // Generate unique file name
     const timestamp = Date.now()

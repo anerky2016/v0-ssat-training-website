@@ -17,6 +17,21 @@ const nextConfig = {
   swcMinify: true,
   // Optimize fonts
   optimizeFonts: true,
+  // Enable instrumentation for polyfills
+  experimental: {
+    instrumentationHook: true,
+  },
+  // Webpack configuration for react-pdf (Node.js compatibility)
+  webpack: (config, { isServer }) => {
+    // Disable canvas for client-side to avoid issues
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        canvas: false,
+      }
+    }
+    return config
+  },
 }
 
 export default nextConfig

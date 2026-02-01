@@ -1,11 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, BookOpen, FileText, Trash2, Loader2, Library } from "lucide-react"
-import { PDFViewer } from "@/components/pdf-viewer"
-import { EPUBViewer } from "@/components/epub-viewer"
 import { useAuth } from "@/contexts/firebase-auth-context"
 import { toast } from "sonner"
 import {
@@ -18,6 +17,31 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+
+// Lazy load PDF and EPUB viewers to avoid SSR issues with DOMMatrix
+const PDFViewer = dynamic(
+  () => import("@/components/pdf-viewer").then((mod) => ({ default: mod.PDFViewer })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    ),
+  }
+)
+
+const EPUBViewer = dynamic(
+  () => import("@/components/epub-viewer").then((mod) => ({ default: mod.EPUBViewer })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-full">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    ),
+  }
+)
 
 type FileType = "pdf" | "epub" | null
 
