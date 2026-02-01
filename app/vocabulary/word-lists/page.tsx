@@ -117,7 +117,11 @@ export default function WordListsPage() {
 
         setWordDifficulties(difficulties)
         setWordReviewStatus(reviewStatus)
-        console.log('Difficulty data loaded successfully')
+        console.log('Difficulty data loaded successfully', {
+          totalWords: vocabularyData.words.length,
+          wordsWithDifficulty: Object.keys(difficulties).length,
+          reviewedWords: Object.values(reviewStatus).filter(Boolean).length
+        })
       } catch (error) {
         console.error('Failed to load difficulties:', error)
       }
@@ -209,6 +213,11 @@ export default function WordListsPage() {
   // Calculate difficulty statistics per letter
   const letterDifficultyStats = useMemo(() => {
     console.log('📊 [Word Lists] Calculating letter difficulty statistics...')
+    console.log('📊 [Word Lists] Dependencies:', {
+      totalWords: vocabularyData.words.length,
+      reviewStatusCount: Object.keys(wordReviewStatus).length,
+      difficultiesCount: Object.keys(wordDifficulties).length
+    })
     const stats: Record<string, { total: number; unreviewed: number; easy: number; medium: number; hard: number; veryHard: number }> = {}
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
