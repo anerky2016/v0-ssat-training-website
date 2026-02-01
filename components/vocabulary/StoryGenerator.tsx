@@ -1170,14 +1170,12 @@ export function StoryGenerator() {
 
                     // Debug: Log tooltip to console
                     if (index === 0) {
-                      console.log('📖 [StoryGenerator] First word tooltip:', {
-                        word: word.word,
-                        wordLower: word.word.toLowerCase(),
-                        rawDifficulty: difficulty,
-                        difficultyLabel,
-                        tooltipText,
-                        availableInMap: word.word.toLowerCase() in wordDifficulties
-                      })
+                      console.log('📖 [StoryGenerator] First word:', word.word)
+                      console.log('📖 [StoryGenerator] Word lowercase:', word.word.toLowerCase())
+                      console.log('📖 [StoryGenerator] Raw difficulty:', difficulty)
+                      console.log('📖 [StoryGenerator] Difficulty label:', difficultyLabel)
+                      console.log('📖 [StoryGenerator] Tooltip text:', tooltipText)
+                      console.log('📖 [StoryGenerator] Available in map:', word.word.toLowerCase() in wordDifficulties)
                     }
 
                     return (
