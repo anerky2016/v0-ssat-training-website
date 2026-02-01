@@ -718,6 +718,18 @@ export default function WordListsPage() {
 
                         {/* Stacked Bar Chart */}
                         <div className="space-y-2">
+                          {(() => {
+                            const stats = letterDifficultyStats[selectedLetter]
+                            console.log('📊 [Bar Chart] Rendering for letter:', selectedLetter, stats)
+                            console.log('📊 [Bar Chart] Segments:', {
+                              unreviewed: stats.unreviewed > 0,
+                              easy: stats.easy > 0,
+                              medium: stats.medium > 0,
+                              hard: stats.hard > 0,
+                              veryHard: stats.veryHard > 0
+                            })
+                            return null
+                          })()}
                           <div className="h-8 flex rounded-lg overflow-hidden bg-secondary">
                             {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
                               <div
