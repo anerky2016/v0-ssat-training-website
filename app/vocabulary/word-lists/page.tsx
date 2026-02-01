@@ -681,6 +681,102 @@ export default function WordListsPage() {
                       </Button>
                     </div>
                   )}
+
+                  {/* Letter Statistics Card */}
+                  {(desktopLetterSelected || mobileLetterSelected) && selectedLetter && letterDifficultyStats[selectedLetter] && (
+                    <Card className="p-4 bg-card border-chart-5/20">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">Letter {selectedLetter} Statistics</h3>
+                          <span className="text-sm text-muted-foreground">
+                            {letterDifficultyStats[selectedLetter].total} word{letterDifficultyStats[selectedLetter].total !== 1 ? 's' : ''}
+                          </span>
+                        </div>
+
+                        <div className="space-y-2">
+                          {/* Unreviewed */}
+                          {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Unreviewed</span>
+                                <span className="font-medium">{letterDifficultyStats[selectedLetter].unreviewed}</span>
+                              </div>
+                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-gray-400 transition-all"
+                                  style={{ width: `${(letterDifficultyStats[selectedLetter].unreviewed / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Easy */}
+                          {letterDifficultyStats[selectedLetter].easy > 0 && (
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Easy</span>
+                                <span className="font-medium">{letterDifficultyStats[selectedLetter].easy}</span>
+                              </div>
+                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-green-500 transition-all"
+                                  style={{ width: `${(letterDifficultyStats[selectedLetter].easy / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Medium */}
+                          {letterDifficultyStats[selectedLetter].medium > 0 && (
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Medium</span>
+                                <span className="font-medium">{letterDifficultyStats[selectedLetter].medium}</span>
+                              </div>
+                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-yellow-500 transition-all"
+                                  style={{ width: `${(letterDifficultyStats[selectedLetter].medium / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Hard */}
+                          {letterDifficultyStats[selectedLetter].hard > 0 && (
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Hard</span>
+                                <span className="font-medium">{letterDifficultyStats[selectedLetter].hard}</span>
+                              </div>
+                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-orange-500 transition-all"
+                                  style={{ width: `${(letterDifficultyStats[selectedLetter].hard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Very Hard */}
+                          {letterDifficultyStats[selectedLetter].veryHard > 0 && (
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-muted-foreground">Very Hard</span>
+                                <span className="font-medium">{letterDifficultyStats[selectedLetter].veryHard}</span>
+                              </div>
+                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-red-500 transition-all"
+                                  style={{ width: `${(letterDifficultyStats[selectedLetter].veryHard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
+                  )}
                 </div>
 
                 {!isMobile && desktopLetterSelected && filteredWords.length > wordsPerPage && (
