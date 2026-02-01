@@ -682,7 +682,7 @@ export default function WordListsPage() {
                     </div>
                   )}
 
-                  {/* Letter Statistics Card */}
+                  {/* Letter Statistics Bar Chart */}
                   {(desktopLetterSelected || mobileLetterSelected) && selectedLetter && letterDifficultyStats[selectedLetter] && (
                     <Card className="p-4 bg-card border-chart-5/20">
                       <div className="space-y-3">
@@ -693,86 +693,99 @@ export default function WordListsPage() {
                           </span>
                         </div>
 
+                        {/* Stacked Bar Chart */}
                         <div className="space-y-2">
-                          {/* Unreviewed */}
-                          {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Unreviewed</span>
-                                <span className="font-medium">{letterDifficultyStats[selectedLetter].unreviewed}</span>
+                          <div className="h-8 flex rounded-lg overflow-hidden bg-secondary">
+                            {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
+                              <div
+                                className="bg-gray-400 hover:opacity-90 transition-opacity flex items-center justify-center text-xs font-medium text-white"
+                                style={{ width: `${(letterDifficultyStats[selectedLetter].unreviewed / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                title={`Unreviewed: ${letterDifficultyStats[selectedLetter].unreviewed}`}
+                              >
+                                {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
+                                  <span className="px-1">{letterDifficultyStats[selectedLetter].unreviewed}</span>
+                                )}
                               </div>
-                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-gray-400 transition-all"
-                                  style={{ width: `${(letterDifficultyStats[selectedLetter].unreviewed / letterDifficultyStats[selectedLetter].total) * 100}%` }}
-                                />
+                            )}
+                            {letterDifficultyStats[selectedLetter].easy > 0 && (
+                              <div
+                                className="bg-green-500 hover:opacity-90 transition-opacity flex items-center justify-center text-xs font-medium text-white"
+                                style={{ width: `${(letterDifficultyStats[selectedLetter].easy / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                title={`Easy: ${letterDifficultyStats[selectedLetter].easy}`}
+                              >
+                                {letterDifficultyStats[selectedLetter].easy > 0 && (
+                                  <span className="px-1">{letterDifficultyStats[selectedLetter].easy}</span>
+                                )}
                               </div>
-                            </div>
-                          )}
+                            )}
+                            {letterDifficultyStats[selectedLetter].medium > 0 && (
+                              <div
+                                className="bg-yellow-500 hover:opacity-90 transition-opacity flex items-center justify-center text-xs font-medium text-white"
+                                style={{ width: `${(letterDifficultyStats[selectedLetter].medium / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                title={`Medium: ${letterDifficultyStats[selectedLetter].medium}`}
+                              >
+                                {letterDifficultyStats[selectedLetter].medium > 0 && (
+                                  <span className="px-1">{letterDifficultyStats[selectedLetter].medium}</span>
+                                )}
+                              </div>
+                            )}
+                            {letterDifficultyStats[selectedLetter].hard > 0 && (
+                              <div
+                                className="bg-orange-500 hover:opacity-90 transition-opacity flex items-center justify-center text-xs font-medium text-white"
+                                style={{ width: `${(letterDifficultyStats[selectedLetter].hard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                title={`Hard: ${letterDifficultyStats[selectedLetter].hard}`}
+                              >
+                                {letterDifficultyStats[selectedLetter].hard > 0 && (
+                                  <span className="px-1">{letterDifficultyStats[selectedLetter].hard}</span>
+                                )}
+                              </div>
+                            )}
+                            {letterDifficultyStats[selectedLetter].veryHard > 0 && (
+                              <div
+                                className="bg-red-500 hover:opacity-90 transition-opacity flex items-center justify-center text-xs font-medium text-white"
+                                style={{ width: `${(letterDifficultyStats[selectedLetter].veryHard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
+                                title={`Very Hard: ${letterDifficultyStats[selectedLetter].veryHard}`}
+                              >
+                                {letterDifficultyStats[selectedLetter].veryHard > 0 && (
+                                  <span className="px-1">{letterDifficultyStats[selectedLetter].veryHard}</span>
+                                )}
+                              </div>
+                            )}
+                          </div>
 
-                          {/* Easy */}
-                          {letterDifficultyStats[selectedLetter].easy > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Easy</span>
-                                <span className="font-medium">{letterDifficultyStats[selectedLetter].easy}</span>
+                          {/* Legend */}
+                          <div className="flex flex-wrap gap-3 text-xs">
+                            {letterDifficultyStats[selectedLetter].unreviewed > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-3 rounded bg-gray-400" />
+                                <span className="text-muted-foreground">Unreviewed ({letterDifficultyStats[selectedLetter].unreviewed})</span>
                               </div>
-                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-green-500 transition-all"
-                                  style={{ width: `${(letterDifficultyStats[selectedLetter].easy / letterDifficultyStats[selectedLetter].total) * 100}%` }}
-                                />
+                            )}
+                            {letterDifficultyStats[selectedLetter].easy > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-3 rounded bg-green-500" />
+                                <span className="text-muted-foreground">Easy ({letterDifficultyStats[selectedLetter].easy})</span>
                               </div>
-                            </div>
-                          )}
-
-                          {/* Medium */}
-                          {letterDifficultyStats[selectedLetter].medium > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Medium</span>
-                                <span className="font-medium">{letterDifficultyStats[selectedLetter].medium}</span>
+                            )}
+                            {letterDifficultyStats[selectedLetter].medium > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-3 rounded bg-yellow-500" />
+                                <span className="text-muted-foreground">Medium ({letterDifficultyStats[selectedLetter].medium})</span>
                               </div>
-                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-yellow-500 transition-all"
-                                  style={{ width: `${(letterDifficultyStats[selectedLetter].medium / letterDifficultyStats[selectedLetter].total) * 100}%` }}
-                                />
+                            )}
+                            {letterDifficultyStats[selectedLetter].hard > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-3 rounded bg-orange-500" />
+                                <span className="text-muted-foreground">Hard ({letterDifficultyStats[selectedLetter].hard})</span>
                               </div>
-                            </div>
-                          )}
-
-                          {/* Hard */}
-                          {letterDifficultyStats[selectedLetter].hard > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Hard</span>
-                                <span className="font-medium">{letterDifficultyStats[selectedLetter].hard}</span>
+                            )}
+                            {letterDifficultyStats[selectedLetter].veryHard > 0 && (
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-3 rounded bg-red-500" />
+                                <span className="text-muted-foreground">Very Hard ({letterDifficultyStats[selectedLetter].veryHard})</span>
                               </div>
-                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-orange-500 transition-all"
-                                  style={{ width: `${(letterDifficultyStats[selectedLetter].hard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
-                                />
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Very Hard */}
-                          {letterDifficultyStats[selectedLetter].veryHard > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Very Hard</span>
-                                <span className="font-medium">{letterDifficultyStats[selectedLetter].veryHard}</span>
-                              </div>
-                              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-red-500 transition-all"
-                                  style={{ width: `${(letterDifficultyStats[selectedLetter].veryHard / letterDifficultyStats[selectedLetter].total) * 100}%` }}
-                                />
-                              </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
                     </Card>
