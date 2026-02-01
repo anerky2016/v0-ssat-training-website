@@ -228,7 +228,14 @@ ${subtypeConfig.prompt}`
         const supabase = createClient()
         const wordCount = story.split(/\s+/).length
 
-        await supabase
+        console.log('💾 [Story Generation] Attempting to save story to history for user:', userId.substring(0, 8) + '...')
+
+        // Derive levels from selected words if not provided
+        const levelsToSave = levels && levels.length > 0
+          ? levels
+          : [...new Set(selectedWords.map(w => w.level))]
+
+        const { data, error } = await supabase
           .from('story_generation_history')
           .insert({
             user_id: userId,
@@ -237,24 +244,37 @@ ${subtypeConfig.prompt}`
             story_length: targetLength,
             story_type: storyType || null,
             story_subtype: storySubtype || null,
-            levels_selected: levels,
+            levels_selected: levelsToSave,
             letters_filter: letters && letters.length > 0 ? letters : null,
             difficulties_filter: difficulties && difficulties.length > 0 ? difficulties : null,
             words_per_level: wordsToUsePerLevel,
             word_count: wordCount,
             generated_at: new Date().toISOString()
           })
+          .select()
 
-        console.log('💾 [Story Generation] Story saved to history:', {
-          storyType: storyType || 'none',
-          storySubtype: storySubtype || 'none',
-          wordCount,
-          storyLength: targetLength
-        })
+        if (error) {
+          console.error('❌ [Story Generation] Supabase error saving to history:', {
+            error: error.message,
+            code: error.code,
+            details: error.details,
+            hint: error.hint
+          })
+        } else {
+          console.log('✅ [Story Generation] Story saved to history successfully:', {
+            id: data?.[0]?.id,
+            storyType: storyType || 'none',
+            storySubtype: storySubtype || 'none',
+            wordCount,
+            storyLength: targetLength
+          })
+        }
       } catch (historyError) {
         // Don't fail the request if history save fails
-        console.error('⚠️ [Story Generation] Failed to save to history:', historyError)
+        console.error('⚠️ [Story Generation] Exception while saving to history:', historyError)
       }
+    } else {
+      console.log('⚠️ [Story Generation] No userId provided, skipping history save')
     }
 
     return NextResponse.json({

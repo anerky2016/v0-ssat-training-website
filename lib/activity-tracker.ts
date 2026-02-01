@@ -4,6 +4,8 @@
  */
 
 import { recordStudyActivity, updateDailyGoalProgress, checkWordsBadges, checkTimeBadges } from './streaks'
+import { trackMultipleWords } from './word-tracker'
+import type { VocabularyLevel } from './vocabulary-levels'
 
 // TypeScript declarations for analytics
 declare global {
@@ -45,8 +47,17 @@ function trackAnalyticsEvent(
 /**
  * Track vocabulary word review
  * Call this when user reviews vocabulary words (flashcards, word lists, etc.)
+ * @param wordCount - Number of words reviewed
+ * @param words - Optional: Array of specific words reviewed with their levels
+ * @param activityType - Optional: Type of activity (defaults to 'word_list')
+ * @param contextId - Optional: ID for context (e.g., story_id)
  */
-export async function trackWordReview(wordCount: number = 1): Promise<void> {
+export async function trackWordReview(
+  wordCount: number = 1,
+  words?: Array<{ word: string; level: VocabularyLevel }>,
+  activityType: 'flashcard' | 'story' | 'quiz' | 'sentence_completion' | 'word_list' = 'word_list',
+  contextId?: string
+): Promise<void> {
   try {
     // Record activity for streak
     await recordStudyActivity('vocabulary', wordCount)
@@ -55,6 +66,11 @@ export async function trackWordReview(wordCount: number = 1): Promise<void> {
     await updateDailyGoalProgress({
       words_reviewed_actual: wordCount,
     })
+
+    // Track individual words if provided
+    if (words && words.length > 0) {
+      await trackMultipleWords(words, activityType, contextId)
+    }
 
     // Check for words badges
     await checkWordsBadges()
@@ -120,8 +136,15 @@ export async function trackSentenceCompletion(questionCount: number = 1): Promis
 /**
  * Track flashcard session
  * Call this when user completes flashcard review
+ * @param cardCount - Number of cards reviewed
+ * @param words - Optional: Array of specific words reviewed with their levels
+ * @param contextId - Optional: ID for context
  */
-export async function trackFlashcardSession(cardCount: number = 1): Promise<void> {
+export async function trackFlashcardSession(
+  cardCount: number = 1,
+  words?: Array<{ word: string; level: VocabularyLevel }>,
+  contextId?: string
+): Promise<void> {
   try {
     // Record activity for streak
     await recordStudyActivity('flashcards', cardCount)
@@ -130,6 +153,11 @@ export async function trackFlashcardSession(cardCount: number = 1): Promise<void
     await updateDailyGoalProgress({
       words_reviewed_actual: cardCount,
     })
+
+    // Track individual words if provided
+    if (words && words.length > 0) {
+      await trackMultipleWords(words, 'flashcard', contextId)
+    }
 
     // Check for words badges
     await checkWordsBadges()

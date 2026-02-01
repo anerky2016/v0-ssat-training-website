@@ -107,39 +107,53 @@ export async function saveStoryToHistory(story: {
 }
 
 /**
- * Get story history for the current user
+ * Get story history for the current user with pagination
  */
-export async function getUserStoryHistory(limit = 50): Promise<StoryHistoryRecord[]> {
+export async function getUserStoryHistory(
+  limit = 50,
+  offset = 0
+): Promise<{ stories: StoryHistoryRecord[], total: number }> {
   const userId = getCurrentUserId()
   if (!userId) {
     console.log('📖 [Story History] Cannot fetch history - user not logged in')
-    return []
+    return { stories: [], total: 0 }
   }
 
   if (!supabase) {
     console.log('📖 [Story History] Supabase not configured')
-    return []
+    return { stories: [], total: 0 }
   }
 
   try {
+    // Get total count
+    const { count, error: countError } = await supabase
+      .from('story_generation_history')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+
+    if (countError) throw countError
+
+    // Get paginated data
     const { data, error } = await supabase
       .from('story_generation_history')
       .select('*')
       .eq('user_id', userId)
       .order('generated_at', { ascending: false })
-      .limit(limit)
+      .range(offset, offset + limit - 1)
 
     if (error) throw error
 
     console.log('✅ [Story History] Fetched story history:', {
       userId: userId.substring(0, 8) + '...',
-      count: data?.length || 0
+      count: data?.length || 0,
+      total: count || 0,
+      offset
     })
 
-    return data || []
+    return { stories: data || [], total: count || 0 }
   } catch (error) {
     console.error('❌ [Story History] Failed to fetch story history:', error)
-    return []
+    return { stories: [], total: 0 }
   }
 }
 

@@ -187,6 +187,9 @@ export function StoryGenerator() {
   const [showHistory, setShowHistory] = useState(false)
   const [expandedStoryId, setExpandedStoryId] = useState<string | null>(null)
   const [wordDifficulties, setWordDifficulties] = useState<Record<string, number>>({}) // word -> difficulty level
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalStories, setTotalStories] = useState(0)
+  const storiesPerPage = 20
   const storyDisplayRef = useRef<HTMLDivElement>(null)
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
@@ -280,14 +283,19 @@ export function StoryGenerator() {
     }
   }
 
-  const loadStoryHistory = async () => {
-    console.log('📖 [StoryGenerator] Loading story history...')
-    const history = await getUserStoryHistory(20)
+  const loadStoryHistory = async (page = 1) => {
+    console.log('📖 [StoryGenerator] Loading story history...', { page })
+    const offset = (page - 1) * storiesPerPage
+    const { stories, total } = await getUserStoryHistory(storiesPerPage, offset)
     console.log('📖 [StoryGenerator] Story history loaded:', {
-      count: history.length,
-      data: history
+      count: stories.length,
+      total,
+      page,
+      offset
     })
-    setStoryHistory(history)
+    setStoryHistory(stories)
+    setTotalStories(total)
+    setCurrentPage(page)
   }
 
   // Debug: Log when storyHistory or userLoggedIn changes
@@ -408,8 +416,13 @@ export function StoryGenerator() {
       const wordCount = data.words?.length || 0
 
       // Track both words reviewed (from vocabulary) and reading time
-      if (wordCount > 0) {
-        await trackWordReview(wordCount)
+      if (wordCount > 0 && data.words) {
+        await trackWordReview(
+          wordCount,
+          data.words.map(w => ({ word: w.word, level: w.level })),
+          'story',
+          data.id
+        )
       }
       await trackStoryReading(estimatedMinutes)
 
@@ -474,8 +487,13 @@ export function StoryGenerator() {
       const wordCount = data.words?.length || 0
 
       // Track both words reviewed (from vocabulary) and reading time
-      if (wordCount > 0) {
-        await trackWordReview(wordCount)
+      if (wordCount > 0 && data.words) {
+        await trackWordReview(
+          wordCount,
+          data.words.map(w => ({ word: w.word, level: w.level })),
+          'story',
+          data.id
+        )
       }
       await trackStoryReading(estimatedMinutes)
 
@@ -1155,45 +1173,40 @@ export function StoryGenerator() {
               <h3 className="text-sm font-semibold text-muted-foreground">
                 Vocabulary Words Used ({generatedStory.words.length})
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {(() => {
-                  console.log('📖 [StoryGenerator] Rendering word badges. Total wordDifficulties:', Object.keys(wordDifficulties).length)
-                  console.log('📖 [StoryGenerator] First 3 words:', generatedStory.words.slice(0, 3).map(w => w.word))
-                  return generatedStory.words.map((word, index) => {
+              <TooltipProvider>
+                <div className="flex flex-wrap gap-2">
+                  {generatedStory.words.map((word, index) => {
                     const difficulty = wordDifficulties[word.word.toLowerCase()]
                     const difficultyLabel = difficulty === 0 ? 'Easy'
                       : difficulty === 1 ? 'Medium'
                       : difficulty === 2 ? 'Hard'
                       : difficulty === 3 ? 'Very Hard'
                       : 'Not rated'
-                    const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
-
-                    // Debug: Log tooltip to console
-                    if (index === 0) {
-                      console.log('📖 [StoryGenerator] First word:', word.word)
-                      console.log('📖 [StoryGenerator] Word lowercase:', word.word.toLowerCase())
-                      console.log('📖 [StoryGenerator] Raw difficulty:', difficulty)
-                      console.log('📖 [StoryGenerator] Difficulty label:', difficultyLabel)
-                      console.log('📖 [StoryGenerator] Tooltip text:', tooltipText)
-                      console.log('📖 [StoryGenerator] Available in map:', word.word.toLowerCase() in wordDifficulties)
-                    }
 
                     return (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="text-sm px-3 py-1"
-                        title={tooltipText}
-                      >
-                        {word.word}
-                        <span className="ml-1.5 text-xs opacity-70">
-                          {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
-                        </span>
-                      </Badge>
+                      <Tooltip key={index}>
+                        <TooltipTrigger asChild>
+                          <Badge
+                            variant="secondary"
+                            className="text-sm px-3 py-1 cursor-help"
+                          >
+                            {word.word}
+                            <span className="ml-1.5 text-xs opacity-70">
+                              {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
+                            </span>
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <div className="space-y-1">
+                            <p className="font-medium">{word.meaning}</p>
+                            <p className="text-xs opacity-75">Difficulty: {difficultyLabel}</p>
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
                     )
-                  })
-                })()}
-              </div>
+                  })}
+                </div>
+              </TooltipProvider>
             </div>
           </CardContent>
         </Card>
@@ -1213,7 +1226,7 @@ export function StoryGenerator() {
                 variant="ghost"
                 size="sm"
               >
-                {showHistory ? "Hide" : `Show (${storyHistory.length})`}
+                {showHistory ? "Hide" : `Show (${totalStories})`}
               </Button>
             </div>
             <CardDescription>
@@ -1232,7 +1245,16 @@ export function StoryGenerator() {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <Badge variant="outline" className="text-xs">
+                          <Badge
+                            variant="outline"
+                            className={`text-xs ${
+                              record.story_length === 'short'
+                                ? 'border-green-500 text-green-700 dark:text-green-400'
+                                : record.story_length === 'medium'
+                                ? 'border-blue-500 text-blue-700 dark:text-blue-400'
+                                : 'border-amber-500 text-amber-700 dark:text-amber-400'
+                            }`}
+                          >
                             {record.story_length}
                           </Badge>
                           {record.story_type && (
@@ -1268,7 +1290,7 @@ export function StoryGenerator() {
                             if (record.id && confirm('Delete this story from history?')) {
                               const success = await deleteStoryFromHistory(record.id)
                               if (success) {
-                                loadStoryHistory()
+                                loadStoryHistory(currentPage)
                               }
                             }
                           }}
@@ -1323,6 +1345,36 @@ export function StoryGenerator() {
                   </div>
                 )
               })}
+
+              {/* Pagination Controls */}
+              {totalStories > storiesPerPage && (
+                <div className="flex items-center justify-between border-t pt-4 mt-4">
+                  <div className="text-sm text-muted-foreground">
+                    Showing {Math.min((currentPage - 1) * storiesPerPage + 1, totalStories)} - {Math.min(currentPage * storiesPerPage, totalStories)} of {totalStories} stories
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => loadStoryHistory(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Previous
+                    </Button>
+                    <span className="text-sm text-muted-foreground px-2">
+                      Page {currentPage} of {Math.ceil(totalStories / storiesPerPage)}
+                    </span>
+                    <Button
+                      onClick={() => loadStoryHistory(currentPage + 1)}
+                      disabled={currentPage >= Math.ceil(totalStories / storiesPerPage)}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           )}
         </Card>
