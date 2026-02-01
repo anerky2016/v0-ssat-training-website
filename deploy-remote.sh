@@ -33,9 +33,27 @@ fi
 echo "✅ Build completed successfully!"
 echo ""
 
-# Step 2: Sync .next directory to server
-echo "📦 Syncing .next build directory to server..."
-rsync -avz --delete .next/ ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/.next/
+# Step 2: Remove old .next directory on server
+echo "🗑️  Removing old .next directory on server..."
+ssh ${SERVER_USER}@${SERVER_IP} << ENDSSH
+set -e
+cd ${SERVER_PATH}
+echo "Removing .next directory..."
+rm -rf .next
+echo "✓ Old binaries removed"
+ENDSSH
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to remove old binaries!"
+    exit 1
+fi
+
+echo "✅ Old binaries removed successfully!"
+echo ""
+
+# Step 3: Sync new .next directory to server
+echo "📦 Syncing new .next build directory to server..."
+rsync -avz .next/ ${SERVER_USER}@${SERVER_IP}:${SERVER_PATH}/.next/
 
 if [ $? -ne 0 ]; then
     echo "❌ Failed to sync .next directory!"
@@ -45,7 +63,7 @@ fi
 echo "✅ .next directory synced successfully!"
 echo ""
 
-# Step 3: Sync necessary runtime files (no node_modules, no source rebuilding needed)
+# Step 4: Sync necessary runtime files (no node_modules, no source rebuilding needed)
 echo "📦 Syncing runtime files to server..."
 rsync -avz \
     --exclude 'node_modules' \
@@ -77,7 +95,7 @@ fi
 echo "✅ Runtime files synced successfully!"
 echo ""
 
-# Step 4: Restart PM2 on server (no npm install, no build)
+# Step 5: Restart PM2 on server (no npm install, no build)
 echo "🔄 Restarting application on server..."
 ssh ${SERVER_USER}@${SERVER_IP} << ENDSSH
 set -e
