@@ -66,6 +66,7 @@ export default function WordListsPage() {
   const [desktopLetterSelected, setDesktopLetterSelected] = useState(false)
   const [showHowToDialog, setShowHowToDialog] = useState(false)
   const [difficultiesLoaded, setDifficultiesLoaded] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
