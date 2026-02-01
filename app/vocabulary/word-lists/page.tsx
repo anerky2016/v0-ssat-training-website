@@ -137,7 +137,7 @@ export default function WordListsPage() {
       }
     }
     loadDifficulties()
-  }, [vocabularyData, selectedLetter, selectedDifficulties, searchTerm])
+  }, [vocabularyData, selectedLetter, selectedDifficulties, searchTerm, auth.currentUser])
 
   // Check if this is first visit and show how-to dialog
   useEffect(() => {
