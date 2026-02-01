@@ -64,6 +64,7 @@ export default function WordListsPage() {
   const [mobileLetterSelected, setMobileLetterSelected] = useState(false)
   const [desktopLetterSelected, setDesktopLetterSelected] = useState(false)
   const [showHowToDialog, setShowHowToDialog] = useState(false)
+  const [difficultiesLoaded, setDifficultiesLoaded] = useState(false)
   const wordsPerPage = 20
   const minSwipeDistance = 50
 
@@ -117,6 +118,7 @@ export default function WordListsPage() {
 
         setWordDifficulties(difficulties)
         setWordReviewStatus(reviewStatus)
+        setDifficultiesLoaded(true)
         console.log('Difficulty data loaded successfully', {
           totalWords: vocabularyData.words.length,
           wordsWithDifficulty: Object.keys(difficulties).length,
@@ -216,7 +218,8 @@ export default function WordListsPage() {
     console.log('📊 [Word Lists] Dependencies:', {
       totalWords: vocabularyData.words.length,
       reviewStatusCount: Object.keys(wordReviewStatus).length,
-      difficultiesCount: Object.keys(wordDifficulties).length
+      difficultiesCount: Object.keys(wordDifficulties).length,
+      difficultiesLoaded
     })
     const stats: Record<string, { total: number; unreviewed: number; easy: number; medium: number; hard: number; veryHard: number }> = {}
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
@@ -264,7 +267,7 @@ export default function WordListsPage() {
     })
 
     return stats
-  }, [vocabularyData, wordReviewStatus, wordDifficulties])
+  }, [vocabularyData, wordReviewStatus, wordDifficulties, difficultiesLoaded])
 
   const filteredWords = vocabularyData.words.filter(word => {
     // Check if filtering by review words from URL
