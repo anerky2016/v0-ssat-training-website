@@ -21,6 +21,43 @@ SERVER_PATH="/root/v0-ssat-training-website"
 echo "🚀 Starting local build and deployment to $SERVER_IP..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+# Step 0: Git commit and push
+echo "📝 Checking for uncommitted changes..."
+
+# Check if there are any changes
+if ! git diff-index --quiet HEAD --; then
+    echo "📝 Found uncommitted changes, creating commit..."
+
+    # Add all changes
+    git add -A
+
+    # Create commit with timestamp
+    COMMIT_MSG="Deploy: $(date '+%Y-%m-%d %H:%M:%S')"
+    git commit -m "$COMMIT_MSG"
+
+    echo "✅ Changes committed: $COMMIT_MSG"
+else
+    echo "✅ No uncommitted changes"
+fi
+
+# Pull first to check for conflicts
+echo "📥 Pulling from remote..."
+if ! git pull --no-rebase; then
+    echo "❌ Git pull failed! There may be conflicts."
+    echo "❌ Please resolve conflicts manually and try again."
+    exit 1
+fi
+
+# Push to remote
+echo "📤 Pushing to remote..."
+if ! git push; then
+    echo "❌ Git push failed!"
+    exit 1
+fi
+
+echo "✅ Git sync completed successfully!"
+echo ""
+
 # Step 1: Build locally
 echo "🔨 Building project locally..."
 npm run build
