@@ -21,6 +21,7 @@ import { VocabularyAlphabetNav } from "@/components/vocabulary-alphabet-nav"
 import { LevelSelector } from "@/components/vocabulary/LevelSelector"
 import { getAllDifficulties, getDifficultyLabel, getDifficultyColor, isUserLoggedIn, type DifficultyLevel } from "@/lib/vocabulary-difficulty"
 import { loadVocabularyWords, VocabularyLevel, getAvailableLevels, getTotalWordCount } from "@/lib/vocabulary-levels"
+import { auth } from "@/lib/firebase"
 
 export default function WordListsPage() {
   const searchParams = useSearchParams()
