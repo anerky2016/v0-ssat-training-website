@@ -263,10 +263,16 @@ export function StoryGenerator() {
 
   const loadWordDifficulties = async () => {
     try {
+      console.log('📖 [StoryGenerator] Loading word difficulties...')
       const difficulties = await getAllDifficulties()
+      console.log('📖 [StoryGenerator] Raw difficulties:', difficulties)
       const difficultyMap: Record<string, number> = {}
       Object.entries(difficulties).forEach(([word, data]) => {
         difficultyMap[word.toLowerCase()] = data.difficulty
+      })
+      console.log('📖 [StoryGenerator] Word difficulties loaded:', {
+        count: Object.keys(difficultyMap).length,
+        sample: Object.entries(difficultyMap).slice(0, 5)
       })
       setWordDifficulties(difficultyMap)
     } catch (error) {
@@ -1150,34 +1156,45 @@ export function StoryGenerator() {
                 Vocabulary Words Used ({generatedStory.words.length})
               </h3>
               <div className="flex flex-wrap gap-2">
-                {generatedStory.words.map((word, index) => {
-                  const difficulty = wordDifficulties[word.word.toLowerCase()]
-                  const difficultyLabel = difficulty === 0 ? 'Easy'
-                    : difficulty === 1 ? 'Medium'
-                    : difficulty === 2 ? 'Hard'
-                    : difficulty === 3 ? 'Very Hard'
-                    : 'Not rated'
-                  const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
+                {(() => {
+                  console.log('📖 [StoryGenerator] Rendering word badges. Total wordDifficulties:', Object.keys(wordDifficulties).length)
+                  console.log('📖 [StoryGenerator] First 3 words:', generatedStory.words.slice(0, 3).map(w => w.word))
+                  return generatedStory.words.map((word, index) => {
+                    const difficulty = wordDifficulties[word.word.toLowerCase()]
+                    const difficultyLabel = difficulty === 0 ? 'Easy'
+                      : difficulty === 1 ? 'Medium'
+                      : difficulty === 2 ? 'Hard'
+                      : difficulty === 3 ? 'Very Hard'
+                      : 'Not rated'
+                    const tooltipText = `${word.meaning} | Difficulty: ${difficultyLabel}`
 
-                  // Debug: Log tooltip to console
-                  if (index === 0) {
-                    console.log('Sample tooltip:', tooltipText, 'Word:', word.word, 'Raw difficulty:', difficulty)
-                  }
+                    // Debug: Log tooltip to console
+                    if (index === 0) {
+                      console.log('📖 [StoryGenerator] First word tooltip:', {
+                        word: word.word,
+                        wordLower: word.word.toLowerCase(),
+                        rawDifficulty: difficulty,
+                        difficultyLabel,
+                        tooltipText,
+                        availableInMap: word.word.toLowerCase() in wordDifficulties
+                      })
+                    }
 
-                  return (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="text-sm px-3 py-1"
-                      title={tooltipText}
-                    >
-                      {word.word}
-                      <span className="ml-1.5 text-xs opacity-70">
-                        {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
-                      </span>
-                    </Badge>
-                  )
-                })}
+                    return (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="text-sm px-3 py-1"
+                        title={tooltipText}
+                      >
+                        {word.word}
+                        <span className="ml-1.5 text-xs opacity-70">
+                          {word.level === "SSAT" ? "SSAT" : `L${word.level}`}
+                        </span>
+                      </Badge>
+                    )
+                  })
+                })()}
               </div>
             </div>
           </CardContent>
