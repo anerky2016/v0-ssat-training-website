@@ -1,7 +1,10 @@
 -- Migration: Grant permissions for vocabulary_difficulty table
 -- Description: Add missing GRANT statements for anon and authenticated roles
--- Issue: 406 Not Acceptable error because roles don't have table access
+-- Issue: 406 Not Acceptable error because roles don't have table access and RLS was enabled
 -- Date: 2026-02-01
+
+-- Disable RLS (we use Firebase Auth, not Supabase Auth)
+ALTER TABLE vocabulary_difficulty DISABLE ROW LEVEL SECURITY;
 
 -- Grant full access to vocabulary_difficulty table
 GRANT ALL ON vocabulary_difficulty TO anon, authenticated;
