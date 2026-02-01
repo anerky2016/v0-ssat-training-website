@@ -695,7 +695,18 @@ export default function WordListsPage() {
                   )}
 
                   {/* Letter Statistics Bar Chart */}
-                  {(desktopLetterSelected || mobileLetterSelected) && selectedLetter && letterDifficultyStats[selectedLetter] && (
+                  {(() => {
+                    const shouldShow = (desktopLetterSelected || mobileLetterSelected) && selectedLetter && letterDifficultyStats[selectedLetter]
+                    console.log('📊 [Word Lists] Statistics Card Display Check:', {
+                      shouldShow,
+                      desktopLetterSelected,
+                      mobileLetterSelected,
+                      selectedLetter,
+                      hasStats: selectedLetter ? !!letterDifficultyStats[selectedLetter] : false,
+                      stats: selectedLetter ? letterDifficultyStats[selectedLetter] : null
+                    })
+                    return shouldShow
+                  })() && (
                     <Card className="p-4 bg-card border-chart-5/20">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
