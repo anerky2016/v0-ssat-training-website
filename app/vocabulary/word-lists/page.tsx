@@ -208,6 +208,7 @@ export default function WordListsPage() {
 
   // Calculate difficulty statistics per letter
   const letterDifficultyStats = useMemo(() => {
+    console.log('📊 [Word Lists] Calculating letter difficulty statistics...')
     const stats: Record<string, { total: number; unreviewed: number; easy: number; medium: number; hard: number; veryHard: number }> = {}
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
@@ -222,6 +223,10 @@ export default function WordListsPage() {
         veryHard: 0
       }
     })
+
+    console.log(`📊 [Word Lists] Processing ${vocabularyData.words.length} total words`)
+    console.log('📊 [Word Lists] Sample wordReviewStatus:', Object.entries(wordReviewStatus).slice(0, 5))
+    console.log('📊 [Word Lists] Sample wordDifficulties:', Object.entries(wordDifficulties).slice(0, 5))
 
     // Count words by letter and difficulty
     vocabularyData.words.forEach(word => {
@@ -240,6 +245,13 @@ export default function WordListsPage() {
           else if (difficulty === 3) stats[firstLetter].veryHard++
         }
       }
+    })
+
+    // Log statistics for letters with words
+    const lettersWithWords = alphabet.filter(letter => stats[letter].total > 0)
+    console.log('📊 [Word Lists] Statistics calculated for letters:', lettersWithWords.join(', '))
+    lettersWithWords.forEach(letter => {
+      console.log(`📊 [Word Lists] Letter ${letter}:`, stats[letter])
     })
 
     return stats
