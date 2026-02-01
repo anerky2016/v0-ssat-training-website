@@ -81,6 +81,16 @@ export default function WordListsPage() {
     console.log('📊 [Word Lists] Component mounted')
   }, [])
 
+  // Track authentication state changes
+  useEffect(() => {
+    console.log('📊 [Word Lists] Setting up auth state listener...')
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log('📊 [Word Lists] Auth state changed:', !!user)
+      setIsAuthenticated(!!user)
+    })
+    return () => unsubscribe()
+  }, [])
+
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
@@ -139,7 +149,7 @@ export default function WordListsPage() {
       }
     }
     loadDifficulties()
-  }, [vocabularyData, selectedLetter, selectedDifficulties, searchTerm, auth.currentUser])
+  }, [vocabularyData, selectedLetter, selectedDifficulties, searchTerm, isAuthenticated])
 
   // Check if this is first visit and show how-to dialog
   useEffect(() => {
