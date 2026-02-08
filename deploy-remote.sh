@@ -58,16 +58,16 @@ fi
 echo "✅ Git sync completed successfully!"
 echo ""
 
-# Step 1: Build locally
-echo "🔨 Building project locally..."
-npm run build
+# Step 1: Build locally in production mode
+echo "🔨 Building project locally in production mode..."
+NODE_ENV=production npm run build
 
 if [ $? -ne 0 ]; then
     echo "❌ Build failed!"
     exit 1
 fi
 
-echo "✅ Build completed successfully!"
+echo "✅ Production build completed successfully!"
 echo ""
 
 # Step 2: Remove old .next directory on server
