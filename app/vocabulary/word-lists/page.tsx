@@ -957,6 +957,30 @@ export default function WordListsPage() {
                     </div>
                   </div>
 
+                  {/* Mobile: Flashcard & Quiz buttons at top */}
+                  <div className="flex gap-3 mb-4">
+                    <Link
+                      href={`/vocabulary/flashcards?words=${encodeURIComponent(
+                        filteredWords.map(w => w.word).join(',')
+                      )}&from=word-lists${selectedLetter ? `&letter=${selectedLetter}` : ''}`}
+                      className="flex-1"
+                    >
+                      <Button size="sm" className="bg-chart-5 hover:bg-chart-5/90 w-full">
+                        <Brain className="h-4 w-4 mr-1.5" />
+                        Flashcards ({filteredWords.length})
+                      </Button>
+                    </Link>
+                    <Link
+                      href={`/vocabulary/quiz${selectedLetter ? `?letter=${selectedLetter}` : ''}`}
+                      className="flex-1"
+                    >
+                      <Button size="sm" className="bg-chart-1 hover:bg-chart-1/90 w-full">
+                        <Award className="h-4 w-4 mr-1.5" />
+                        Take Quiz
+                      </Button>
+                    </Link>
+                  </div>
+
                   <div
                     id="word-list"
                     className="relative overflow-visible"
@@ -1126,6 +1150,28 @@ export default function WordListsPage() {
                           <span className="text-chart-5 text-xl">{selectedLetter}</span>
                         </div>
                       )}
+                    </div>
+
+                    {/* Desktop: Flashcard & Quiz buttons at top */}
+                    <div className="flex gap-3">
+                      <Link
+                        href={`/vocabulary/flashcards?words=${encodeURIComponent(
+                          filteredWords.map(w => w.word).join(',')
+                        )}&from=word-lists${selectedLetter ? `&letter=${selectedLetter}` : ''}`}
+                      >
+                        <Button size="sm" className="bg-chart-5 hover:bg-chart-5/90">
+                          <Brain className="h-4 w-4 mr-2" />
+                          Flashcards ({filteredWords.length})
+                        </Button>
+                      </Link>
+                      <Link
+                        href={`/vocabulary/quiz${selectedLetter ? `?letter=${selectedLetter}` : ''}`}
+                      >
+                        <Button size="sm" className="bg-chart-1 hover:bg-chart-1/90">
+                          <Award className="h-4 w-4 mr-2" />
+                          Take Quiz
+                        </Button>
+                      </Link>
                     </div>
                   </div>
 
