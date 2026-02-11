@@ -3,15 +3,12 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
-import { Volume2, Info, ChevronUp, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, RefreshCw, RotateCcw } from "lucide-react"
+import { Volume2, Info, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, RefreshCw, RotateCcw } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
 import {
   getWordDifficulty,
-  increaseDifficulty,
-  decreaseDifficulty,
   getDifficultyLabel,
   getDifficultyColor,
   hasWordBeenReviewed,
@@ -23,7 +20,6 @@ import { getCustomMemoryTip, saveCustomMemoryTip, deleteCustomMemoryTip } from "
 import { scheduleWordReview } from "@/lib/vocabulary-review-schedule"
 import { DifficultyHistoryTimeline } from "./DifficultyHistoryTimeline"
 import { useAuth } from "@/contexts/firebase-auth-context"
-import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import CEFRBadge from "./CEFRBadge"
 import LexileBadge from "./LexileBadge"
@@ -265,51 +261,6 @@ export function VocabularyWordCard({
     }
   }
 
-  const handleIncreaseDifficulty = async () => {
-    const newDifficulty = await increaseDifficulty(word.word)
-    setDifficulty(newDifficulty)
-    setIsReviewed(true) // Mark as reviewed once user interacts
-    setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
-
-    // Schedule next review using spaced repetition
-    await scheduleWordReview(word.word, newDifficulty)
-  }
-
-  const handleDecreaseDifficulty = async () => {
-    const newDifficulty = await decreaseDifficulty(word.word)
-    setDifficulty(newDifficulty)
-    setIsReviewed(true) // Mark as reviewed once user interacts
-    setHistoryRefreshTrigger(prev => prev + 1) // Trigger history refresh
-
-    // Schedule next review using spaced repetition
-    await scheduleWordReview(word.word, newDifficulty)
-  }
-
-  const handleDifficultyChange = async (value: number[]) => {
-    const newDifficulty = value[0] as DifficultyLevel
-    await setWordDifficulty(word.word, newDifficulty)
-    setDifficulty(newDifficulty)
-    setIsReviewed(true)
-    setHistoryRefreshTrigger(prev => prev + 1)
-
-    // Schedule next review using spaced repetition
-    await scheduleWordReview(word.word, newDifficulty)
-  }
-
-  const handleSpinnerWheelChange = async (value: number) => {
-    await setWordDifficulty(word.word, value as DifficultyLevel)
-    setDifficulty(value as DifficultyLevel)
-    setIsReviewed(true)
-    setHistoryRefreshTrigger(prev => prev + 1)
-
-    // Schedule next review using spaced repetition
-    await scheduleWordReview(word.word, value as DifficultyLevel)
-
-    // Close the picker after a brief delay to let the user see the final selection
-    setTimeout(() => {
-      setShowDifficultyPicker(false)
-    }, 150) // Short delay to allow user to see the snapped selection
-  }
 
   // Helper to call SpeechSynthesis synchronously (for iOS)
   // Must be called within user gesture handler to work on iOS
@@ -737,14 +688,14 @@ export function VocabularyWordCard({
               </div>
             </div>
 
-            {/* Mobile: Audio and Difficulty Picker Buttons */}
+            {/* Mobile: Difficulty Choice Buttons */}
             {isMobile && (
-              <div className="flex flex-col items-center gap-2 w-full max-w-[200px]">
+              <div className="flex flex-col items-center gap-2 w-full">
                 <Button
                   onClick={() => setShowDifficultyPicker(true)}
                   disabled={!isLoggedIn}
                   variant="outline"
-                  className={`w-full ${getDifficultyColor(difficulty, isReviewed)}`}
+                  className={`w-full max-w-[200px] ${getDifficultyColor(difficulty, isReviewed)}`}
                   title={!isLoggedIn ? "Log in to track difficulty" : "Adjust difficulty"}
                 >
                   <div className="flex items-center justify-between w-full">
@@ -754,26 +705,111 @@ export function VocabularyWordCard({
                     <ChevronDown className="h-4 w-4" />
                   </div>
                 </Button>
-                
-                {/* Spinner Wheel Bottom Sheet */}
+
+                {/* Multiple Choice Bottom Sheet */}
                 <Sheet open={showDifficultyPicker} onOpenChange={setShowDifficultyPicker}>
-                  <SheetContent side="bottom" className="h-auto max-h-[60vh] p-0">
-                    <SheetHeader className="px-6 pt-6 pb-4">
-                      <SheetTitle className="text-center">Select Difficulty</SheetTitle>
+                  <SheetContent side="bottom" className="h-auto p-0">
+                    <SheetHeader className="px-6 pt-6 pb-2">
+                      <SheetTitle className="text-center">Select Difficulty Level</SheetTitle>
                     </SheetHeader>
-                    <div className="flex justify-center px-6 pb-6">
-                      <div className="w-full max-w-[280px]">
-                        <SpinnerWheel
-                          options={[
-                            { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
-                            { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
-                            { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
-                            { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
-                          ]}
-                          value={difficulty}
-                          onChange={handleSpinnerWheelChange}
+                    <div className="px-6 pb-6 pt-4">
+                      <div className="grid grid-cols-1 gap-3">
+                        {/* Wait for decision (Not Reviewed) */}
+                        <button
+                          onClick={async () => {
+                            setDifficulty(1)
+                            setIsReviewed(false)
+                            if (isLoggedIn) {
+                              await setWordDifficulty(word.word, 1)
+                              setHistoryRefreshTrigger(prev => prev + 1)
+                            }
+                            setShowDifficultyPicker(false)
+                          }}
                           disabled={!isLoggedIn}
-                        />
+                          className={`px-4 py-3 rounded-lg border-2 flex items-center justify-center font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                            !isReviewed
+                              ? 'bg-gray-500 border-gray-500 text-white shadow-lg'
+                              : 'bg-background border-gray-300 text-muted-foreground hover:border-gray-500 hover:shadow-md'
+                          }`}
+                        >
+                          Wait for decision
+                        </button>
+
+                        {/* Easy */}
+                        <button
+                          onClick={async () => {
+                            await setWordDifficulty(word.word, 0)
+                            setDifficulty(0)
+                            setIsReviewed(true)
+                            setHistoryRefreshTrigger(prev => prev + 1)
+                            setShowDifficultyPicker(false)
+                          }}
+                          disabled={!isLoggedIn}
+                          className={`px-4 py-3 rounded-lg border-2 flex items-center justify-center font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                            isReviewed && difficulty === 0
+                              ? 'bg-green-500 border-green-500 text-white shadow-lg'
+                              : 'bg-background border-green-300 text-muted-foreground hover:border-green-500 hover:shadow-md'
+                          }`}
+                        >
+                          Easy
+                        </button>
+
+                        {/* Medium */}
+                        <button
+                          onClick={async () => {
+                            await setWordDifficulty(word.word, 1)
+                            setDifficulty(1)
+                            setIsReviewed(true)
+                            setHistoryRefreshTrigger(prev => prev + 1)
+                            setShowDifficultyPicker(false)
+                          }}
+                          disabled={!isLoggedIn}
+                          className={`px-4 py-3 rounded-lg border-2 flex items-center justify-center font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                            isReviewed && difficulty === 1
+                              ? 'bg-yellow-500 border-yellow-500 text-white shadow-lg'
+                              : 'bg-background border-yellow-300 text-muted-foreground hover:border-yellow-500 hover:shadow-md'
+                          }`}
+                        >
+                          Medium
+                        </button>
+
+                        {/* Hard */}
+                        <button
+                          onClick={async () => {
+                            await setWordDifficulty(word.word, 2)
+                            setDifficulty(2)
+                            setIsReviewed(true)
+                            setHistoryRefreshTrigger(prev => prev + 1)
+                            setShowDifficultyPicker(false)
+                          }}
+                          disabled={!isLoggedIn}
+                          className={`px-4 py-3 rounded-lg border-2 flex items-center justify-center font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                            isReviewed && difficulty === 2
+                              ? 'bg-orange-500 border-orange-500 text-white shadow-lg'
+                              : 'bg-background border-orange-300 text-muted-foreground hover:border-orange-500 hover:shadow-md'
+                          }`}
+                        >
+                          Hard
+                        </button>
+
+                        {/* Very Hard */}
+                        <button
+                          onClick={async () => {
+                            await setWordDifficulty(word.word, 3)
+                            setDifficulty(3)
+                            setIsReviewed(true)
+                            setHistoryRefreshTrigger(prev => prev + 1)
+                            setShowDifficultyPicker(false)
+                          }}
+                          disabled={!isLoggedIn}
+                          className={`px-4 py-3 rounded-lg border-2 flex items-center justify-center font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                            isReviewed && difficulty === 3
+                              ? 'bg-red-500 border-red-500 text-white shadow-lg'
+                              : 'bg-background border-red-300 text-muted-foreground hover:border-red-500 hover:shadow-md'
+                          }`}
+                        >
+                          Very Hard
+                        </button>
                       </div>
                     </div>
                   </SheetContent>
