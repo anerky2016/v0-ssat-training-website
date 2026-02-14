@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Info, Volume2, AudioWaveform, ChevronUp, ChevronDown, MousePointerClick, RotateCcw, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, Lightbulb, RefreshCw } from "lucide-react"
+import { CheckCircle2, Info, Volume2, AudioWaveform, MousePointerClick, RotateCcw, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, Lightbulb, RefreshCw } from "lucide-react"
 import {
   getWordDifficulty,
   increaseDifficulty,
@@ -18,16 +18,9 @@ import {
 } from "@/lib/vocabulary-difficulty"
 import { getCustomMemoryTip, saveCustomMemoryTip, deleteCustomMemoryTip } from "@/lib/vocabulary-memory-tips"
 import { useAuth } from "@/contexts/firebase-auth-context"
-import { SpinnerWheel } from "./SpinnerWheel"
 import { useMobile } from "@/hooks/use-mobile"
 import CEFRBadge from "./CEFRBadge"
 import LexileBadge from "./LexileBadge"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
 
 export interface VocabularyWord {
   word: string
@@ -96,7 +89,6 @@ export function VocabularyFlashcard({
   const [isReviewed, setIsReviewed] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
-  const [showDifficultyPicker, setShowDifficultyPicker] = useState(false)
   const [currentTip, setCurrentTip] = useState<string | null>(word.tip || null)
   const [isGeneratingTip, setIsGeneratingTip] = useState(false)
   const [hasCustomTip, setHasCustomTip] = useState(false)
@@ -264,13 +256,6 @@ export function VocabularyFlashcard({
     setIsReviewed(true)
   }
 
-  const handleSpinnerWheelChange = async (value: number) => {
-    await setWordDifficulty(word.word, value as DifficultyLevel)
-    setDifficulty(value as DifficultyLevel)
-    setIsReviewed(true)
-    // Close the picker after selection
-    setShowDifficultyPicker(false)
-  }
 
   // Minimum swipe distance (in px) to trigger navigation
   const minSwipeDistance = 50
@@ -403,156 +388,107 @@ export function VocabularyFlashcard({
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
                 Difficulty Level
               </h3>
-              
-              {/* Desktop: Circular Difficulty Buttons */}
-              {!isMobile && (
-                <div className="flex items-center justify-center gap-1.5">
-                  {/* Wait for decision (Not Reviewed) */}
-                  <button
-                    onClick={async (e) => {
-                      e.stopPropagation()
-                      setDifficulty(1)
-                      setIsReviewed(false)
-                      // Clear from Supabase to mark as not reviewed
-                      if (isLoggedIn) {
-                        await setWordDifficulty(word.word, 1)
-                      }
-                    }}
-                    disabled={!isLoggedIn}
-                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      !isReviewed
-                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
-                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
-                    }`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Wait for decision"}
-                  >
-                    Wait for decision
-                  </button>
 
-                  {/* Easy */}
-                  <button
-                    onClick={async (e) => {
-                      e.stopPropagation()
-                      await setWordDifficulty(word.word, 0)
-                      setDifficulty(0)
-                      setIsReviewed(true)
-                    }}
-                    disabled={!isLoggedIn}
-                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      isReviewed && difficulty === 0
-                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
-                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
-                    }`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Easy"}
-                  >
-                    Easy
-                  </button>
-
-                  {/* Medium */}
-                  <button
-                    onClick={async (e) => {
-                      e.stopPropagation()
+              {/* Difficulty Buttons (Same for Desktop and Mobile) */}
+              <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                {/* Wait for decision (Not Reviewed) */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    setDifficulty(1)
+                    setIsReviewed(false)
+                    // Clear from Supabase to mark as not reviewed
+                    if (isLoggedIn) {
                       await setWordDifficulty(word.word, 1)
-                      setDifficulty(1)
-                      setIsReviewed(true)
-                    }}
-                    disabled={!isLoggedIn}
-                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      isReviewed && difficulty === 1
-                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
-                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
-                    }`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Medium"}
-                  >
-                    Medium
-                  </button>
+                    }
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    !isReviewed
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Wait for decision"}
+                >
+                  Wait for decision
+                </button>
 
-                  {/* Hard */}
-                  <button
-                    onClick={async (e) => {
-                      e.stopPropagation()
-                      await setWordDifficulty(word.word, 2)
-                      setDifficulty(2)
-                      setIsReviewed(true)
-                    }}
-                    disabled={!isLoggedIn}
-                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      isReviewed && difficulty === 2
-                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
-                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
-                    }`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Hard"}
-                  >
-                    Hard
-                  </button>
+                {/* Easy */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    await setWordDifficulty(word.word, 0)
+                    setDifficulty(0)
+                    setIsReviewed(true)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 0
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Easy"}
+                >
+                  Easy
+                </button>
 
-                  {/* Very Hard */}
-                  <button
-                    onClick={async (e) => {
-                      e.stopPropagation()
-                      await setWordDifficulty(word.word, 3)
-                      setDifficulty(3)
-                      setIsReviewed(true)
-                    }}
-                    disabled={!isLoggedIn}
-                    className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                      isReviewed && difficulty === 3
-                        ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
-                        : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
-                    }`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Very Hard"}
-                  >
-                    Very Hard
-                  </button>
-                </div>
-              )}
+                {/* Medium */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    await setWordDifficulty(word.word, 1)
+                    setDifficulty(1)
+                    setIsReviewed(true)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 1
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Medium"}
+                >
+                  Medium
+                </button>
 
-              {/* Mobile: Difficulty Picker Button */}
-              {isMobile && (
-                <div className="flex flex-col items-center gap-2 w-full">
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setShowDifficultyPicker(true)
-                    }}
-                    disabled={!isLoggedIn}
-                    variant="outline"
-                    className={`w-full ${getDifficultyColor(difficulty, isReviewed)}`}
-                    title={!isLoggedIn ? "Log in to track difficulty" : "Adjust difficulty"}
-                  >
-                    <div className="flex items-center justify-between w-full">
-                      <span className="text-sm font-semibold">
-                        {getDifficultyLabel(difficulty, isReviewed)}
-                      </span>
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
-                  </Button>
-                  
-                  {/* Spinner Wheel Bottom Sheet */}
-                  <Sheet open={showDifficultyPicker} onOpenChange={setShowDifficultyPicker}>
-                    <SheetContent side="bottom" className="h-auto max-h-[60vh] p-0">
-                      <SheetHeader className="px-6 pt-6 pb-4">
-                        <SheetTitle className="text-center">Select Difficulty</SheetTitle>
-                      </SheetHeader>
-                      <div className="flex justify-center px-6 pb-6">
-                        <div className="w-full max-w-[280px]">
-                          <SpinnerWheel
-                            options={[
-                              { value: 0, label: 'Easy', color: 'rgb(22, 163, 74)' },
-                              { value: 1, label: 'Medium', color: 'rgb(202, 138, 4)' },
-                              { value: 2, label: 'Hard', color: 'rgb(234, 88, 12)' },
-                              { value: 3, label: 'Very Hard', color: 'rgb(220, 38, 38)' },
-                            ]}
-                            value={difficulty}
-                            onChange={handleSpinnerWheelChange}
-                            disabled={!isLoggedIn}
-                          />
-                        </div>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
-                </div>
-              )}
+                {/* Hard */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    await setWordDifficulty(word.word, 2)
+                    setDifficulty(2)
+                    setIsReviewed(true)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 2
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Hard"}
+                >
+                  Hard
+                </button>
+
+                {/* Very Hard */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    await setWordDifficulty(word.word, 3)
+                    setDifficulty(3)
+                    setIsReviewed(true)
+                  }}
+                  disabled={!isLoggedIn}
+                  className={`px-3 py-2 rounded-full border-2 flex items-center justify-center font-semibold text-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isReviewed && difficulty === 3
+                      ? 'bg-chart-5 border-chart-5 text-white shadow-lg scale-105'
+                      : 'bg-background border-chart-5/30 text-muted-foreground hover:border-chart-5 hover:scale-105 hover:shadow-md'
+                  }`}
+                  title={!isLoggedIn ? "Log in to track difficulty" : "Very Hard"}
+                >
+                  Very Hard
+                </button>
+              </div>
             </div>
 
             <div className="space-y-4">
