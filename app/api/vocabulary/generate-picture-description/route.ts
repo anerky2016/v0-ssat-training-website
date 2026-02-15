@@ -93,7 +93,7 @@ Avoid extra commentary.`;
         },
       ],
       temperature: 0.7,
-      max_tokens: 2000,
+      max_completion_tokens: 2000,
     });
 
     const description = completion.choices[0]?.message?.content?.trim();
