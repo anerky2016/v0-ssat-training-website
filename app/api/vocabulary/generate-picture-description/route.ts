@@ -48,12 +48,33 @@ export async function POST(request: NextRequest) {
       .map((def, index) => `${index + 1}. ${def}`)
       .join('\n');
 
-    const prompt = `Create a picture for the word "${word}" for kids to memorize the word.
+    const prompt = `TASK:
+Create a clear, intuitive picture description to help children memorize a vocabulary word.
 
-The definition is:
+INPUT:
+Word: ${word}
+Definition:
 ${definitionsList}
 
-Can you please describe a picture? The picture should be intuitive and no alien or any weird items or objects.`;
+REQUIREMENTS:
+
+- The picture must be intuitive and realistic.
+- Use familiar real-world scenes only.
+- Do NOT include aliens, fantasy creatures, magical elements, or weird objects.
+- The scene should be easy for kids ages 8–12 to understand immediately.
+- The visual must clearly represent the meaning without needing explanation.
+- Focus on one strong central scene (avoid multiple unrelated ideas).
+
+OUTPUT FORMAT:
+
+1. Main Scene (short description)
+2. Key Visual Elements (bullet points)
+3. How the image shows the meaning (explain mapping to definition)
+4. Style Guidelines (visual tone and clarity)
+5. Memory Anchor (short optional caption kids can remember)
+
+Keep the answer structured and concise.
+Avoid extra commentary.`;
 
     console.log(`Generating picture description for word: ${word}`);
 
@@ -64,7 +85,7 @@ Can you please describe a picture? The picture should be intuitive and no alien 
         {
           role: 'system',
           content:
-            'You are a helpful assistant that creates picture descriptions for educational vocabulary illustrations. Your descriptions should be clear, kid-friendly, and visually intuitive. Avoid scary, weird, alien, or inappropriate content. Keep descriptions concise but vivid.',
+            'You are an educational visual designer specializing in children\'s vocabulary learning. Create clear, structured picture descriptions that help children ages 8-12 memorize vocabulary words through intuitive visual associations.',
         },
         {
           role: 'user',
@@ -72,7 +93,7 @@ Can you please describe a picture? The picture should be intuitive and no alien 
         },
       ],
       temperature: 0.7,
-      max_tokens: 200,
+      max_tokens: 2000,
     });
 
     const description = completion.choices[0]?.message?.content?.trim();
