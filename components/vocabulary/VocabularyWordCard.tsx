@@ -174,6 +174,9 @@ export function VocabularyWordCard({
         const data = await response.json()
         if (data.hasImage && data.imageUrl) {
           setImageUrl(data.imageUrl)
+        } else {
+          // Clear the image URL if this word doesn't have an image
+          setImageUrl(null)
         }
       } catch (error) {
         console.error('Failed to load image status:', error)
