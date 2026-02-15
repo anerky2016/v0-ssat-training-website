@@ -104,13 +104,14 @@ Description from OpenAI: [full description text]
 **File**: `lib/runware-image-generation.ts:39`
 
 ```typescript
-model = 'runware:400@1', // Current model (updated 2026-02-15)
+model = 'google:4@2', // Current model (updated 2026-02-15)
 ```
 
 ### Model History
 
 - `runware:100@1` - Initial working model
-- `runware:400@1` - **Current** (updated 2026-02-15)
+- `runware:400@1` - Second model (2026-02-15)
+- `google:4@2` - **Current** (updated 2026-02-15)
 
 ## How to Change the Model
 
