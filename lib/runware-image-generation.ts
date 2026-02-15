@@ -36,7 +36,7 @@ export async function generateImageWithRunware(
     description,
     width = 512,
     height = 512,
-    model = 'FLUX.2 [dev]',
+    model = 'runware:100@1', // Default model (confirmed working)
     negativePrompt = 'blurry, low quality, distorted, weird, scary, alien, inappropriate for children, violent, dark, creepy'
   } = options;
 
