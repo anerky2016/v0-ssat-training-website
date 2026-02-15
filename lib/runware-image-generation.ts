@@ -36,7 +36,7 @@ export async function generateImageWithRunware(
     description,
     width = 512,
     height = 512,
-    model = 'runware:100@1', // Default model (confirmed working)
+    model = 'runware:400@1', // Updated model
     negativePrompt = 'blurry, low quality, distorted, weird, scary, alien, inappropriate for children, violent, dark, creepy'
   } = options;
 
