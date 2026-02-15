@@ -104,8 +104,13 @@ Description from OpenAI: [full description text]
 **File**: `lib/runware-image-generation.ts:39`
 
 ```typescript
-model = 'runware:100@1', // Default model (confirmed working)
+model = 'runware:400@1', // Current model (updated 2026-02-15)
 ```
+
+### Model History
+
+- `runware:100@1` - Initial working model
+- `runware:400@1` - **Current** (updated 2026-02-15)
 
 ## How to Change the Model
 
