@@ -9,7 +9,6 @@
 
 interface RunwareImageRequest {
   taskType: 'imageInference';
-  taskUUID?: string;
   positivePrompt: string;
   negativePrompt?: string;
   width?: number;
