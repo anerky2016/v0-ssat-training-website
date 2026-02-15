@@ -36,7 +36,7 @@ export async function generateImageWithRunware(
     description,
     width = 512,
     height = 512,
-    model = 'runware:100@1',
+    model = 'FLUX.2 [dev]',
     negativePrompt = 'blurry, low quality, distorted, weird, scary, alien, inappropriate for children, violent, dark, creepy'
   } = options;
 
@@ -48,10 +48,12 @@ export async function generateImageWithRunware(
     await runware.ensureConnection();
 
     console.log('Generating image with Runware SDK...');
+    console.log(`Model: ${model}`);
+    console.log(`Description from OpenAI: ${description}`);
 
     // Generate the image using the SDK
     const images = await runware.imageInference({
-      positivePrompt: description,
+      positivePrompt: description, // This is the description from OpenAI
       negativePrompt,
       width,
       height,
