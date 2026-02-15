@@ -1,39 +1,13 @@
 /**
  * Runware Image Generation Service
  *
- * This service wraps the Runware.ai API for generating images from text descriptions.
+ * This service wraps the Runware.ai SDK for generating images from text descriptions.
  * It's used in the two-step picture generation process:
  * 1. OpenAI generates a picture description
  * 2. Runware generates the actual image from that description
  */
 
-interface RunwareImageRequest {
-  taskType: 'imageInference';
-  positivePrompt: string;
-  negativePrompt?: string;
-  width?: number;
-  height?: number;
-  model?: string;
-  steps?: number;
-  outputFormat?: 'PNG' | 'JPEG' | 'WEBP';
-  outputType?: 'URL' | 'base64';
-  numberResults?: number;
-  CFGScale?: number;
-  scheduler?: string;
-  seed?: number;
-}
-
-interface RunwareImageResponse {
-  taskType: 'imageInference';
-  taskUUID: string;
-  imageURL?: string;
-  imageBase64?: string;
-  NSFWContent: boolean;
-  error?: {
-    code: string;
-    message: string;
-  };
-}
+import { Runware } from '@runware/sdk-js';
 
 interface GenerateImageOptions {
   description: string;
@@ -44,7 +18,7 @@ interface GenerateImageOptions {
 }
 
 /**
- * Generate an image using Runware.ai API
+ * Generate an image using Runware SDK
  *
  * @param options - Image generation options including the description
  * @returns Promise with the generated image URL
@@ -66,62 +40,54 @@ export async function generateImageWithRunware(
     negativePrompt = 'blurry, low quality, distorted, weird, scary, alien, inappropriate for children, violent, dark, creepy'
   } = options;
 
-  // Build the request payload
-  const requestPayload: RunwareImageRequest = {
-    taskType: 'imageInference',
-    positivePrompt: description,
-    negativePrompt,
-    width,
-    height,
-    model,
-    steps: 25,
-    outputFormat: 'WEBP',
-    outputType: 'URL',
-    numberResults: 1,
-    CFGScale: 7.5,
-  };
-
   try {
-    // Call Runware API
-    const response = await fetch('https://api.runware.ai/v1', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify([requestPayload]),
+    // Initialize the Runware SDK
+    const runware = new Runware({ apiKey });
+
+    // Ensure connection is established
+    await runware.ensureConnection();
+
+    console.log('Generating image with Runware SDK...');
+
+    // Generate the image using the SDK
+    const images = await runware.imageInference({
+      positivePrompt: description,
+      negativePrompt,
+      width,
+      height,
+      model,
+      steps: 25,
+      outputFormat: 'WEBP',
+      outputType: 'URL',
+      numberResults: 1,
+      CFGScale: 7.5,
+      checkNSFW: true, // Enable NSFW checking
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Runware API error: ${response.status} - ${errorText}`);
+    if (!images || images.length === 0) {
+      throw new Error('No images returned from Runware API');
     }
 
-    const data: RunwareImageResponse[] = await response.json();
-
-    if (!data || data.length === 0) {
-      throw new Error('No response data from Runware API');
-    }
-
-    const result = data[0];
-
-    if (result.error) {
-      throw new Error(`Runware API error: ${result.error.message}`);
-    }
-
-    if (!result.imageURL) {
-      throw new Error('No image URL returned from Runware API');
-    }
+    const image = images[0];
 
     // Check for NSFW content (safety check)
-    if (result.NSFWContent) {
+    if (image.NSFWContent) {
       console.warn(`NSFW content detected for prompt: ${description}`);
       throw new Error('Generated image was flagged as inappropriate');
     }
 
+    if (!image.imageURL) {
+      throw new Error('No image URL returned from Runware API');
+    }
+
+    console.log(`Image generated successfully: ${image.imageURL}`);
+
+    // Disconnect after use to clean up WebSocket connection
+    await runware.disconnect();
+
     return {
-      imageUrl: result.imageURL,
-      taskUuid: result.taskUUID,
+      imageUrl: image.imageURL,
+      taskUuid: image.taskUUID,
     };
   } catch (error) {
     console.error('Error generating image with Runware:', error);
@@ -135,12 +101,18 @@ export async function generateImageWithRunware(
  * @returns Promise indicating if the connection is successful
  */
 export async function testRunwareConnection(): Promise<boolean> {
+  const apiKey = process.env.RUNWARE_API_KEY;
+
+  if (!apiKey) {
+    console.error('RUNWARE_API_KEY is not set');
+    return false;
+  }
+
   try {
-    await generateImageWithRunware({
-      description: 'A simple red apple on a white background',
-      width: 256,
-      height: 256,
-    });
+    const runware = new Runware({ apiKey });
+    await runware.ensureConnection();
+    console.log('Successfully connected to Runware API');
+    await runware.disconnect();
     return true;
   } catch (error) {
     console.error('Runware connection test failed:', error);
