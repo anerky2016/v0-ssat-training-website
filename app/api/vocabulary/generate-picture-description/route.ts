@@ -92,7 +92,7 @@ Avoid extra commentary.`;
           content: prompt,
         },
       ],
-      temperature: 0.7,
+      temperature: 1, // GPT-5 only supports default temperature of 1
       max_completion_tokens: 2000,
     });
 
