@@ -301,3 +301,48 @@ user_notification_preferences (
 2. Set `CRON_SECRET_TOKEN` environment variable
 3. Set up external cron job (see [setup guide](../docs/VOCABULARY_REVIEW_NOTIFICATIONS_SETUP.md))
 4. Users will automatically get review notifications!
+
+---
+
+#### `007_word_images.sql` ⭐ NEW - Picture Generation
+
+Creates table for AI-generated picture descriptions and images for vocabulary words.
+
+**What it does:**
+- Creates `word_images` table (stores OpenAI descriptions + Runware image URLs)
+- Two-step generation: OpenAI describes, Runware generates
+- Indexes for fast word lookup
+- RLS policies for public read, authenticated write
+- Tracks generation timestamps and metadata
+
+**How to apply:**
+1. Go to Supabase Dashboard → **SQL Editor**
+2. Click **New Query**
+3. Copy and paste contents of `migrations/create_word_images_table.sql`
+4. Click **Run**
+5. You should see: "Tables created successfully!"
+
+**Table Structure:**
+```sql
+word_images (
+  id UUID PRIMARY KEY,
+  word TEXT UNIQUE NOT NULL,
+  definitions TEXT[] NOT NULL,
+  part_of_speech TEXT,
+  picture_description TEXT,           -- Step 1: OpenAI description
+  description_generated_at TIMESTAMP,
+  image_url TEXT,                     -- Step 2: Runware image
+  image_generated_at TIMESTAMP,
+  image_provider TEXT DEFAULT 'runware',
+  user_id TEXT,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+)
+```
+
+**Features Enabled:**
+- Generate picture button on vocabulary cards
+- OpenAI-powered picture descriptions for kids
+- Runware.ai image generation
+- Caching (generate once, use forever)
+- User tracking for generation analytics

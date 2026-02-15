@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Volume2, Info, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, RefreshCw, RotateCcw } from "lucide-react"
+import { Volume2, Info, ChevronDown, AudioWaveform, History, Lightbulb, Box, Zap, Sparkles as SparklesIcon, TrendingUp, FileText, RefreshCw, RotateCcw, Image as ImageIcon } from "lucide-react"
 import { CompleteStudyButton } from "@/components/complete-study-button"
 import Link from "next/link"
 import { audioCache } from "@/lib/audio-cache"
@@ -95,6 +95,11 @@ export function VocabularyWordCard({
   const [hasCustomTip, setHasCustomTip] = useState(false)
   const isMobile = useMobile()
 
+  // Picture generation state
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false)
+  const [imageGenerationStep, setImageGenerationStep] = useState<'idle' | 'description' | 'image'>('idle')
+
   // Check if user is logged in (for enabling difficulty controls)
   const isLoggedIn = !!user
 
@@ -155,6 +160,28 @@ export function VocabularyWordCard({
 
     loadCustomTip()
   }, [word.word, word.tip, isLoggedIn])
+
+  // Load picture image status from Supabase
+  useEffect(() => {
+    const loadImageStatus = async () => {
+      try {
+        const response = await fetch(`/api/vocabulary/word-image?word=${encodeURIComponent(word.word)}`)
+        if (!response.ok) {
+          console.error('Failed to load image status')
+          return
+        }
+
+        const data = await response.json()
+        if (data.hasImage && data.imageUrl) {
+          setImageUrl(data.imageUrl)
+        }
+      } catch (error) {
+        console.error('Failed to load image status:', error)
+      }
+    }
+
+    loadImageStatus()
+  }, [word.word])
 
   // Generate new memory tip using OpenAI
   const handleGenerateNewTip = async () => {
@@ -258,6 +285,80 @@ export function VocabularyWordCard({
         error: error instanceof Error ? error.message : 'Unknown error'
       })
       alert('Failed to revert to default tip')
+    }
+  }
+
+  // Generate picture for vocabulary word
+  const handleGeneratePicture = async () => {
+    if (!isLoggedIn) {
+      console.warn('🔒 [UI] User attempted to generate picture without being logged in')
+      alert('Please log in to generate pictures')
+      return
+    }
+
+    if (isGeneratingImage) {
+      return // Prevent double-clicking
+    }
+
+    console.log('🎨 [UI] User clicked generate picture:', word.word)
+    setIsGeneratingImage(true)
+
+    try {
+      // Step 1: Generate description with OpenAI
+      setImageGenerationStep('description')
+      console.log('📝 [UI] Step 1: Generating description...')
+
+      const descriptionResponse = await fetch('/api/vocabulary/generate-picture-description', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          word: word.word,
+          definitions: word.meanings,
+          partOfSpeech: word.part_of_speech,
+          userId: user?.uid,
+        }),
+      })
+
+      if (!descriptionResponse.ok) {
+        throw new Error('Failed to generate picture description')
+      }
+
+      const descriptionData = await descriptionResponse.json()
+      console.log('✅ [UI] Description generated:', descriptionData.description)
+
+      // Step 2: Generate image with Runware
+      setImageGenerationStep('image')
+      console.log('🖼️ [UI] Step 2: Generating image...')
+
+      const imageResponse = await fetch('/api/vocabulary/generate-image-from-description', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          word: word.word,
+          description: descriptionData.description,
+        }),
+      })
+
+      if (!imageResponse.ok) {
+        throw new Error('Failed to generate image')
+      }
+
+      const imageData = await imageResponse.json()
+      console.log('✅ [UI] Image generated:', imageData.imageUrl)
+
+      // Update UI with the generated image
+      setImageUrl(imageData.imageUrl)
+      setImageGenerationStep('idle')
+    } catch (error) {
+      console.error('❌ [UI] Error generating picture:', error)
+      alert('Failed to generate picture. Please try again.')
+      setImageGenerationStep('idle')
+    } finally {
+      setIsGeneratingImage(false)
     }
   }
 
@@ -922,6 +1023,67 @@ export function VocabularyWordCard({
             </div>
           </div>
         )}
+
+        {/* Picture Generation */}
+        <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <ImageIcon className="h-5 w-5 text-blue-600 dark:text-blue-500 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-100 uppercase tracking-wide">
+                  Memory Picture
+                </h3>
+                {!imageUrl && (
+                  <Button
+                    onClick={handleGeneratePicture}
+                    disabled={isGeneratingImage || !isLoggedIn}
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-3 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 disabled:opacity-50"
+                    title={!isLoggedIn ? "Log in to generate pictures" : "Generate picture"}
+                  >
+                    {isGeneratingImage ? (
+                      <>
+                        <RefreshCw className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                        {imageGenerationStep === 'description' ? 'Describing...' : 'Creating...'}
+                      </>
+                    ) : (
+                      <>
+                        <ImageIcon className="h-3.5 w-3.5 mr-1.5" />
+                        Generate
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+
+              {imageUrl ? (
+                <div className="space-y-2">
+                  <img
+                    src={imageUrl}
+                    alt={`Illustration for ${word.word}`}
+                    className="w-full rounded-lg shadow-md"
+                  />
+                  <Button
+                    onClick={handleGeneratePicture}
+                    disabled={isGeneratingImage || !isLoggedIn}
+                    variant="ghost"
+                    size="sm"
+                    className="w-full h-7 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 disabled:opacity-50"
+                    title="Generate a new picture"
+                  >
+                    <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isGeneratingImage ? 'animate-spin' : ''}`} />
+                    Regenerate
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
+                  Click "Generate" to create a picture to help you memorize this word!
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* Synonyms and Antonyms */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
