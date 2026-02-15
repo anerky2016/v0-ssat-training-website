@@ -340,6 +340,7 @@ export function VocabularyWordCard({
         body: JSON.stringify({
           word: word.word,
           description: descriptionData.description,
+          userId: user?.uid,
         }),
       })
 

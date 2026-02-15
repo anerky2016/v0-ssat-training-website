@@ -14,7 +14,15 @@ import { saveImageUrl, getWordImageStatus } from '@/lib/vocabulary-image-cache';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { word, description } = body;
+    const { word, description, userId } = body;
+
+    // Authentication check - require userId
+    if (!userId || typeof userId !== 'string') {
+      return NextResponse.json(
+        { error: 'Authentication required. Please log in to generate pictures.' },
+        { status: 401 }
+      );
+    }
 
     // Validate input
     if (!word || typeof word !== 'string') {
