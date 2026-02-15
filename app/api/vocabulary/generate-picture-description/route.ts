@@ -80,7 +80,7 @@ Avoid extra commentary.`;
 
     // Call OpenAI to generate the description
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Using a fast, cost-effective model for descriptions
+      model: 'gpt-5-mini', // Using GPT-5 mini model
       messages: [
         {
           role: 'system',
